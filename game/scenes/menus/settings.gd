@@ -37,7 +37,9 @@ func _ready() -> void:
 		var b := UiKit.make_button(Vector2(260, 76))
 		b.toggle_mode = true
 		b.button_group = group
-		b.pressed.connect(func() -> void: Loc.set_locale(code))
+		b.pressed.connect(func() -> void:
+			Loc.set_locale(code)
+			Saves.save_settings({"locale": code}))
 		row.add_child(b)
 		language_buttons[code] = b
 

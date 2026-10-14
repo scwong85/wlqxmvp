@@ -11,7 +11,9 @@ var settings_button: Button
 
 var _name_label: Label
 var _tagline_label: Label
-var _load_note: Label
+var load_note: Label
+
+var _load_error: String = ""
 var _build_label: Label
 
 
@@ -42,20 +44,20 @@ func _ready() -> void:
 		box.add_child(b)
 
 	# Touch users cannot hover for a tooltip, so the reason is also shown as visible text.
-	_load_note = UiKit.make_label(24)
-	_load_note.modulate = Color(1, 1, 1, 0.8)
-	box.add_child(_load_note)
+	load_note = UiKit.make_label(24)
+	load_note.modulate = Color(1, 1, 1, 0.8)
+	box.add_child(load_note)
 	_build_label = UiKit.make_label(22)
 	_build_label.modulate = Color(1, 1, 1, 0.6)
 	box.add_child(_build_label)
 
-	load_button.disabled = true  # M2 enables this once SaveService exists.
-	start_button.pressed.connect(func() -> void: Router.goto("hub"))
+	start_button.pressed.connect(_on_start)
+	load_button.pressed.connect(_on_load)
 	settings_button.pressed.connect(func() -> void: Router.goto("settings"))
 	Loc.locale_changed.connect(func(_c: String) -> void: _refresh())
 	_refresh()
 	start_button.grab_focus()
-	print("TITLE_READY")
+	print("TITLE_READY load_enabled=%s" % (not load_button.disabled))
 
 
 func _refresh() -> void:
@@ -64,8 +66,7 @@ func _refresh() -> void:
 	start_button.text = Loc.t("ui.start")
 	load_button.text = Loc.t("ui.load")
 	settings_button.text = Loc.t("ui.settings")
-	load_button.tooltip_text = Loc.t("ui.load_disabled")
-	_load_note.text = Loc.t("ui.load_disabled")
+	_refresh_load()
 	_build_label.text = Loc.t("ui.build", {"v": "0.1 M1"})
 
 
@@ -73,3 +74,34 @@ func _spacer(h: int) -> Control:
 	var c := Control.new()
 	c.custom_minimum_size = Vector2(0, h)
 	return c
+
+
+func _on_start() -> void:
+	Game.new_game()
+	Router.goto("hub")
+
+
+func _on_load() -> void:
+	var r: Dictionary = Game.load_latest()
+	if r.ok:
+		Router.goto("hub")
+	else:
+		_load_error = r.error_key
+		_refresh_load()
+
+
+## Load is available whenever any save file exists. The note says what is in it, or what is wrong.
+func _refresh_load() -> void:
+	var has_save: bool = Saves.has_any()
+	load_button.disabled = not has_save
+	if _load_error != "":
+		load_note.text = Loc.t(_load_error)
+	elif not has_save:
+		load_note.text = Loc.t("ui.load_disabled")
+	else:
+		var r: Dictionary = Saves.load_latest()
+		if r.ok:
+			load_note.text = Loc.t("ui.load_hint", {"day": r.state.calendar.day, "slot": r.state.calendar.slot})
+		else:
+			load_note.text = Loc.t(r.error_key)
+	load_button.tooltip_text = load_note.text

@@ -26,5 +26,18 @@
   "ui.load_disabled": "No save found",
   "ui.build": "Prototype {v}",
   "hub.day": "Day {day} of {total}",
-  "hub.placeholder": "The cultivation screen arrives in a later milestone."
+  "hub.placeholder": "The cultivation screen arrives in a later milestone.",
+  "hub.slot": "Slot {slot} of {total}",
+  "hub.coins": "Coins: {coins}",
+  "hub.dev_advance": "[Test] Advance one slot",
+  "hub.save": "Save",
+  "hub.saved": "Saved to this device",
+  "hub.autosaved": "Autosaved",
+  "hub.save_failed": "Save failed",
+  "hub.finished": "The seven days are over. The final crisis arrives in a later milestone.",
+  "save.error.corrupt": "The save is damaged and cannot be read.",
+  "save.error.version": "This save version is not supported.",
+  "save.error.missing": "No save was found.",
+  "save.error.write": "Could not write the save.",
+  "ui.load_hint": "Save: day {day}, slot {slot}"
 }

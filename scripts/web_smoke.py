@@ -29,9 +29,9 @@ SIZES = [("1280x720", 1280, 720, False), ("1920x1080", 1920, 1080, False),
 results = {"url": url, "checks": {}, "errors": []}
 
 
-def wait_for(console, marker, timeout_s=60):
+def wait_for(console, marker, timeout_s=60, start=0):
     for _ in range(timeout_s * 4):
-        if any(marker in c for c in console):
+        if any(marker in c for c in console[start:]):
             return True
         page_wait(250)
     return False
@@ -69,14 +69,28 @@ with sync_playwright() as p:
 
         results["checks"][name] = {"title_ready": ok_title, "hub_ready_via_keyboard": ok_hub}
 
-        if name == "1920x1080":
-            # Back to title, then Tab to Settings (disabled Load is skipped) and open it.
-            page.keyboard.press("Enter")  # back button is the only focusable control on the hub
-            wait_for(console, "SETTINGS_READY", 1)
-            page.keyboard.press("Tab")
-            page.keyboard.press("Tab")
-            page.wait_for_timeout(300)
-            page.screenshot(path=os.path.join(out_dir, f"m1_{name}_focus_probe.png"))
+        if name == "1280x720":
+            # Persistence: advance a slot (autosaves), save manually, reload the page, then load.
+            page.keyboard.press("Enter")      # advance button is focused on the hub
+            page.keyboard.press("Tab")        # -> Save
+            page.keyboard.press("Enter")
+            saved = wait_for(console, "SAVE manual ok=true", 10)
+            page.wait_for_timeout(1500)       # let the browser flush IndexedDB
+            page.screenshot(path=os.path.join(out_dir, "m2_hub_saved.png"))
+            mark = len(console)
+            page.reload(wait_until="load")
+            ok_reload = wait_for(console, "TITLE_READY load_enabled=true", 60, mark)
+            page.wait_for_timeout(600)
+            page.screenshot(path=os.path.join(out_dir, "m2_title_after_reload.png"))
+            page.locator("canvas").click(position={"x": 5, "y": 5})
+            page.keyboard.press("Tab")        # start -> load (enabled now)
+            page.keyboard.press("Enter")
+            mark2 = len(console)
+            ok_load = wait_for(console, "HUB_READY day=1 slot=2", 20, mark)
+            page.wait_for_timeout(500)
+            page.screenshot(path=os.path.join(out_dir, "m2_hub_after_load.png"))
+            results["checks"][name].update({"manual_save_ok": saved, "load_enabled_after_reload": ok_reload,
+                                            "loaded_slot2_after_reload": ok_load})
 
         errs = [c for c in console if c.startswith("error") or "SCRIPT ERROR" in c]
         results["checks"][name]["console_errors"] = len(errs)
@@ -86,7 +100,7 @@ with sync_playwright() as p:
 
 httpd.shutdown()
 results["passed"] = (not results["errors"]) and all(
-    c["title_ready"] and c["hub_ready_via_keyboard"] for c in results["checks"].values())
+    all(v for k, v in c.items() if k != "console_errors") for c in results["checks"].values())
 with open(os.path.join(out_dir, "web_smoke_result.json"), "w") as f:
     json.dump(results, f, ensure_ascii=False, indent=2)
 print(json.dumps(results, ensure_ascii=False, indent=2))

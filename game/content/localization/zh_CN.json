@@ -27,5 +27,18 @@
   "ui.load_disabled": "暂无存档",
   "ui.build": "原型版本 {v}",
   "hub.day": "第 {day} 天 / 共 {total} 天",
-  "hub.placeholder": "修行界面将在后续阶段加入。"
+  "hub.placeholder": "修行界面将在后续阶段加入。",
+  "hub.slot": "时段 {slot} / {total}",
+  "hub.coins": "金币：{coins}",
+  "hub.dev_advance": "【测试】推进一个时段",
+  "hub.save": "保存",
+  "hub.saved": "已保存到本地",
+  "hub.autosaved": "已自动保存",
+  "hub.save_failed": "保存失败",
+  "hub.finished": "七日已尽，终局将至（后续阶段加入）。",
+  "save.error.corrupt": "存档已损坏，无法读取。",
+  "save.error.version": "存档版本不兼容。",
+  "save.error.missing": "没有找到存档。",
+  "save.error.write": "无法写入存档。",
+  "ui.load_hint": "存档：第 {day} 天 · 时段 {slot}"
 }

@@ -26,6 +26,7 @@ func _ready() -> void:
 	_test_router_table()
 	_test_key_lint()
 	_test_no_hardcoded_cjk()
+	preload("res://tests/unit/state_tests.gd").new().run(_check)
 	print("UNIT_RESULT checks=%d failures=%d" % [_count, _fails.size()])
 	print("UNIT_OK" if _fails.is_empty() else "UNIT_FAIL")
 	get_tree().quit(0 if _fails.is_empty() else 1)

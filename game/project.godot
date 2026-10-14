@@ -11,6 +11,8 @@ config/features=PackedStringArray("4.5", "GL Compatibility")
 
 Loc="*res://scripts/services/localization_service.gd"
 Router="*res://scripts/services/scene_router.gd"
+Saves="*res://scripts/services/save_service.gd"
+Game="*res://scripts/services/game_session.gd"
 
 [display]
 
