@@ -4,6 +4,8 @@ extends Node
 const GameState = preload("res://scripts/domain/game_state.gd")
 const ActivityRules = preload("res://scripts/domain/activity_rules.gd")
 const EventRules = preload("res://scripts/domain/event_rules.gd")
+const RelationshipRules = preload("res://scripts/domain/relationship_rules.gd")
+const PartySystem = preload("res://scripts/domain/party_system.gd")
 
 var state: RefCounted = null
 
@@ -11,11 +13,13 @@ var state: RefCounted = null
 func ensure_state() -> RefCounted:
 	if state == null:
 		state = GameState.new_game()
+		RelationshipRules.refresh(state, Content)
 	return state
 
 
 func new_game(seed_value: int = -1) -> void:
 	state = GameState.new_game(seed_value)
+	RelationshipRules.refresh(state, Content)
 
 
 func save_manual() -> Dictionary:
@@ -35,6 +39,7 @@ func load_latest() -> Dictionary:
 	var r: Dictionary = Saves.load_latest()
 	if r.ok:
 		state = r.state
+		RelationshipRules.refresh(state, Content)
 		print("LOAD ok slot=%s day=%d slot_no=%d" % [r.slot, state.calendar.day, state.calendar.slot])
 	else:
 		print("LOAD failed ", r.error_key)
@@ -71,3 +76,30 @@ func choose_path(path_id: String) -> bool:
 	st.player.path_id = path_id
 	autosave()
 	return true
+
+
+## Companion actions. Each autosaves when it changes something.
+func recruit_companion(npc_id: String) -> Dictionary:
+	var r: Dictionary = RelationshipRules.recruit(ensure_state(), npc_id, Content)
+	if r.ok:
+		autosave()
+	return r
+
+
+func decline_companion(npc_id: String) -> void:
+	RelationshipRules.decline(ensure_state(), npc_id)
+	autosave()
+
+
+func set_active_companion(npc_id: String) -> bool:
+	var ok := PartySystem.set_active(ensure_state(), npc_id)
+	if ok:
+		autosave()
+	return ok
+
+
+func dismiss_companion(npc_id: String) -> bool:
+	var ok := PartySystem.dismiss(ensure_state(), npc_id)
+	if ok:
+		autosave()
+	return ok

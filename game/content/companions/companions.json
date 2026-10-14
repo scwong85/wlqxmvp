@@ -1,0 +1,121 @@
+{
+ "companions": [
+  {
+   "id": "shen_qinghe",
+   "name_key": "npc.shen_qinghe",
+   "bio_key": "companion.shen_qinghe.bio",
+   "portrait": "portrait_shen_qinghe",
+   "role": "support",
+   "stats": {
+    "body": 5,
+    "power": 3,
+    "agility": 5,
+    "insight": 8,
+    "spirit": 7
+   },
+   "preferred_activities": [
+    "herb_gathering",
+    "meditation",
+    "cooking"
+   ],
+   "meet_day": 1,
+   "recruit": {
+    "score_min": 6,
+    "day_min": 3,
+    "attr_min": {
+     "insight": 6
+    },
+    "flags_block": []
+   },
+   "depart": {
+    "score_below": 0,
+    "flags": [
+     "shen_betrayed_patients"
+    ]
+   },
+   "battle_abilities": [
+    "herb_poultice",
+    "calming_incense"
+   ],
+   "relationship_ability": "gentle_hands"
+  },
+  {
+   "id": "lu_chenzhou",
+   "name_key": "npc.lu_chenzhou",
+   "bio_key": "companion.lu_chenzhou.bio",
+   "portrait": "portrait_lu_chenzhou",
+   "role": "striker",
+   "stats": {
+    "body": 7,
+    "power": 7,
+    "agility": 9,
+    "insight": 4,
+    "spirit": 5
+   },
+   "preferred_activities": [
+    "hunting",
+    "training",
+    "mining"
+   ],
+   "meet_day": 2,
+   "recruit": {
+    "score_min": 6,
+    "day_min": 3,
+    "attr_min": {
+     "agility": 6
+    },
+    "flags_block": []
+   },
+   "depart": {
+    "score_below": 0,
+    "flags": [
+     "lu_confined"
+    ]
+   },
+   "battle_abilities": [
+    "swift_dash",
+    "ambush_strike"
+   ],
+   "relationship_ability": "couriers_shortcut"
+  },
+  {
+   "id": "bai_yan",
+   "name_key": "npc.bai_yan",
+   "bio_key": "companion.bai_yan.bio",
+   "portrait": "portrait_bai_yan",
+   "role": "control",
+   "stats": {
+    "body": 4,
+    "power": 4,
+    "agility": 6,
+    "insight": 9,
+    "spirit": 7
+   },
+   "preferred_activities": [
+    "chess",
+    "technique_practice",
+    "meditation"
+   ],
+   "meet_day": 2,
+   "recruit": {
+    "score_min": 8,
+    "day_min": 4,
+    "attr_min": {
+     "insight": 7
+    },
+    "flags_block": []
+   },
+   "depart": {
+    "score_below": 0,
+    "flags": [
+     "bai_expelled"
+    ]
+   },
+   "battle_abilities": [
+    "binding_script",
+    "counter_notes"
+   ],
+   "relationship_ability": "margin_notes"
+  }
+ ]
+}

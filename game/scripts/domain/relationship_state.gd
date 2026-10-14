@@ -8,6 +8,8 @@ const STATUSES := ["unknown", "available", "joined", "left", "unavailable"]
 var scores: Dictionary = {}
 var status: Dictionary = {}
 var flags: Dictionary = {}
+## The one companion who fights alongside the hero ("" = none). Must have status "joined".
+var active: String = ""
 
 
 func get_score(npc_id: String) -> int:
@@ -43,7 +45,7 @@ func has_flag(flag_id: String) -> bool:
 
 
 func to_dict() -> Dictionary:
-	return {"scores": scores.duplicate(), "status": status.duplicate(), "flags": flags.duplicate()}
+	return {"scores": scores.duplicate(), "status": status.duplicate(), "flags": flags.duplicate(), "active": active}
 
 
 static func from_dict(d: Variant) -> RefCounted:
@@ -62,4 +64,7 @@ static func from_dict(d: Variant) -> RefCounted:
 	if fl is Dictionary:
 		for k in fl:
 			s.flags[str(k)] = bool(fl[k])
+	s.active = str(d.get("active", ""))
+	if s.active != "" and s.get_status(s.active) != "joined":
+		s.active = ""  # a save must not name an active companion who is not in the party
 	return s

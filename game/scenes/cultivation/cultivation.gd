@@ -12,6 +12,9 @@ const PlayerState = preload("res://scripts/domain/player_state.gd")
 const ResourceState = preload("res://scripts/domain/resource_state.gd")
 const CultivationRules = preload("res://scripts/domain/cultivation_rules.gd")
 const ActivityRules = preload("res://scripts/domain/activity_rules.gd")
+const RelationshipRules = preload("res://scripts/domain/relationship_rules.gd")
+const CompanionPortrait = preload("res://scenes/shared/companion_portrait.gd")
+const ROLE_COLORS := {"support": Color("5fd1a5"), "striker": Color("e0a35a"), "control": Color("7aa8e0")}
 
 const FONT_BODY := 24
 const FONT_SMALL := 22
@@ -28,6 +31,15 @@ var status_label: Label
 var event_panel: Control = null
 var event_continue_button: Button
 var selected_id: String = ""
+## Companion list overlay (M7-08) and recruitment prompt (M7-09).
+var party_button: Button
+var party_panel: Control = null
+var party_close_button: Button
+var _party_box: VBoxContainer
+var party_buttons: Dictionary = {}   # npc id -> {recruit, activate, dismiss} (only those shown)
+var recruit_panel: Control = null
+var recruit_accept_button: Button
+var recruit_decline_button: Button
 ## Approach chooser overlay (M6): shown when the confirmed activity has options.
 var choice_panel: Control = null
 var option_buttons: Dictionary = {}
@@ -135,13 +147,15 @@ func _build_top_bar() -> Control:
 	status_label.modulate = Color(0.75, 1.0, 0.88, 0.95)
 	for l in [_day_label, _slot_label, status_label]:
 		l.autowrap_mode = TextServer.AUTOWRAP_OFF
-	save_button = UiKit.make_button(Vector2(140, 52))
-	menu_button = UiKit.make_button(Vector2(180, 52))
-	for b in [save_button, menu_button]:
+	party_button = UiKit.make_button(Vector2(130, 52))
+	party_button.pressed.connect(_show_party)
+	save_button = UiKit.make_button(Vector2(130, 52))
+	menu_button = UiKit.make_button(Vector2(170, 52))
+	for b in [party_button, save_button, menu_button]:
 		b.add_theme_font_size_override("font_size", FONT_BODY)
 	save_button.pressed.connect(_on_save)
 	menu_button.pressed.connect(func() -> void: Router.goto("title"))
-	for c in [_day_label, _slot_label, spacer, status_label, save_button, menu_button]:
+	for c in [_day_label, _slot_label, spacer, status_label, party_button, save_button, menu_button]:
 		bar.add_child(c)
 	return bar
 
@@ -273,13 +287,17 @@ func select_activity(id: String) -> void:
 
 
 func _on_confirm() -> void:
-	if event_panel != null or choice_panel != null or selected_id == "":
+	if _overlay_open() or selected_id == "":
 		return
 	var def: Dictionary = Content.activity(selected_id)
 	if not def.get("options", []).is_empty():
 		_show_choice(def)
 		return
 	_perform(selected_id, "")
+
+
+func _overlay_open() -> bool:
+	return event_panel != null or choice_panel != null or party_panel != null or recruit_panel != null
 
 
 func _perform(activity_id: String, option_id: String) -> void:
@@ -378,7 +396,7 @@ func _on_option_chosen(option_id: String) -> void:
 # --- Story hooks ---------------------------------------------------------------------------------
 
 func _check_events() -> void:
-	if event_panel != null:
+	if event_panel != null or recruit_panel != null:
 		return
 	var pending: Array = Game.pending_events()
 	if not pending.is_empty():
@@ -415,11 +433,207 @@ func _show_event(hook: Dictionary) -> void:
 		overlay.queue_free()
 		event_panel = null
 		_refresh_all()
+		if str(hook.get("payload", {}).get("type", "")) == "recruitment_opportunity" and _show_recruit_prompt(str(hook.payload.npc)):
+			return
 		_check_events())
 	event_panel = overlay
 	add_child(overlay)
 	event_continue_button.grab_focus()
 	print("EVENT_SHOWN ", hook_id)
+
+
+# --- Companions (M7) ----------------------------------------------------------------------------
+
+func _make_overlay(width: float) -> Array:
+	var overlay := ColorRect.new()
+	overlay.color = Color(0, 0, 0, 0.62)
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(center)
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(width, 0)
+	center.add_child(panel)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 8)
+	panel.add_child(box)
+	return [overlay, box]
+
+
+func _show_party() -> void:
+	if _overlay_open():
+		return
+	var parts := _make_overlay(1000)
+	party_panel = parts[0]
+	_party_box = parts[1]
+	add_child(party_panel)
+	_fill_party(_party_box)
+	print("PARTY_SHOWN")
+
+
+func _fill_party(box: VBoxContainer) -> void:
+	for c in box.get_children():
+		box.remove_child(c)
+		c.queue_free()
+	party_buttons.clear()
+	var st: RefCounted = Game.state
+	var title := _label(FONT_HEAD)
+	title.text = Loc.t("party.title")
+	title.autowrap_mode = TextServer.AUTOWRAP_OFF
+	box.add_child(title)
+	for id in Content.companion_ids():
+		box.add_child(_party_row(st, id))
+	party_close_button = UiKit.make_button(Vector2(0, 56))
+	party_close_button.text = Loc.t("party.close")
+	party_close_button.add_theme_font_size_override("font_size", FONT_BODY)
+	party_close_button.pressed.connect(_close_party)
+	box.add_child(party_close_button)
+	party_close_button.grab_focus()
+
+
+func _party_row(st: RefCounted, id: String) -> Control:
+	var c: Dictionary = Content.companion(id)
+	var status: String = st.relationships.get_status(id)
+	var row := PanelContainer.new()
+	var h := HBoxContainer.new()
+	h.add_theme_constant_override("separation", 12)
+	row.add_child(h)
+	var portrait := CompanionPortrait.new()
+	portrait.setup(Loc.t(c.name_key), ROLE_COLORS.get(c.role, Color.WHITE))
+	h.add_child(portrait)
+	var info := VBoxContainer.new()
+	info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	info.add_theme_constant_override("separation", 0)
+	h.add_child(info)
+	var status_text: String = Loc.t("status." + status)
+	if st.relationships.active == id:
+		status_text = Loc.t("party.active")
+	var line1 := _label(FONT_BODY)
+	line1.autowrap_mode = TextServer.AUTOWRAP_OFF
+	line1.text = "%s  ·  %s  ·  %s" % [Loc.t(c.name_key), status_text, Loc.t("party.affinity", {"score": st.relationships.get_score(id)})]
+	info.add_child(line1)
+	var likes: Array = []
+	for a in c.preferred_activities:
+		likes.append(Loc.t("activity." + str(a)))
+	var line2 := _label(FONT_SMALL)
+	line2.autowrap_mode = TextServer.AUTOWRAP_OFF
+	line2.modulate = Color(1, 1, 1, 0.8)
+	line2.text = Loc.t("party.role_line", {"role": Loc.t("role." + str(c.role)), "list": Loc.t("ui.list_sep").join(likes)})
+	info.add_child(line2)
+	var line3 := _label(FONT_SMALL)
+	line3.autowrap_mode = TextServer.AUTOWRAP_OFF
+	line3.modulate = Color(0.75, 1.0, 0.88, 0.9)
+	info.add_child(line3)
+	var btns := {}
+	var col := VBoxContainer.new()
+	col.add_theme_constant_override("separation", 4)
+	h.add_child(col)
+	if status == "joined":
+		line3.text = Loc.t("ability.%s" % c.battle_abilities[0]) + Loc.t("ui.list_sep") + Loc.t("ability.%s" % c.battle_abilities[1])
+		if st.relationships.active != id:
+			btns["activate"] = _row_button("party.set_active", func() -> void: _party_action("activate", id))
+		btns["dismiss"] = _row_button("party.dismiss", func() -> void: _party_action("dismiss", id))
+	elif status == "available" or status == "left":
+		var ev: Dictionary = RelationshipRules.evaluate_recruitment(st, id, Content)
+		if ev.result == "ready":
+			line3.text = Loc.t("recruit.body_ready", {"name": Loc.t(c.name_key)})
+			btns["recruit"] = _row_button("party.recruit", func() -> void: _party_action("recruit", id))
+		else:
+			line3.text = Loc.t("party.hint_refuse", {"list": _reason_text(ev.reasons)})
+	for k in btns:
+		col.add_child(btns[k])
+	party_buttons[id] = btns
+	return row
+
+
+func _row_button(key: String, cb: Callable) -> Button:
+	var b := UiKit.make_button(Vector2(190, 48))
+	b.add_theme_font_size_override("font_size", FONT_SMALL)
+	b.text = Loc.t(key)
+	b.pressed.connect(cb)
+	return b
+
+
+func _reason_text(reasons: Array) -> String:
+	var out: Array = []
+	for r in reasons:
+		var params: Dictionary = (r.params as Dictionary).duplicate()
+		if params.has("attr"):
+			params["attr"] = Loc.t("attr." + str(params.attr))
+		out.append(Loc.t(r.key, params))
+	return Loc.t("ui.list_sep").join(out)
+
+
+func _party_action(action: String, id: String) -> void:
+	match action:
+		"recruit":
+			if Game.recruit_companion(id).ok:
+				_status_key = ""
+		"activate":
+			Game.set_active_companion(id)
+		"dismiss":
+			Game.dismiss_companion(id)
+	if party_panel != null:
+		_fill_party(_party_box)
+	_refresh_all()
+
+
+func _close_party() -> void:
+	if party_panel != null:
+		party_panel.queue_free()
+		party_panel = null
+		party_buttons.clear()
+	party_button.grab_focus()
+
+
+## Shows the invitation dialog for a story opportunity. Returns false (and shows nothing) when the
+## companion cannot be invited at all, so the caller carries on with the next event.
+func _show_recruit_prompt(npc_id: String) -> bool:
+	var ev: Dictionary = RelationshipRules.evaluate_recruitment(Game.state, npc_id, Content)
+	if ev.result == "unavailable":
+		return false
+	var parts := _make_overlay(760)
+	var box: VBoxContainer = parts[1]
+	var name_text: String = Loc.t("npc." + npc_id)
+	var title := _label(FONT_HEAD)
+	title.text = Loc.t("recruit.title", {"name": name_text})
+	box.add_child(title)
+	var body := _label(FONT_BODY)
+	body.text = Loc.t("recruit.body_ready", {"name": name_text}) if ev.result == "ready" else Loc.t("recruit.body_refuse", {"name": name_text, "list": _reason_text(ev.reasons)})
+	box.add_child(body)
+	recruit_accept_button = null
+	if ev.result == "ready":
+		recruit_accept_button = UiKit.make_button(Vector2(0, 60))
+		recruit_accept_button.text = Loc.t("recruit.accept")
+		recruit_accept_button.add_theme_font_size_override("font_size", FONT_BODY)
+		recruit_accept_button.pressed.connect(func() -> void:
+			Game.recruit_companion(npc_id)
+			_status_key = ""
+			_close_recruit())
+		box.add_child(recruit_accept_button)
+	recruit_decline_button = UiKit.make_button(Vector2(0, 60))
+	recruit_decline_button.text = Loc.t("recruit.decline")
+	recruit_decline_button.add_theme_font_size_override("font_size", FONT_BODY)
+	recruit_decline_button.pressed.connect(func() -> void:
+		Game.decline_companion(npc_id)
+		_close_recruit())
+	box.add_child(recruit_decline_button)
+	recruit_panel = parts[0]
+	add_child(recruit_panel)
+	(recruit_accept_button if recruit_accept_button != null else recruit_decline_button).grab_focus()
+	print("RECRUIT_PROMPT %s %s" % [npc_id, ev.result])
+	return true
+
+
+func _close_recruit() -> void:
+	if recruit_panel != null:
+		recruit_panel.queue_free()
+		recruit_panel = null
+	_refresh_all()
+	_check_events()
+	if event_panel == null and not _overlay_open():
+		confirm_button.grab_focus()
 
 
 # --- Refresh -------------------------------------------------------------------------------------
@@ -431,6 +645,7 @@ func _refresh_all() -> void:
 		h[0].text = Loc.t(h[1])
 	_day_label.text = Loc.t("cult.day", {"day": cal.day, "total": cal.DAYS})
 	_slot_label.text = Loc.t("cult.finished") if cal.finished else Loc.t("cult.slot", {"slot": cal.slot, "total": cal.SLOTS})
+	party_button.text = Loc.t("cult.party")
 	save_button.text = Loc.t("cult.save")
 	menu_button.text = Loc.t("cult.menu")
 	status_label.text = Loc.t(_status_key) if _status_key != "" else ""
@@ -515,6 +730,8 @@ func _refresh_stats(st: RefCounted) -> void:
 		if int(st.relationships.scores[npc]) != 0:
 			bonds.append(Loc.t("cult.delta", {"name": Loc.t("npc." + str(npc)), "amount": str(st.relationships.scores[npc])}))
 	_bonds_label.text = Loc.t("ui.list_sep").join(bonds) if not bonds.is_empty() else Loc.t("cult.bonds_none")
+	if st.relationships.active != "":
+		_bonds_label.text += "\n" + Loc.t("cult.active_companion", {"name": Loc.t("npc." + st.relationships.active)})
 
 
 func _refresh_info() -> void:
@@ -618,6 +835,10 @@ func _result_text(r: Dictionary) -> String:
 		for t_id in r.unlocked:
 			names.append(Loc.t("technique." + str(t_id)))
 		lines.append(Loc.t("cult.result.unlocked", {"list": _sep().join(names)}))
+	if not r.met.is_empty():
+		lines.append(Loc.t("cult.result.met", {"list": _sep().join(r.met.map(func(i: String) -> String: return Loc.t("npc." + i)))}))
+	if not r.departed.is_empty():
+		lines.append(Loc.t("cult.result.departed", {"list": _sep().join(r.departed.map(func(i: String) -> String: return Loc.t("npc." + i)))}))
 	if not r.expired_buffs.is_empty():
 		var faded: Array = []
 		for b_id in r.expired_buffs:

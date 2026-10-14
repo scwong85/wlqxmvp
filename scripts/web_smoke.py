@@ -71,7 +71,13 @@ with sync_playwright() as p:
 
         if name == "1280x720":
             # Persistence: advance a slot (autosaves), save manually, reload the page, then load.
-            page.keyboard.press("Enter")      # confirm button is focused: opens the approach chooser
+            page.locator("canvas").click(position={"x": 845, "y": 70})   # top-bar companions button (touch/mouse path)
+            party = wait_for(console, "PARTY_SHOWN", 10)
+            page.wait_for_timeout(400)
+            page.screenshot(path=os.path.join(out_dir, "m7_party.png"))
+            page.keyboard.press("Enter")      # focused Close button
+            page.wait_for_timeout(300)
+            page.locator("canvas").click(position={"x": 535, "y": 635})   # confirm button
             chooser = wait_for(console, "CHOICE_SHOWN training", 10)
             page.wait_for_timeout(400)
             page.screenshot(path=os.path.join(out_dir, "m6_chooser.png"))
@@ -91,7 +97,7 @@ with sync_playwright() as p:
             ok_load = wait_for(console, "CULT_READY day=1 slot=2", 20, mark)
             page.wait_for_timeout(500)
             page.screenshot(path=os.path.join(out_dir, "m2_cultivation_after_load.png"))
-            results["checks"][name].update({"chooser_opens": chooser, "autosave_ok": saved, "load_enabled_after_reload": ok_reload,
+            results["checks"][name].update({"party_panel_opens": party, "chooser_opens": chooser, "autosave_ok": saved, "load_enabled_after_reload": ok_reload,
                                             "loaded_slot2_after_reload": ok_load})
 
         if not name.startswith("portrait"):  # landscape sizes must pass the layout audit

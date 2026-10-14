@@ -5,6 +5,7 @@ extends Node
 ## Run: godot --headless --path game res://tests/smoke/run_smoke.tscn   (prints SMOKE_OK / SMOKE_FAIL)
 
 var _fails: Array[String] = []
+var _recruit_log: Array = []
 
 
 func _check(cond: bool, label: String) -> void:
@@ -63,10 +64,18 @@ func _do(screen: Node, activity_id: String, option_id: String = "") -> void:
 func _dismiss_events(screen: Node) -> Array:
 	var seen: Array = []
 	var guard := 0
-	while screen.event_panel != null and guard < 5:
+	while (screen.event_panel != null or screen.recruit_panel != null) and guard < 8:
 		guard += 1
-		seen.append(Game.state.calendar.day)
-		screen.event_continue_button.pressed.emit()
+		if screen.recruit_panel != null:  # invitation prompt: accept when offered, otherwise "maybe later"
+			if screen.recruit_accept_button != null:
+				_recruit_log.append("accept")
+				screen.recruit_accept_button.pressed.emit()
+			else:
+				_recruit_log.append("decline")
+				screen.recruit_decline_button.pressed.emit()
+		else:
+			seen.append(Game.state.calendar.day)
+			screen.event_continue_button.pressed.emit()
 		await _frames(1)
 	return seen
 
@@ -136,6 +145,20 @@ func _run() -> void:
 	_check(Game.state.player.path_id == "xuan_fist", "path: choosing sets the path")
 	_check(cult.path_buttons.is_empty(), "path: the choice buttons disappear once chosen")
 
+	# --- Companion panel (M7) ---
+	cult.party_button.pressed.emit()
+	await _frames(2)
+	_check(cult.party_panel != null and cult.party_buttons.size() == 3, "party: the companion panel lists the three companions")
+	problems = cult.audit_layout()
+	_check(problems.is_empty(), "party: panel fits the screen with readable text %s" % str(problems.slice(0, 2)))
+	_check(cult.party_buttons["shen_qinghe"].is_empty() and Game.state.relationships.get_status("shen_qinghe") == "available", "party: nobody can be invited before conditions are met")
+	cult.party_close_button.pressed.emit()
+	await _frames(2)
+	_check(cult.party_panel == null, "party: close works")
+	# Give Shen the bond and insight she needs so the day-3 invitation can be accepted.
+	Game.state.relationships.add_score("shen_qinghe", 6)
+	Game.state.player.attributes["insight"] = 6
+
 	# --- Play the rest of the week with rests, acknowledging story pop-ups ---
 	var popup_days: Array = []
 	var guard := 0
@@ -146,6 +169,19 @@ func _run() -> void:
 	_check(Game.state.calendar.finished, "week: the seven days end")
 	_check(popup_days == [3, 6, 7], "week: story pop-ups appeared on days 3, 6 and 7 (got %s)" % str(popup_days))
 	_check(Game.state.calendar.events_fired == ["day3_recruit", "day6_prepare", "day7_crisis"], "week: hooks acknowledged and recorded")
+	_check(_recruit_log == ["accept"] and Game.state.relationships.active == "shen_qinghe", "recruit: the day-3 invitation was accepted and Shen is the active companion (%s)" % str(_recruit_log))
+	cult.party_button.pressed.emit()
+	await _frames(2)
+	_check(cult.party_buttons["shen_qinghe"].has("dismiss") and not cult.party_buttons["shen_qinghe"].has("activate"), "party: the active companion can be dismissed but not re-activated")
+	_check(cult.party_buttons["lu_chenzhou"].is_empty(), "party: a companion whose conditions are unmet shows no invite button")
+	cult.party_buttons["shen_qinghe"]["dismiss"].pressed.emit()
+	await _frames(2)
+	_check(Game.state.relationships.get_status("shen_qinghe") == "left" and cult.party_buttons["shen_qinghe"].has("recruit"), "party: dismissing lets her be invited again")
+	cult.party_buttons["shen_qinghe"]["recruit"].pressed.emit()
+	await _frames(2)
+	_check(Game.state.relationships.active == "shen_qinghe", "party: re-inviting works from the panel")
+	cult.party_close_button.pressed.emit()
+	await _frames(2)
 	_check(cult.confirm_button.disabled, "week: nothing can be confirmed after day 7")
 	problems = cult.audit_layout()
 	_check(problems.is_empty(), "layout: still clean at the end of the week")

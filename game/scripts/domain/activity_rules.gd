@@ -7,6 +7,7 @@ const CultivationRules = preload("res://scripts/domain/cultivation_rules.gd")
 const SkillCheck = preload("res://scripts/domain/skill_check.gd")
 const TechniqueRules = preload("res://scripts/domain/technique_rules.gd")
 const DayRules = preload("res://scripts/domain/day_rules.gd")
+const RelationshipRules = preload("res://scripts/domain/relationship_rules.gd")
 
 
 ## The first option's id, or "" for an activity without options.
@@ -126,10 +127,13 @@ static func perform(state: RefCounted, base_def: Dictionary, content: Object, op
 		if applied.size() > 0:
 			result.deltas.append_array(applied)
 
+	result.deltas.append_array(RelationshipRules.preferred_bonus(state, str(def.id), content))
 	state.cultivation.record_practice(str(def.id))
 	result.unlocked = TechniqueRules.check_unlocks(state, content)
 	result.time = DayRules.end_slot(state)
 	result["expired_buffs"] = result.time.expired_buffs
+	result["met"] = RelationshipRules.refresh(state, content)
+	result["departed"] = RelationshipRules.check_departures(state, content)
 	return result
 
 

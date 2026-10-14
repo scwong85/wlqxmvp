@@ -16,6 +16,7 @@ var activities: Array = []
 var paths: Array = []
 var techniques: Array = []
 var day_hooks: Array = []
+var companions: Array = []
 
 
 func _ready() -> void:
@@ -27,6 +28,7 @@ func load_all() -> void:
 	paths = _load_list("cultivation/paths.json", "paths")
 	techniques = _load_list("cultivation/techniques.json", "techniques")
 	day_hooks = _load_list("events/day_hooks.json", "hooks")
+	companions = _load_list("companions/companions.json", "companions")
 
 
 func _load_list(rel: String, key: String) -> Array:
@@ -48,6 +50,14 @@ func activity(id: String) -> Dictionary:
 
 func path(id: String) -> Dictionary:
 	return _find(paths, id)
+
+
+func companion(id: String) -> Dictionary:
+	return _find(companions, id)
+
+
+func companion_ids() -> Array:
+	return companions.map(func(c: Dictionary) -> String: return str(c.id))
 
 
 func technique(id: String) -> Dictionary:
@@ -114,6 +124,7 @@ func validate(has_key: Callable) -> Array[String]:
 		for attr2 in unlock.get("attr_min", {}):
 			if not PlayerState.ATTRS.has(str(attr2)):
 				errs.append("technique %s: unknown attribute '%s'" % [tid, attr2])
+	errs.append_array(_validate_companions(has_key))
 	for h in day_hooks:
 		var hid := str(h.get("id", ""))
 		var day := int(h.get("day", 0))
@@ -126,6 +137,59 @@ func validate(has_key: Callable) -> Array[String]:
 		for k in ["title_key", "body_key"]:
 			if not has_key.call(str(h.get(k, ""))):
 				errs.append("hook %s: translation key missing for %s" % [hid, k])
+	return errs
+
+
+const ROLES := ["support", "striker", "control"]
+const COMPANION_FIELDS := ["id", "name_key", "bio_key", "portrait", "role", "stats", "preferred_activities", "meet_day",
+		"recruit", "depart", "battle_abilities", "relationship_ability"]
+
+
+func _validate_companions(has_key: Callable) -> Array[String]:
+	var errs: Array[String] = []
+	var seen := {}
+	for c in companions:
+		var cid := str(c.get("id", ""))
+		for f in COMPANION_FIELDS:
+			if not c.has(f):
+				errs.append("companion %s: missing field '%s'" % [cid, f])
+		if cid == "" or seen.has(cid):
+			errs.append("companion: missing or duplicate id '%s'" % cid)
+		seen[cid] = true
+		if not ROLES.has(str(c.get("role", ""))):
+			errs.append("companion %s: unknown role" % cid)
+		if str(c.get("portrait", "")) == "":
+			errs.append("companion %s: portrait reference empty" % cid)
+		for k in ["name_key", "bio_key"]:
+			if not has_key.call(str(c.get(k, ""))):
+				errs.append("companion %s: translation key missing for %s" % [cid, k])
+		if has_key.call("role." + str(c.get("role", ""))) == false:
+			errs.append("companion %s: role has no translation" % cid)
+		for a in PlayerState.ATTRS:
+			if not c.get("stats", {}).has(a):
+				errs.append("companion %s: stats missing '%s'" % [cid, a])
+		for act in c.get("preferred_activities", []):
+			if activity(str(act)).is_empty():
+				errs.append("companion %s: unknown preferred activity '%s'" % [cid, act])
+		var abilities: Array = c.get("battle_abilities", [])
+		if abilities.size() != 2:
+			errs.append("companion %s: needs exactly two battle abilities" % cid)
+		for ab in abilities + [c.get("relationship_ability", "")]:
+			for suffix in ["", ".desc"]:
+				if not has_key.call("ability." + str(ab) + suffix):
+					errs.append("companion %s: ability '%s' missing translation%s" % [cid, ab, suffix])
+		var rec: Dictionary = c.get("recruit", {})
+		if int(rec.get("score_min", 0)) < 1 or int(rec.get("day_min", 0)) < 1 or int(rec.get("day_min", 0)) > CalendarState.DAYS:
+			errs.append("companion %s: recruit needs score_min >= 1 and day_min in 1..%d" % [cid, CalendarState.DAYS])
+		for attr in rec.get("attr_min", {}):
+			if not PlayerState.ATTRS.has(str(attr)):
+				errs.append("companion %s: recruit attr '%s' unknown" % [cid, attr])
+		var dep: Dictionary = c.get("depart", {})
+		if not dep.has("score_below") and (dep.get("flags", []) as Array).is_empty():
+			errs.append("companion %s: depart needs score_below or flags" % cid)
+		var md := int(c.get("meet_day", 0))
+		if md < 1 or md > CalendarState.DAYS:
+			errs.append("companion %s: meet_day out of range" % cid)
 	return errs
 
 
