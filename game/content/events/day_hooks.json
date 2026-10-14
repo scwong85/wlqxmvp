@@ -1,0 +1,35 @@
+{
+  "hooks": [
+    {
+      "id": "day3_recruit",
+      "day": 3,
+      "trigger": "day_start",
+      "payload": {
+        "type": "recruitment_opportunity",
+        "npc": "shen_qinghe"
+      },
+      "title_key": "event.day3_recruit.title",
+      "body_key": "event.day3_recruit.body"
+    },
+    {
+      "id": "day6_prepare",
+      "day": 6,
+      "trigger": "day_start",
+      "payload": {
+        "type": "preparation"
+      },
+      "title_key": "event.day6_prepare.title",
+      "body_key": "event.day6_prepare.body"
+    },
+    {
+      "id": "day7_crisis",
+      "day": 7,
+      "trigger": "day_start",
+      "payload": {
+        "type": "final_crisis"
+      },
+      "title_key": "event.day7_crisis.title",
+      "body_key": "event.day7_crisis.body"
+    }
+  ]
+}

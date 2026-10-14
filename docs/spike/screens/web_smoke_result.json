@@ -1,27 +1,40 @@
 {
-  "url": "http://127.0.0.1:38115/index.html",
+  "url": "http://127.0.0.1:33009/index.html",
   "checks": {
     "1280x720": {
       "title_ready": true,
-      "hub_ready_via_keyboard": true,
-      "manual_save_ok": true,
+      "cultivation_ready_via_keyboard": true,
+      "autosave_ok": true,
       "load_enabled_after_reload": true,
       "loaded_slot2_after_reload": true,
+      "audit_lines": [
+        "log: LAYOUT_AUDIT size=1280x720 problems=0",
+        "log: LAYOUT_AUDIT size=1280x720 problems=0"
+      ],
+      "layout_audit_clean": true,
       "console_errors": 0
     },
     "1920x1080": {
       "title_ready": true,
-      "hub_ready_via_keyboard": true,
+      "cultivation_ready_via_keyboard": true,
+      "audit_lines": [
+        "log: LAYOUT_AUDIT size=1280x720 problems=0"
+      ],
+      "layout_audit_clean": true,
       "console_errors": 0
     },
     "2400x1080": {
       "title_ready": true,
-      "hub_ready_via_keyboard": true,
+      "cultivation_ready_via_keyboard": true,
+      "audit_lines": [
+        "log: LAYOUT_AUDIT size=1600x720 problems=0"
+      ],
+      "layout_audit_clean": true,
       "console_errors": 0
     },
     "portrait_390x844": {
       "title_ready": true,
-      "hub_ready_via_keyboard": true,
+      "cultivation_ready_via_keyboard": true,
       "console_errors": 0
     }
   },

@@ -1,0 +1,31 @@
+{
+  "paths": [
+    {
+      "id": "xuan_fist",
+      "name_key": "path.xuan_fist",
+      "desc_key": "path.xuan_fist.desc",
+      "affinity": [
+        "power",
+        "body"
+      ]
+    },
+    {
+      "id": "green_sword",
+      "name_key": "path.green_sword",
+      "desc_key": "path.green_sword.desc",
+      "affinity": [
+        "agility",
+        "insight"
+      ]
+    },
+    {
+      "id": "listening_rain",
+      "name_key": "path.listening_rain",
+      "desc_key": "path.listening_rain.desc",
+      "affinity": [
+        "spirit",
+        "insight"
+      ]
+    }
+  ]
+}

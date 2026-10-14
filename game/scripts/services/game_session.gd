@@ -2,6 +2,8 @@ extends Node
 ## Holds the run in progress and talks to SaveService. Screens use this, never the files directly.
 
 const GameState = preload("res://scripts/domain/game_state.gd")
+const ActivityRules = preload("res://scripts/domain/activity_rules.gd")
+const EventRules = preload("res://scripts/domain/event_rules.gd")
 
 var state: RefCounted = null
 
@@ -12,8 +14,8 @@ func ensure_state() -> RefCounted:
 	return state
 
 
-func new_game() -> void:
-	state = GameState.new_game()
+func new_game(seed_value: int = -1) -> void:
+	state = GameState.new_game(seed_value)
 
 
 func save_manual() -> Dictionary:
@@ -37,3 +39,35 @@ func load_latest() -> Dictionary:
 	else:
 		print("LOAD failed ", r.error_key)
 	return r
+
+
+## Runs an activity for the current run and autosaves once if time advanced.
+## Returns the rules result, plus "saved" (bool) when it succeeded.
+func perform_activity(activity_id: String) -> Dictionary:
+	var def: Dictionary = Content.activity(activity_id)
+	if def.is_empty():
+		return {"ok": false, "reasons": ["activity.blocked.unknown"]}
+	var r: Dictionary = ActivityRules.perform(ensure_state(), def, Content)
+	if r.ok and r.time.autosave_due:
+		r["saved"] = autosave().ok
+	return r
+
+
+## Story hooks that are due and not yet acknowledged.
+func pending_events() -> Array:
+	return EventRules.pending(ensure_state(), Content)
+
+
+func acknowledge_event(hook_id: String) -> void:
+	if EventRules.mark_fired(ensure_state(), hook_id):
+		autosave()
+
+
+## Chooses the cultivation path once. Returns false if one is already chosen or the id is unknown.
+func choose_path(path_id: String) -> bool:
+	var st := ensure_state()
+	if st.player.path_id != "" or Content.path(path_id).is_empty():
+		return false
+	st.player.path_id = path_id
+	autosave()
+	return true

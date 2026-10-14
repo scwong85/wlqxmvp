@@ -78,13 +78,13 @@ func _spacer(h: int) -> Control:
 
 func _on_start() -> void:
 	Game.new_game()
-	Router.goto("hub")
+	Router.goto("cultivation")
 
 
 func _on_load() -> void:
 	var r: Dictionary = Game.load_latest()
 	if r.ok:
-		Router.goto("hub")
+		Router.goto("cultivation")
 	else:
 		_load_error = r.error_key
 		_refresh_load()

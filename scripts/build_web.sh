@@ -17,11 +17,11 @@ fi
 "$GODOT" --headless --path "$ROOT/game" --import >/dev/null 2>&1 || true
 
 if [[ "${SKIP_TESTS:-0}" != "1" ]]; then
-  "$GODOT" --headless --path "$ROOT/game" res://tests/unit/run_unit.tscn | tee /dev/stderr | grep -q UNIT_OK
-  "$GODOT" --headless --path "$ROOT/game" res://tests/smoke/run_smoke.tscn | tee /dev/stderr | grep -q SMOKE_OK
+  timeout 240 "$GODOT" --headless --path "$ROOT/game" res://tests/unit/run_unit.tscn | tee /dev/stderr | grep -q UNIT_OK
+  timeout 240 "$GODOT" --headless --path "$ROOT/game" res://tests/smoke/run_smoke.tscn | tee /dev/stderr | grep -q SMOKE_OK
   # Restart test: two separate processes, the second must find what the first saved.
-  "$GODOT" --headless --path "$ROOT/game" res://tests/smoke/run_persist.tscn -- write | tee /dev/stderr | grep -q PERSIST_WRITE_OK
-  "$GODOT" --headless --path "$ROOT/game" res://tests/smoke/run_persist.tscn -- read | tee /dev/stderr | grep -q PERSIST_READ_OK
+  timeout 120 "$GODOT" --headless --path "$ROOT/game" res://tests/smoke/run_persist.tscn -- write | tee /dev/stderr | grep -q PERSIST_WRITE_OK
+  timeout 120 "$GODOT" --headless --path "$ROOT/game" res://tests/smoke/run_persist.tscn -- read | tee /dev/stderr | grep -q PERSIST_READ_OK
 fi
 
 rm -rf "$OUT"; mkdir -p "$OUT"

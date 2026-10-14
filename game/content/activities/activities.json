@@ -1,0 +1,278 @@
+{
+  "activities": [
+    {
+      "id": "training",
+      "name_key": "activity.training",
+      "desc_key": "activity.training.desc",
+      "min_day": 1,
+      "cost": {
+        "stamina": 5
+      },
+      "rewards": [
+        {
+          "type": "attr",
+          "id": "power",
+          "amount": 2
+        },
+        {
+          "type": "attr",
+          "id": "body",
+          "amount": 1
+        }
+      ],
+      "check": {
+        "attr": "body",
+        "target": 6
+      }
+    },
+    {
+      "id": "technique_practice",
+      "name_key": "activity.technique_practice",
+      "desc_key": "activity.technique_practice.desc",
+      "min_day": 1,
+      "cost": {
+        "stamina": 5
+      },
+      "rewards": [
+        {
+          "type": "path_progress",
+          "id": "current",
+          "amount": 2
+        },
+        {
+          "type": "attr",
+          "id": "agility",
+          "amount": 1
+        }
+      ],
+      "check": {
+        "attr": "insight",
+        "target": 6
+      }
+    },
+    {
+      "id": "meditation",
+      "name_key": "activity.meditation",
+      "desc_key": "activity.meditation.desc",
+      "min_day": 1,
+      "cost": {
+        "stamina": 2
+      },
+      "rewards": [
+        {
+          "type": "attr",
+          "id": "insight",
+          "amount": 1
+        },
+        {
+          "type": "stamina",
+          "id": "stamina",
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "id": "fishing",
+      "name_key": "activity.fishing",
+      "desc_key": "activity.fishing.desc",
+      "min_day": 1,
+      "cost": {
+        "stamina": 3
+      },
+      "rewards": [
+        {
+          "type": "resource",
+          "id": "food",
+          "amount": 2
+        },
+        {
+          "type": "resource",
+          "id": "coins",
+          "amount": 3
+        }
+      ],
+      "check": {
+        "attr": "agility",
+        "target": 5
+      }
+    },
+    {
+      "id": "herb_gathering",
+      "name_key": "activity.herb_gathering",
+      "desc_key": "activity.herb_gathering.desc",
+      "min_day": 1,
+      "cost": {
+        "stamina": 4
+      },
+      "rewards": [
+        {
+          "type": "resource",
+          "id": "herbs",
+          "amount": 2
+        },
+        {
+          "type": "attr",
+          "id": "insight",
+          "amount": 1
+        }
+      ],
+      "check": {
+        "attr": "insight",
+        "target": 6
+      }
+    },
+    {
+      "id": "mining",
+      "name_key": "activity.mining",
+      "desc_key": "activity.mining.desc",
+      "min_day": 2,
+      "cost": {
+        "stamina": 6
+      },
+      "rewards": [
+        {
+          "type": "resource",
+          "id": "ore",
+          "amount": 2
+        },
+        {
+          "type": "resource",
+          "id": "coins",
+          "amount": 5
+        }
+      ],
+      "check": {
+        "attr": "body",
+        "target": 7
+      }
+    },
+    {
+      "id": "hunting",
+      "name_key": "activity.hunting",
+      "desc_key": "activity.hunting.desc",
+      "min_day": 2,
+      "cost": {
+        "stamina": 5
+      },
+      "rewards": [
+        {
+          "type": "resource",
+          "id": "food",
+          "amount": 3
+        },
+        {
+          "type": "resource",
+          "id": "coins",
+          "amount": 2
+        }
+      ],
+      "check": {
+        "attr": "agility",
+        "target": 6
+      }
+    },
+    {
+      "id": "cooking",
+      "name_key": "activity.cooking",
+      "desc_key": "activity.cooking.desc",
+      "min_day": 1,
+      "cost": {
+        "stamina": 3,
+        "food": 2
+      },
+      "rewards": [
+        {
+          "type": "stamina",
+          "id": "stamina",
+          "amount": 6
+        },
+        {
+          "type": "attr",
+          "id": "spirit",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "music",
+      "name_key": "activity.music",
+      "desc_key": "activity.music.desc",
+      "min_day": 1,
+      "cost": {
+        "stamina": 3
+      },
+      "rewards": [
+        {
+          "type": "attr",
+          "id": "spirit",
+          "amount": 1
+        },
+        {
+          "type": "relationship",
+          "id": "shen_qinghe",
+          "amount": 3
+        }
+      ]
+    },
+    {
+      "id": "chess",
+      "name_key": "activity.chess",
+      "desc_key": "activity.chess.desc",
+      "min_day": 2,
+      "cost": {
+        "stamina": 3
+      },
+      "rewards": [
+        {
+          "type": "attr",
+          "id": "insight",
+          "amount": 1
+        },
+        {
+          "type": "item",
+          "id": "strategy_token",
+          "amount": 1
+        }
+      ],
+      "check": {
+        "attr": "insight",
+        "target": 7
+      }
+    },
+    {
+      "id": "social_visit",
+      "name_key": "activity.social_visit",
+      "desc_key": "activity.social_visit.desc",
+      "min_day": 2,
+      "cost": {
+        "stamina": 2
+      },
+      "rewards": [
+        {
+          "type": "relationship",
+          "id": "bai_yan",
+          "amount": 4
+        },
+        {
+          "type": "attr",
+          "id": "spirit",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "rest",
+      "name_key": "activity.rest",
+      "desc_key": "activity.rest.desc",
+      "min_day": 1,
+      "cost": {},
+      "rewards": [
+        {
+          "type": "stamina",
+          "id": "stamina",
+          "amount": 8
+        }
+      ]
+    }
+  ]
+}

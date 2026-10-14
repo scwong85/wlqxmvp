@@ -1,0 +1,61 @@
+{
+  "techniques": [
+    {
+      "id": "fist_wave",
+      "name_key": "technique.fist_wave",
+      "path": "xuan_fist",
+      "unlock": {
+        "path_progress_min": 3
+      }
+    },
+    {
+      "id": "fist_counter",
+      "name_key": "technique.fist_counter",
+      "path": "xuan_fist",
+      "unlock": {
+        "path_progress_min": 8,
+        "attr_min": {
+          "power": 9
+        }
+      }
+    },
+    {
+      "id": "sword_flash",
+      "name_key": "technique.sword_flash",
+      "path": "green_sword",
+      "unlock": {
+        "path_progress_min": 3
+      }
+    },
+    {
+      "id": "sword_follow",
+      "name_key": "technique.sword_follow",
+      "path": "green_sword",
+      "unlock": {
+        "path_progress_min": 8,
+        "attr_min": {
+          "agility": 9
+        }
+      }
+    },
+    {
+      "id": "rain_heal",
+      "name_key": "technique.rain_heal",
+      "path": "listening_rain",
+      "unlock": {
+        "path_progress_min": 3
+      }
+    },
+    {
+      "id": "rain_calm",
+      "name_key": "technique.rain_calm",
+      "path": "listening_rain",
+      "unlock": {
+        "path_progress_min": 8,
+        "attr_min": {
+          "spirit": 9
+        }
+      }
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 extends Node
-## Headless navigation smoke test: boot -> title -> hub -> title -> settings -> language toggle -> title.
+## Headless play-through of the real UI. Drives buttons the way a player would:
+## boot -> title -> cultivation screen -> select/confirm activities -> story pop-ups -> end of week,
+## plus language toggle, layout audit, save/load, and corrupt-save handling.
 ## Run: godot --headless --path game res://tests/smoke/run_smoke.tscn   (prints SMOKE_OK / SMOKE_FAIL)
 
 var _fails: Array[String] = []
@@ -23,45 +25,20 @@ func _scene() -> Node:
 
 
 func _ready() -> void:
-	# Router replaces the current scene, so move this harness out of the way first.
+	# Isolated save folder so the test never touches real saves.
+	Saves.dir = "user://smoke_saves/"
+	DirAccess.make_dir_recursive_absolute(Saves.dir)
+	_wipe_saves()
 	get_tree().current_scene = null  # we stay alive under root; Router no longer frees us
 	await _run()
+	_wipe_saves()
 	print("SMOKE_OK" if _fails.is_empty() else "SMOKE_FAIL")
 	get_tree().quit(0 if _fails.is_empty() else 1)
 
 
-func _run() -> void:
-	Router.goto("boot")
-	await _frames(4)
-	_check(Router.current_key == "title", "boot routes to title")
-	var title := _scene()
-	_check(title != null and title.has_method("_refresh") and title.get("start_button") != null, "title scene is live")
-	_check(title.load_button.disabled, "load button disabled")
-	_check(not title.load_button.tooltip_text.begins_with("["), "load tooltip has a real translation")
-	_check(title.start_button.text == "开始游戏", "title is Mandarin by default")
-
-	title.start_button.pressed.emit()
-	await _frames()
-	_check(Router.current_key == "hub", "new game opens hub")
-	_scene().back_button.pressed.emit()
-	await _frames()
-	_check(Router.current_key == "title", "hub back returns to title")
-
-	_scene().settings_button.pressed.emit()
-	await _frames()
-	_check(Router.current_key == "settings", "settings opens")
-	var settings := _scene()
-	settings.language_buttons["en"].pressed.emit()
-	await _frames(1)
-	_check(Loc.locale == "en", "language toggle switches to English")
-	_check(Saves.load_settings().get("locale") == "en", "language choice is persisted")
-	_check(settings.back_button.text == "Back", "settings strings update live")
-	settings.back_button.pressed.emit()
-	await _frames()
-	_check(_scene().start_button.text == "Start Game", "title shows English after toggle")
-	Loc.set_locale("zh_CN")
-	_check(_scene().start_button.text == "开始游戏", "title returns to Mandarin")
-	await _persistence_flow()
+func _wipe_saves() -> void:
+	for f in DirAccess.get_files_at(Saves.dir):
+		DirAccess.remove_absolute(Saves.dir.path_join(f))
 
 
 func _write_garbage(slot: String) -> void:
@@ -71,46 +48,130 @@ func _write_garbage(slot: String) -> void:
 		f.close()
 
 
-func _persistence_flow() -> void:
+## Selects an activity and presses confirm, like a player.
+func _do(screen: Node, activity_id: String) -> void:
+	screen.select_activity(activity_id)
+	screen.confirm_button.pressed.emit()
+	await _frames(1)
+
+
+## Presses Continue on any story pop-up. Returns the in-game days on which pop-ups appeared.
+func _dismiss_events(screen: Node) -> Array:
+	var seen: Array = []
+	var guard := 0
+	while screen.event_panel != null and guard < 5:
+		guard += 1
+		seen.append(Game.state.calendar.day)
+		screen.event_continue_button.pressed.emit()
+		await _frames(1)
+	return seen
+
+
+func _run() -> void:
+	Router.goto("boot")
+	await _frames(4)
+	_check(Router.current_key == "title", "boot routes to title")
 	var title := _scene()
-	_check(title.load_button.disabled, "persist: load disabled with no saves")
+	_check(title.load_button.disabled, "title: load disabled with no saves")
+	_check(title.start_button.text == "开始游戏", "title: Mandarin by default")
 
+	# --- New game opens the cultivation screen ---
 	title.start_button.pressed.emit()
-	await _frames()
-	var hub := _scene()
-	_check(Game.state.calendar.day == 1 and Game.state.calendar.slot == 1, "persist: new game starts day 1 slot 1")
-	hub.advance_button.pressed.emit()
-	_check(Game.state.calendar.slot == 2, "persist: advance moves to slot 2")
-	_check(Saves.slot_exists(Saves.AUTO), "persist: advancing autosaves")
-	hub.save_button.pressed.emit()
-	_check(Saves.slot_exists(Saves.MANUAL), "persist: manual save writes a file")
-	_check(hub.message_label.text == Loc.t("hub.saved"), "persist: hub confirms the save")
+	await _frames(4)
+	_check(Router.current_key == "cultivation", "start opens the cultivation screen")
+	Game.state.run_seed = 5  # fixed seed so outcomes are reproducible
+	var cult := _scene()
+	_check(cult.cards.size() == 12, "screen: all 12 activities are listed")
+	_check(cult.selected_id == "training", "screen: first available activity is preselected")
+	_check(cult.info_label.text.contains(Loc.t("activity.training.desc")), "screen: selected activity shows its description")
+	_check(not cult.confirm_button.disabled, "screen: confirm enabled for an available activity")
+	var problems: Array[String] = cult.audit_layout()
+	for p in problems:
+		print("    audit: ", p)
+	_check(problems.is_empty(), "layout: no small text, short touch targets or off-screen controls")
 
-	hub.back_button.pressed.emit()
-	await _frames()
+	# --- Blocked activities explain themselves ---
+	cult.select_activity("cooking")
+	_check(cult.confirm_button.disabled, "blocked: cooking is not confirmable without food")
+	_check(cult.info_label.text.contains(Loc.t("activity.blocked.resource")), "blocked: reason is shown as text")
+	cult.select_activity("mining")
+	_check(cult.confirm_button.disabled and cult.info_label.text.contains(Loc.t("activity.blocked.day_gate")), "blocked: mining is gated to day 2")
+
+	# --- Perform an activity ---
+	var power_before: int = Game.state.player.get_attr("power")
+	await _do(cult, "training")
+	_check(Game.state.calendar.slot == 2, "action: training uses a slot")
+	_check(Game.state.player.stamina == 15, "action: training costs 5 stamina")
+	_check(Game.state.player.get_attr("power") > power_before, "action: training raises power")
+	_check(cult.info_label.text.begins_with(Loc.t("cult.result.success")) or cult.info_label.text.begins_with(Loc.t("cult.result.partial")), "action: result panel shows the outcome")
+	_check(Saves.slot_exists(Saves.AUTO), "action: autosave written")
+	cult.select_activity("rest")
+	_check(not cult.info_label.text.begins_with(Loc.t("cult.result.success")), "action: choosing another card clears the result")
+
+	# --- Choose a path ---
+	_check(cult.path_buttons.size() == 3, "path: three paths offered before choosing")
+	cult.path_buttons["xuan_fist"].pressed.emit()
+	await _frames(2)
+	_check(Game.state.player.path_id == "xuan_fist", "path: choosing sets the path")
+	_check(cult.path_buttons.is_empty(), "path: the choice buttons disappear once chosen")
+
+	# --- Play the rest of the week with rests, acknowledging story pop-ups ---
+	var popup_days: Array = []
+	var guard := 0
+	while not Game.state.calendar.finished and guard < 20:
+		guard += 1
+		await _do(cult, "rest")
+		popup_days.append_array(await _dismiss_events(cult))
+	_check(Game.state.calendar.finished, "week: the seven days end")
+	_check(popup_days == [3, 6, 7], "week: story pop-ups appeared on days 3, 6 and 7 (got %s)" % str(popup_days))
+	_check(Game.state.calendar.events_fired == ["day3_recruit", "day6_prepare", "day7_crisis"], "week: hooks acknowledged and recorded")
+	_check(cult.confirm_button.disabled, "week: nothing can be confirmed after day 7")
+	problems = cult.audit_layout()
+	_check(problems.is_empty(), "layout: still clean at the end of the week")
+
+	# --- Save, restart, load ---
+	cult.save_button.pressed.emit()
+	await _frames(1)
+	_check(Saves.slot_exists(Saves.MANUAL) and cult.status_label.text == Loc.t("cult.saved"), "save: manual save confirmed on screen")
+	cult.menu_button.pressed.emit()
+	await _frames(3)
 	title = _scene()
-	_check(not title.load_button.disabled, "persist: load enabled once a save exists")
-	_check(title.load_note.text == Loc.t("ui.load_hint", {"day": 1, "slot": 2}), "persist: title summarises the save")
-
-	Game.state = null  # simulate a fresh launch
+	_check(Router.current_key == "title" and not title.load_button.disabled, "load: title offers Load once a save exists")
+	Game.state = null
 	title.load_button.pressed.emit()
-	await _frames()
-	_check(Router.current_key == "hub", "persist: load opens hub")
-	_check(Game.state.calendar.slot == 2, "persist: loaded run is at slot 2")
-	_scene().back_button.pressed.emit()
-	await _frames()
+	await _frames(4)
+	_check(Router.current_key == "cultivation", "load: opens the cultivation screen")
+	_check(Game.state.calendar.finished and Game.state.player.path_id == "xuan_fist", "load: week state and path restored")
+	_check(Game.state.run_seed == 5, "load: run seed restored")
+	cult = _scene()
+	_check(cult.confirm_button.disabled, "load: finished week stays finished")
 
-	# Both saves destroyed: the title must say so and Load must not leave the title.
+	# --- Language toggle on the real screen ---
+	Loc.set_locale("en")
+	_check(cult._day_label.text == "Day 7 of 7", "language: cultivation screen follows the language toggle")
+	Loc.set_locale("zh_CN")
+
+	# --- Settings keeps working ---
+	cult.menu_button.pressed.emit()
+	await _frames(3)
+	_scene().settings_button.pressed.emit()
+	await _frames(3)
+	var settings := _scene()
+	_check(Router.current_key == "settings", "settings: opens")
+	settings.language_buttons["en"].pressed.emit()
+	await _frames(1)
+	_check(Loc.locale == "en" and Saves.load_settings().get("locale") == "en", "settings: language switches and persists")
+	settings.language_buttons["zh_CN"].pressed.emit()
+	settings.back_button.pressed.emit()
+	await _frames(3)
+
+	# --- Corrupt saves are explained, never crash ---
 	_write_garbage(Saves.MANUAL)
 	_write_garbage(Saves.AUTO)
 	Router.goto("title")
-	await _frames()
+	await _frames(3)
 	title = _scene()
-	_check(title.load_note.text == Loc.t("save.error.corrupt"), "persist: corrupt saves are explained on the title")
+	_check(title.load_note.text == Loc.t("save.error.corrupt"), "corrupt: the title explains the problem")
 	title.load_button.pressed.emit()
-	await _frames()
-	_check(Router.current_key == "title", "persist: failed load stays on title")
-	_check(not title.load_note.text.begins_with("["), "persist: error text is a real translation")
-
-	for f in DirAccess.get_files_at(Saves.dir):
-		DirAccess.remove_absolute(Saves.dir.path_join(f))
+	await _frames(3)
+	_check(Router.current_key == "title" and not title.load_note.text.begins_with("["), "corrupt: failed load stays on the title with a real message")

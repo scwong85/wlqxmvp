@@ -9,6 +9,8 @@ const MAX_ATTR := 99
 var attributes: Dictionary = {}
 var path_id: String = ""
 var techniques: Array = []
+## Current stamina. -1 means "full"; GameState resolves it against the derived maximum.
+var stamina: int = -1
 
 
 func _init() -> void:
@@ -37,7 +39,8 @@ func learn(technique_id: String) -> bool:
 
 
 func to_dict() -> Dictionary:
-	return {"attributes": attributes.duplicate(), "path_id": path_id, "techniques": techniques.duplicate()}
+	return {"attributes": attributes.duplicate(), "path_id": path_id, "techniques": techniques.duplicate(),
+			"stamina": stamina}
 
 
 static func from_dict(d: Variant) -> RefCounted:
@@ -50,6 +53,7 @@ static func from_dict(d: Variant) -> RefCounted:
 			if attrs.has(a):
 				s.attributes[a] = clampi(int(attrs[a]), MIN_ATTR, MAX_ATTR)
 	s.path_id = str(d.get("path_id", ""))
+	s.stamina = int(d.get("stamina", -1))
 	var techs: Variant = d.get("techniques", [])
 	if techs is Array:
 		for t in techs:

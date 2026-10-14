@@ -2,7 +2,7 @@
 
 Usage: python3 web_smoke.py <build_dir> <out_dir>
 Serves <build_dir>, opens it in headless Chromium at several viewport sizes, waits for the
-engine's TITLE_READY / HUB_READY / SETTINGS_READY console markers, drives the UI by keyboard
+engine's TITLE_READY / CULT_READY / SETTINGS_READY console markers, drives the UI by keyboard
 (Enter on the focused button, Tab to move), fails on any console error, and saves screenshots.
 """
 import functools
@@ -63,20 +63,18 @@ with sync_playwright() as p:
 
         page.locator("canvas").click(position={"x": 5, "y": 5})  # give the canvas keyboard focus
         page.keyboard.press("Enter")  # start button is focused by the title screen
-        ok_hub = wait_for(console, "HUB_READY")
+        ok_hub = wait_for(console, "CULT_READY")
         page.wait_for_timeout(500)
-        page.screenshot(path=os.path.join(out_dir, f"m1_{name}_hub.png"))
+        page.screenshot(path=os.path.join(out_dir, f"m1_{name}_cultivation.png"))
 
-        results["checks"][name] = {"title_ready": ok_title, "hub_ready_via_keyboard": ok_hub}
+        results["checks"][name] = {"title_ready": ok_title, "cultivation_ready_via_keyboard": ok_hub}
 
         if name == "1280x720":
             # Persistence: advance a slot (autosaves), save manually, reload the page, then load.
-            page.keyboard.press("Enter")      # advance button is focused on the hub
-            page.keyboard.press("Tab")        # -> Save
-            page.keyboard.press("Enter")
-            saved = wait_for(console, "SAVE manual ok=true", 10)
+            page.keyboard.press("Enter")      # confirm button is focused: performs the default activity
+            saved = wait_for(console, "SAVE auto ok=true", 10)
             page.wait_for_timeout(1500)       # let the browser flush IndexedDB
-            page.screenshot(path=os.path.join(out_dir, "m2_hub_saved.png"))
+            page.screenshot(path=os.path.join(out_dir, "m2_cultivation_saved.png"))
             mark = len(console)
             page.reload(wait_until="load")
             ok_reload = wait_for(console, "TITLE_READY load_enabled=true", 60, mark)
@@ -86,12 +84,16 @@ with sync_playwright() as p:
             page.keyboard.press("Tab")        # start -> load (enabled now)
             page.keyboard.press("Enter")
             mark2 = len(console)
-            ok_load = wait_for(console, "HUB_READY day=1 slot=2", 20, mark)
+            ok_load = wait_for(console, "CULT_READY day=1 slot=2", 20, mark)
             page.wait_for_timeout(500)
-            page.screenshot(path=os.path.join(out_dir, "m2_hub_after_load.png"))
-            results["checks"][name].update({"manual_save_ok": saved, "load_enabled_after_reload": ok_reload,
+            page.screenshot(path=os.path.join(out_dir, "m2_cultivation_after_load.png"))
+            results["checks"][name].update({"autosave_ok": saved, "load_enabled_after_reload": ok_reload,
                                             "loaded_slot2_after_reload": ok_load})
 
+        if not name.startswith("portrait"):  # landscape sizes must pass the layout audit
+            audits = [c for c in console if "LAYOUT_AUDIT" in c]
+            results["checks"][name]["audit_lines"] = [c for c in console if "LAYOUT_AUDIT" in c or "audit:" in c][:6]
+            results["checks"][name]["layout_audit_clean"] = bool(audits) and all("problems=0" in c for c in audits)
         errs = [c for c in console if c.startswith("error") or "SCRIPT ERROR" in c]
         results["checks"][name]["console_errors"] = len(errs)
         results["errors"].extend(f"[{name}] {e}" for e in errs[:5])

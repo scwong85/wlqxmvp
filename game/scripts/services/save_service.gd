@@ -16,6 +16,8 @@ const SETTINGS := "settings.json"
 
 ## Where files live. Tests point this at a scratch folder.
 var dir: String = "user://"
+## Number of successful writes since start (used by tests to prove autosave fires once per transition).
+var write_count: int = 0
 ## Injectable clock (unix seconds) so tests can order saves deterministically.
 var clock: Callable = func() -> int: return int(Time.get_unix_time_from_system())
 
@@ -40,7 +42,7 @@ func write_slot(slot: String, state: RefCounted, locale: String = "") -> Diction
 		"schema_version": GameState.SCHEMA_VERSION,
 		"saved_at": int(clock.call()),
 		"locale": locale,
-		"checksum": _checksum(state),
+		"checksum": checksum_of_dict(state.to_dict()),
 		"state": state.to_dict(),
 	}
 	var f := FileAccess.open(tmp, FileAccess.WRITE)
@@ -63,6 +65,7 @@ func write_slot(slot: String, state: RefCounted, locale: String = "") -> Diction
 		if FileAccess.file_exists(bak):
 			DirAccess.rename_absolute(bak, path)  # put the old save back
 		return {"ok": false, "error_key": "save.error.write"}
+	write_count += 1
 	return {"ok": true}
 
 
@@ -129,17 +132,24 @@ func parse_envelope(text: String) -> Dictionary:
 		return {"ok": false, "error_key": "save.error.version"}
 	if not (parsed.get("state") is Dictionary):
 		return {"ok": false, "error_key": "save.error.corrupt"}
-	var state_dict: Dictionary = migrate(parsed.state, version)
-	var state: RefCounted = GameState.from_dict(state_dict)
-	if str(parsed.get("checksum", "")) != _checksum(state):
+	if str(parsed.get("checksum", "")) != checksum_of_dict(parsed.state):
 		return {"ok": false, "error_key": "save.error.corrupt"}
+	var state: RefCounted = GameState.from_dict(migrate(parsed.state, version))
 	return {"ok": true, "state": state, "saved_at": int(parsed.get("saved_at", 0)),
 			"locale": str(parsed.get("locale", ""))}
 
 
-## Upgrades an older state dictionary to the current schema. Version 1 is current, so identity.
-func migrate(state_dict: Dictionary, _from_version: int) -> Dictionary:
-	return state_dict
+## Upgrades an older state dictionary to the current schema, one version step at a time.
+## v1 -> v2: adds current stamina (-1 = full), fired story events, and a run seed.
+func migrate(state_dict: Dictionary, from_version: int) -> Dictionary:
+	var d: Dictionary = state_dict.duplicate(true)
+	if from_version < 2:
+		if d.get("player") is Dictionary:
+			d["player"]["stamina"] = -1
+		if d.get("calendar") is Dictionary:
+			d["calendar"]["events_fired"] = []
+		d["run_seed"] = 1
+	return d
 
 
 ## Like JSON.parse_string but quiet: damaged files are expected input, not engine errors.
@@ -150,9 +160,23 @@ func _parse_json(text: String) -> Variant:
 	return j.data
 
 
-func _checksum(state: RefCounted) -> String:
-	# Canonical form: sorted keys, ints stay ints. The same function runs on write and on read.
-	return str(JSON.stringify(state.to_dict(), "", true).hash())
+## Checksum over a canonical form: sorted keys, whole-number floats turned back into ints (JSON text
+## has no int/float distinction). Runs on the raw stored dictionary, so it is valid for any schema version.
+func checksum_of_dict(d: Dictionary) -> String:
+	return str(JSON.stringify(_canonical(d), "", true).hash())
+
+
+func _canonical(v: Variant) -> Variant:
+	if v is Dictionary:
+		var out := {}
+		for k in v:
+			out[str(k)] = _canonical(v[k])
+		return out
+	if v is Array:
+		return v.map(func(e: Variant) -> Variant: return _canonical(e))
+	if v is float and v == floorf(v) and absf(v) < 9.0e15:
+		return int(v)
+	return v
 
 
 # --- Settings (language etc.) -----------------------------------------------------------------

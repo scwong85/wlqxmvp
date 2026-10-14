@@ -245,6 +245,6 @@ func _save_service() -> void:
 	_write_text(TEST_DIR + SaveService.SETTINGS, "not json")
 	check.call(svc.load_settings().is_empty(), "settings: corrupt file gives empty settings")
 
-	check.call(svc.migrate({"a": 1}, 1) == {"a": 1}, "save: migrate is identity for the current version")
+	check.call(svc.migrate({"a": 1}, GameState.SCHEMA_VERSION) == {"a": 1}, "save: migrate is identity for the current version")
 	svc.free()
 	_wipe(TEST_DIR)
