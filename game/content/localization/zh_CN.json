@@ -1,0 +1,18 @@
+{
+  "spike.title": "玉谷传奇",
+  "spike.subtitle": "引擎验证 · 汉字渲染与输入测试",
+  "spike.attributes": "根骨 · 力道 · 身法 · 悟性 · 心性",
+  "spike.paths": "玄流拳经 · 青梧剑诀 · 听雨心法",
+  "spike.button": "开始游戏",
+  "spike.toggle": "切换语言",
+  "spike.viewport": "视口：{w} × {h}　方向：{orientation}",
+  "spike.orientation.landscape": "横屏",
+  "spike.orientation.portrait": "竖屏（请旋转设备）",
+  "spike.input_header": "输入记录（点击、触摸、键盘）：",
+  "spike.input.mouse": "鼠标点击 ({x}, {y})",
+  "spike.input.touch": "触摸 ({x}, {y})",
+  "spike.input.key": "按键 {key}",
+  "spike.input.button": "按钮已按下 × {count}",
+  "spike.glyph_check": "字形检查（子集外字符）：𠮷 䶮",
+  "spike.fallback_only_zh": "此行只有中文文本，用于测试英文回退"
+}

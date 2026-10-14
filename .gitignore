@@ -1,0 +1,14 @@
+# Toolchain downloads (re-created by scripts/setup_env.sh)
+tools/
+
+# Godot generated
+game/.godot/
+game/.import/
+
+# Build output is published from a separate branch, not committed on the source branch
+build/
+
+# Python / OS noise
+__pycache__/
+*.pyc
+.DS_Store

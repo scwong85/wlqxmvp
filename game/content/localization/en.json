@@ -1,0 +1,17 @@
+{
+  "spike.title": "Jade Valley Chronicles",
+  "spike.subtitle": "Engine spike: Chinese glyph rendering and input test",
+  "spike.attributes": "Body · Power · Agility · Insight · Spirit",
+  "spike.paths": "Mystic Flow Fist · Green Paulownia Sword · Listening Rain Method",
+  "spike.button": "Start Game",
+  "spike.toggle": "Switch language",
+  "spike.viewport": "Viewport: {w} x {h}   Orientation: {orientation}",
+  "spike.orientation.landscape": "landscape",
+  "spike.orientation.portrait": "portrait (please rotate device)",
+  "spike.input_header": "Input log (click, touch, keyboard):",
+  "spike.input.mouse": "Mouse click ({x}, {y})",
+  "spike.input.touch": "Touch ({x}, {y})",
+  "spike.input.key": "Key {key}",
+  "spike.input.button": "Button pressed x {count}",
+  "spike.glyph_check": "Glyph check (outside subset): 𠮷 䶮"
+}
