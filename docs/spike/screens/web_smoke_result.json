@@ -1,9 +1,10 @@
 {
-  "url": "http://127.0.0.1:33009/index.html",
+  "url": "http://127.0.0.1:39435/index.html",
   "checks": {
     "1280x720": {
       "title_ready": true,
       "cultivation_ready_via_keyboard": true,
+      "chooser_opens": true,
       "autosave_ok": true,
       "load_enabled_after_reload": true,
       "loaded_slot2_after_reload": true,

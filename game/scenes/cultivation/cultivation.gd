@@ -28,6 +28,10 @@ var status_label: Label
 var event_panel: Control = null
 var event_continue_button: Button
 var selected_id: String = ""
+## Approach chooser overlay (M6): shown when the confirmed activity has options.
+var choice_panel: Control = null
+var option_buttons: Dictionary = {}
+var choice_cancel_button: Button
 
 var _day_label: Label
 var _slot_label: Label
@@ -269,9 +273,17 @@ func select_activity(id: String) -> void:
 
 
 func _on_confirm() -> void:
-	if event_panel != null or selected_id == "":
+	if event_panel != null or choice_panel != null or selected_id == "":
 		return
-	var r: Dictionary = Game.perform_activity(selected_id)
+	var def: Dictionary = Content.activity(selected_id)
+	if not def.get("options", []).is_empty():
+		_show_choice(def)
+		return
+	_perform(selected_id, "")
+
+
+func _perform(activity_id: String, option_id: String) -> void:
+	var r: Dictionary = Game.perform_activity(activity_id, option_id)
 	if not r.ok:
 		_showing_result = false
 		_refresh_all()
@@ -279,7 +291,7 @@ func _on_confirm() -> void:
 	_last_result = r
 	_showing_result = true
 	_status_key = "cult.autosaved" if r.get("saved", false) else "cult.save_failed"
-	print("ACTIVITY %s grade=%s day=%d slot=%d" % [r.activity_id, r.grade, Game.state.calendar.day, Game.state.calendar.slot])
+	print("ACTIVITY %s/%s grade=%s day=%d slot=%d" % [r.activity_id, r.option_id, r.grade, Game.state.calendar.day, Game.state.calendar.slot])
 	_refresh_all()
 	_check_events()
 
@@ -293,6 +305,74 @@ func _on_save() -> void:
 func _on_path_pressed(path_id: String) -> void:
 	if Game.choose_path(path_id):
 		_refresh_all()
+
+
+# --- Approach chooser ---------------------------------------------------------------------------
+
+func _show_choice(def: Dictionary) -> void:
+	var overlay := ColorRect.new()
+	overlay.color = Color(0, 0, 0, 0.62)
+	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(center)
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(900, 0)
+	center.add_child(panel)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 8)
+	panel.add_child(box)
+	var title := _label(FONT_HEAD)
+	title.text = "%s · %s" % [Loc.t(def.name_key), Loc.t("cult.choose_title")]
+	title.autowrap_mode = TextServer.AUTOWRAP_OFF
+	box.add_child(title)
+	option_buttons.clear()
+	var first: Button = null
+	for o in def.options:
+		var oid: String = o.id
+		var eff: Dictionary = ActivityRules.effective_def(def, oid)
+		var av: Dictionary = ActivityRules.availability(Game.state, def, oid)
+		var b := Button.new()
+		b.theme_type_variation = "CardButton"
+		b.custom_minimum_size = Vector2(0, 76)
+		b.add_theme_font_size_override("font_size", FONT_SMALL)
+		b.clip_text = true
+		var line2: String = _cost_list(eff)
+		if eff.has("check"):
+			line2 += "  " + Loc.t("cult.chance_short", {"chance": ActivityRules.check_chance(Game.state, def, oid)})
+		if not av.ok:
+			line2 += "  " + Loc.t(av.reasons[0])
+		b.text = "%s  %s\n%s  %s" % [Loc.t(o.name_key), Loc.t(o.desc_key), Loc.t("cult.gain", {"list": _reward_list(eff)}), line2]
+		b.disabled = not av.ok
+		b.pressed.connect(func() -> void: _on_option_chosen(oid))
+		box.add_child(b)
+		option_buttons[oid] = b
+		if first == null and av.ok:
+			first = b
+	choice_cancel_button = UiKit.make_button(Vector2(0, 56))
+	choice_cancel_button.text = Loc.t("cult.choose_cancel")
+	choice_cancel_button.add_theme_font_size_override("font_size", FONT_BODY)
+	choice_cancel_button.pressed.connect(_close_choice)
+	box.add_child(choice_cancel_button)
+	choice_panel = overlay
+	add_child(overlay)
+	(first if first != null else choice_cancel_button).grab_focus()
+	print("CHOICE_SHOWN ", def.id)
+
+
+func _close_choice() -> void:
+	if choice_panel != null:
+		choice_panel.queue_free()
+		choice_panel = null
+		option_buttons.clear()
+	confirm_button.grab_focus()
+
+
+func _on_option_chosen(option_id: String) -> void:
+	var activity_id := selected_id
+	_close_choice()
+	_perform(activity_id, option_id)
 
 
 # --- Story hooks ---------------------------------------------------------------------------------
@@ -399,6 +479,13 @@ func _refresh_hero(st: RefCounted) -> void:
 			names.append(Loc.t("technique." + str(t_id)))
 		tech_label.text = Loc.t("cult.techniques_line", {"list": Loc.t("ui.list_sep").join(names) if not names.is_empty() else Loc.t("cult.techniques_none")})
 		_path_box.add_child(tech_label)
+	if not st.player.buffs.is_empty():
+		var buff_label := _label(FONT_SMALL)
+		var entries: Array = []
+		for b in st.player.buffs:
+			entries.append(Loc.t("cult.buff_entry", {"name": Loc.t("buff." + str(b.id)), "attr": Loc.t("attr." + str(b.attr)), "amount": "%+d" % int(b.amount), "slots": int(b.slots)}))
+		buff_label.text = Loc.t("cult.buffs_line", {"list": _sep().join(entries)})
+		_path_box.add_child(buff_label)
 
 
 func _refresh_cards(st: RefCounted) -> void:
@@ -456,6 +543,8 @@ func _name_for(type: String, id: String) -> String:
 			return Loc.t("resource." + id)
 		"item":
 			return Loc.t("item." + id)
+		"buff":
+			return Loc.t("buff." + id)
 		"relationship":
 			return "%s %s" % [Loc.t("npc." + id), Loc.t("cult.affinity")]
 		"stamina":
@@ -485,9 +574,16 @@ func _reward_list(def: Dictionary) -> String:
 
 
 func _detail_text(def: Dictionary) -> String:
-	var lines: Array[String] = [Loc.t(def.desc_key), Loc.t("cult.cost", {"list": _cost_list(def)}),
-			Loc.t("cult.gain", {"list": _reward_list(def)})]
-	if def.has("check"):
+	var lines: Array[String] = [Loc.t(def.desc_key)]
+	if not def.get("options", []).is_empty():
+		var names: Array = []
+		for o in def.options:
+			names.append(Loc.t(o.name_key))
+		lines.append(Loc.t("cult.approaches", {"list": _sep().join(names)}))
+	else:
+		lines.append(Loc.t("cult.cost", {"list": _cost_list(def)}))
+		lines.append(Loc.t("cult.gain", {"list": _reward_list(def)}))
+	if def.has("check") and def.get("options", []).is_empty():
 		lines.append(Loc.t("cult.check", {"attr": Loc.t("attr." + str(def.check.attr)), "target": int(def.check.target),
 				"chance": ActivityRules.check_chance(Game.state, def)}))
 	var av: Dictionary = ActivityRules.availability(Game.state, def)
@@ -505,6 +601,12 @@ func _result_text(r: Dictionary) -> String:
 	for d in r.deltas:
 		gained.append(Loc.t("cult.delta", {"name": _name_for(d.type, d.id), "amount": "%+d" % int(d.delta)}))
 	lines.append(Loc.t("cult.result.gained", {"list": _sep().join(gained) if not gained.is_empty() else Loc.t("cult.result.nothing")}))
+	var stamina_entries := 0
+	for c0 in r.cost:
+		if c0.id == "stamina":
+			stamina_entries += 1
+	if stamina_entries > 1:
+		lines.append(Loc.t("cult.result.extra_loss"))
 	var paid: Array = []
 	for c in r.cost:
 		var nm: String = Loc.t("cult.stamina") if c.id == "stamina" else Loc.t("resource." + str(c.id))
@@ -516,6 +618,11 @@ func _result_text(r: Dictionary) -> String:
 		for t_id in r.unlocked:
 			names.append(Loc.t("technique." + str(t_id)))
 		lines.append(Loc.t("cult.result.unlocked", {"list": _sep().join(names)}))
+	if not r.expired_buffs.is_empty():
+		var faded: Array = []
+		for b_id in r.expired_buffs:
+			faded.append(Loc.t("buff." + str(b_id)))
+		lines.append(Loc.t("cult.buff_expired", {"list": _sep().join(faded)}))
 	if r.time.new_day:
 		lines.append(Loc.t("cult.result.new_day", {"amount": int(r.time.recovered)}))
 	return "\n".join(lines)

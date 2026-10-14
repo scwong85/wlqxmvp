@@ -9,8 +9,54 @@ const TechniqueRules = preload("res://scripts/domain/technique_rules.gd")
 const DayRules = preload("res://scripts/domain/day_rules.gd")
 
 
+## The first option's id, or "" for an activity without options.
+static func default_option(def: Dictionary) -> String:
+	var opts: Array = def.get("options", [])
+	return str(opts[0].id) if not opts.is_empty() else ""
+
+
+## The activity with one option folded in: extra costs added, check target shifted, rewards replaced when
+## the option has its own. Returns {} for an unknown option. Activities without options pass through.
+## An empty option_id means the default (first) option.
+static func effective_def(def: Dictionary, option_id: String = "") -> Dictionary:
+	var opts: Array = def.get("options", [])
+	if opts.is_empty():
+		return def
+	var wanted := option_id if option_id != "" else default_option(def)
+	for o in opts:
+		if str(o.id) != wanted:
+			continue
+		var eff: Dictionary = def.duplicate(true)
+		eff.erase("options")
+		eff["option_id"] = wanted
+		var cost: Dictionary = eff.get("cost", {}).duplicate()
+		for k in o.get("cost_extra", {}):
+			cost[k] = int(cost.get(k, 0)) + int(o.cost_extra[k])
+		eff["cost"] = cost
+		if eff.has("check"):
+			eff["check"]["target"] = int(eff.check.target) + int(o.get("target_delta", 0))
+		if o.has("rewards"):
+			eff["rewards"] = o.rewards.duplicate(true)
+		eff["fail_stamina"] = int(o.get("fail_stamina", 0))
+		return eff
+	return {}
+
+
 ## {ok, reasons}. Reasons are translation keys, safe to show to the player.
-static func availability(state: RefCounted, def: Dictionary) -> Dictionary:
+## With options and no option_id given, the activity counts as available if any approach is.
+static func availability(state: RefCounted, base_def: Dictionary, option_id: String = "") -> Dictionary:
+	if option_id == "" and not base_def.get("options", []).is_empty():
+		var first: Dictionary = {}
+		for o in base_def.options:
+			var one := availability(state, base_def, str(o.id))
+			if first.is_empty():
+				first = one
+			if one.ok:
+				return one
+		return first
+	var def := effective_def(base_def, option_id)
+	if def.is_empty():
+		return {"ok": false, "reasons": ["activity.blocked.option"]}
 	var reasons: Array = []
 	if state.calendar.finished:
 		reasons.append("activity.blocked.finished")
@@ -27,20 +73,24 @@ static func availability(state: RefCounted, def: Dictionary) -> Dictionary:
 
 
 ## Chance of passing the activity's check right now, or -1 when it has no check.
-static func check_chance(state: RefCounted, def: Dictionary) -> int:
-	if not def.has("check"):
+static func check_chance(state: RefCounted, base_def: Dictionary, option_id: String = "") -> int:
+	var def := effective_def(base_def, option_id)
+	if def.is_empty() or not def.has("check"):
 		return -1
-	return SkillCheck.chance(state.player.get_attr(str(def.check.attr)), int(def.check.target))
+	return SkillCheck.chance(state.player.effective_attr(str(def.check.attr)), int(def.check.target))
 
 
 ## Runs the activity. Nothing changes unless it is available. Returns
 ## {ok, reasons} on refusal, or {ok:true, activity_id, grade, check, cost, deltas, unlocked, time}.
-static func perform(state: RefCounted, def: Dictionary, content: Object) -> Dictionary:
-	var av := availability(state, def)
+static func perform(state: RefCounted, base_def: Dictionary, content: Object, option_id: String = "") -> Dictionary:
+	if option_id == "":
+		option_id = default_option(base_def)
+	var av := availability(state, base_def, option_id)
 	if not av.ok:
 		return {"ok": false, "reasons": av.reasons}
+	var def := effective_def(base_def, option_id)
 
-	var result := {"ok": true, "activity_id": str(def.id), "day": state.calendar.day,
+	var result := {"ok": true, "activity_id": str(def.id), "option_id": str(def.get("option_id", "")), "day": state.calendar.day,
 			"slot": state.calendar.slot, "grade": "success", "check": {}, "cost": [], "deltas": [],
 			"unlocked": [], "time": {}}
 
@@ -57,12 +107,16 @@ static func perform(state: RefCounted, def: Dictionary, content: Object) -> Dict
 
 	if def.has("check"):
 		var key := "%s:%d:%d" % [def.id, state.calendar.day, state.calendar.slot]
-		var c := SkillCheck.check(state.player.get_attr(str(def.check.attr)), int(def.check.target),
+		var c := SkillCheck.check(state.player.effective_attr(str(def.check.attr)), int(def.check.target),
 				int(state.run_seed), key)
 		c["attr"] = str(def.check.attr)
 		c["target"] = int(def.check.target)
 		result.check = c
 		result.grade = "success" if c.success else "partial"
+		var penalty := mini(int(def.get("fail_stamina", 0)), state.player.stamina)
+		if not c.success and penalty > 0:  # risky options cost extra stamina when they go wrong
+			state.player.stamina -= penalty
+			result.cost.append({"id": "stamina", "amount": penalty})
 
 	for r in def.get("rewards", []):
 		var amount := int(r.amount)
@@ -75,6 +129,7 @@ static func perform(state: RefCounted, def: Dictionary, content: Object) -> Dict
 	state.cultivation.record_practice(str(def.id))
 	result.unlocked = TechniqueRules.check_unlocks(state, content)
 	result.time = DayRules.end_slot(state)
+	result["expired_buffs"] = result.time.expired_buffs
 	return result
 
 
@@ -92,6 +147,10 @@ static func _apply_reward(state: RefCounted, r: Dictionary, amount: int, content
 				if d > 0 and path.has("affinity") and path.affinity.has(id):
 					state.cultivation.add_progress(state.player.path_id, d)
 					out.append({"type": "path_progress", "id": state.player.path_id, "delta": d})
+		"buff":
+			if amount != 0:
+				state.player.add_buff(id, str(r.get("attr", "")), amount, int(r.get("slots", 1)) + 1)  # +1: this slot ends right after
+				out.append({"type": "buff", "id": id, "delta": amount, "attr": str(r.get("attr", ""))})
 		"resource":
 			var d2: int = state.resources.add(id, amount)
 			if d2 != 0:

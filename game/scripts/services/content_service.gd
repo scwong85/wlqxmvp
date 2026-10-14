@@ -9,7 +9,7 @@ const CalendarState = preload("res://scripts/domain/calendar_state.gd")
 
 const DIR := "res://content/"
 const NPC_IDS := ["shen_qinghe", "lu_chenzhou", "bai_yan"]  # replaced by companion data in M7
-const REWARD_TYPES := ["attr", "resource", "item", "relationship", "stamina", "path_progress"]
+const REWARD_TYPES := ["attr", "resource", "item", "relationship", "stamina", "path_progress", "buff"]
 const COST_KEYS := ["stamina", "coins", "food", "herbs", "ore", "medicine"]
 
 var activities: Array = []
@@ -87,6 +87,7 @@ func validate(has_key: Callable) -> Array[String]:
 		if a.has("check"):
 			if not PlayerState.ATTRS.has(str(a.check.get("attr", ""))) or int(a.check.get("target", 0)) < 1:
 				errs.append("activity %s: bad check" % id)
+		errs.append_array(_validate_options(id, a, has_key))
 		var rewards: Array = a.get("rewards", [])
 		if rewards.is_empty():
 			errs.append("activity %s: no rewards" % id)
@@ -125,6 +126,33 @@ func validate(has_key: Callable) -> Array[String]:
 		for k in ["title_key", "body_key"]:
 			if not has_key.call(str(h.get(k, ""))):
 				errs.append("hook %s: translation key missing for %s" % [hid, k])
+	return errs
+
+
+func _validate_options(act_id: String, a: Dictionary, has_key: Callable) -> Array[String]:
+	var errs: Array[String] = []
+	var opts: Variant = a.get("options", [])
+	if not (opts is Array):
+		return ["activity %s: options must be a list" % act_id]
+	var seen := {}
+	for o in opts:
+		var oid := str(o.get("id", ""))
+		if oid == "" or seen.has(oid):
+			errs.append("activity %s: option missing or duplicate id '%s'" % [act_id, oid])
+		seen[oid] = true
+		for k in ["name_key", "desc_key"]:
+			if not has_key.call(str(o.get(k, ""))):
+				errs.append("activity %s option %s: translation key missing for %s" % [act_id, oid, k])
+		for ck in o.get("cost_extra", {}):
+			if not COST_KEYS.has(ck) or int(o.cost_extra[ck]) < 0:
+				errs.append("activity %s option %s: bad cost_extra '%s'" % [act_id, oid, ck])
+		if (o.has("target_delta") or o.has("fail_stamina")) and not a.has("check"):
+			errs.append("activity %s option %s: target_delta/fail_stamina need the activity to have a check" % [act_id, oid])
+		if o.has("rewards"):
+			if (o.rewards as Array).is_empty():
+				errs.append("activity %s option %s: empty rewards" % [act_id, oid])
+			for r in o.rewards:
+				errs.append_array(_validate_reward(act_id, r, has_key))
 	return errs
 
 

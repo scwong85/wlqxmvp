@@ -49,10 +49,14 @@ func _write_garbage(slot: String) -> void:
 
 
 ## Selects an activity and presses confirm, like a player.
-func _do(screen: Node, activity_id: String) -> void:
+func _do(screen: Node, activity_id: String, option_id: String = "") -> void:
 	screen.select_activity(activity_id)
 	screen.confirm_button.pressed.emit()
 	await _frames(1)
+	if screen.choice_panel != null:  # activities with approaches ask first
+		var oid: String = option_id if option_id != "" else screen.option_buttons.keys()[0]
+		screen.option_buttons[oid].pressed.emit()
+		await _frames(1)
 
 
 ## Presses Continue on any story pop-up. Returns the in-game days on which pop-ups appeared.
@@ -97,9 +101,26 @@ func _run() -> void:
 	cult.select_activity("mining")
 	_check(cult.confirm_button.disabled and cult.info_label.text.contains(Loc.t("activity.blocked.day_gate")), "blocked: mining is gated to day 2")
 
+	# --- Approach chooser (M6) ---
+	cult.select_activity("technique_practice")
+	cult.confirm_button.pressed.emit()
+	await _frames(2)
+	_check(cult.choice_panel != null and cult.option_buttons.size() == 3, "choice: confirming an activity with approaches opens the chooser")
+	var layout_problems: Array[String] = cult.audit_layout()
+	_check(layout_problems.is_empty(), "choice: chooser fits the screen with readable text %s" % str(layout_problems.slice(0, 2)))
+	cult.choice_cancel_button.pressed.emit()
+	await _frames(2)
+	_check(cult.choice_panel == null and Game.state.calendar.slot == 1 and Game.state.player.stamina == 20, "choice: cancel changes nothing")
+	cult.select_activity("rest")
+	cult.confirm_button.pressed.emit()
+	await _frames(1)
+	_check(cult.choice_panel == null and Game.state.calendar.slot == 2, "choice: activities without approaches act immediately")
+	Game.state.calendar.slot = 1
+	Game.state.player.stamina = 20
+
 	# --- Perform an activity ---
 	var power_before: int = Game.state.player.get_attr("power")
-	await _do(cult, "training")
+	await _do(cult, "training", "heavy_strike")
 	_check(Game.state.calendar.slot == 2, "action: training uses a slot")
 	_check(Game.state.player.stamina == 15, "action: training costs 5 stamina")
 	_check(Game.state.player.get_attr("power") > power_before, "action: training raises power")

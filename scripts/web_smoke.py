@@ -71,7 +71,11 @@ with sync_playwright() as p:
 
         if name == "1280x720":
             # Persistence: advance a slot (autosaves), save manually, reload the page, then load.
-            page.keyboard.press("Enter")      # confirm button is focused: performs the default activity
+            page.keyboard.press("Enter")      # confirm button is focused: opens the approach chooser
+            chooser = wait_for(console, "CHOICE_SHOWN training", 10)
+            page.wait_for_timeout(400)
+            page.screenshot(path=os.path.join(out_dir, "m6_chooser.png"))
+            page.keyboard.press("Enter")      # first approach is focused: perform it
             saved = wait_for(console, "SAVE auto ok=true", 10)
             page.wait_for_timeout(1500)       # let the browser flush IndexedDB
             page.screenshot(path=os.path.join(out_dir, "m2_cultivation_saved.png"))
@@ -87,7 +91,7 @@ with sync_playwright() as p:
             ok_load = wait_for(console, "CULT_READY day=1 slot=2", 20, mark)
             page.wait_for_timeout(500)
             page.screenshot(path=os.path.join(out_dir, "m2_cultivation_after_load.png"))
-            results["checks"][name].update({"autosave_ok": saved, "load_enabled_after_reload": ok_reload,
+            results["checks"][name].update({"chooser_opens": chooser, "autosave_ok": saved, "load_enabled_after_reload": ok_reload,
                                             "loaded_slot2_after_reload": ok_load})
 
         if not name.startswith("portrait"):  # landscape sizes must pass the layout audit

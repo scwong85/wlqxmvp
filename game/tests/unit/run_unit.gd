@@ -28,6 +28,7 @@ func _ready() -> void:
 	_test_no_hardcoded_cjk()
 	preload("res://tests/unit/state_tests.gd").new().run(_check)
 	preload("res://tests/unit/rules_tests.gd").new().run(_check, Loc)
+	preload("res://tests/unit/m6_tests.gd").new().run(_check, Loc)
 	print("UNIT_RESULT checks=%d failures=%d" % [_count, _fails.size()])
 	print("UNIT_OK" if _fails.is_empty() else "UNIT_FAIL")
 	get_tree().quit(0 if _fails.is_empty() else 1)

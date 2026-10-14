@@ -141,6 +141,7 @@ func parse_envelope(text: String) -> Dictionary:
 
 ## Upgrades an older state dictionary to the current schema, one version step at a time.
 ## v1 -> v2: adds current stamina (-1 = full), fired story events, and a run seed.
+## v2 -> v3: adds temporary buffs on the player.
 func migrate(state_dict: Dictionary, from_version: int) -> Dictionary:
 	var d: Dictionary = state_dict.duplicate(true)
 	if from_version < 2:
@@ -149,6 +150,9 @@ func migrate(state_dict: Dictionary, from_version: int) -> Dictionary:
 		if d.get("calendar") is Dictionary:
 			d["calendar"]["events_fired"] = []
 		d["run_seed"] = 1
+	if from_version < 3:
+		if d.get("player") is Dictionary:
+			d["player"]["buffs"] = []
 	return d
 
 

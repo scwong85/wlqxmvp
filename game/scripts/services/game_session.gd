@@ -43,11 +43,11 @@ func load_latest() -> Dictionary:
 
 ## Runs an activity for the current run and autosaves once if time advanced.
 ## Returns the rules result, plus "saved" (bool) when it succeeded.
-func perform_activity(activity_id: String) -> Dictionary:
+func perform_activity(activity_id: String, option_id: String = "") -> Dictionary:
 	var def: Dictionary = Content.activity(activity_id)
 	if def.is_empty():
 		return {"ok": false, "reasons": ["activity.blocked.unknown"]}
-	var r: Dictionary = ActivityRules.perform(ensure_state(), def, Content)
+	var r: Dictionary = ActivityRules.perform(ensure_state(), def, Content, option_id)
 	if r.ok and r.time.autosave_due:
 		r["saved"] = autosave().ok
 	return r
