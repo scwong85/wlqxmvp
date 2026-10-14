@@ -1,8 +1,8 @@
-# Jade Valley Chronicles (Godot engine spike)
+# Jade Valley Chronicles (Godot)
 
-Web-only engine spike for the Godot 4.5 version. Source on branch `godot-spike`; the playable web build is on `gh-pages`.
+Source on branch `godot-spike`; playable web build on `gh-pages`.
 
 - Setup: `bash scripts/setup_env.sh`
-- Build and smoke test: `bash scripts/build_web.sh`
-- Findings: `docs/spike/ENGINE_SPIKE.md`
+- Test, build, browser-smoke: `bash scripts/build_web.sh`
+- Milestone reports: `docs/spike/ENGINE_SPIKE.md`, `docs/M1_REPORT.md`
 - Task backlog: `docs/jade_valley_task_backlog.md`

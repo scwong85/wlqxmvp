@@ -13,5 +13,18 @@
   "spike.input.touch": "Touch ({x}, {y})",
   "spike.input.key": "Key {key}",
   "spike.input.button": "Button pressed x {count}",
-  "spike.glyph_check": "Glyph check (outside subset): 𠮷 䶮"
+  "spike.glyph_check": "Glyph check (outside subset): 𠮷 䶮",
+  "title.name": "Jade Valley Chronicles",
+  "title.tagline": "Seven days of training. One valley of storm and cloud.",
+  "ui.start": "Start Game",
+  "ui.load": "Load Game",
+  "ui.settings": "Settings",
+  "ui.back": "Back",
+  "ui.language": "Language",
+  "ui.language.zh_CN": "中文",
+  "ui.language.en": "English",
+  "ui.load_disabled": "No save found",
+  "ui.build": "Prototype {v}",
+  "hub.day": "Day {day} of {total}",
+  "hub.placeholder": "The cultivation screen arrives in a later milestone."
 }

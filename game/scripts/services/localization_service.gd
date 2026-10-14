@@ -1,18 +1,21 @@
 extends Node
-## Minimal localization service for the engine spike.
-## Mandarin (zh_CN) is the default. Missing keys in the active locale fall back to zh_CN.
+## Localization service. Mandarin (zh_CN) is the default and the fallback.
+## Lookup order: active locale, then zh_CN, then "[key]" so gaps are visible.
 ## Named placeholders use {name} syntax.
+
+signal locale_changed(code: String)
 
 const LOCALE_DIR := "res://content/localization/"
 const DEFAULT_LOCALE := "zh_CN"
+const SUPPORTED := ["zh_CN", "en"]
 
 var locale: String = DEFAULT_LOCALE
 var _tables: Dictionary = {}
 
 
 func _ready() -> void:
-	_load_locale(DEFAULT_LOCALE)
-	_load_locale("en")
+	for code in SUPPORTED:
+		_load_locale(code)
 
 
 func _load_locale(code: String) -> void:
@@ -25,12 +28,19 @@ func _load_locale(code: String) -> void:
 
 
 func set_locale(code: String) -> void:
+	if code == locale or not SUPPORTED.has(code):
+		return
 	locale = code
+	locale_changed.emit(code)
 
 
 func has_key(key: String, code: String = "") -> bool:
 	var c := code if code != "" else locale
 	return _tables.get(c, {}).has(key)
+
+
+func all_keys(code: String = DEFAULT_LOCALE) -> Array:
+	return _tables.get(code, {}).keys()
 
 
 func t(key: String, params: Dictionary = {}) -> String:

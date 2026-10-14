@@ -14,5 +14,18 @@
   "spike.input.key": "按键 {key}",
   "spike.input.button": "按钮已按下 × {count}",
   "spike.glyph_check": "字形检查（子集外字符）：𠮷 䶮",
-  "spike.fallback_only_zh": "此行只有中文文本，用于测试英文回退"
+  "spike.fallback_only_zh": "此行只有中文文本，用于测试英文回退",
+  "title.name": "玉谷传奇",
+  "title.tagline": "七日修行，一谷风云",
+  "ui.start": "开始游戏",
+  "ui.load": "读取存档",
+  "ui.settings": "设置",
+  "ui.back": "返回",
+  "ui.language": "语言",
+  "ui.language.zh_CN": "中文",
+  "ui.language.en": "English",
+  "ui.load_disabled": "暂无存档",
+  "ui.build": "原型版本 {v}",
+  "hub.day": "第 {day} 天 / 共 {total} 天",
+  "hub.placeholder": "修行界面将在后续阶段加入。"
 }

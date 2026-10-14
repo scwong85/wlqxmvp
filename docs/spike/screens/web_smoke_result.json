@@ -1,26 +1,27 @@
 {
-  "url": "http://127.0.0.1:37335/index.html",
+  "url": "http://127.0.0.1:39763/index.html",
   "checks": {
-    "landscape_selftest_ok": true,
-    "canvas_present": true,
-    "phone_landscape_selftest_ok": true,
-    "portrait_selftest_ok": true
+    "1280x720": {
+      "title_ready": true,
+      "hub_ready_via_keyboard": true,
+      "console_errors": 0
+    },
+    "1920x1080": {
+      "title_ready": true,
+      "hub_ready_via_keyboard": true,
+      "console_errors": 0
+    },
+    "2400x1080": {
+      "title_ready": true,
+      "hub_ready_via_keyboard": true,
+      "console_errors": 0
+    },
+    "portrait_390x844": {
+      "title_ready": true,
+      "hub_ready_via_keyboard": true,
+      "console_errors": 0
+    }
   },
-  "console_tail": [
-    "[landscape] log: Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org",
-    "[landscape] log: OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL",
-    "[landscape] log: Build configuration: Emscripten 4.0.10, single-threaded, no GDExtension support.",
-    "[landscape] log: SPIKE_SELFTEST zh=true en=true fallback=true placeholder=true missing=true glyphs=true",
-    "[landscape] log: SPIKE_OK",
-    "[phone_landscape] log: Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org",
-    "[phone_landscape] log: OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL",
-    "[phone_landscape] log: Build configuration: Emscripten 4.0.10, single-threaded, no GDExtension support.",
-    "[phone_landscape] log: SPIKE_SELFTEST zh=true en=true fallback=true placeholder=true missing=true glyphs=true",
-    "[phone_landscape] log: SPIKE_OK",
-    "[portrait] log: Godot Engine v4.5.1.stable.official.f62fdbde1 - https://godotengine.org",
-    "[portrait] log: OpenGL API OpenGL ES 3.0 (WebGL 2.0 (OpenGL ES 3.0 Chromium)) - Compatibility - Using Device: WebKit - WebKit WebGL",
-    "[portrait] log: Build configuration: Emscripten 4.0.10, single-threaded, no GDExtension support.",
-    "[portrait] log: SPIKE_SELFTEST zh=true en=true fallback=true placeholder=true missing=true glyphs=true",
-    "[portrait] log: SPIKE_OK"
-  ]
+  "errors": [],
+  "passed": true
 }
