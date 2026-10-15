@@ -260,6 +260,98 @@
     "defeat_leader": true,
     "survive_rounds": 8
    }
+  },
+  {
+   "id": "bandit_scouts",
+   "battle_id": "bandit_scouts",
+   "max_rounds": 8,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "bandit_scout",
+     "cells": [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "bandit_scout",
+     "cells": [
+      [
+       4,
+       1
+      ],
+      [
+       5,
+       1
+      ],
+      [
+       4,
+       0
+      ]
+     ]
+    },
+    {
+     "template": "bandit_archer",
+     "cells": [
+      [
+       2,
+       0
+      ],
+      [
+       3,
+       0
+      ],
+      [
+       1,
+       0
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   }
   }
  ]
 }

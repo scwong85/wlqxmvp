@@ -81,7 +81,7 @@ func _content() -> void:
 	var has := func(k: String) -> bool: return loc.has_key(k)
 	check.call(content.validate(has).is_empty(), "m9: all content (incl. combat) validates: %s" % str(content.validate(has)))
 	check.call(content.combat_units.size() <= 6, "m9: at most 6 unit types")
-	check.call(content.scenarios.size() == 3, "m9: three scenarios")
+	check.call(content.scenarios.size() == 4, "m9: four scenarios")
 	for t in content.combat_techniques:
 		check.call(loc.has_key(str(t.name_key)), "m9: technique name key %s" % t.id)
 	# the validator rejects broken data
@@ -437,7 +437,7 @@ func _objectives() -> void:
 
 
 func _scripted() -> void:
-	for sid in ["training_match", "rescue_battle", "final_crisis"]:
+	for sid in ["training_match", "rescue_battle", "final_crisis", "bandit_scouts"]:
 		for party in [[], ["shen_qinghe"], ["shen_qinghe", "lu_chenzhou"]]:
 			var b := _play(sid, 3, party)
 			check.call(b.outcome != "", "m9: %s %s finishes (%s, round %d)" % [sid, str(party), b.outcome, b.round_no])

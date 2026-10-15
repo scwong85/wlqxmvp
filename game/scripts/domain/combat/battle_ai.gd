@@ -15,13 +15,13 @@ static func take_turn(battle: RefCounted) -> void:
 	if u.npc:
 		battle.end_turn()
 		return
-	var plan := _best_plan(battle, u)
-	if plan.is_empty():
-		_advance(battle, u)
-	else:
+	var plan := decide(battle)
+	if not plan.is_empty():
 		if plan.cell != u.pos:
 			battle.move(u.id, plan.cell)
-		if plan.kind == "attack":
+		if plan.kind == "advance":
+			pass
+		elif plan.kind == "attack":
 			battle.attack(u.id, plan.tech, plan.target)
 		elif plan.kind == "support":
 			battle.support(u.id, plan.tech, plan.target)
@@ -30,6 +30,21 @@ static func take_turn(battle: RefCounted) -> void:
 	take_follow_ups(battle)
 	if battle.outcome == "" and battle.active() == u:
 		battle.end_turn()
+
+
+## The decision for the active unit: {kind: attack|support|item|advance, cell, tech, target} or {} (stay put).
+## The battle screen uses this to play enemy turns step by step; take_turn uses the same decision.
+static func decide(battle: RefCounted) -> Dictionary:
+	var u: RefCounted = battle.active()
+	if u == null or u.npc:
+		return {}
+	var plan := _best_plan(battle, u)
+	if not plan.is_empty():
+		return plan
+	var cell := _advance_cell(battle, u)
+	if cell != u.pos:
+		return {"kind": "advance", "cell": cell}
+	return {}
 
 
 ## Spends every pending free follow-up (in a fixed order).
@@ -115,10 +130,10 @@ static func _best_plan(battle: RefCounted, u: RefCounted) -> Dictionary:
 
 
 ## No attack or heal is possible this turn: close in on the nearest foe, preferring cover.
-static func _advance(battle: RefCounted, u: RefCounted) -> void:
+static func _advance_cell(battle: RefCounted, u: RefCounted) -> Vector2i:
 	var foes: Array = battle.alive_units("enemy" if u.team == "player" else "player")
 	if foes.is_empty():
-		return
+		return u.pos
 	var best_cell: Vector2i = u.pos
 	var best_score := 1.0e9
 	for entry in _cells(battle, u):
@@ -133,5 +148,4 @@ static func _advance(battle: RefCounted, u: RefCounted) -> void:
 		if score < best_score:
 			best_score = score
 			best_cell = entry.cell
-	if best_cell != u.pos:
-		battle.move(u.id, best_cell)
+	return best_cell

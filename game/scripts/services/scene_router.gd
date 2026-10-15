@@ -8,6 +8,7 @@ const SCENES := {
 	"title": "res://scenes/menus/title.tscn",
 	"cultivation": "res://scenes/cultivation/cultivation.tscn",
 	"exploration": "res://scenes/exploration/exploration.tscn",
+	"battle": "res://scenes/battle/battle.tscn",
 	"settings": "res://scenes/menus/settings.tscn",
 }
 

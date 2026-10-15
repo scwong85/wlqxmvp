@@ -184,6 +184,37 @@ with sync_playwright() as p:
                 page.wait_for_timeout(400)
                 page.screenshot(path=os.path.join(out_dir, f"{name}_recruit.png"))
 
+        # Combat (M10): fresh page, practice battle, fast-forward, move, guard, end turn, enemies act.
+        b0 = len(console)
+        page.goto(url, wait_until="load")
+        wait_for(console, "TITLE_READY", 60, b0)
+        wait_for(console, "UI_POS", 10, b0)
+        page.wait_for_timeout(400)
+        bc = results["checks"][name]
+        bc["practice_click"] = click_ui(console, "practice", b0)
+        bc["battle_opens"] = wait_for(console, "BATTLE_READY scenario=training_match", 20, b0)
+        wait_for(console, "act_move=", 10, b0)
+        page.wait_for_timeout(500)
+        page.screenshot(path=os.path.join(out_dir, f"m10_{name}_battle.png"))
+        b1 = len(console)
+        bc["fast_click"] = click_ui(console, "ff", b0)
+        page.wait_for_timeout(200)
+        bc["move_click"] = click_ui(console, "act_move", b0)
+        bc["move_mode"] = wait_for(console, "move_to=", 8, b1)
+        page.wait_for_timeout(300)
+        page.screenshot(path=os.path.join(out_dir, f"m10_{name}_move.png"))
+        bc["move_target_click"] = click_ui(console, "move_to", b1)
+        b2 = len(console)
+        wait_for(console, "act_guard=", 8, b2)
+        b3 = len(console)
+        bc["guard_click"] = click_ui(console, "act_guard", b2)
+        wait_for(console, "act_end=", 8, b3)
+        b4 = len(console)
+        bc["end_click"] = click_ui(console, "act_end", b3)
+        bc["enemies_act_then_player_again"] = wait_for(console, "act_end=", 30, b4)
+        page.wait_for_timeout(400)
+        page.screenshot(path=os.path.join(out_dir, f"m10_{name}_after_turn.png"))
+
         if True:  # every size, portrait included, must pass the layout audit
             audits = [c for c in console if "LAYOUT_AUDIT" in c]
             results["checks"][name]["audit_lines"] = [c for c in console if "LAYOUT_AUDIT" in c or "audit:" in c][:6]

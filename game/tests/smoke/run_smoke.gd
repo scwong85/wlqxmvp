@@ -5,6 +5,7 @@ extends Node
 ## Run: godot --headless --path game res://tests/smoke/run_smoke.tscn   (prints SMOKE_OK / SMOKE_FAIL)
 
 const UiKit = preload("res://scripts/ui/ui_kit.gd")
+const BattleAI = preload("res://scripts/domain/combat/battle_ai.gd")
 
 var _fails: Array[String] = []
 var _recruit_log: Array = []
@@ -404,3 +405,136 @@ func _run() -> void:
 	title.load_button.pressed.emit()
 	await _frames(3)
 	_check(Router.current_key == "title" and not title.load_note.text.begins_with("["), "corrupt: failed load stays on the title with a real message")
+	await _battle_ui()
+
+
+## Plays whole battles with the real buttons and board taps (the same path for finger and mouse).
+func _battle_ui() -> void:
+	var win := get_window()
+	Game.battle_instant = true
+	win.size = Vector2i(1280, 720)
+	await _frames(3)
+	Game.new_game(3)
+	Router.goto("title")
+	await _frames(4)
+	var title := _scene()
+	var problems: Array[String] = UiKit.audit(title)
+	_check(problems.is_empty(), "battle: title with the practice button fits at 1280x720 %s" % str(problems.slice(0, 2)))
+	title.practice_button.pressed.emit()
+	await _frames(4)
+	_check(Router.current_key == "battle", "battle: the practice button opens the battle screen")
+	var scr := _scene()
+	_check(scr.board.rotated and not Layout.is_portrait(), "battle: landscape turns the board a quarter turn")
+	problems = scr.audit_layout()
+	_check(problems.is_empty(), "battle: landscape fits %s" % str(problems.slice(0, 3)))
+	# Cell <-> screen mapping round-trips in both orientations.
+	var mapped := true
+	for c in [Vector2i(0, 0), Vector2i(5, 7), Vector2i(2, 4)]:
+		mapped = mapped and scr.board.cell_at(scr.board.cell_center(c)) == c
+	_check(mapped, "battle: tapping the centre of a cell finds that cell (landscape)")
+	await _play_battle_with_buttons(scr, true)
+	scr = _scene()
+	_check(scr.result_overlay != null and scr.continue_button != null, "battle: a result panel appears")
+	var outcome: String = scr.battle.outcome
+	_check(outcome == "victory", "battle: the practice battle can be won with buttons and taps (%s, round %d)" % [outcome, scr.battle.round_no])
+	scr.continue_button.pressed.emit()
+	await _frames(4)
+	_check(Router.current_key == "title" and Game.battle == null, "battle: Continue returns to the title after practice")
+
+	# A story trigger: the exploration screen offers the fight, the result returns to the route.
+	Game.new_game(4)
+	Game.state.calendar.day = 2
+	preload("res://scripts/domain/relationship_rules.gd").refresh(Game.state, Content)
+	Game.start_exploration("bamboo_pass")
+	Game.state.exploration.pending_battle = "bandit_scouts"
+	Router.goto("exploration")
+	await _frames(4)
+	var ex := _scene()
+	_check(ex.fight_button != null and ex.choice_buttons.is_empty(), "battle: a pending fight replaces the story choices with one Fight button")
+	ex.fight_button.pressed.emit()
+	await _frames(4)
+	_check(Router.current_key == "battle" and _scene().battle.scenario_id == "bandit_scouts", "battle: the Fight button opens the right scenario")
+	await _play_battle_with_buttons(_scene(), false)
+	_scene().continue_button.pressed.emit()
+	await _frames(4)
+	_check(Router.current_key == "exploration" and Game.state.exploration.pending_battle == "" and _scene().fight_button == null, "battle: after the fight the route continues")
+
+	# Portrait phone, a different battle, confirm/cancel and the pending rules.
+	win.size = Vector2i(390, 844)
+	await _frames(4)
+	_check(Game.start_battle("rescue_battle", "practice"), "battle: the rescue battle starts")
+	Router.goto("battle")
+	await _frames(4)
+	scr = _scene()
+	_check(Layout.is_portrait() and not scr.board.rotated and scr._body.vertical, "battle: portrait keeps the 6x8 board upright above the controls")
+	problems = scr.audit_layout()
+	_check(problems.is_empty(), "battle: portrait fits %s" % str(problems.slice(0, 3)))
+	var board_rect: Rect2 = scr.board.get_global_rect()
+	_check(board_rect.size.y > board_rect.size.x, "battle: the portrait board area is taller than wide")
+	mapped = true
+	for c in [Vector2i(0, 0), Vector2i(5, 7), Vector2i(2, 4)]:
+		mapped = mapped and scr.board.cell_at(scr.board.cell_center(c)) == c
+	_check(mapped, "battle: tapping the centre of a cell finds that cell (portrait)")
+	# Rotating live keeps the battle.
+	var before_hash: String = scr.battle.state_hash()
+	win.size = Vector2i(844, 390)
+	await _frames(4)
+	_check(scr.board.rotated and scr.battle.state_hash() == before_hash, "battle: rotating changes only the view, not the battle")
+	win.size = Vector2i(390, 844)
+	await _frames(4)
+	# No action without confirmation.
+	var u: RefCounted = scr.battle.active()
+	_check(scr.mode == "idle" and u.team == "player", "battle: the first turn belongs to the player")
+	scr.action_buttons["end"].pressed.emit()
+	await _frames(2)
+	await _play_battle_with_buttons(scr, false)
+	scr = _scene()
+	_check(scr.battle.outcome != "", "battle: rescue battle reached a result (%s)" % scr.battle.outcome)
+	scr.continue_button.pressed.emit()
+	await _frames(4)
+	Game.battle_instant = false
+
+
+func _play_battle_with_buttons(scr: Node, test_cancel: bool) -> void:
+	var cancelled := not test_cancel
+	var preview_ok := true
+	var guard := 0
+	while scr.battle.outcome == "" and guard < 400:
+		guard += 1
+		if scr.mode == "followup":
+			scr.action_buttons["strike"].pressed.emit()
+			continue
+		if scr.mode != "idle":
+			await _frames(1)
+			continue
+		var u: RefCounted = scr.battle.active()
+		var plan: Dictionary = BattleAI.decide(scr.battle)
+		if not plan.is_empty():
+			if plan.cell != u.pos:
+				scr.action_buttons["move"].pressed.emit()
+				scr.tap_cell(plan.cell)
+			if plan.kind == "attack" or plan.kind == "support":
+				scr.action_buttons[plan.kind].pressed.emit()
+				scr.action_buttons["tech:" + plan.tech].pressed.emit()
+				scr.tap_cell(scr.battle.unit(plan.target).pos)
+				if scr.mode == "confirm":
+					if plan.kind == "attack":
+						var pv: Dictionary = scr.battle.preview_attack(u.id, plan.tech, plan.target)
+						preview_ok = preview_ok and scr._info.text.contains(str(pv.damage))
+					if not cancelled:
+						var hp0: int = scr.battle.unit(plan.target).hp
+						scr.action_buttons["cancel"].pressed.emit()
+						preview_ok = preview_ok and scr.mode == "target" and scr.battle.unit(plan.target).hp == hp0
+						scr.tap_cell(scr.battle.unit(plan.target).pos)
+						cancelled = true
+					scr.action_buttons["confirm"].pressed.emit()
+			elif plan.kind == "item":
+				scr.action_buttons["item"].pressed.emit()
+				scr.tap_cell(scr.battle.unit(plan.target).pos)
+				scr.action_buttons["confirm"].pressed.emit()
+		while scr.mode == "followup":
+			scr.action_buttons["strike"].pressed.emit()
+		if scr.battle.outcome == "":
+			scr.action_buttons["end"].pressed.emit()
+		await _frames(1)
+	_check(cancelled and preview_ok, "battle: cancel leaves the battle untouched and the preview shows the real damage")

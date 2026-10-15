@@ -8,6 +8,8 @@ const SafeFrame = preload("res://scenes/shared/safe_frame.gd")
 var start_button: Button
 var load_button: Button
 var settings_button: Button
+var practice_button: Button
+var _pair: HBoxContainer
 var fullscreen_button: Button   # web only
 
 var _name_label: Label
@@ -42,9 +44,21 @@ func _ready() -> void:
 	start_button = UiKit.make_button()
 	load_button = UiKit.make_button()
 	settings_button = UiKit.make_button()
-	for b in [start_button, load_button, settings_button]:
+	practice_button = UiKit.make_button()
+	for b in [start_button, load_button]:
 		b.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 		box.add_child(b)
+	# Practice and Settings share one row so the menu keeps its height in landscape.
+	_pair = HBoxContainer.new()
+	var pair := _pair
+	pair.add_theme_constant_override("separation", 12)
+	pair.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	box.add_child(pair)
+	for b in [practice_button, settings_button]:
+		b.custom_minimum_size = Vector2(0, 76)
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		pair.add_child(b)
+	pair.custom_minimum_size = Vector2(480, 0)
 
 	if Layout.fullscreen_available():
 		fullscreen_button = UiKit.make_button()
@@ -62,12 +76,14 @@ func _ready() -> void:
 	start_button.pressed.connect(_on_start)
 	load_button.pressed.connect(_on_load)
 	settings_button.pressed.connect(func() -> void: Router.goto("settings"))
+	practice_button.pressed.connect(_on_practice)
 	Loc.locale_changed.connect(func(_c: String) -> void: _refresh())
 	Layout.mode_changed.connect(func(_m: String) -> void: _apply_layout())
 	_refresh()
 	_apply_layout()
 	start_button.grab_focus()
 	print("TITLE_READY load_enabled=%s" % (not load_button.disabled))
+	_report_positions()
 
 
 ## Landscape: big title and compact buttons on the left. Portrait: centred column, full-width buttons.
@@ -78,9 +94,11 @@ func _apply_layout() -> void:
 	var align := HORIZONTAL_ALIGNMENT_CENTER if portrait else HORIZONTAL_ALIGNMENT_LEFT
 	for l in [_name_label, _tagline_label, load_note, _build_label]:
 		l.horizontal_alignment = align
-	var buttons: Array = [start_button, load_button, settings_button]
+	var buttons: Array = [start_button, load_button]
 	if fullscreen_button != null:
 		buttons.append(fullscreen_button)
+	_pair.size_flags_horizontal = Control.SIZE_FILL if portrait else Control.SIZE_SHRINK_BEGIN
+	_pair.custom_minimum_size.x = 0.0 if portrait else 480.0
 	for b in buttons:
 		b.size_flags_horizontal = Control.SIZE_FILL if portrait else Control.SIZE_SHRINK_BEGIN
 
@@ -91,16 +109,38 @@ func _refresh() -> void:
 	start_button.text = Loc.t("ui.start")
 	load_button.text = Loc.t("ui.load")
 	settings_button.text = Loc.t("ui.settings")
+	practice_button.text = Loc.t("title.practice")
 	if fullscreen_button != null:
 		fullscreen_button.text = Loc.t("ui.fullscreen")
 	_refresh_load()
 	_build_label.text = Loc.t("ui.build", {"v": "0.1 M1"})
 
 
+## For the browser test: where the buttons are, once the layout has settled.
+func _report_positions() -> void:
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not is_inside_tree():
+		return
+	var vp := get_viewport_rect().size
+	var parts: Array[String] = []
+	for pair in [["start", start_button], ["practice", practice_button], ["settings", settings_button]]:
+		var c: Control = pair[1]
+		var p := c.get_global_rect().get_center()
+		parts.append("%s=%d,%d" % [pair[0], int(p.x), int(p.y)])
+	print("UI_POS vp=%d,%d %s" % [int(vp.x), int(vp.y), " ".join(parts)])
+
+
 func _spacer(h: int) -> Control:
 	var c := Control.new()
 	c.custom_minimum_size = Vector2(0, h)
 	return c
+
+
+func _on_practice() -> void:
+	Game.ensure_state()
+	if Game.start_battle("training_match", "practice"):
+		Router.goto("battle")
 
 
 func _on_start() -> void:

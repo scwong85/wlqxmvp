@@ -19,6 +19,7 @@ const FONT_HEAD := 28
 # Public so tests can drive the screen like a player.
 var choice_buttons: Dictionary = {}   # choice id -> Button
 var continue_button: Button           # only after the route ended
+var fight_button: Button              # when a story node triggered a battle
 var text_label: Label
 var result_label: Label
 var recruit_panel: Control = null
@@ -181,6 +182,17 @@ func _rebuild_choices(route: Dictionary) -> void:
 	head.modulate = Color("9be3c3")
 	head.text = Loc.t("explore.choose")
 	_choices_box.add_child(head)
+	fight_button = null
+	var pending: String = Game.state.exploration.pending_battle
+	if pending != "":
+		fight_button = UiKit.make_button(Vector2(0, 76))
+		fight_button.add_theme_font_size_override("font_size", FONT_BODY)
+		fight_button.text = Loc.t("explore.fight", {"name": Loc.t("battle." + pending)})
+		fight_button.pressed.connect(_start_fight)
+		_choices_box.add_child(fight_button)
+		if recruit_panel == null:
+			fight_button.grab_focus()
+		return
 	if _ended:
 		continue_button = UiKit.make_button(Vector2(0, 76))
 		continue_button.add_theme_font_size_override("font_size", FONT_BODY)
@@ -216,6 +228,15 @@ func _rebuild_choices(route: Dictionary) -> void:
 			first = b
 	if first != null and recruit_panel == null:
 		first.grab_focus()
+
+
+func _start_fight() -> void:
+	var id: String = Game.state.exploration.pending_battle
+	if Game.start_battle(id, "exploration"):
+		Router.goto("battle")
+	else:  # no scenario for this trigger: skip it rather than trap the player
+		Game.state.exploration.pending_battle = ""
+		_refresh()
 
 
 func choose(choice_id: String) -> void:

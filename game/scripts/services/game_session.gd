@@ -7,8 +7,14 @@ const EventRules = preload("res://scripts/domain/event_rules.gd")
 const RelationshipRules = preload("res://scripts/domain/relationship_rules.gd")
 const PartySystem = preload("res://scripts/domain/party_system.gd")
 const ExplorationSystem = preload("res://scripts/domain/exploration_system.gd")
+const BattleSetup = preload("res://scripts/domain/combat/battle_setup.gd")
 
 var state: RefCounted = null
+## The battle on screen (not saved: a battle interrupted by closing the game restarts from its trigger).
+var battle: RefCounted = null
+var battle_ctx: Dictionary = {}   # {scenario, from: "exploration"|"practice", battle_id}
+## Tests set this to play battle animations with no waiting.
+var battle_instant: bool = false
 
 
 func ensure_state() -> RefCounted:
@@ -131,3 +137,36 @@ func explore_choose(choice_id: String) -> Dictionary:
 ## The invitation prompt for the current node was shown and answered.
 func clear_pending_recruit() -> void:
 	ensure_state().exploration.pending_recruit = ""
+
+
+## Starts a battle for a story trigger (battle id) or a practice scenario. Returns false if there is no such scenario.
+func start_battle(id: String, from: String) -> bool:
+	var st := ensure_state()
+	var sc: Dictionary = Content.scenario_for_battle(id)
+	if sc.is_empty():
+		return false
+	var party: Array = []
+	var active := PartySystem.active(st)
+	if active != "":
+		party.append(active)
+	var seed_value: int = ("%d|%s|%d|%d" % [st.run_seed, str(sc.id), st.calendar.day, st.calendar.slot]).hash()
+	battle = BattleSetup.build(Content, str(sc.id), seed_value, st, party)
+	battle_ctx = {"scenario": str(sc.id), "from": from, "battle_id": id}
+	return battle != null
+
+
+## The battle ended and the player pressed Continue: medicine used is spent for real, the trigger is cleared.
+func finish_battle() -> String:
+	var st := ensure_state()
+	if battle != null:
+		var left: int = int(battle.items.get("medicine", 0))
+		var have: int = st.resources.get_amount("medicine")
+		if left < have:
+			st.resources.spend("medicine", have - left)
+	var from := str(battle_ctx.get("from", ""))
+	st.exploration.pending_battle = ""
+	battle = null
+	battle_ctx = {}
+	if from == "exploration":
+		autosave()
+	return "exploration" if from == "exploration" and st.exploration.active else "cultivation" if from == "exploration" else "title"

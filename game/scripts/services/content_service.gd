@@ -56,6 +56,14 @@ func _load_list(rel: String, key: String) -> Array:
 	return arr if arr is Array else []
 
 
+## Scenario for a battle id used by the story (falls back to a scenario with the same id).
+func scenario_for_battle(battle_id: String) -> Dictionary:
+	for sc in scenarios:
+		if str(sc.get("battle_id", "")) == battle_id:
+			return sc
+	return scenario(battle_id)
+
+
 func combat_tech(id: String) -> Dictionary:
 	return _find(combat_techniques, id)
 
