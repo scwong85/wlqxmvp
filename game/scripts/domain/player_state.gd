@@ -1,4 +1,5 @@
 extends RefCounted
+const LookRules = preload("res://scripts/domain/look_rules.gd")
 ## The hero: five attributes, chosen cultivation path, learned techniques. No UI, no engine nodes.
 
 const ATTRS := ["body", "power", "agility", "insight", "spirit"]
@@ -13,6 +14,9 @@ var techniques: Array = []
 var stamina: int = -1
 ## Temporary bonuses, e.g. from cooking: [{id, attr, amount, slots}]. `slots` = activity slots still affected.
 var buffs: Array = []
+## Chosen at the start of a run (empty name = the default name).
+var hero_name: String = ""
+var look: Dictionary = {"gender": "m", "hair": 0, "hair_color": 0, "outfit": 0, "skin": 0}
 
 
 func _init() -> void:
@@ -73,7 +77,7 @@ func learn(technique_id: String) -> bool:
 
 func to_dict() -> Dictionary:
 	return {"attributes": attributes.duplicate(), "path_id": path_id, "techniques": techniques.duplicate(),
-			"stamina": stamina, "buffs": buffs.duplicate(true)}
+			"stamina": stamina, "buffs": buffs.duplicate(true), "hero_name": hero_name, "look": look.duplicate()}
 
 
 static func from_dict(d: Variant) -> RefCounted:
@@ -86,6 +90,8 @@ static func from_dict(d: Variant) -> RefCounted:
 			if attrs.has(a):
 				s.attributes[a] = clampi(int(attrs[a]), MIN_ATTR, MAX_ATTR)
 	s.path_id = str(d.get("path_id", ""))
+	s.hero_name = LookRules.clean_name(str(d.get("hero_name", "")))
+	s.look = LookRules.sanitize(d.get("look", {}))
 	s.stamina = int(d.get("stamina", -1))
 	var bf: Variant = d.get("buffs", [])
 	if bf is Array:

@@ -37,6 +37,10 @@ func usable_width() -> float:
 	return float(get_tree().root.get_visible_rect().size.x)
 
 
+func usable_height() -> float:
+	return float(get_tree().root.get_visible_rect().size.y)
+
+
 func _on_window_resized() -> void:
 	if _forced:
 		return

@@ -79,6 +79,10 @@ func all_keys(code: String = DEFAULT_LOCALE) -> Array:
 	return _tables.get(code, {}).keys()
 
 
+## Text variables available to every string, e.g. {hero} (set by the game session).
+var globals: Dictionary = {}
+
+
 func t(key: String, params: Dictionary = {}) -> String:
 	var text: String = ""
 	if _tables.get(locale, {}).has(key):
@@ -89,4 +93,6 @@ func t(key: String, params: Dictionary = {}) -> String:
 		return "[%s]" % key
 	for p in params:
 		text = text.replace("{%s}" % p, str(params[p]))
+	for g in globals:
+		text = text.replace("{%s}" % g, str(globals[g]))
 	return text

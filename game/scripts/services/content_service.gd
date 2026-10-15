@@ -1,4 +1,5 @@
 extends Node
+const StageRules = preload("res://scripts/domain/stage_rules.gd")
 ## Loads game content (activities, paths, techniques, day hooks) from JSON and validates it.
 ## Content is data, never code: designers can change numbers and text without touching scripts.
 
@@ -26,6 +27,7 @@ var scenarios: Array = []
 var dialogues: Array = []
 var endings: Array = []
 var areas: Array = []
+var looks: Array = []
 var events: Array = []
 
 
@@ -47,6 +49,7 @@ func load_all() -> void:
 	scenarios = _load_list("combat/scenarios.json", "scenarios")
 	dialogues = _load_list("story/dialogues.json", "dialogues")
 	endings = _load_list("story/endings.json", "endings")
+	looks = _load_list("story/looks.json", "looks")
 	areas = _load_list("world/areas.json", "areas")
 	events = _load_list("world/events.json", "events")
 	dialogues.append_array(_load_list("world/event_dialogues.json", "dialogues"))
@@ -79,6 +82,10 @@ func dialogue(id: String) -> Dictionary:
 
 func ending(id: String) -> Dictionary:
 	return _find(endings, id)
+
+
+func look_of(id: String) -> Dictionary:
+	return _find(looks, id)
 
 
 func area(id: String) -> Dictionary:
@@ -269,6 +276,9 @@ func _validate_story(has_key: Callable) -> Array[String]:
 			var label := "dialogue %s node %s" % [did, str(n.id)]
 			if not reach.has(str(n.id)):
 				errs.append("%s: unreachable" % label)
+			for sc in n.get("stage", []):
+				for pr in StageRules.problems(sc, func(w: String) -> bool: return w == "hero" or not look_of(w).is_empty()):
+					errs.append("%s: %s" % [label, pr])
 			if not has_key.call(str(n.get("text_key", ""))):
 				errs.append("%s: text key missing" % label)
 			if n.has("speaker_key") and not has_key.call(str(n.speaker_key)):

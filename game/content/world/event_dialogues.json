@@ -12,7 +12,27 @@
      "id": "n1",
      "text_key": "event.f_aftermath.1",
      "speaker_key": "world.speaker.narrator",
-     "next": "n2"
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "valley_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "sad"
+      },
+      {
+       "c": "show",
+       "who": "elder",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
     },
     {
      "id": "n2",
@@ -57,7 +77,27 @@
      "id": "n1",
      "text_key": "event.f_gossip.1",
      "speaker_key": "world.speaker.villager",
-     "next": "n2"
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "valley_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "villager",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
     },
     {
      "id": "n2",
@@ -95,7 +135,34 @@
      "id": "n1",
      "text_key": "event.f_shrine_first.1",
      "speaker_key": "world.speaker.narrator",
-     "next": "n2"
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "shrine_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "sword",
+       "face": "angry"
+      },
+      {
+       "c": "show",
+       "who": "bandit",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "bandit",
+       "slot": "far",
+       "pose": "idle",
+       "face": "angry"
+      }
+     ]
     },
     {
      "id": "n2",
@@ -157,7 +224,27 @@
      "id": "n1",
      "text_key": "event.f_spring_fair.1",
      "speaker_key": "world.speaker.narrator",
-     "next": "n2"
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "valley_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "laugh",
+       "face": "happy"
+      },
+      {
+       "c": "show",
+       "who": "villager",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
     },
     {
      "id": "n2",
@@ -240,6 +327,26 @@
         }
        ]
       }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "terraces_green"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "bow",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "elder",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
      ]
     }
    ]
@@ -256,7 +363,27 @@
      "id": "n1",
      "text_key": "event.f_ferry_rumor.1",
      "speaker_key": "world.speaker.wanderer",
-     "next": "n2"
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "ferry_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "think",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "wanderer",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
     },
     {
      "id": "n2",
@@ -289,7 +416,27 @@
      "id": "n1",
      "text_key": "event.r_village_chat.1",
      "speaker_key": "world.speaker.villager",
-     "next": "n2"
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "valley_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "villager",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
     },
     {
      "id": "n2",
@@ -325,6 +472,19 @@
        "id": "herbs",
        "amount": 3
       }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "terraces_green"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "happy"
+      }
      ]
     }
    ]
@@ -352,6 +512,26 @@
        "type": "stamina",
        "id": "stamina",
        "amount": 5
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "riverside_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "fish",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "villager",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
       }
      ]
     }
@@ -393,6 +573,26 @@
         }
        ]
       }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "riverside_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "sword",
+       "face": "angry"
+      },
+      {
+       "c": "show",
+       "who": "bandit",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
      ]
     }
    ]
@@ -409,7 +609,20 @@
      "id": "n1",
      "text_key": "event.r_shrine_dream.1",
      "speaker_key": "world.speaker.narrator",
-     "next": "n2"
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "shrine_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "think",
+       "face": "neutral"
+      }
+     ]
     },
     {
      "id": "n2",
@@ -450,6 +663,26 @@
        "id": "agility",
        "amount": 1
       }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "valley_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "bow",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "elder",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
      ]
     }
    ]
@@ -472,6 +705,19 @@
        "type": "stamina",
        "id": "stamina",
        "amount": 8
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "valley_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
       }
      ]
     }

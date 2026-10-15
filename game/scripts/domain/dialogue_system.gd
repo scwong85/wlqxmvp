@@ -13,6 +13,7 @@ const ActivityRules = preload("res://scripts/domain/activity_rules.gd")
 const EventRules = preload("res://scripts/domain/event_rules.gd")
 const PartySystem = preload("res://scripts/domain/party_system.gd")
 const WorldRules = preload("res://scripts/domain/world_rules.gd")
+const StageRules = preload("res://scripts/domain/stage_rules.gd")
 
 
 static func node_of(dlg: Dictionary, node_id: String) -> Dictionary:
@@ -55,7 +56,7 @@ static func start(state: RefCounted, dlg: Dictionary, hook_id: String, content: 
 	if entry == "" or node_of(dlg, entry).is_empty():
 		result.ok = false
 		return result
-	state.story.dialogue = {"id": str(dlg.id), "node": entry, "hook": hook_id}
+	state.story.dialogue = {"id": str(dlg.id), "node": entry, "hook": hook_id, "stage": StageRules.blank(), "log": []}
 	_enter(state, dlg, entry, result, content)
 	return result
 
@@ -88,6 +89,8 @@ static func choose(state: RefCounted, dlg: Dictionary, choice_id: String, conten
 		if not gate_reasons(state, c.get("gate", {}), content).is_empty():
 			return {"ok": false}
 		var result := _blank()
+		if state.story.dialogue.has("log"):
+			(state.story.dialogue.log as Array).append({"speaker_key": "", "text_key": "", "choice_key": str(c.label_key)})
 		for e in c.get("effects", []):
 			_apply(state, e, result, content)
 		_goto(state, dlg, str(c.get("next", "")), result, content)
@@ -115,7 +118,19 @@ static func _goto(state: RefCounted, dlg: Dictionary, next_id: String, result: D
 
 static func _enter(state: RefCounted, dlg: Dictionary, node_id: String, result: Dictionary, content: Object) -> void:
 	result.node = node_id
-	for e in node_of(dlg, node_id).get("on_enter", []):
+	var node := node_of(dlg, node_id)
+	var d: Dictionary = state.story.dialogue
+	if not d.has("stage"):
+		d["stage"] = StageRules.blank()
+	if not d.has("log"):
+		d["log"] = []
+	StageRules.apply(d.stage, node.get("stage", []))
+	if node.has("speaker_id") and node.has("stage") == false:
+		d.stage.focus = str(node.speaker_id)
+	(d.log as Array).append({"speaker_key": str(node.get("speaker_key", "")), "text_key": str(node.get("text_key", "")), "choice_key": ""})
+	if (d.log as Array).size() > 60:
+		(d.log as Array).pop_front()
+	for e in node.get("on_enter", []):
 		_apply(state, e, result, content)
 
 

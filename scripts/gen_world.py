@@ -145,6 +145,30 @@ for k,z,e in [("map.title","江湖地图","Map"),("map.tab.map","地图","Map"),
  ("map.journal.done","已经历","Happened"),("map.journal.missed","错过了","Missed"),("map.journal.week","第 {week} 周","Week {week}"),("map.button","地图","Map"),
  ("map.week","第 {week} 周 · 第 {slot} 时段","Week {week} · slot {slot}")]: L(k,z,e)
 
+BG = {"valley_village": "valley_day", "river_bend": "riverside_day", "herb_terraces": "terraces_green", "old_shrine": "shrine_night", "ferry_dock": "ferry_dusk"}
+WHO = {"story.speaker.elder": "elder", "world.speaker.villager": "villager", "world.speaker.wanderer": "wanderer"}
+OVERRIDE = {"f_shrine_first": {"who": {"world.speaker.wanderer": "bandit"}, "hero": ("sword", "angry"), "extra": [("bandit", "far", "idle", "angry")]},
+            "r_bandit_stray": {"who": {"world.speaker.wanderer": "bandit"}, "hero": ("sword", "angry"), "extra": []},
+            "f_ferry_rumor": {"hero": ("think", "neutral")}, "r_shrine_dream": {"hero": ("think", "neutral")},
+            "f_spring_fair": {"hero": ("laugh", "happy")}, "r_herb_find": {"hero": ("idle", "happy")}, "f_aftermath": {"hero": ("idle", "sad")},
+            "r_fish_tale": {"hero": ("fish", "neutral")}, "f_herb_lesson": {"hero": ("bow", "neutral")}, "r_elder_lesson": {"hero": ("bow", "neutral")}}
+area_of = {e["id"]: e["area"] for e in events}
+for dlg in dialogues:
+    eid = dlg["id"][3:]
+    ov = OVERRIDE.get(eid, {})
+    hp, hf = ov.get("hero", ("idle", "neutral"))
+    cmds = [{"c": "bg", "id": BG[area_of[eid]]}, {"c": "show", "who": "hero", "slot": "left", "pose": hp, "face": hf}]
+    who = []
+    for n in dlg["nodes"]:
+        w = ov.get("who", {}).get(n.get("speaker_key", ""), WHO.get(n.get("speaker_key", "")))
+        if w and w not in who:
+            who.append(w)
+    for w in who:
+        cmds.append({"c": "show", "who": w, "slot": "right", "pose": "idle", "face": "neutral"})
+    for (w, slot, pose, face) in ov.get("extra", []):
+        cmds.append({"c": "show", "who": w, "slot": slot, "pose": pose, "face": face})
+    dlg["nodes"][0]["stage"] = cmds
+
 def dump(p, d): json.dump(d, open(os.path.join(G, p), "w"), ensure_ascii=False, indent=1)
 dump("world/areas.json", {"areas": areas}); dump("world/events.json", {"events": events}); dump("world/event_dialogues.json", {"dialogues": dialogues})
 for lang in LOC:

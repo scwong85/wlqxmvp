@@ -84,6 +84,10 @@ with sync_playwright() as p:
         page.locator("canvas").click(position={"x": 5, "y": 5})  # give the canvas keyboard focus
         d0 = len(console)
         page.keyboard.press("Enter")  # start button is focused by the title screen
+        ok_create = wait_for(console, "HERO_CREATE_READY", 30, d0)
+        page.wait_for_timeout(700)
+        page.screenshot(path=os.path.join(out_dir, f"m18_{name}_hero_creation.png"))
+        page.keyboard.press("Enter")  # the confirm button is focused
         ok_dlg = wait_for(console, "DIALOGUE_READY id=day1_intro", 30, d0)
         page.wait_for_timeout(500)
         page.screenshot(path=os.path.join(out_dir, f"m12_{name}_dialogue.png"))
@@ -110,7 +114,7 @@ with sync_playwright() as p:
         page.wait_for_timeout(500)
         page.screenshot(path=os.path.join(out_dir, f"m1_{name}_cultivation.png"))
 
-        results["checks"][name] = {"title_ready": ok_title, "intro_dialogue_shown": ok_dlg, "path_choice_dialogue": ok_path, "cultivation_ready_via_keyboard": ok_hub}
+        results["checks"][name] = {"hero_creation_shown": ok_create, "title_ready": ok_title, "intro_dialogue_shown": ok_dlg, "path_choice_dialogue": ok_path, "cultivation_ready_via_keyboard": ok_hub}
 
         if name == "1280x720":
             # Persistence: advance a slot (autosaves), save manually, reload the page, then load.

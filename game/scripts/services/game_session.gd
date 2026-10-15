@@ -11,6 +11,7 @@ const BattleSetup = preload("res://scripts/domain/combat/battle_setup.gd")
 const DialogueSystem = preload("res://scripts/domain/dialogue_system.gd")
 const EndingRules = preload("res://scripts/domain/ending_rules.gd")
 const WorldRules = preload("res://scripts/domain/world_rules.gd")
+const LookRules = preload("res://scripts/domain/look_rules.gd")
 const DayRules = preload("res://scripts/domain/day_rules.gd")
 const BattleResult = preload("res://scripts/domain/combat/battle_result.gd")
 
@@ -22,16 +23,42 @@ var battle_ctx: Dictionary = {}   # {scenario, from: "exploration"|"practice", b
 var battle_instant: bool = false
 
 
+## Story-board and clip animations (settings option; tests turn them off through battle_instant).
+func animations_enabled() -> bool:
+	if battle_instant:
+		return false
+	return bool(Saves.load_settings().get("animations", true))
+
+
+func hero_name() -> String:
+	var st := ensure_state()
+	return st.player.hero_name if st.player.hero_name != "" else Loc.t("hero.default_name")
+
+
+## Sets the player's name and look (hero creation) and refreshes the {hero} text variable.
+func set_hero(raw_name: String, look: Dictionary) -> void:
+	var st := ensure_state()
+	st.player.hero_name = LookRules.clean_name(raw_name)
+	st.player.look = LookRules.sanitize(look)
+	sync_text_globals()
+
+
+func sync_text_globals() -> void:
+	Loc.globals["hero"] = hero_name()
+
+
 func ensure_state() -> RefCounted:
 	if state == null:
 		state = GameState.new_game()
 		RelationshipRules.refresh(state, Content)
+		sync_text_globals()
 	return state
 
 
 func new_game(seed_value: int = -1) -> void:
 	state = GameState.new_game(seed_value)
 	RelationshipRules.refresh(state, Content)
+	sync_text_globals()
 
 
 func save_manual() -> Dictionary:
@@ -52,6 +79,7 @@ func load_latest() -> Dictionary:
 	if r.ok:
 		state = r.state
 		RelationshipRules.refresh(state, Content)
+		sync_text_globals()
 		print("LOAD ok slot=%s week=%d slot_no=%d" % [r.slot, state.calendar.week, state.calendar.slot])
 	else:
 		print("LOAD failed ", r.error_key)

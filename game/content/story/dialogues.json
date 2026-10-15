@@ -12,7 +12,27 @@
      "id": "n1",
      "text_key": "story.day1_intro.n1",
      "speaker_key": "story.speaker.elder",
-     "next": "n2"
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "valley_dawn"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "elder",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
     },
     {
      "id": "n2",
@@ -91,6 +111,26 @@
        "label_key": "story.day2_path.choose.later",
        "next": ""
       }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "valley_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "elder",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
      ]
     },
     {
@@ -118,7 +158,37 @@
     {
      "id": "n1",
      "text_key": "story.day4_battle.n1",
-     "next": "n2"
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "sword",
+       "face": "angry"
+      },
+      {
+       "c": "show",
+       "who": "villager",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "bandit",
+       "slot": "far",
+       "pose": "idle",
+       "face": "angry"
+      },
+      {
+       "c": "shake"
+      }
+     ]
     },
     {
      "id": "n2",
@@ -179,7 +249,34 @@
      "id": "n1",
      "text_key": "story.day4_win.n1",
      "speaker_key": "story.speaker.villager",
-     "next": "n2"
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "victory",
+       "face": "happy"
+      },
+      {
+       "c": "show",
+       "who": "villager",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "elder",
+       "slot": "center",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
     },
     {
      "id": "n2",
@@ -200,7 +297,27 @@
     {
      "id": "n1",
      "text_key": "story.day4_lose.n1",
-     "next": "n2"
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "kneel",
+       "face": "sad"
+      },
+      {
+       "c": "show",
+       "who": "elder",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
     },
     {
      "id": "n2",
@@ -221,7 +338,27 @@
     {
      "id": "n1",
      "text_key": "story.day5_faction.n1",
-     "next": "n2"
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "valley_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "elder",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
     },
     {
      "id": "n2",
@@ -347,6 +484,26 @@
         }
        ]
       }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "night_camp"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "think",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "elder",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
      ]
     }
    ]
@@ -362,7 +519,27 @@
     {
      "id": "n1",
      "text_key": "story.day7_crisis.n1",
-     "next": "n2"
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "surprised"
+      },
+      {
+       "c": "show",
+       "who": "elder",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
     },
     {
      "id": "n2",
@@ -396,7 +573,37 @@
      "id": "n1",
      "text_key": "story.crisis_final.n1",
      "speaker_key": "story.speaker.leader",
-     "next": "n2"
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "shrine_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "sword",
+       "face": "angry"
+      },
+      {
+       "c": "show",
+       "who": "leader",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "bandit",
+       "slot": "far",
+       "pose": "idle",
+       "face": "angry"
+      },
+      {
+       "c": "shake"
+      }
+     ]
     },
     {
      "id": "n1_saved",

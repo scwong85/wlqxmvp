@@ -136,7 +136,16 @@ func _run() -> void:
 	# --- New game opens the cultivation screen ---
 	title.start_button.pressed.emit()
 	await _frames(4)
-	_check(Router.current_key == "dialogue", "start opens the day-1 intro dialogue")
+	_check(Router.current_key == "hero_creation", "start opens hero creation")
+	var creation := _scene()
+	var create_problems: Array[String] = creation.audit_layout()
+	_check(create_problems.is_empty(), "hero creation: layout audit is clean %s" % str(create_problems.slice(0, 2)))
+	creation.name_edit.text = "云澈"
+	creation.gender_buttons.f.pressed.emit()
+	creation.confirm_button.pressed.emit()
+	await _frames(4)
+	_check(Router.current_key == "dialogue", "confirming opens the day-1 intro dialogue")
+	_check(Game.state.player.hero_name == "云澈" and Game.state.player.look.gender == "f", "the chosen name and look are in the run")
 	Game.state.run_seed = 5  # fixed seed so outcomes are reproducible
 	var story_log: Array = []
 	var intro := _scene()

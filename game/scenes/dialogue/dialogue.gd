@@ -7,6 +7,8 @@ const Backdrop = preload("res://scenes/shared/backdrop.gd")
 const SafeFrame = preload("res://scenes/shared/safe_frame.gd")
 const DialogueSystem = preload("res://scripts/domain/dialogue_system.gd")
 const RecruitDialog = preload("res://scenes/shared/recruit_dialog.gd")
+const StageView = preload("res://scenes/shared/stage_view.gd")
+const OverlayUtil = preload("res://scenes/shared/overlay_util.gd")
 
 const FONT := 28
 
@@ -15,6 +17,10 @@ var continue_button: Button = null
 var choice_buttons: Dictionary = {}   # choice id -> Button
 var speaker_label: Label
 var text_label: Label
+var stage_view: Control
+var log_button: Button
+var log_panel: Control = null
+var log_close_button: Button
 
 var _box: VBoxContainer
 var _panel: PanelContainer
@@ -30,20 +36,16 @@ func _ready() -> void:
 		Router.goto.call_deferred(dest if dest != "" else "cultivation")
 		return
 	add_child(Backdrop.new())
-	var dim := ColorRect.new()
-	dim.color = Color(0.02, 0.07, 0.07, 0.6)
-	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
-	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(dim)
 	var frame := SafeFrame.new()
 	add_child(frame)
 	_box = VBoxContainer.new()
 	_box.add_theme_constant_override("separation", 14)
 	frame.add_child(_box)
-	var spacer := Control.new()
-	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	spacer.size_flags_stretch_ratio = 0.4
-	_box.add_child(spacer)
+	stage_view = StageView.new()
+	stage_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	stage_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	stage_view.size_flags_stretch_ratio = 1.15
+	_box.add_child(stage_view)
 	_panel = PanelContainer.new()
 	_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_panel.size_flags_stretch_ratio = 1.6
@@ -51,10 +53,17 @@ func _ready() -> void:
 	var inner := VBoxContainer.new()
 	inner.add_theme_constant_override("separation", 12)
 	_panel.add_child(inner)
+	var head := HBoxContainer.new()
+	inner.add_child(head)
 	speaker_label = UiKit.make_label(30)
 	speaker_label.modulate = Color("9be3c3")
 	speaker_label.autowrap_mode = TextServer.AUTOWRAP_OFF
-	inner.add_child(speaker_label)
+	speaker_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	head.add_child(speaker_label)
+	log_button = UiKit.make_button(Vector2(110, 48))
+	log_button.add_theme_font_size_override("font_size", 22)
+	log_button.pressed.connect(_show_log)
+	head.add_child(log_button)
 	var scroll := ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -80,6 +89,10 @@ func _show() -> void:
 	if node.is_empty():
 		_finish({"ended": true})
 		return
+	var stg: Dictionary = Game.state.story.dialogue.get("stage", {})
+	stage_view.animate = Game.animations_enabled()
+	stage_view.show_stage(stg, node.get("stage", []))
+	log_button.text = Loc.t("dialogue.log")
 	var skey := str(node.get("speaker_key", ""))
 	speaker_label.text = Loc.t(skey) if skey != "" else ""
 	speaker_label.visible = skey != ""
@@ -123,6 +136,46 @@ func _show() -> void:
 	if first != null:
 		first.grab_focus()
 	_report_layout()
+
+
+func _show_log() -> void:
+	if log_panel != null:
+		return
+	var parts := OverlayUtil.make(780)
+	log_panel = parts[0]
+	var box: VBoxContainer = parts[1]
+	var title := UiKit.make_label(30)
+	title.text = Loc.t("dialogue.log")
+	box.add_child(title)
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.custom_minimum_size = Vector2(0, maxf(220.0, Layout.usable_height() * 0.55))
+	box.add_child(scroll)
+	var list := VBoxContainer.new()
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	list.add_theme_constant_override("separation", 10)
+	scroll.add_child(list)
+	for e in Game.state.story.dialogue.get("log", []):
+		var l := UiKit.make_label(22)
+		l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		if str(e.get("choice_key", "")) != "":
+			l.text = "> " + Loc.t(str(e.choice_key))
+			l.modulate = Color("e1c06b")
+		else:
+			var line := Loc.t(str(e.text_key))
+			l.text = Loc.t("dialogue.log_line", {"who": Loc.t(str(e.speaker_key)), "text": line}) if str(e.get("speaker_key", "")) != "" else line
+		list.add_child(l)
+	log_close_button = UiKit.make_button(Vector2(0, 60))
+	log_close_button.add_theme_font_size_override("font_size", 24)
+	log_close_button.text = Loc.t("dialogue.log_close")
+	log_close_button.pressed.connect(func() -> void:
+		log_panel.queue_free()
+		log_panel = null)
+	box.add_child(log_close_button)
+	add_child(log_panel)
+	log_close_button.grab_focus()
+	await get_tree().process_frame
+	scroll.scroll_vertical = int(scroll.get_v_scroll_bar().max_value)
 
 
 func _on_continue() -> void:

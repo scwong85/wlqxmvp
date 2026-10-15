@@ -146,8 +146,7 @@ func _on_practice() -> void:
 
 
 func _on_start() -> void:
-	Game.new_game()
-	Router.goto("cultivation")
+	Router.goto("hero_creation")
 
 
 func _on_load() -> void:

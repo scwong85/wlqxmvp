@@ -1,0 +1,77 @@
+{
+ "looks": [
+  {
+   "id": "elder",
+   "gender": "m",
+   "hair": 0,
+   "hair_hex": "d8d8d0",
+   "outfit_hex": "6b5a3a",
+   "skin_hex": "e2c6a4",
+   "elder": true,
+   "weapon": "staff"
+  },
+  {
+   "id": "villager",
+   "gender": "m",
+   "hair": 2,
+   "hair_hex": "3a2a1c",
+   "outfit_hex": "8a7a55",
+   "skin_hex": "d9b08c",
+   "weapon": ""
+  },
+  {
+   "id": "wanderer",
+   "gender": "m",
+   "hair": 1,
+   "hair_hex": "222222",
+   "outfit_hex": "4b4f57",
+   "skin_hex": "d9b08c",
+   "weapon": "blade"
+  },
+  {
+   "id": "bandit",
+   "gender": "m",
+   "hair": 2,
+   "hair_hex": "2a1f1a",
+   "outfit_hex": "5a2f2f",
+   "skin_hex": "c79a74",
+   "weapon": "blade"
+  },
+  {
+   "id": "shen_qinghe",
+   "gender": "f",
+   "hair": 1,
+   "hair_hex": "2a3b34",
+   "outfit_hex": "7fb8a0",
+   "skin_hex": "eed6bb",
+   "weapon": "herb"
+  },
+  {
+   "id": "lu_chenzhou",
+   "gender": "m",
+   "hair": 0,
+   "hair_hex": "1e1e26",
+   "outfit_hex": "3d4f7a",
+   "skin_hex": "e2c6a4",
+   "weapon": "sword"
+  },
+  {
+   "id": "bai_yan",
+   "gender": "f",
+   "hair": 3,
+   "hair_hex": "c9c2b0",
+   "outfit_hex": "b0b8c8",
+   "skin_hex": "eed6bb",
+   "weapon": "fan"
+  },
+  {
+   "id": "leader",
+   "gender": "m",
+   "hair": 2,
+   "hair_hex": "1a1a1a",
+   "outfit_hex": "3a2020",
+   "skin_hex": "c79a74",
+   "weapon": "blade"
+  }
+ ]
+}
