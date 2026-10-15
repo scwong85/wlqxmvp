@@ -38,6 +38,7 @@ var selected_id: String = ""
 ## Companion list overlay (M7-08) and recruitment prompt (M7-09).
 var party_button: Button
 var explore_button: Button
+var map_button: Button
 var party_panel: Control = null
 var pause_panel: Control = null
 var pause_buttons: Dictionary = {}  # resume / save / settings / title
@@ -139,7 +140,7 @@ func _report_layout() -> void:
 	await get_tree().process_frame
 	if not is_inside_tree():
 		return
-	var named := {"confirm": confirm_button, "explore": explore_button, "party": party_button, "save": save_button,
+	var named := {"confirm": confirm_button, "explore": explore_button, "map": map_button, "party": party_button, "save": save_button,
 			"tab_hero": tab_buttons.get("hero"), "tab_activities": tab_buttons.get("activities"),
 			"tab_stats": tab_buttons.get("stats"), "card_rest": cards.get("rest")}
 	var parts: Array[String] = []
@@ -370,8 +371,17 @@ func _build_activity_panel() -> Control:
 	explore_button.size_flags_stretch_ratio = 1.0
 	explore_button.clip_text = true
 	explore_button.pressed.connect(_on_explore)
+	map_button = UiKit.make_button(Vector2(0, 60))
+	map_button.add_theme_font_size_override("font_size", FONT_SMALL)
+	map_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	map_button.size_flags_stretch_ratio = 1.0
+	map_button.clip_text = true
+	map_button.pressed.connect(func() -> void:
+		if not _overlay_open():
+			Router.goto("map"))
 	action_row.add_child(confirm_button)
 	action_row.add_child(explore_button)
+	action_row.add_child(map_button)
 	box.add_child(action_row)
 	return box.get_meta("panel")
 
@@ -468,6 +478,7 @@ func _refresh_explore() -> void:
 	if not av.ok:
 		label = "%s · %s" % [Loc.t(route.name_key), Loc.t(av.reasons[0].key)]
 	explore_button.text = label
+	map_button.text = Loc.t("map.button")
 	explore_button.disabled = not av.ok
 
 

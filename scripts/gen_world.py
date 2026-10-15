@@ -125,6 +125,26 @@ event("r_winter_frost", "random", "valley_village",
       [{"type": "stamina", "id": "stamina", "amount": 8}], weight=4, cooldown=6, requires={"season": [3]})
 
 for k,z,e in [("world.gate.week","需第 {need} 周之后","Not before week {need}"),("world.gate.too_late","时机已过","Too late"),("world.gate.season","此季节无法前往","Not in this season"),("world.gate.event","需先经历某件事","Something must happen first"),("world.gate.event_done","此事已了结","Already settled"),("world.gate.lead","还没有相关线索","No lead yet"),("world.gate.path","需要特定门派","Needs a specific school"),("world.area.unknown","未知之地","Unknown place"),("world.area.closed","此地已无法进入","This place is closed"),("world.area.locked","尚未发现此处","Not discovered yet"),("world.area.season","此季节不宜前往","Not the season for it")]: L(k,z,e)
+TITLES = {"f_aftermath": ("劫后余波", "Aftermath"), "f_gossip": ("村中风声", "Village Gossip"), "f_shrine_first": ("荒庙人影", "Figures at the Shrine"),
+  "f_spring_fair": ("春集", "Spring Fair"), "f_herb_lesson": ("采药课", "Herb Lesson"), "f_ferry_rumor": ("渡口传闻", "Ferry Rumour"),
+  "r_village_chat": ("村口闲谈", "Gate Talk"), "r_herb_find": ("奇草", "A Rare Herb"), "r_fish_tale": ("渔夫的话", "The Fisherman's Word"),
+  "r_bandit_stray": ("落单山贼", "Straggling Bandit"), "r_shrine_dream": ("庙中梦", "Dream at the Shrine"), "r_elder_lesson": ("长老点拨", "Elder's Hint"),
+  "r_winter_frost": ("霜夜火塘", "Frosty Hearth")}
+for ev in events:
+    ev["title_key"] = f"event.{ev['id']}.title"; L(ev["title_key"], *TITLES[ev["id"]])
+LEADS = {"shrine_rumor": ("山神庙的火光", "Lights at the Shrine", "后山的山神庙夜里有人出没，也许与袭击村子的人有关。", "Someone moves around the hill shrine at night, perhaps the raiders."),
+  "ferry_rumor": ("渡口的去向", "Where the Ferry Went", "袭击者的头目向苍梧方向去了，渡口的船夫也许知道更多。", "The raiders' leader went toward Cangwu; the ferryman may know more.")}
+for k, (zn, en, zd, ed) in LEADS.items():
+    L(f"world.lead.{k}.name", zn, en); L(f"world.lead.{k}.desc", zd, ed)
+
+for k,z,e in [("map.title","江湖地图","Map"),("map.tab.map","地图","Map"),("map.tab.journal","手记","Journal"),("map.back","返回","Back"),
+ ("map.go","前往 · {cost} 个时段","Go · {cost} slot(s)"),("map.state.due","有要事","Something due"),("map.state.open","可前往","Open"),("map.state.locked","未开启","Locked"),("map.state.closed","已封闭","Closed"),
+ ("map.cost","路程：{cost} 个时段","Travel: {cost} slot(s)"),("map.pick","选择一处前往。","Pick a place to go."),("map.region.jade_valley","玉谷","Jade Valley"),("map.region.linjiang","临江","Linjiang"),
+ ("map.region.cangwu","苍梧","Cangwu"),("map.region.marsh","云泽","The Marsh"),("map.region.yanmen","雁门","Yanmen"),("map.region.penglai","蓬莱","Penglai"),
+ ("map.journal.leads","线索","Leads"),("map.journal.none","暂无","None yet"),
+ ("map.journal.done","已经历","Happened"),("map.journal.missed","错过了","Missed"),("map.journal.week","第 {week} 周","Week {week}"),("map.button","地图","Map"),
+ ("map.week","第 {week} 周 · 第 {slot} 时段","Week {week} · slot {slot}")]: L(k,z,e)
+
 def dump(p, d): json.dump(d, open(os.path.join(G, p), "w"), ensure_ascii=False, indent=1)
 dump("world/areas.json", {"areas": areas}); dump("world/events.json", {"events": events}); dump("world/event_dialogues.json", {"dialogues": dialogues})
 for lang in LOC:

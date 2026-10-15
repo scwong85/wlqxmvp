@@ -716,6 +716,8 @@ func _validate_world(has_key: Callable) -> Array[String]:
 			errs.append("event %s: a fixed event needs a window or something that schedules it" % id)
 		if kind == "random" and ev.has("window") and int(ev.window.get("from", 0)) > int(ev.window.get("to", 0)):
 			errs.append("event %s: bad window" % id)
+		if not has_key.call(str(ev.get("title_key", ""))):
+			errs.append("event %s: missing title_key text" % id)
 		if dialogue(str(ev.get("scene", {}).get("dialogue", ""))).is_empty():
 			errs.append("event %s: scene dialogue missing" % id)
 		for e in ev.get("on_miss", []):
@@ -723,7 +725,29 @@ func _validate_world(has_key: Callable) -> Array[String]:
 		for e in ev.get("requires", {}).get("done", []) + ev.get("requires", {}).get("not_done", []):
 			if not events.any(func(x: Dictionary) -> bool: return str(x.id) == str(e)):
 				errs.append("event %s: requires unknown event %s" % [id, str(e)])
+	for lead_id in _all_leads():
+		for suffix in [".name", ".desc"]:
+			if not has_key.call("world.lead." + lead_id + suffix):
+				errs.append("lead %s: missing text world.lead.%s%s" % [lead_id, lead_id, suffix])
 	var report := preload("res://scripts/domain/world_rules.gd").flag_report(self)
 	for f in report.unset:
 		errs.append("flag '%s' is read but never set by anything" % str(f))
 	return errs
+
+
+func _all_leads() -> Array:
+	var out := {}
+	var scan := func(effs: Array) -> void:
+		for e in effs:
+			if str(e.get("type", "")) == "lead":
+				out[str(e.id)] = true
+	for d in dialogues:
+		for n in d.get("nodes", []):
+			scan.call(n.get("on_enter", []))
+			for c in n.get("choices", []):
+				scan.call(c.get("effects", []))
+	for ev in events:
+		scan.call(ev.get("on_miss", []))
+		for r in ev.get("requires", {}).get("lead", []):
+			out[str(r)] = true
+	return out.keys()

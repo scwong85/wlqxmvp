@@ -11,7 +11,8 @@
     "from": 6,
     "to": 10
    },
-   "priority": 5
+   "priority": 5,
+   "title_key": "event.f_aftermath.title"
   },
   {
    "id": "f_gossip",
@@ -20,7 +21,8 @@
    "scene": {
     "dialogue": "ev_f_gossip"
    },
-   "priority": 4
+   "priority": 4,
+   "title_key": "event.f_gossip.title"
   },
   {
    "id": "f_shrine_first",
@@ -40,7 +42,8 @@
      "type": "flag",
      "id": "shrine_missed"
     }
-   ]
+   ],
+   "title_key": "event.f_shrine_first.title"
   },
   {
    "id": "f_spring_fair",
@@ -63,7 +66,8 @@
      "type": "flag",
      "id": "fair_missed"
     }
-   ]
+   ],
+   "title_key": "event.f_spring_fair.title"
   },
   {
    "id": "f_herb_lesson",
@@ -84,7 +88,8 @@
      "type": "flag",
      "id": "herb_missed"
     }
-   ]
+   ],
+   "title_key": "event.f_herb_lesson.title"
   },
   {
    "id": "f_ferry_rumor",
@@ -101,7 +106,8 @@
     "lead": [
      "ferry_rumor"
     ]
-   }
+   },
+   "title_key": "event.f_ferry_rumor.title"
   },
   {
    "id": "r_village_chat",
@@ -111,7 +117,8 @@
     "dialogue": "ev_r_village_chat"
    },
    "weight": 3,
-   "cooldown": 4
+   "cooldown": 4,
+   "title_key": "event.r_village_chat.title"
   },
   {
    "id": "r_herb_find",
@@ -128,7 +135,8 @@
      1,
      2
     ]
-   }
+   },
+   "title_key": "event.r_herb_find.title"
   },
   {
    "id": "r_fish_tale",
@@ -138,7 +146,8 @@
     "dialogue": "ev_r_fish_tale"
    },
    "weight": 3,
-   "cooldown": 3
+   "cooldown": 3,
+   "title_key": "event.r_fish_tale.title"
   },
   {
    "id": "r_bandit_stray",
@@ -151,7 +160,8 @@
    "cooldown": 8,
    "requires": {
     "week_min": 6
-   }
+   },
+   "title_key": "event.r_bandit_stray.title"
   },
   {
    "id": "r_shrine_dream",
@@ -161,7 +171,8 @@
     "dialogue": "ev_r_shrine_dream"
    },
    "weight": 2,
-   "cooldown": 10
+   "cooldown": 10,
+   "title_key": "event.r_shrine_dream.title"
   },
   {
    "id": "r_elder_lesson",
@@ -171,7 +182,8 @@
     "dialogue": "ev_r_elder_lesson"
    },
    "weight": 2,
-   "cooldown": 15
+   "cooldown": 15,
+   "title_key": "event.r_elder_lesson.title"
   },
   {
    "id": "r_winter_frost",
@@ -186,7 +198,8 @@
     "season": [
      3
     ]
-   }
+   },
+   "title_key": "event.r_winter_frost.title"
   }
  ]
 }
