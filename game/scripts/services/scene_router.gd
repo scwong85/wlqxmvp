@@ -7,6 +7,7 @@ const SCENES := {
 	"boot": "res://scenes/boot/boot.tscn",
 	"title": "res://scenes/menus/title.tscn",
 	"cultivation": "res://scenes/cultivation/cultivation.tscn",
+	"exploration": "res://scenes/exploration/exploration.tscn",
 	"settings": "res://scenes/menus/settings.tscn",
 }
 

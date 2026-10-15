@@ -30,6 +30,7 @@ func _ready() -> void:
 	preload("res://tests/unit/rules_tests.gd").new().run(_check, Loc)
 	preload("res://tests/unit/m6_tests.gd").new().run(_check, Loc)
 	preload("res://tests/unit/m7_tests.gd").new().run(_check, Loc)
+	preload("res://tests/unit/m8_tests.gd").new().run(_check, Loc)
 	print("UNIT_RESULT checks=%d failures=%d" % [_count, _fails.size()])
 	print("UNIT_OK" if _fails.is_empty() else "UNIT_FAIL")
 	get_tree().quit(0 if _fails.is_empty() else 1)

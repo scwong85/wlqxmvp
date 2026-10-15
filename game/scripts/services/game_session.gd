@@ -6,6 +6,7 @@ const ActivityRules = preload("res://scripts/domain/activity_rules.gd")
 const EventRules = preload("res://scripts/domain/event_rules.gd")
 const RelationshipRules = preload("res://scripts/domain/relationship_rules.gd")
 const PartySystem = preload("res://scripts/domain/party_system.gd")
+const ExplorationSystem = preload("res://scripts/domain/exploration_system.gd")
 
 var state: RefCounted = null
 
@@ -103,3 +104,30 @@ func dismiss_companion(npc_id: String) -> bool:
 	if ok:
 		autosave()
 	return ok
+
+
+## Exploration. Every node change autosaves, so a reload resumes on the same node.
+func start_exploration(route_id: String) -> Dictionary:
+	var route: Dictionary = Content.route(route_id)
+	if route.is_empty():
+		return {"ok": false, "reasons": [{"key": "explore.blocked.inactive", "params": {}}]}
+	var r: Dictionary = ExplorationSystem.start(ensure_state(), route, Content)
+	if r.ok:
+		autosave()
+	return r
+
+
+func current_route() -> Dictionary:
+	return Content.route(ensure_state().exploration.route)
+
+
+func explore_choose(choice_id: String) -> Dictionary:
+	var r: Dictionary = ExplorationSystem.choose(ensure_state(), current_route(), choice_id, Content)
+	if r.ok:
+		autosave()
+	return r
+
+
+## The invitation prompt for the current node was shown and answered.
+func clear_pending_recruit() -> void:
+	ensure_state().exploration.pending_recruit = ""

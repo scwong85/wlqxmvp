@@ -1,0 +1,316 @@
+{
+ "routes": [
+  {
+   "id": "bamboo_pass",
+   "name_key": "exploration.bamboo_pass",
+   "desc_key": "exploration.bamboo_pass.desc",
+   "start": "start",
+   "min_day": 2,
+   "cost": {
+    "stamina": 4
+   },
+   "nodes": [
+    {
+     "id": "start",
+     "text_key": "exploration.bamboo_pass.start.text",
+     "choices": [
+      {
+       "id": "old_road",
+       "next": "old_road",
+       "label_key": "exploration.bamboo_pass.start.old_road"
+      },
+      {
+       "id": "stream",
+       "next": "stream",
+       "label_key": "exploration.bamboo_pass.start.stream"
+      },
+      {
+       "id": "ridge",
+       "gate": {
+        "attr_min": {
+         "body": 6
+        }
+       },
+       "next": "ridge",
+       "label_key": "exploration.bamboo_pass.start.ridge"
+      }
+     ]
+    },
+    {
+     "id": "old_road",
+     "text_key": "exploration.bamboo_pass.old_road.text",
+     "choices": [
+      {
+       "id": "greet",
+       "next": "courier",
+       "label_key": "exploration.bamboo_pass.old_road.greet"
+      },
+      {
+       "id": "tracks",
+       "check": {
+        "attr": "insight",
+        "target": 6
+       },
+       "success": {
+        "next": "camp_edge",
+        "text_key": "exploration.bamboo_pass.old_road.tracks.success"
+       },
+       "failure": {
+        "next": "gate",
+        "effects": [
+         {
+          "type": "stamina",
+          "id": "stamina",
+          "amount": -2
+         }
+        ],
+        "text_key": "exploration.bamboo_pass.old_road.tracks.failure"
+       },
+       "label_key": "exploration.bamboo_pass.old_road.tracks"
+      }
+     ]
+    },
+    {
+     "id": "courier",
+     "text_key": "exploration.bamboo_pass.courier.text",
+     "recruit": "lu_chenzhou",
+     "choices": [
+      {
+       "id": "share_food",
+       "cost": {
+        "food": 1
+       },
+       "effects": [
+        {
+         "type": "relationship",
+         "id": "lu_chenzhou",
+         "amount": 3
+        },
+        {
+         "type": "flag",
+         "id": "helped_courier"
+        }
+       ],
+       "next": "gate",
+       "label_key": "exploration.bamboo_pass.courier.share_food"
+      },
+      {
+       "id": "travel_on",
+       "next": "gate",
+       "label_key": "exploration.bamboo_pass.courier.travel_on"
+      }
+     ]
+    },
+    {
+     "id": "stream",
+     "text_key": "exploration.bamboo_pass.stream.text",
+     "choices": [
+      {
+       "id": "search",
+       "check": {
+        "attr": "agility",
+        "target": 5
+       },
+       "success": {
+        "next": "gate",
+        "effects": [
+         {
+          "type": "resource",
+          "id": "herbs",
+          "amount": 2
+         },
+         {
+          "type": "clue",
+          "id": "torn_letter"
+         }
+        ],
+        "text_key": "exploration.bamboo_pass.stream.search.success"
+       },
+       "failure": {
+        "next": "gate",
+        "effects": [
+         {
+          "type": "stamina",
+          "id": "stamina",
+          "amount": -2
+         }
+        ],
+        "text_key": "exploration.bamboo_pass.stream.search.failure"
+       },
+       "label_key": "exploration.bamboo_pass.stream.search"
+      },
+      {
+       "id": "rest",
+       "effects": [
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 2
+        }
+       ],
+       "next": "gate",
+       "label_key": "exploration.bamboo_pass.stream.rest"
+      }
+     ]
+    },
+    {
+     "id": "ridge",
+     "text_key": "exploration.bamboo_pass.ridge.text",
+     "choices": [
+      {
+       "id": "look_down",
+       "next": "lookout",
+       "label_key": "exploration.bamboo_pass.ridge.look_down"
+      },
+      {
+       "id": "go_back",
+       "next": "gate",
+       "label_key": "exploration.bamboo_pass.ridge.go_back"
+      }
+     ]
+    },
+    {
+     "id": "lookout",
+     "text_key": "exploration.bamboo_pass.lookout.text",
+     "recruit": "bai_yan",
+     "choices": [
+      {
+       "id": "map_camp",
+       "effects": [
+        {
+         "type": "clue",
+         "id": "camp_map"
+        }
+       ],
+       "next": "gate",
+       "label_key": "exploration.bamboo_pass.lookout.map_camp"
+      },
+      {
+       "id": "talk_scholar",
+       "effects": [
+        {
+         "type": "relationship",
+         "id": "bai_yan",
+         "amount": 3
+        },
+        {
+         "type": "clue",
+         "id": "camp_map"
+        }
+       ],
+       "next": "gate",
+       "label_key": "exploration.bamboo_pass.lookout.talk_scholar"
+      }
+     ]
+    },
+    {
+     "id": "camp_edge",
+     "text_key": "exploration.bamboo_pass.camp_edge.text",
+     "choices": [
+      {
+       "id": "sneak",
+       "check": {
+        "attr": "agility",
+        "target": 6
+       },
+       "success": {
+        "next": "gate",
+        "effects": [
+         {
+          "type": "clue",
+          "id": "supply_ledger"
+         },
+         {
+          "type": "resource",
+          "id": "coins",
+          "amount": 4
+         }
+        ],
+        "text_key": "exploration.bamboo_pass.camp_edge.sneak.success"
+       },
+       "failure": {
+        "next": "gate",
+        "effects": [
+         {
+          "type": "battle",
+          "id": "bandit_scouts"
+         },
+         {
+          "type": "stamina",
+          "id": "stamina",
+          "amount": -2
+         }
+        ],
+        "text_key": "exploration.bamboo_pass.camp_edge.sneak.failure"
+       },
+       "label_key": "exploration.bamboo_pass.camp_edge.sneak"
+      },
+      {
+       "id": "withdraw",
+       "next": "gate",
+       "label_key": "exploration.bamboo_pass.camp_edge.withdraw"
+      }
+     ]
+    },
+    {
+     "id": "gate",
+     "text_key": "exploration.bamboo_pass.gate.text",
+     "choices": [
+      {
+       "id": "decipher",
+       "gate": {
+        "clue_min": 2
+       },
+       "effects": [
+        {
+         "type": "clue",
+         "id": "pass_secret"
+        },
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 1
+        }
+       ],
+       "next": "end_wise",
+       "label_key": "exploration.bamboo_pass.gate.decipher"
+      },
+      {
+       "id": "pass_through",
+       "next": "end_plain",
+       "label_key": "exploration.bamboo_pass.gate.pass_through"
+      }
+     ]
+    },
+    {
+     "id": "end_plain",
+     "text_key": "exploration.bamboo_pass.end_plain.text",
+     "type": "end",
+     "on_enter": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 3
+      }
+     ]
+    },
+    {
+     "id": "end_wise",
+     "text_key": "exploration.bamboo_pass.end_wise.text",
+     "type": "end",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "pass_secret_known"
+      },
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 3
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

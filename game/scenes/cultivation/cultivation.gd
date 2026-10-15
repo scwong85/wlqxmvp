@@ -14,6 +14,9 @@ const CultivationRules = preload("res://scripts/domain/cultivation_rules.gd")
 const ActivityRules = preload("res://scripts/domain/activity_rules.gd")
 const RelationshipRules = preload("res://scripts/domain/relationship_rules.gd")
 const CompanionPortrait = preload("res://scenes/shared/companion_portrait.gd")
+const ExplorationSystem = preload("res://scripts/domain/exploration_system.gd")
+const RecruitDialog = preload("res://scenes/shared/recruit_dialog.gd")
+const DeltaText = preload("res://scenes/shared/delta_text.gd")
 const ROLE_COLORS := {"support": Color("5fd1a5"), "striker": Color("e0a35a"), "control": Color("7aa8e0")}
 
 const FONT_BODY := 24
@@ -33,6 +36,7 @@ var event_continue_button: Button
 var selected_id: String = ""
 ## Companion list overlay (M7-08) and recruitment prompt (M7-09).
 var party_button: Button
+var explore_button: Button
 var party_panel: Control = null
 var party_close_button: Button
 var _party_box: VBoxContainer
@@ -64,6 +68,9 @@ var _status_key: String = ""
 func _ready() -> void:
 	UiKit.apply(self)
 	Game.ensure_state()
+	if Game.state.exploration.active:  # a saved or running exploration resumes on its own screen
+		Router.goto.call_deferred("exploration")
+		return
 	add_child(Backdrop.new())
 	var dim := ColorRect.new()
 	dim.color = Color(0.02, 0.07, 0.07, 0.5)
@@ -214,10 +221,22 @@ func _build_activity_panel() -> Control:
 	scroll.add_child(info_label)
 	box.add_child(scroll)
 
+	var action_row := HBoxContainer.new()
+	action_row.add_theme_constant_override("separation", 8)
 	confirm_button = UiKit.make_button(Vector2(0, 60))
 	confirm_button.add_theme_font_size_override("font_size", FONT_HEAD)
+	confirm_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	confirm_button.size_flags_stretch_ratio = 1.0
 	confirm_button.pressed.connect(_on_confirm)
-	box.add_child(confirm_button)
+	explore_button = UiKit.make_button(Vector2(0, 60))
+	explore_button.add_theme_font_size_override("font_size", FONT_SMALL)
+	explore_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	explore_button.size_flags_stretch_ratio = 1.0
+	explore_button.clip_text = true
+	explore_button.pressed.connect(_on_explore)
+	action_row.add_child(confirm_button)
+	action_row.add_child(explore_button)
+	box.add_child(action_row)
 	return box.get_meta("panel")
 
 
@@ -294,6 +313,26 @@ func _on_confirm() -> void:
 		_show_choice(def)
 		return
 	_perform(selected_id, "")
+
+
+func _on_explore() -> void:
+	if _overlay_open():
+		return
+	var r: Dictionary = Game.start_exploration("bamboo_pass")
+	if r.ok:
+		Router.goto("exploration")
+	else:
+		_refresh_all()
+
+
+func _refresh_explore() -> void:
+	var route: Dictionary = Content.route("bamboo_pass")
+	var av: Dictionary = ExplorationSystem.route_availability(Game.state, route)
+	var label: String = Loc.t("explore.button", {"name": Loc.t(route.name_key)})
+	if not av.ok:
+		label = "%s · %s" % [Loc.t(route.name_key), Loc.t(av.reasons[0].key)]
+	explore_button.text = label
+	explore_button.disabled = not av.ok
 
 
 func _overlay_open() -> bool:
@@ -556,13 +595,7 @@ func _row_button(key: String, cb: Callable) -> Button:
 
 
 func _reason_text(reasons: Array) -> String:
-	var out: Array = []
-	for r in reasons:
-		var params: Dictionary = (r.params as Dictionary).duplicate()
-		if params.has("attr"):
-			params["attr"] = Loc.t("attr." + str(params.attr))
-		out.append(Loc.t(r.key, params))
-	return Loc.t("ui.list_sep").join(out)
+	return RecruitDialog.reason_text(reasons)
 
 
 func _party_action(action: String, id: String) -> void:
@@ -590,39 +623,16 @@ func _close_party() -> void:
 ## Shows the invitation dialog for a story opportunity. Returns false (and shows nothing) when the
 ## companion cannot be invited at all, so the caller carries on with the next event.
 func _show_recruit_prompt(npc_id: String) -> bool:
-	var ev: Dictionary = RelationshipRules.evaluate_recruitment(Game.state, npc_id, Content)
-	if ev.result == "unavailable":
-		return false
-	var parts := _make_overlay(760)
-	var box: VBoxContainer = parts[1]
-	var name_text: String = Loc.t("npc." + npc_id)
-	var title := _label(FONT_HEAD)
-	title.text = Loc.t("recruit.title", {"name": name_text})
-	box.add_child(title)
-	var body := _label(FONT_BODY)
-	body.text = Loc.t("recruit.body_ready", {"name": name_text}) if ev.result == "ready" else Loc.t("recruit.body_refuse", {"name": name_text, "list": _reason_text(ev.reasons)})
-	box.add_child(body)
-	recruit_accept_button = null
-	if ev.result == "ready":
-		recruit_accept_button = UiKit.make_button(Vector2(0, 60))
-		recruit_accept_button.text = Loc.t("recruit.accept")
-		recruit_accept_button.add_theme_font_size_override("font_size", FONT_BODY)
-		recruit_accept_button.pressed.connect(func() -> void:
-			Game.recruit_companion(npc_id)
-			_status_key = ""
-			_close_recruit())
-		box.add_child(recruit_accept_button)
-	recruit_decline_button = UiKit.make_button(Vector2(0, 60))
-	recruit_decline_button.text = Loc.t("recruit.decline")
-	recruit_decline_button.add_theme_font_size_override("font_size", FONT_BODY)
-	recruit_decline_button.pressed.connect(func() -> void:
-		Game.decline_companion(npc_id)
+	var d: Dictionary = RecruitDialog.build(npc_id, func() -> void:
+		_status_key = ""
 		_close_recruit())
-	box.add_child(recruit_decline_button)
-	recruit_panel = parts[0]
+	if d.is_empty():
+		return false
+	recruit_accept_button = d.accept
+	recruit_decline_button = d.decline
+	recruit_panel = d.overlay
 	add_child(recruit_panel)
 	(recruit_accept_button if recruit_accept_button != null else recruit_decline_button).grab_focus()
-	print("RECRUIT_PROMPT %s %s" % [npc_id, ev.result])
 	return true
 
 
@@ -651,6 +661,7 @@ func _refresh_all() -> void:
 	status_label.text = Loc.t(_status_key) if _status_key != "" else ""
 	confirm_button.text = Loc.t("cult.confirm")
 
+	_refresh_explore()
 	_refresh_hero(st)
 	_refresh_cards(st)
 	_refresh_stats(st)
@@ -753,24 +764,7 @@ func _sep() -> String:
 
 
 func _name_for(type: String, id: String) -> String:
-	match type:
-		"attr":
-			return Loc.t("attr." + id)
-		"resource":
-			return Loc.t("resource." + id)
-		"item":
-			return Loc.t("item." + id)
-		"buff":
-			return Loc.t("buff." + id)
-		"relationship":
-			return "%s %s" % [Loc.t("npc." + id), Loc.t("cult.affinity")]
-		"stamina":
-			return Loc.t("cult.stamina")
-		"path_progress":
-			if id == "current":
-				return Loc.t("cult.progress")
-			return "%s %s" % [Loc.t("path." + id), Loc.t("cult.progress")]
-	return id
+	return DeltaText.name_for(type, id)
 
 
 func _cost_list(def: Dictionary) -> String:

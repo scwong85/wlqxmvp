@@ -1,13 +1,14 @@
 extends RefCounted
 ## Everything that must survive a save/load. Never put transient UI state here.
 
-const SCHEMA_VERSION := 3
+const SCHEMA_VERSION := 4
 
 const PlayerState = preload("res://scripts/domain/player_state.gd")
 const CalendarState = preload("res://scripts/domain/calendar_state.gd")
 const ResourceState = preload("res://scripts/domain/resource_state.gd")
 const CultivationState = preload("res://scripts/domain/cultivation_state.gd")
 const RelationshipState = preload("res://scripts/domain/relationship_state.gd")
+const ExplorationState = preload("res://scripts/domain/exploration_state.gd")
 const CultivationRules = preload("res://scripts/domain/cultivation_rules.gd")
 
 var player: RefCounted
@@ -15,6 +16,7 @@ var calendar: RefCounted
 var resources: RefCounted
 var cultivation: RefCounted
 var relationships: RefCounted
+var exploration: RefCounted
 ## Seeds every skill check in this run, so outcomes are reproducible from a save.
 var run_seed: int = 1
 
@@ -25,6 +27,7 @@ func _init() -> void:
 	resources = ResourceState.new()
 	cultivation = CultivationState.new()
 	relationships = RelationshipState.new()
+	exploration = ExplorationState.new()
 	_resolve_stamina()
 
 
@@ -48,6 +51,7 @@ func to_dict() -> Dictionary:
 		"resources": resources.to_dict(),
 		"cultivation": cultivation.to_dict(),
 		"relationships": relationships.to_dict(),
+		"exploration": exploration.to_dict(),
 		"run_seed": run_seed,
 	}
 
@@ -62,6 +66,7 @@ static func from_dict(d: Variant) -> RefCounted:
 	s.resources = ResourceState.from_dict(d.get("resources"))
 	s.cultivation = CultivationState.from_dict(d.get("cultivation"))
 	s.relationships = RelationshipState.from_dict(d.get("relationships"))
+	s.exploration = ExplorationState.from_dict(d.get("exploration"))
 	s.run_seed = maxi(0, int(d.get("run_seed", 1)))
 	s._resolve_stamina()
 	return s

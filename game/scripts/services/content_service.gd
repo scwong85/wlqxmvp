@@ -17,6 +17,7 @@ var paths: Array = []
 var techniques: Array = []
 var day_hooks: Array = []
 var companions: Array = []
+var routes: Array = []
 
 
 func _ready() -> void:
@@ -29,6 +30,7 @@ func load_all() -> void:
 	techniques = _load_list("cultivation/techniques.json", "techniques")
 	day_hooks = _load_list("events/day_hooks.json", "hooks")
 	companions = _load_list("companions/companions.json", "companions")
+	routes = _load_list("exploration/routes.json", "routes")
 
 
 func _load_list(rel: String, key: String) -> Array:
@@ -50,6 +52,10 @@ func activity(id: String) -> Dictionary:
 
 func path(id: String) -> Dictionary:
 	return _find(paths, id)
+
+
+func route(id: String) -> Dictionary:
+	return _find(routes, id)
 
 
 func companion(id: String) -> Dictionary:
@@ -125,6 +131,7 @@ func validate(has_key: Callable) -> Array[String]:
 			if not PlayerState.ATTRS.has(str(attr2)):
 				errs.append("technique %s: unknown attribute '%s'" % [tid, attr2])
 	errs.append_array(_validate_companions(has_key))
+	errs.append_array(_validate_routes(has_key))
 	for h in day_hooks:
 		var hid := str(h.get("id", ""))
 		var day := int(h.get("day", 0))
@@ -138,6 +145,156 @@ func validate(has_key: Callable) -> Array[String]:
 			if not has_key.call(str(h.get(k, ""))):
 				errs.append("hook %s: translation key missing for %s" % [hid, k])
 	return errs
+
+
+const NODE_TYPES := ["", "end"]
+const EFFECT_EXTRA := ["clue", "flag", "battle"]
+
+
+## Route graphs: every node reachable, every node able to reach an end, every choice target present,
+## at least one always-open choice per node, and valid text keys, gates, checks and effects.
+func _validate_routes(has_key: Callable) -> Array[String]:
+	var errs: Array[String] = []
+	for r in routes:
+		var rid := str(r.get("id", ""))
+		for f in ["id", "name_key", "desc_key", "start", "min_day", "cost", "nodes"]:
+			if not r.has(f):
+				errs.append("route %s: missing field '%s'" % [rid, f])
+		if r.has("nodes") == false:
+			continue
+		for k in ["name_key", "desc_key"]:
+			if not has_key.call(str(r.get(k, ""))):
+				errs.append("route %s: translation key missing for %s" % [rid, k])
+		var ids := {}
+		for n in r.nodes:
+			var nid := str(n.get("id", ""))
+			if nid == "" or ids.has(nid):
+				errs.append("route %s: missing or duplicate node id '%s'" % [rid, nid])
+			ids[nid] = n
+		if not ids.has(str(r.get("start", ""))):
+			errs.append("route %s: start node '%s' does not exist" % [rid, r.get("start", "")])
+		var edges := {}   # node id -> [target ids]
+		for nid2 in ids:
+			var n2: Dictionary = ids[nid2]
+			var label := "route %s node %s" % [rid, nid2]
+			if not NODE_TYPES.has(str(n2.get("type", ""))):
+				errs.append("%s: unknown type" % label)
+			if not has_key.call(str(n2.get("text_key", ""))):
+				errs.append("%s: translation key missing for text" % label)
+			for e in n2.get("on_enter", []):
+				errs.append_array(_validate_effect(label, e, has_key))
+			if n2.has("recruit") and companion(str(n2.recruit)).is_empty():
+				errs.append("%s: recruit npc '%s' unknown" % [label, n2.recruit])
+			var targets: Array = []
+			var choices: Array = n2.get("choices", [])
+			if str(n2.get("type", "")) == "end":
+				if not choices.is_empty():
+					errs.append("%s: an end node cannot have choices" % label)
+			else:
+				if choices.is_empty():
+					errs.append("%s: no choices (dead end)" % label)
+				var open_choice := false
+				var cids := {}
+				for c in choices:
+					var cid := str(c.get("id", ""))
+					if cid == "" or cids.has(cid):
+						errs.append("%s: missing or duplicate choice id '%s'" % [label, cid])
+					cids[cid] = true
+					if not c.has("gate") and not c.has("cost"):
+						open_choice = true
+					errs.append_array(_validate_choice(label + " choice " + cid, c, ids, has_key, targets))
+				if not choices.is_empty() and not open_choice:
+					errs.append("%s: needs at least one choice with no gate and no cost" % label)
+			edges[nid2] = targets
+		# Reachability from start, and the ability of every reachable node to reach an end.
+		var seen := {}
+		var queue: Array = [str(r.get("start", ""))]
+		while not queue.is_empty():
+			var cur: String = queue.pop_back()
+			if seen.has(cur) or not ids.has(cur):
+				continue
+			seen[cur] = true
+			queue.append_array(edges.get(cur, []))
+		for nid3 in ids:
+			if not seen.has(nid3):
+				errs.append("route %s: node '%s' is unreachable (orphan)" % [rid, nid3])
+		var can_end := {}
+		for nid4 in ids:
+			if str(ids[nid4].get("type", "")) == "end":
+				can_end[nid4] = true
+		var changed := true
+		while changed:
+			changed = false
+			for nid5 in ids:
+				if can_end.has(nid5):
+					continue
+				for t in edges.get(nid5, []):
+					if can_end.has(t):
+						can_end[nid5] = true
+						changed = true
+						break
+		for nid6 in ids:
+			if seen.has(nid6) and not can_end.has(nid6):
+				errs.append("route %s: node '%s' cannot reach an ending (dead end)" % [rid, nid6])
+	return errs
+
+
+func _validate_choice(label: String, c: Dictionary, ids: Dictionary, has_key: Callable, targets: Array) -> Array[String]:
+	var errs: Array[String] = []
+	if not has_key.call(str(c.get("label_key", ""))):
+		errs.append("%s: translation key missing for label" % label)
+	var gate: Dictionary = c.get("gate", {})
+	for attr in gate.get("attr_min", {}):
+		if not PlayerState.ATTRS.has(str(attr)):
+			errs.append("%s: gate attr '%s' unknown" % [label, attr])
+	for item in gate.get("item", {}):
+		if not has_key.call("item." + str(item)):
+			errs.append("%s: gate item '%s' has no translation" % [label, item])
+	for npc in gate.get("bond_min", {}):
+		if companion(str(npc)).is_empty():
+			errs.append("%s: gate npc '%s' unknown" % [label, npc])
+	for ck in c.get("cost", {}):
+		if not COST_KEYS.has(ck):
+			errs.append("%s: bad cost '%s'" % [label, ck])
+	for e in c.get("effects", []):
+		errs.append_array(_validate_effect(label, e, has_key))
+	var next_ids: Array = []
+	if c.has("next"):
+		next_ids.append(str(c.next))
+	if c.has("check"):
+		if not PlayerState.ATTRS.has(str(c.check.get("attr", ""))) or int(c.check.get("target", 0)) < 1:
+			errs.append("%s: bad check" % label)
+		for blk in ["success", "failure"]:
+			var b: Dictionary = c.get(blk, {})
+			if not b.has("next") and not c.has("next"):
+				errs.append("%s: %s has no next node" % [label, blk])
+			if b.has("next"):
+				next_ids.append(str(b.next))
+			if b.has("text_key") and not has_key.call(str(b.text_key)):
+				errs.append("%s: translation key missing for %s text" % [label, blk])
+			for e2 in b.get("effects", []):
+				errs.append_array(_validate_effect(label, e2, has_key))
+	elif not c.has("next"):
+		errs.append("%s: no next node" % label)
+	for nx in next_ids:
+		if not ids.has(nx):
+			errs.append("%s: next node '%s' does not exist" % [label, nx])
+		else:
+			targets.append(nx)
+	return errs
+
+
+func _validate_effect(label: String, e: Dictionary, has_key: Callable) -> Array[String]:
+	var t := str(e.get("type", ""))
+	if EFFECT_EXTRA.has(t):
+		if str(e.get("id", "")) == "":
+			return ["%s: %s effect needs an id" % [label, t]]
+		if t == "clue" and not has_key.call("clue." + str(e.id)):
+			return ["%s: clue '%s' has no translation" % [label, e.id]]
+		if t == "battle" and not has_key.call("battle." + str(e.id)):
+			return ["%s: battle '%s' has no translation" % [label, e.id]]
+		return []
+	return _validate_reward(label, e, has_key)
 
 
 const ROLES := ["support", "striker", "control"]

@@ -137,6 +137,11 @@ static func perform(state: RefCounted, base_def: Dictionary, content: Object, op
 	return result
 
 
+## Public entry for other systems (exploration) that grant the same reward types as activities.
+static func apply_reward(state: RefCounted, r: Dictionary, amount: int, content: Object) -> Array:
+	return _apply_reward(state, r, amount, content)
+
+
 ## Applies one reward. Returns the list of deltas actually applied (after clamping); may add an
 ## extra path_progress delta when an attribute gain is on the chosen path's affinity list.
 static func _apply_reward(state: RefCounted, r: Dictionary, amount: int, content: Object) -> Array:

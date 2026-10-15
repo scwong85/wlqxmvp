@@ -77,7 +77,7 @@ with sync_playwright() as p:
             page.screenshot(path=os.path.join(out_dir, "m7_party.png"))
             page.keyboard.press("Enter")      # focused Close button
             page.wait_for_timeout(300)
-            page.locator("canvas").click(position={"x": 535, "y": 635})   # confirm button
+            page.locator("canvas").click(position={"x": 420, "y": 635})   # confirm button
             chooser = wait_for(console, "CHOICE_SHOWN training", 10)
             page.wait_for_timeout(400)
             page.screenshot(path=os.path.join(out_dir, "m6_chooser.png"))
@@ -97,6 +97,22 @@ with sync_playwright() as p:
             ok_load = wait_for(console, "CULT_READY day=1 slot=2", 20, mark)
             page.wait_for_timeout(500)
             page.screenshot(path=os.path.join(out_dir, "m2_cultivation_after_load.png"))
+            # Exploration in the browser: rest into day 2, open Bamboo Pass, take two steps.
+            mark3 = len(console)
+            page.locator("canvas").click(position={"x": 697, "y": 467})   # rest card
+            page.locator("canvas").click(position={"x": 420, "y": 635})   # confirm
+            page.wait_for_timeout(1200)
+            page.locator("canvas").click(position={"x": 660, "y": 635})   # explore button
+            ok_explore = wait_for(console, "EXPLORE_READY route=bamboo_pass node=start", 15, mark3)
+            page.wait_for_timeout(500)
+            page.screenshot(path=os.path.join(out_dir, "m8_explore_start.png"))
+            page.keyboard.press("Enter")      # first open choice (old road)
+            wait_for(console, "EXPLORE start/old_road", 10, mark3)
+            page.keyboard.press("Enter")      # first open choice (greet the courier)
+            ok_prompt = wait_for(console, "RECRUIT_PROMPT lu_chenzhou", 10, mark3)
+            page.wait_for_timeout(400)
+            page.screenshot(path=os.path.join(out_dir, "m8_explore_recruit.png"))
+            results["checks"][name].update({"explore_opens": ok_explore, "explore_recruit_prompt": ok_prompt})
             results["checks"][name].update({"party_panel_opens": party, "chooser_opens": chooser, "autosave_ok": saved, "load_enabled_after_reload": ok_reload,
                                             "loaded_slot2_after_reload": ok_load})
 

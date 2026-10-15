@@ -211,5 +211,5 @@ func _migration_v3() -> void:
 	check.call(migrated.player.buffs == [], "migration v2->v3: buffs get an empty default")
 	var s := GameState.from_dict(migrated)
 	check.call(s.player.buffs.is_empty() and s.run_seed == 4, "migration v2->v3: state loads and keeps its data")
-	check.call(GameState.SCHEMA_VERSION == 3, "migration: schema version is 3")
+	check.call(GameState.SCHEMA_VERSION >= 3, "migration: schema version is at least 3")
 	svc.free()

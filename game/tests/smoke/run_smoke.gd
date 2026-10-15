@@ -208,6 +208,63 @@ func _run() -> void:
 	_check(cult._day_label.text == "Day 7 of 7", "language: cultivation screen follows the language toggle")
 	Loc.set_locale("zh_CN")
 
+	# --- Exploration (M8) ---
+	Saves.delete_slot(Saves.MANUAL)
+	Game.new_game(5)
+	Game.state.calendar.day = 2
+	preload("res://scripts/domain/relationship_rules.gd").refresh(Game.state, Content)  # day 2 normally arrives through a slot
+	Router.goto("cultivation")
+	await _frames(4)
+	cult = _scene()
+	_check(not cult.explore_button.disabled and cult.explore_button.text.contains(Loc.t("exploration.bamboo_pass")), "explore: the training screen offers Bamboo Pass from day 2")
+	cult.explore_button.pressed.emit()
+	await _frames(4)
+	_check(Router.current_key == "exploration" and Game.state.exploration.active, "explore: pressing it opens the exploration screen")
+	var ex := _scene()
+	_check(ex.choice_buttons.size() == 3 and ex.choice_buttons["ridge"].disabled and not ex.choice_buttons["old_road"].disabled, "explore: three paths, the ridge is gated by body")
+	_check(ex.choice_buttons["ridge"].text.contains(Loc.t("attr.body")), "explore: the gate reason is shown as text")
+	_check(ex.text_label.text == Loc.t("exploration.bamboo_pass.start.text"), "explore: the story text is shown from data")
+	problems = ex.audit_layout()
+	_check(problems.is_empty(), "explore: layout is clean with readable text %s" % str(problems.slice(0, 2)))
+	ex.choice_buttons["old_road"].pressed.emit()
+	await _frames(2)
+	ex.choice_buttons["greet"].pressed.emit()
+	await _frames(2)
+	_check(ex.recruit_panel != null and ex.recruit_accept_button == null, "explore: meeting the courier shows an invitation prompt (he is not ready yet)")
+	ex.choice_buttons["travel_on"].pressed.emit()
+	await _frames(1)
+	_check(Game.state.exploration.node == "courier", "explore: choices are blocked while the prompt is open")
+	ex.recruit_decline_button.pressed.emit()
+	await _frames(2)
+	_check(ex.recruit_panel == null and Game.state.exploration.pending_recruit == "" and Game.state.relationships.has_flag("declined_lu_chenzhou"), "explore: declining closes the prompt and is remembered")
+	ex.choice_buttons["travel_on"].pressed.emit()
+	await _frames(2)
+	ex.choice_buttons["pass_through"].pressed.emit()
+	await _frames(2)
+	_check(ex.continue_button != null and ex.result_label.text.contains(Loc.t("explore.ended")), "explore: the ending shows feedback and a return button")
+	_check(Game.state.calendar.slot == 2 and Game.state.exploration.completed == ["bamboo_pass"], "explore: finishing used one slot and is recorded")
+	ex.continue_button.pressed.emit()
+	await _frames(4)
+	cult = _scene()
+	_check(Router.current_key == "cultivation" and cult.explore_button.disabled, "explore: back on the training screen the route is marked done")
+
+	# Resume after reload: start again on a new run, choose once, drop the state, load, land on the same node.
+	Game.new_game(5)
+	Game.state.calendar.day = 2
+	preload("res://scripts/domain/relationship_rules.gd").refresh(Game.state, Content)  # day 2 normally arrives through a slot
+	Game.start_exploration("bamboo_pass")
+	Game.explore_choose("stream")
+	Game.state = null
+	_check(Game.load_latest().ok and Game.state.exploration.active, "explore: loading a mid-route save restores the route")
+	Router.goto("cultivation")
+	await _frames(5)
+	_check(Router.current_key == "exploration" and _scene().text_label.text == Loc.t("exploration.bamboo_pass.stream.text"), "explore: the training screen sends you back to the saved node")
+	Game.state.exploration.active = false
+	Game.autosave()
+	Router.goto("cultivation")
+	await _frames(4)
+	cult = _scene()
+
 	# --- Settings keeps working ---
 	cult.menu_button.pressed.emit()
 	await _frames(3)
