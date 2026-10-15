@@ -1,0 +1,174 @@
+{
+ "areas": [
+  {
+   "id": "valley_village",
+   "region": "jade_valley",
+   "name_key": "world.area.valley_village.name",
+   "desc_key": "world.area.valley_village.desc",
+   "cost": 1,
+   "wander": [
+    {
+     "text_key": "world.area.valley_village.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.valley_village.w2",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 8
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.valley_village.w3",
+     "rewards": [
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 6
+      }
+     ]
+    }
+   ],
+   "open_default": true
+  },
+  {
+   "id": "river_bend",
+   "region": "jade_valley",
+   "name_key": "world.area.river_bend.name",
+   "desc_key": "world.area.river_bend.desc",
+   "cost": 1,
+   "wander": [
+    {
+     "text_key": "world.area.river_bend.w1",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "food",
+       "amount": 2
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.river_bend.w2",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ]
+    }
+   ],
+   "open_default": true
+  },
+  {
+   "id": "herb_terraces",
+   "region": "jade_valley",
+   "name_key": "world.area.herb_terraces.name",
+   "desc_key": "world.area.herb_terraces.desc",
+   "cost": 1,
+   "wander": [
+    {
+     "text_key": "world.area.herb_terraces.w1",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "herbs",
+       "amount": 2
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.herb_terraces.w2",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "agility",
+       "amount": 1
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "seasons": [
+    0,
+    1,
+    2
+   ]
+  },
+  {
+   "id": "old_shrine",
+   "region": "jade_valley",
+   "name_key": "world.area.old_shrine.name",
+   "desc_key": "world.area.old_shrine.desc",
+   "cost": 1,
+   "wander": [
+    {
+     "text_key": "world.area.old_shrine.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.old_shrine.w2",
+     "rewards": [
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 6
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ferry_dock",
+   "region": "linjiang",
+   "name_key": "world.area.ferry_dock.name",
+   "desc_key": "world.area.ferry_dock.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.ferry_dock.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.ferry_dock.w2",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 12
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "ferry_rumor"
+    ],
+    "week_min": 12
+   }
+  }
+ ]
+}

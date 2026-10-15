@@ -43,7 +43,7 @@ func _migration() -> void:
 	check.call(fin.calendar.week == 5 and fin.calendar.slot == 2 and not fin.calendar.finished, "m15: a finished seven-day run returns to the end of the opening month, so its climax still happens")
 	var st: RefCounted = GameState.from_dict(svc.migrate({"calendar": {"day": 4, "slot": 1}}, 6))
 	check.call(st.calendar.week == 3 and st.calendar.year() == 1 and st.calendar.month() == 1, "m15: a migrated state loads on the new calendar")
-	check.call(GameState.SCHEMA_VERSION == 7, "m15: schema version is 7")
+	check.call(GameState.SCHEMA_VERSION == 8, "m15: schema version is 8")
 	svc.free()
 
 

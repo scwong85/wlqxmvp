@@ -4,7 +4,7 @@ extends RefCounted
 ##
 ## Dialogue: {id, entry:[{if?, node}], nodes:[{id, speaker_key?, text_key, on_enter?:[effect], next?:id, choices?:[choice]}]}
 ## Choice:   {id, label_key, gate?, effects?:[effect], next:id ("" ends)}
-## Effects:  flag, set_path, bond (id may be "$active"), resource, attr, stamina, battle (starts that fight when the scene ends),
+## Effects:  lead, schedule, unlock_area, lock_area (see WorldRules), flag, set_path, bond (id may be "$active"), resource, attr, stamina, battle (starts that fight when the scene ends),
 ##           queue (dialogue id to open next).
 ## Gates:    attr_min, bond_min, flag, flag_not (as in exploration) plus path_none, path_set and party_any.
 
@@ -12,6 +12,7 @@ const ExplorationSystem = preload("res://scripts/domain/exploration_system.gd")
 const ActivityRules = preload("res://scripts/domain/activity_rules.gd")
 const EventRules = preload("res://scripts/domain/event_rules.gd")
 const PartySystem = preload("res://scripts/domain/party_system.gd")
+const WorldRules = preload("res://scripts/domain/world_rules.gd")
 
 
 static func node_of(dlg: Dictionary, node_id: String) -> Dictionary:
@@ -101,7 +102,9 @@ static func _blank() -> Dictionary:
 static func _goto(state: RefCounted, dlg: Dictionary, next_id: String, result: Dictionary, content: Object) -> void:
 	if next_id == "" or node_of(dlg, next_id).is_empty():
 		var hook := str(state.story.dialogue.get("hook", ""))
-		if hook != "":
+		if hook.begins_with("event:"):
+			WorldRules.complete_event(state, content, hook.trim_prefix("event:"))
+		elif hook != "":
 			EventRules.mark_fired(state, hook)
 		state.story.dialogue = {}
 		result.ended = true
@@ -118,6 +121,8 @@ static func _enter(state: RefCounted, dlg: Dictionary, node_id: String, result: 
 
 static func _apply(state: RefCounted, e: Dictionary, result: Dictionary, content: Object) -> void:
 	var id := str(e.get("id", ""))
+	if WorldRules.apply_effect(state, e, content):
+		return
 	match str(e.type):
 		"flag":
 			state.relationships.set_flag(id)

@@ -1,7 +1,7 @@
 extends RefCounted
 ## Everything that must survive a save/load. Never put transient UI state here.
 
-const SCHEMA_VERSION := 7
+const SCHEMA_VERSION := 8
 
 const PlayerState = preload("res://scripts/domain/player_state.gd")
 const CalendarState = preload("res://scripts/domain/calendar_state.gd")
@@ -9,6 +9,7 @@ const ResourceState = preload("res://scripts/domain/resource_state.gd")
 const CultivationState = preload("res://scripts/domain/cultivation_state.gd")
 const RelationshipState = preload("res://scripts/domain/relationship_state.gd")
 const StoryState = preload("res://scripts/domain/story_state.gd")
+const WorldState = preload("res://scripts/domain/world_state.gd")
 const ExplorationState = preload("res://scripts/domain/exploration_state.gd")
 const CultivationRules = preload("res://scripts/domain/cultivation_rules.gd")
 
@@ -19,6 +20,7 @@ var cultivation: RefCounted
 var relationships: RefCounted
 var exploration: RefCounted
 var story: RefCounted
+var world: RefCounted
 ## Snapshot of a battle in progress (see Battle.to_dict plus ctx), empty when none. Lets an interrupted fight resume.
 var battle: Dictionary = {}
 ## Seeds every skill check in this run, so outcomes are reproducible from a save.
@@ -33,6 +35,7 @@ func _init() -> void:
 	relationships = RelationshipState.new()
 	exploration = ExplorationState.new()
 	story = StoryState.new()
+	world = WorldState.new()
 	_resolve_stamina()
 
 
@@ -59,6 +62,7 @@ func to_dict() -> Dictionary:
 		"exploration": exploration.to_dict(),
 		"battle": battle.duplicate(true),
 		"story": story.to_dict(),
+		"world": world.to_dict(),
 		"run_seed": run_seed,
 	}
 
@@ -75,6 +79,7 @@ static func from_dict(d: Variant) -> RefCounted:
 	s.relationships = RelationshipState.from_dict(d.get("relationships"))
 	s.exploration = ExplorationState.from_dict(d.get("exploration"))
 	s.story = StoryState.from_dict(d.get("story"))
+	s.world = WorldState.from_dict(d.get("world"))
 	var snap: Variant = d.get("battle")
 	s.battle = (snap as Dictionary).duplicate(true) if snap is Dictionary else {}
 	s.run_seed = maxi(0, int(d.get("run_seed", 1)))

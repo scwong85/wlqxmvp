@@ -146,6 +146,7 @@ func parse_envelope(text: String) -> Dictionary:
 ## v4 -> v5: adds the snapshot of a battle in progress (empty by default).
 ## v5 -> v6: adds story progress (open dialogue, queued dialogue, ending).
 ## v6 -> v7: the 3-year calendar (weeks instead of days).
+## v7 -> v8: the world state (events done or missed, leads, areas).
 func migrate(state_dict: Dictionary, from_version: int) -> Dictionary:
 	var d: Dictionary = state_dict.duplicate(true)
 	if from_version < 2:
@@ -176,6 +177,8 @@ func migrate(state_dict: Dictionary, from_version: int) -> Dictionary:
 				cal["week"] = 5
 				cal["slot"] = 2
 			d["calendar"] = cal
+	if from_version < 8:
+		d["world"] = {"done": {}, "missed": [], "scheduled": {}, "cooldown": {}, "leads": [], "areas_open": [], "areas_closed": [], "visits": {}}
 	return d
 
 

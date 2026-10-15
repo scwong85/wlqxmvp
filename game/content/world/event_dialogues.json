@@ -1,0 +1,481 @@
+{
+ "dialogues": [
+  {
+   "id": "ev_f_aftermath",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.f_aftermath.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "text_key": "event.f_aftermath.2",
+     "speaker_key": "story.speaker.elder",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.f_aftermath.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "aftermath_seen"
+      },
+      {
+       "type": "schedule",
+       "id": "f_gossip",
+       "min": 1,
+       "max": 4
+      },
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_f_gossip",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.f_gossip.1",
+     "speaker_key": "world.speaker.villager",
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "text_key": "event.f_gossip.2",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "lead",
+       "id": "shrine_rumor"
+      },
+      {
+       "type": "unlock_area",
+       "id": "old_shrine"
+      },
+      {
+       "type": "schedule",
+       "id": "f_shrine_first",
+       "min": 1,
+       "max": 6
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_f_shrine_first",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.f_shrine_first.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "text_key": "event.f_shrine_first.2",
+     "speaker_key": "world.speaker.wanderer",
+     "choices": [
+      {
+       "id": "fight",
+       "label_key": "event.f_shrine_first.c.fight",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "shrine_seen"
+        },
+        {
+         "type": "lead",
+         "id": "ferry_rumor"
+        },
+        {
+         "type": "battle",
+         "id": "bandit_scouts"
+        }
+       ]
+      },
+      {
+       "id": "sneak",
+       "label_key": "event.f_shrine_first.c.sneak",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "shrine_seen"
+        },
+        {
+         "type": "lead",
+         "id": "ferry_rumor"
+        },
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 2
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_f_spring_fair",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.f_spring_fair.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "text_key": "event.f_spring_fair.2",
+     "speaker_key": "world.speaker.villager",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.f_spring_fair.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 25
+      },
+      {
+       "type": "resource",
+       "id": "food",
+       "amount": 2
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_f_herb_lesson",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.f_herb_lesson.1",
+     "speaker_key": "story.speaker.elder",
+     "choices": [
+      {
+       "id": "learn",
+       "label_key": "event.f_herb_lesson.c.learn",
+       "next": "",
+       "effects": [
+        {
+         "type": "resource",
+         "id": "herbs",
+         "amount": 3
+        },
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 1
+        },
+        {
+         "type": "flag",
+         "id": "herb_lesson_done"
+        }
+       ]
+      },
+      {
+       "id": "help",
+       "label_key": "event.f_herb_lesson.c.help",
+       "next": "",
+       "effects": [
+        {
+         "type": "resource",
+         "id": "herbs",
+         "amount": 1
+        },
+        {
+         "type": "resource",
+         "id": "coins",
+         "amount": 6
+        },
+        {
+         "type": "flag",
+         "id": "herb_lesson_done"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_f_ferry_rumor",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.f_ferry_rumor.1",
+     "speaker_key": "world.speaker.wanderer",
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "text_key": "event.f_ferry_rumor.2",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "ferry_seen"
+      },
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_r_village_chat",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.r_village_chat.1",
+     "speaker_key": "world.speaker.villager",
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "text_key": "event.r_village_chat.2",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_r_herb_find",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.r_herb_find.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "resource",
+       "id": "herbs",
+       "amount": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_r_fish_tale",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.r_fish_tale.1",
+     "speaker_key": "world.speaker.villager",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "resource",
+       "id": "food",
+       "amount": 2
+      },
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 5
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_r_bandit_stray",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.r_bandit_stray.1",
+     "speaker_key": "world.speaker.wanderer",
+     "choices": [
+      {
+       "id": "fight",
+       "label_key": "event.r_bandit_stray.c.fight",
+       "next": "",
+       "effects": [
+        {
+         "type": "battle",
+         "id": "bandit_scouts"
+        }
+       ]
+      },
+      {
+       "id": "pay",
+       "label_key": "event.r_bandit_stray.c.pay",
+       "next": "",
+       "effects": [
+        {
+         "type": "resource",
+         "id": "coins",
+         "amount": -10
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_r_shrine_dream",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.r_shrine_dream.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "text_key": "event.r_shrine_dream.2",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      },
+      {
+       "type": "attr",
+       "id": "power",
+       "amount": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_r_elder_lesson",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.r_elder_lesson.1",
+     "speaker_key": "story.speaker.elder",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "agility",
+       "amount": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_r_winter_frost",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.r_winter_frost.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 8
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,192 @@
+{
+ "events": [
+  {
+   "id": "f_aftermath",
+   "kind": "fixed",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_f_aftermath"
+   },
+   "window": {
+    "from": 6,
+    "to": 10
+   },
+   "priority": 5
+  },
+  {
+   "id": "f_gossip",
+   "kind": "fixed",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_f_gossip"
+   },
+   "priority": 4
+  },
+  {
+   "id": "f_shrine_first",
+   "kind": "fixed",
+   "area": "old_shrine",
+   "scene": {
+    "dialogue": "ev_f_shrine_first"
+   },
+   "requires": {
+    "lead": [
+     "shrine_rumor"
+    ]
+   },
+   "priority": 3,
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "shrine_missed"
+    }
+   ]
+  },
+  {
+   "id": "f_spring_fair",
+   "kind": "fixed",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_f_spring_fair"
+   },
+   "window": {
+    "from": 11,
+    "to": 15
+   },
+   "requires": {
+    "season": [
+     0
+    ]
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "fair_missed"
+    }
+   ]
+  },
+  {
+   "id": "f_herb_lesson",
+   "kind": "fixed",
+   "area": "herb_terraces",
+   "scene": {
+    "dialogue": "ev_f_herb_lesson"
+   },
+   "window": {
+    "from": 8,
+    "to": 20
+   },
+   "requires": {
+    "week_min": 8
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "herb_missed"
+    }
+   ]
+  },
+  {
+   "id": "f_ferry_rumor",
+   "kind": "fixed",
+   "area": "ferry_dock",
+   "scene": {
+    "dialogue": "ev_f_ferry_rumor"
+   },
+   "window": {
+    "from": 20,
+    "to": 40
+   },
+   "requires": {
+    "lead": [
+     "ferry_rumor"
+    ]
+   }
+  },
+  {
+   "id": "r_village_chat",
+   "kind": "random",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_r_village_chat"
+   },
+   "weight": 3,
+   "cooldown": 4
+  },
+  {
+   "id": "r_herb_find",
+   "kind": "random",
+   "area": "herb_terraces",
+   "scene": {
+    "dialogue": "ev_r_herb_find"
+   },
+   "weight": 3,
+   "cooldown": 3,
+   "requires": {
+    "season": [
+     0,
+     1,
+     2
+    ]
+   }
+  },
+  {
+   "id": "r_fish_tale",
+   "kind": "random",
+   "area": "river_bend",
+   "scene": {
+    "dialogue": "ev_r_fish_tale"
+   },
+   "weight": 3,
+   "cooldown": 3
+  },
+  {
+   "id": "r_bandit_stray",
+   "kind": "random",
+   "area": "river_bend",
+   "scene": {
+    "dialogue": "ev_r_bandit_stray"
+   },
+   "weight": 2,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 6
+   }
+  },
+  {
+   "id": "r_shrine_dream",
+   "kind": "random",
+   "area": "old_shrine",
+   "scene": {
+    "dialogue": "ev_r_shrine_dream"
+   },
+   "weight": 2,
+   "cooldown": 10
+  },
+  {
+   "id": "r_elder_lesson",
+   "kind": "random",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_r_elder_lesson"
+   },
+   "weight": 2,
+   "cooldown": 15
+  },
+  {
+   "id": "r_winter_frost",
+   "kind": "random",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_r_winter_frost"
+   },
+   "weight": 4,
+   "cooldown": 6,
+   "requires": {
+    "season": [
+     3
+    ]
+   }
+  }
+ ]
+}

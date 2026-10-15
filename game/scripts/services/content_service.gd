@@ -25,6 +25,8 @@ var combat_units: Array = []
 var scenarios: Array = []
 var dialogues: Array = []
 var endings: Array = []
+var areas: Array = []
+var events: Array = []
 
 
 func _ready() -> void:
@@ -45,6 +47,9 @@ func load_all() -> void:
 	scenarios = _load_list("combat/scenarios.json", "scenarios")
 	dialogues = _load_list("story/dialogues.json", "dialogues")
 	endings = _load_list("story/endings.json", "endings")
+	areas = _load_list("world/areas.json", "areas")
+	events = _load_list("world/events.json", "events")
+	dialogues.append_array(_load_list("world/event_dialogues.json", "dialogues"))
 
 
 func _load_list(rel: String, key: String) -> Array:
@@ -74,6 +79,14 @@ func dialogue(id: String) -> Dictionary:
 
 func ending(id: String) -> Dictionary:
 	return _find(endings, id)
+
+
+func area(id: String) -> Dictionary:
+	return _find(areas, id)
+
+
+func event(id: String) -> Dictionary:
+	return _find(events, id)
 
 
 func combat_tech(id: String) -> Dictionary:
@@ -200,6 +213,7 @@ func validate(has_key: Callable) -> Array[String]:
 				if not has_key.call(str(h.get(k, ""))):
 					errs.append("hook %s: translation key missing for %s" % [hid, k])
 	errs.append_array(_validate_story(has_key))
+	errs.append_array(_validate_world(has_key))
 	return errs
 
 
@@ -209,7 +223,7 @@ const EFFECT_EXTRA := ["clue", "flag", "battle"]
 
 ## Route graphs: every node reachable, every node able to reach an end, every choice target present,
 ## at least one always-open choice per node, and valid text keys, gates, checks and effects.
-const DIALOGUE_EFFECTS := ["flag", "set_path", "bond", "resource", "attr", "stamina", "battle", "queue"]
+const DIALOGUE_EFFECTS := ["flag", "set_path", "bond", "resource", "attr", "stamina", "battle", "queue", "lead", "schedule", "unlock_area", "lock_area"]
 
 
 ## Dialogues: unique ids, every node reachable, every next/choice target present, text keys, effects, gates.
@@ -307,6 +321,7 @@ func _validate_story(has_key: Callable) -> Array[String]:
 func _validate_dialogue_effect(label: String, e: Dictionary) -> Array[String]:
 	var errs: Array[String] = []
 	var t := str(e.get("type", ""))
+	var id := str(e.get("id", ""))
 	if not DIALOGUE_EFFECTS.has(t):
 		errs.append("%s: unknown effect '%s'" % [label, t])
 	if t == "battle" and scenario_for_battle(str(e.get("id", ""))).is_empty():
@@ -317,6 +332,12 @@ func _validate_dialogue_effect(label: String, e: Dictionary) -> Array[String]:
 		errs.append("%s: queued dialogue %s is missing" % [label, str(e.get("id", ""))])
 	if t == "bond" and str(e.get("id", "")) != "$active" and companion(str(e.get("id", ""))).is_empty():
 		errs.append("%s: bond with unknown companion %s" % [label, str(e.get("id", ""))])
+	if t == "schedule" and event(id).is_empty():
+		errs.append("%s: schedules unknown event %s" % [label, id])
+	if (t == "unlock_area" or t == "lock_area") and area(id).is_empty():
+		errs.append("%s: %s unknown area %s" % [label, t, id])
+	if t == "lead" and id == "":
+		errs.append("%s: lead needs an id" % label)
 	if ["bond", "resource", "attr", "stamina"].has(t) and not e.has("amount"):
 		errs.append("%s: effect %s needs an amount" % [label, t])
 	return errs
@@ -640,4 +661,69 @@ func _validate_reward(act_id: String, r: Dictionary, has_key: Callable) -> Array
 		"path_progress":
 			if id != "current" and path(id).is_empty():
 				errs.append("activity %s: reward path '%s' unknown" % [act_id, id])
+	return errs
+
+
+## Areas and events: unique ids, valid regions and windows, scenes that exist, follow-ups that exist, every fixed event
+## reachable (own window or scheduled by something), every flag that is read is set somewhere.
+const REGIONS := ["jade_valley", "linjiang", "cangwu", "marsh", "yanmen", "penglai"]
+
+
+func _validate_world(has_key: Callable) -> Array[String]:
+	var errs: Array[String] = []
+	var aids := {}
+	for a in areas:
+		var id := str(a.get("id", ""))
+		if id == "" or aids.has(id):
+			errs.append("area: missing or duplicate id '%s'" % id)
+		aids[id] = true
+		if not REGIONS.has(str(a.get("region", ""))):
+			errs.append("area %s: unknown region" % id)
+		for k in ["name_key", "desc_key"]:
+			if not has_key.call(str(a.get(k, ""))):
+				errs.append("area %s: missing key %s" % [id, k])
+		for w in a.get("wander", []):
+			if not has_key.call(str(w.get("text_key", ""))):
+				errs.append("area %s: wander text key missing" % id)
+		if (a.get("wander", []) as Array).is_empty():
+			errs.append("area %s: needs at least one wander line" % id)
+	var scheduled_by := {}
+	for d in dialogues:
+		for n in d.get("nodes", []):
+			var effs: Array = n.get("on_enter", []).duplicate()
+			for c in n.get("choices", []):
+				effs.append_array(c.get("effects", []))
+			for e in effs:
+				if str(e.get("type", "")) == "schedule":
+					scheduled_by[str(e.id)] = true
+	var eids := {}
+	for ev in events:
+		var id := str(ev.get("id", ""))
+		if id == "" or eids.has(id):
+			errs.append("event: missing or duplicate id '%s'" % id)
+		eids[id] = true
+		if not aids.has(str(ev.get("area", ""))):
+			errs.append("event %s: unknown area" % id)
+		var kind := str(ev.get("kind", ""))
+		if kind != "fixed" and kind != "random":
+			errs.append("event %s: kind must be fixed or random" % id)
+		if ev.has("window"):
+			var f := int(ev.window.get("from", 0))
+			var t := int(ev.window.get("to", 0))
+			if f < 1 or t > CalendarState.WEEKS or f > t:
+				errs.append("event %s: bad window %d..%d" % [id, f, t])
+		if kind == "fixed" and not ev.has("window") and not scheduled_by.has(id):
+			errs.append("event %s: a fixed event needs a window or something that schedules it" % id)
+		if kind == "random" and ev.has("window") and int(ev.window.get("from", 0)) > int(ev.window.get("to", 0)):
+			errs.append("event %s: bad window" % id)
+		if dialogue(str(ev.get("scene", {}).get("dialogue", ""))).is_empty():
+			errs.append("event %s: scene dialogue missing" % id)
+		for e in ev.get("on_miss", []):
+			errs.append_array(_validate_dialogue_effect("event %s on_miss" % id, e))
+		for e in ev.get("requires", {}).get("done", []) + ev.get("requires", {}).get("not_done", []):
+			if not events.any(func(x: Dictionary) -> bool: return str(x.id) == str(e)):
+				errs.append("event %s: requires unknown event %s" % [id, str(e)])
+	var report := preload("res://scripts/domain/world_rules.gd").flag_report(self)
+	for f in report.unset:
+		errs.append("flag '%s' is read but never set by anything" % str(f))
 	return errs

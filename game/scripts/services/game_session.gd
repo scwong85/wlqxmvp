@@ -10,6 +10,8 @@ const ExplorationSystem = preload("res://scripts/domain/exploration_system.gd")
 const BattleSetup = preload("res://scripts/domain/combat/battle_setup.gd")
 const DialogueSystem = preload("res://scripts/domain/dialogue_system.gd")
 const EndingRules = preload("res://scripts/domain/ending_rules.gd")
+const WorldRules = preload("res://scripts/domain/world_rules.gd")
+const DayRules = preload("res://scripts/domain/day_rules.gd")
 const BattleResult = preload("res://scripts/domain/combat/battle_result.gd")
 
 var state: RefCounted = null
@@ -229,6 +231,7 @@ func finish_battle() -> String:
 ## dialogue, a day-start dialogue, or the final crisis once the week is over. "" means play on as normal.
 func next_story_scene() -> String:
 	var st := ensure_state()
+	WorldRules.sweep_missed(st, Content)
 	if has_saved_battle() and resume_battle():
 		return "battle"
 	if DialogueSystem.is_open(st):
@@ -294,3 +297,38 @@ func after_dialogue(result: Dictionary) -> String:
 ## Starts over: a fresh run replaces the finished one.
 func restart_run() -> void:
 	new_game()
+
+
+# --- The world: areas and events (M16) ----------------------------------------------------------
+
+## Goes to an area: spends its travel cost in slots, then plays a due fixed event, a random one, or a short wander.
+## Returns {ok, reasons, event_id, wander, deltas, time, scene} where scene is "dialogue" when an event scene opened.
+func visit_area(area_id: String) -> Dictionary:
+	var st := ensure_state()
+	var p: Dictionary = WorldRules.pick(st, Content, area_id)
+	if not p.ok:
+		return {"ok": false, "reasons": p.reasons, "event_id": "", "wander": {}, "deltas": [], "time": {}, "scene": ""}
+	var time: Dictionary = {}
+	for i in int(p.cost):
+		if st.calendar.finished:
+			break
+		var t: Dictionary = DayRules.end_slot(st)
+		if time.is_empty():
+			time = t
+		else:
+			time["finished"] = t.finished
+			time["new_week"] = bool(time.get("new_week", false)) or bool(t.new_week)
+			time["recovered"] = int(time.get("recovered", 0)) + int(t.recovered)
+	RelationshipRules.refresh(st, Content)
+	var result := {"ok": true, "reasons": [], "event_id": "", "wander": p.wander, "deltas": [], "time": time, "scene": ""}
+	if not (p.event as Dictionary).is_empty():
+		result.event_id = str(p.event.id)
+		var r: Dictionary = DialogueSystem.start(st, Content.dialogue(str(p.event.scene.dialogue)), "event:" + result.event_id, Content)
+		if r.ok:
+			result.scene = "dialogue"
+	else:
+		WorldRules.note_visit(st, area_id)
+		for rw in (p.wander as Dictionary).get("rewards", []):
+			result.deltas.append_array(ActivityRules.apply_reward(st, {"type": str(rw.type), "id": str(rw.id)}, int(rw.amount), Content))
+	autosave()
+	return result
