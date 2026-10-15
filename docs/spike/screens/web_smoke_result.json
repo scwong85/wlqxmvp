@@ -1,5 +1,5 @@
 {
-  "url": "http://127.0.0.1:34453/index.html",
+  "url": "http://127.0.0.1:46835/index.html",
   "checks": {
     "1280x720": {
       "hero_creation_shown": true,
@@ -24,6 +24,8 @@
       "fast_click": true,
       "end_click": true,
       "enemies_act_then_player_again": true,
+      "minigame_opens": true,
+      "minigame_start_click": true,
       "audit_lines": [
         "log: LAYOUT_AUDIT size=1280x720 problems=0",
         "log: LAYOUT_AUDIT size=1280x720 problems=0",
@@ -50,6 +52,8 @@
       "fast_click": true,
       "end_click": true,
       "enemies_act_then_player_again": true,
+      "minigame_opens": true,
+      "minigame_start_click": true,
       "audit_lines": [
         "log: LAYOUT_AUDIT size=1280x720 problems=0",
         "log: LAYOUT_AUDIT size=1280x720 problems=0",
@@ -76,6 +80,8 @@
       "fast_click": true,
       "end_click": true,
       "enemies_act_then_player_again": true,
+      "minigame_opens": true,
+      "minigame_start_click": true,
       "audit_lines": [
         "log: LAYOUT_AUDIT size=1600x720 problems=0",
         "log: LAYOUT_AUDIT size=1600x720 problems=0",
@@ -112,6 +118,8 @@
       "fast_click": true,
       "end_click": true,
       "enemies_act_then_player_again": true,
+      "minigame_opens": true,
+      "minigame_start_click": true,
       "audit_lines": [
         "log: LAYOUT_AUDIT size=540x1168 problems=0",
         "log: LAYOUT_AUDIT size=540x1168 problems=0",
@@ -140,6 +148,8 @@
       "fast_click": true,
       "end_click": true,
       "enemies_act_then_player_again": true,
+      "minigame_opens": true,
+      "minigame_start_click": true,
       "audit_lines": [
         "log: LAYOUT_AUDIT size=540x960 problems=0",
         "log: LAYOUT_AUDIT size=540x960 problems=0",
@@ -168,6 +178,8 @@
       "fast_click": true,
       "end_click": true,
       "enemies_act_then_player_again": true,
+      "minigame_opens": true,
+      "minigame_start_click": true,
       "audit_lines": [
         "log: LAYOUT_AUDIT size=720x960 problems=0",
         "log: LAYOUT_AUDIT size=720x960 problems=0",
@@ -183,40 +195,40 @@
   "errors": [],
   "perf": {
     "1280x720": {
-      "frames": 21,
-      "avg_ms": 141.3,
-      "p95_ms": 199.9,
+      "frames": 19,
+      "avg_ms": 151.7,
+      "p95_ms": 216.7,
       "max_ms": 216.7
     },
     "1920x1080": {
-      "frames": 13,
-      "avg_ms": 206.4,
-      "p95_ms": 333.2,
-      "max_ms": 333.3
+      "frames": 11,
+      "avg_ms": 283.3,
+      "p95_ms": 366.6,
+      "max_ms": 450
     },
     "2400x1080": {
       "frames": 9,
-      "avg_ms": 314.8,
-      "p95_ms": 400.1,
-      "max_ms": 483.4
+      "avg_ms": 307.4,
+      "p95_ms": 383.3,
+      "max_ms": 433.3
     },
     "portrait_390x844": {
       "frames": 40,
-      "avg_ms": 73.7,
-      "p95_ms": 133.4,
-      "max_ms": 150
+      "avg_ms": 73.3,
+      "p95_ms": 116.6,
+      "max_ms": 149.9
     },
     "portrait_360x640": {
-      "frames": 58,
-      "avg_ms": 50.9,
+      "frames": 57,
+      "avg_ms": 52.9,
       "p95_ms": 83.3,
-      "max_ms": 116.7
+      "max_ms": 83.3
     },
     "portrait_768x1024": {
-      "frames": 24,
-      "avg_ms": 122.2,
-      "p95_ms": 166.7,
-      "max_ms": 266.7
+      "frames": 25,
+      "avg_ms": 121.3,
+      "p95_ms": 200,
+      "max_ms": 233.3
     }
   },
   "passed": true
