@@ -4,6 +4,7 @@ extends RefCounted
 ## (accept is null when the conditions are not met yet). `on_done` is called after either button.
 
 const UiKit = preload("res://scripts/ui/ui_kit.gd")
+const OverlayUtil = preload("res://scenes/shared/overlay_util.gd")
 const RelationshipRules = preload("res://scripts/domain/relationship_rules.gd")
 
 
@@ -23,19 +24,9 @@ static func build(npc_id: String, on_done: Callable) -> Dictionary:
 	var ev: Dictionary = RelationshipRules.evaluate_recruitment(Game.state, npc_id, Content)
 	if ev.result == "unavailable":
 		return {}
-	var overlay := ColorRect.new()
-	overlay.color = Color(0, 0, 0, 0.62)
-	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.add_child(center)
-	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(760, 0)
-	center.add_child(panel)
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 8)
-	panel.add_child(box)
+	var parts := OverlayUtil.make(760)
+	var overlay: Control = parts[0]
+	var box: VBoxContainer = parts[1]
 	var name_text: String = Loc.t("npc." + npc_id)
 	var title := UiKit.make_label(28)
 	title.text = Loc.t("recruit.title", {"name": name_text})

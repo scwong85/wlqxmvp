@@ -24,7 +24,8 @@ threading.Thread(target=httpd.serve_forever, daemon=True).start()
 url = f"http://127.0.0.1:{httpd.server_address[1]}/index.html"
 
 SIZES = [("1280x720", 1280, 720, False), ("1920x1080", 1920, 1080, False),
-         ("2400x1080", 2400, 1080, True), ("portrait_390x844", 390, 844, True)]
+         ("2400x1080", 2400, 1080, True), ("portrait_390x844", 390, 844, True),
+         ("portrait_360x640", 360, 640, True), ("portrait_768x1024", 768, 1024, True)]
 
 results = {"url": url, "checks": {}, "errors": []}
 
@@ -40,6 +41,24 @@ def wait_for(console, marker, timeout_s=60, start=0):
 page_ref = {}
 
 
+def ui_pos(console, name, start=0):
+    """Pixel position of a control, from the engine's latest UI_POS line after `start` (logical -> CSS px)."""
+    for line in reversed(console[start:]):
+        if "UI_POS" in line and f" {name}=" in line:
+            vp = line.split("vp=")[1].split(" ")[0].split(",")
+            x, y = line.split(f" {name}=")[1].split(" ")[0].split(",")
+            return float(x) * page_ref["w"] / float(vp[0]), float(y) * page_ref["h"] / float(vp[1])
+    return None
+
+
+def click_ui(console, name, start=0):
+    pos = ui_pos(console, name, start)
+    if pos is None:
+        return False
+    page_ref["p"].mouse.click(pos[0], pos[1])
+    return True
+
+
 def page_wait(ms):
     page_ref["p"].wait_for_timeout(ms)
 
@@ -53,6 +72,7 @@ with sync_playwright() as p:
         ctx = browser.new_context(viewport={"width": w, "height": h}, has_touch=touch)
         page = ctx.new_page()
         page_ref["p"] = page
+        page_ref["w"], page_ref["h"] = w, h
         page.on("console", lambda m, c=console: c.append(f"{m.type}: {m.text}"))
         page.on("pageerror", lambda e, c=console: c.append(f"error: pageerror {e}"))
         page.goto(url, wait_until="load")
@@ -116,7 +136,55 @@ with sync_playwright() as p:
             results["checks"][name].update({"party_panel_opens": party, "chooser_opens": chooser, "autosave_ok": saved, "load_enabled_after_reload": ok_reload,
                                             "loaded_slot2_after_reload": ok_load})
 
-        if not name.startswith("portrait"):  # landscape sizes must pass the layout audit
+        if name.startswith("portrait"):
+            checks = results["checks"][name]
+            m0 = len(console)
+            page.wait_for_timeout(400)
+            page.screenshot(path=os.path.join(out_dir, f"{name}_hero_tab.png"))
+            m1 = len(console)
+            checks["tab_click"] = click_ui(console, "tab_activities")
+            checks["tab_switched"] = wait_for(console, "UI_POS", 8, m1) and ui_pos(console, "confirm", m1) is not None
+            page.wait_for_timeout(300)
+            page.screenshot(path=os.path.join(out_dir, f"{name}_activities_tab.png"))
+            m2 = len(console)
+            if name == "portrait_390x844":
+                click_ui(console, "confirm", m1)
+                checks["chooser_opens"] = wait_for(console, "CHOICE_SHOWN training", 8, m2)
+                page.wait_for_timeout(300)
+                page.screenshot(path=os.path.join(out_dir, f"{name}_chooser.png"))
+                page.keyboard.press("Enter")   # first approach is focused: perform it
+                checks["autosave_ok"] = wait_for(console, "SAVE auto ok=true", 8, m2)
+                m3 = len(console)
+                click_ui(console, "party", m1)
+                checks["party_opens"] = wait_for(console, "PARTY_SHOWN", 8, m3)
+                page.wait_for_timeout(300)
+                page.screenshot(path=os.path.join(out_dir, f"{name}_party.png"))
+                page.keyboard.press("Enter")   # focused Close
+                page.wait_for_timeout(300)
+                click_ui(console, "tab_stats", m1)
+                page.wait_for_timeout(500)
+                page.screenshot(path=os.path.join(out_dir, f"{name}_stats_tab.png"))
+                click_ui(console, "tab_activities", m1)
+                m4 = len(console)
+                wait_for(console, "UI_POS", 8, m4)
+                click_ui(console, "card_rest", m4)         # rest -> day 2
+                page.wait_for_timeout(300)
+                click_ui(console, "confirm", m4)
+                wait_for(console, "SAVE auto ok=true", 8, m4)
+                page.wait_for_timeout(500)
+                m5 = len(console)
+                click_ui(console, "explore", m1)
+                checks["explore_opens"] = wait_for(console, "EXPLORE_READY route=bamboo_pass", 15, m5)
+                page.wait_for_timeout(500)
+                page.screenshot(path=os.path.join(out_dir, f"{name}_explore.png"))
+                page.keyboard.press("Enter")
+                wait_for(console, "EXPLORE start/old_road", 8, m5)
+                page.keyboard.press("Enter")
+                checks["recruit_prompt"] = wait_for(console, "RECRUIT_PROMPT lu_chenzhou", 8, m5)
+                page.wait_for_timeout(400)
+                page.screenshot(path=os.path.join(out_dir, f"{name}_recruit.png"))
+
+        if True:  # every size, portrait included, must pass the layout audit
             audits = [c for c in console if "LAYOUT_AUDIT" in c]
             results["checks"][name]["audit_lines"] = [c for c in console if "LAYOUT_AUDIT" in c or "audit:" in c][:6]
             results["checks"][name]["layout_audit_clean"] = bool(audits) and all("problems=0" in c for c in audits)

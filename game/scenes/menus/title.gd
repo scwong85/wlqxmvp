@@ -8,6 +8,7 @@ const SafeFrame = preload("res://scenes/shared/safe_frame.gd")
 var start_button: Button
 var load_button: Button
 var settings_button: Button
+var fullscreen_button: Button   # web only
 
 var _name_label: Label
 var _tagline_label: Label
@@ -15,6 +16,7 @@ var load_note: Label
 
 var _load_error: String = ""
 var _build_label: Label
+var _box: VBoxContainer
 
 
 func _ready() -> void:
@@ -24,6 +26,7 @@ func _ready() -> void:
 	add_child(frame)
 
 	var box := VBoxContainer.new()
+	_box = box
 	box.alignment = BoxContainer.ALIGNMENT_CENTER
 	box.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	box.add_theme_constant_override("separation", 18)
@@ -43,6 +46,11 @@ func _ready() -> void:
 		b.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 		box.add_child(b)
 
+	if Layout.fullscreen_available():
+		fullscreen_button = UiKit.make_button()
+		fullscreen_button.pressed.connect(func() -> void: Layout.toggle_fullscreen())
+		box.add_child(fullscreen_button)
+
 	# Touch users cannot hover for a tooltip, so the reason is also shown as visible text.
 	load_note = UiKit.make_label(24)
 	load_note.modulate = Color(1, 1, 1, 0.8)
@@ -55,9 +63,26 @@ func _ready() -> void:
 	load_button.pressed.connect(_on_load)
 	settings_button.pressed.connect(func() -> void: Router.goto("settings"))
 	Loc.locale_changed.connect(func(_c: String) -> void: _refresh())
+	Layout.mode_changed.connect(func(_m: String) -> void: _apply_layout())
 	_refresh()
+	_apply_layout()
 	start_button.grab_focus()
 	print("TITLE_READY load_enabled=%s" % (not load_button.disabled))
+
+
+## Landscape: big title and compact buttons on the left. Portrait: centred column, full-width buttons.
+func _apply_layout() -> void:
+	var portrait: bool = Layout.is_portrait()
+	_name_label.add_theme_font_size_override("font_size", 72 if portrait else 96)
+	_tagline_label.add_theme_font_size_override("font_size", 28 if portrait else 34)
+	var align := HORIZONTAL_ALIGNMENT_CENTER if portrait else HORIZONTAL_ALIGNMENT_LEFT
+	for l in [_name_label, _tagline_label, load_note, _build_label]:
+		l.horizontal_alignment = align
+	var buttons: Array = [start_button, load_button, settings_button]
+	if fullscreen_button != null:
+		buttons.append(fullscreen_button)
+	for b in buttons:
+		b.size_flags_horizontal = Control.SIZE_FILL if portrait else Control.SIZE_SHRINK_BEGIN
 
 
 func _refresh() -> void:
@@ -66,6 +91,8 @@ func _refresh() -> void:
 	start_button.text = Loc.t("ui.start")
 	load_button.text = Loc.t("ui.load")
 	settings_button.text = Loc.t("ui.settings")
+	if fullscreen_button != null:
+		fullscreen_button.text = Loc.t("ui.fullscreen")
 	_refresh_load()
 	_build_label.text = Loc.t("ui.build", {"v": "0.1 M1"})
 

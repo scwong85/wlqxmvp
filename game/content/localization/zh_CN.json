@@ -318,5 +318,9 @@
   "clue.pass_secret": "关门密符",
   "battle.bandit_scouts": "山匪探子",
   "explore.fx.flag": "剧情推进",
-  "explore.choose": "选择"
+  "explore.choose": "选择",
+  "ui.fullscreen": "全屏（手机竖屏）",
+  "cult.tab.hero": "主角",
+  "cult.tab.activities": "修行",
+  "cult.tab.stats": "状态"
 }

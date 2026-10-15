@@ -15,6 +15,7 @@ const ActivityRules = preload("res://scripts/domain/activity_rules.gd")
 const RelationshipRules = preload("res://scripts/domain/relationship_rules.gd")
 const CompanionPortrait = preload("res://scenes/shared/companion_portrait.gd")
 const ExplorationSystem = preload("res://scripts/domain/exploration_system.gd")
+const OverlayUtil = preload("res://scenes/shared/overlay_util.gd")
 const RecruitDialog = preload("res://scenes/shared/recruit_dialog.gd")
 const DeltaText = preload("res://scenes/shared/delta_text.gd")
 const ROLE_COLORS := {"support": Color("5fd1a5"), "striker": Color("e0a35a"), "control": Color("7aa8e0")}
@@ -62,6 +63,20 @@ var _bonds_label: Label
 var _headers: Array = []            # [Label, translation key]
 var _showing_result: bool = false
 var _last_result: Dictionary = {}
+# Layout pieces that move between the landscape (3 panels side by side) and portrait (tabs) arrangements.
+var tab_buttons: Dictionary = {}     # "hero" | "activities" | "stats" -> Button (portrait only)
+var current_tab: String = "activities"
+var _top_row: HBoxContainer
+var _top_button_row: HBoxContainer
+var _tab_bar: HBoxContainer
+var _strip: HBoxContainer
+var _strip_label: Label
+var _strip_bar: ProgressBar
+var _body: BoxContainer
+var _panels: Dictionary = {}         # tab id -> PanelContainer
+var _grid: GridContainer
+var _action_row: BoxContainer
+var _spacer: Control
 var _status_key: String = ""
 
 
@@ -84,26 +99,52 @@ func _ready() -> void:
 	main.add_theme_constant_override("separation", 12)
 	frame.add_child(main)
 	main.add_child(_build_top_bar())
+	main.add_child(_build_strip())
+	main.add_child(_build_tab_bar())
 
-	var body := HBoxContainer.new()
-	body.add_theme_constant_override("separation", 16)
-	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	main.add_child(body)
-	body.add_child(_build_hero_panel())
-	body.add_child(_build_activity_panel())
-	body.add_child(_build_stats_panel())
+	_body = BoxContainer.new()
+	_body.add_theme_constant_override("separation", 16)
+	_body.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	main.add_child(_body)
+	_panels["hero"] = _build_hero_panel()
+	_panels["activities"] = _build_activity_panel()
+	_panels["stats"] = _build_stats_panel()
+	for id in ["hero", "activities", "stats"]:
+		_body.add_child(_panels[id])
+	# A brand-new game starts on the hero tab so the path choice is seen first (portrait only).
+	current_tab = "hero" if (Game.state.player.path_id == "" and Game.state.calendar.day == 1 and Game.state.calendar.slot == 1) else "activities"
 
 	Loc.locale_changed.connect(func(_c: String) -> void: _refresh_all())
+	Layout.mode_changed.connect(func(_m: String) -> void: _on_layout_changed())
 	_select_default()
+	_apply_layout()
 	_refresh_all()
 	confirm_button.grab_focus()
 	var cal: RefCounted = Game.state.calendar
 	print("CULT_READY day=%d slot=%d stamina=%d" % [cal.day, cal.slot, Game.state.player.stamina])
 	_check_events()
+	_report_layout()
+
+
+## Prints where the main controls are (logical pixels) and the layout audit result, after layout settles.
+## The browser test reads these lines to click the right places and to require a clean audit.
+func _report_layout() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
-	var problems: Array[String] = audit_layout()
+	if not is_inside_tree():
+		return
+	var named := {"confirm": confirm_button, "explore": explore_button, "party": party_button, "save": save_button,
+			"tab_hero": tab_buttons.get("hero"), "tab_activities": tab_buttons.get("activities"),
+			"tab_stats": tab_buttons.get("stats"), "card_rest": cards.get("rest")}
+	var parts: Array[String] = []
+	for k in named:
+		var c: Control = named[k]
+		if c != null and c.is_visible_in_tree():
+			var center := c.get_global_rect().get_center()
+			parts.append("%s=%d,%d" % [k, int(center.x), int(center.y)])
 	var vp := get_viewport_rect().size
+	print("UI_POS vp=%d,%d %s" % [int(vp.x), int(vp.y), " ".join(parts)])
+	var problems: Array[String] = audit_layout()
 	print("LAYOUT_AUDIT size=%dx%d problems=%d" % [int(vp.x), int(vp.y), problems.size()])
 	for p in problems:
 		print("  audit: ", p)
@@ -142,14 +183,20 @@ func _panel(stretch: float) -> VBoxContainer:
 
 
 func _build_top_bar() -> Control:
-	var bar := HBoxContainer.new()
-	bar.add_theme_constant_override("separation", 20)
+	var box := VBoxContainer.new()
+	box.add_theme_constant_override("separation", 6)
+	_top_row = HBoxContainer.new()
+	_top_row.add_theme_constant_override("separation", 14)
+	_top_button_row = HBoxContainer.new()
+	_top_button_row.add_theme_constant_override("separation", 8)
+	box.add_child(_top_row)
+	box.add_child(_top_button_row)
 	# Labels in a horizontal bar must never wrap, or they stack one character per line.
 	_day_label = _label(36)
 	_slot_label = _label(FONT_BODY)
 	_slot_label.size_flags_vertical = Control.SIZE_SHRINK_END
-	var spacer := Control.new()
-	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_spacer = Control.new()
+	_spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	status_label = _label(FONT_SMALL)
 	status_label.modulate = Color(0.75, 1.0, 0.88, 0.95)
 	for l in [_day_label, _slot_label, status_label]:
@@ -162,9 +209,90 @@ func _build_top_bar() -> Control:
 		b.add_theme_font_size_override("font_size", FONT_BODY)
 	save_button.pressed.connect(_on_save)
 	menu_button.pressed.connect(func() -> void: Router.goto("title"))
-	for c in [_day_label, _slot_label, spacer, status_label, party_button, save_button, menu_button]:
-		bar.add_child(c)
-	return bar
+	return box
+
+
+## Portrait only: stamina stays visible whichever tab is open.
+func _build_strip() -> Control:
+	_strip = HBoxContainer.new()
+	_strip.add_theme_constant_override("separation", 12)
+	_strip_label = _label(FONT_SMALL)
+	_strip_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	_strip_bar = ProgressBar.new()
+	_strip_bar.show_percentage = false
+	_strip_bar.custom_minimum_size = Vector2(0, 16)
+	_strip_bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_strip_bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_strip.add_child(_strip_label)
+	_strip.add_child(_strip_bar)
+	return _strip
+
+
+func _build_tab_bar() -> Control:
+	_tab_bar = HBoxContainer.new()
+	_tab_bar.add_theme_constant_override("separation", 8)
+	var group := ButtonGroup.new()
+	for id in ["hero", "activities", "stats"]:
+		var b := UiKit.make_button(Vector2(0, 56))
+		b.toggle_mode = true
+		b.button_group = group
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		b.add_theme_font_size_override("font_size", FONT_BODY)
+		b.pressed.connect(func() -> void: _set_tab(id))
+		_tab_bar.add_child(b)
+		tab_buttons[id] = b
+	return _tab_bar
+
+
+func _set_tab(id: String) -> void:
+	current_tab = id
+	_apply_layout()
+	_report_layout()
+
+
+## Arranges the screen for the current mode. Landscape: top bar in one row, three panels side by side.
+## Portrait: top bar in three rows, stamina strip, tab bar, and only the chosen panel shown.
+func _apply_layout() -> void:
+	var portrait: bool = Layout.is_portrait()
+	for c in [_day_label, _slot_label, _spacer, status_label, party_button, save_button, menu_button]:
+		var target: Control = _top_row
+		if portrait:
+			if c == status_label:
+				target = _strip  # saved/autosaved feedback sits beside the stamina bar
+			elif c == party_button or c == save_button or c == menu_button:
+				target = _top_button_row
+		if c.get_parent() != target:
+			if c.get_parent() != null:
+				c.get_parent().remove_child(c)
+			target.add_child(c)
+	# In portrait the spacer is not needed (the day and slot labels sit together on the left).
+	_spacer.visible = not portrait
+	_top_button_row.visible = portrait
+	for b in [party_button, save_button, menu_button]:
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL if portrait else Control.SIZE_FILL
+		b.custom_minimum_size.x = 0 if portrait else (170 if b == menu_button else 130)
+	_day_label.add_theme_font_size_override("font_size", 32 if portrait else 36)
+	_strip.visible = portrait
+	_tab_bar.visible = portrait
+	_body.vertical = portrait
+	for id in _panels:
+		_panels[id].visible = (not portrait) or id == current_tab
+	for id in tab_buttons:
+		tab_buttons[id].set_pressed_no_signal(id == current_tab)
+	_grid.columns = 3
+	_action_row.vertical = portrait
+
+
+func _on_layout_changed() -> void:
+	_apply_layout()
+	# A rotated screen: pop-ups re-fit; the approach chooser is simply closed (nothing was chosen yet).
+	if choice_panel != null:
+		_close_choice()
+	for ov in [event_panel, recruit_panel, party_panel]:
+		OverlayUtil.fit(ov)
+	if party_panel != null:
+		_fill_party(_party_box)
+	_refresh_all()
 
 
 func _build_hero_panel() -> Control:
@@ -193,6 +321,7 @@ func _build_activity_panel() -> Control:
 	var box := _panel(44.0)
 	box.add_child(_header("cult.panel.activities"))
 	var grid := GridContainer.new()
+	_grid = grid
 	grid.columns = 3
 	grid.add_theme_constant_override("h_separation", 8)
 	grid.add_theme_constant_override("v_separation", 8)
@@ -221,7 +350,8 @@ func _build_activity_panel() -> Control:
 	scroll.add_child(info_label)
 	box.add_child(scroll)
 
-	var action_row := HBoxContainer.new()
+	var action_row := BoxContainer.new()
+	_action_row = action_row
 	action_row.add_theme_constant_override("separation", 8)
 	confirm_button = UiKit.make_button(Vector2(0, 60))
 	confirm_button.add_theme_font_size_override("font_size", FONT_HEAD)
@@ -367,22 +497,11 @@ func _on_path_pressed(path_id: String) -> void:
 # --- Approach chooser ---------------------------------------------------------------------------
 
 func _show_choice(def: Dictionary) -> void:
-	var overlay := ColorRect.new()
-	overlay.color = Color(0, 0, 0, 0.62)
-	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.add_child(center)
-	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(900, 0)
-	center.add_child(panel)
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 8)
-	panel.add_child(box)
+	var parts := OverlayUtil.make(900)
+	var overlay: Control = parts[0]
+	var box: VBoxContainer = parts[1]
 	var title := _label(FONT_HEAD)
 	title.text = "%s · %s" % [Loc.t(def.name_key), Loc.t("cult.choose_title")]
-	title.autowrap_mode = TextServer.AUTOWRAP_OFF
 	box.add_child(title)
 	option_buttons.clear()
 	var first: Button = null
@@ -400,7 +519,10 @@ func _show_choice(def: Dictionary) -> void:
 			line2 += "  " + Loc.t("cult.chance_short", {"chance": ActivityRules.check_chance(Game.state, def, oid)})
 		if not av.ok:
 			line2 += "  " + Loc.t(av.reasons[0])
-		b.text = "%s  %s\n%s  %s" % [Loc.t(o.name_key), Loc.t(o.desc_key), Loc.t("cult.gain", {"list": _reward_list(eff)}), line2]
+		if Layout.is_portrait():
+			b.text = "%s\n%s\n%s\n%s" % [Loc.t(o.name_key), Loc.t(o.desc_key), Loc.t("cult.gain", {"list": _reward_list(eff)}), line2]
+		else:
+			b.text = "%s  %s\n%s  %s" % [Loc.t(o.name_key), Loc.t(o.desc_key), Loc.t("cult.gain", {"list": _reward_list(eff)}), line2]
 		b.disabled = not av.ok
 		b.pressed.connect(func() -> void: _on_option_chosen(oid))
 		box.add_child(b)
@@ -416,6 +538,7 @@ func _show_choice(def: Dictionary) -> void:
 	add_child(overlay)
 	(first if first != null else choice_cancel_button).grab_focus()
 	print("CHOICE_SHOWN ", def.id)
+	_report_layout()
 
 
 func _close_choice() -> void:
@@ -443,19 +566,9 @@ func _check_events() -> void:
 
 
 func _show_event(hook: Dictionary) -> void:
-	var overlay := ColorRect.new()
-	overlay.color = Color(0, 0, 0, 0.62)
-	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.add_child(center)
-	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(640, 0)
-	center.add_child(panel)
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 16)
-	panel.add_child(box)
+	var parts := OverlayUtil.make(640, 16)
+	var overlay: Control = parts[0]
+	var box: VBoxContainer = parts[1]
 	var title := _label(36)
 	title.text = Loc.t(hook.title_key)
 	var body := _label(FONT_BODY)
@@ -479,25 +592,13 @@ func _show_event(hook: Dictionary) -> void:
 	add_child(overlay)
 	event_continue_button.grab_focus()
 	print("EVENT_SHOWN ", hook_id)
+	_report_layout()
 
 
 # --- Companions (M7) ----------------------------------------------------------------------------
 
 func _make_overlay(width: float) -> Array:
-	var overlay := ColorRect.new()
-	overlay.color = Color(0, 0, 0, 0.62)
-	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
-	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	overlay.add_child(center)
-	var panel := PanelContainer.new()
-	panel.custom_minimum_size = Vector2(width, 0)
-	center.add_child(panel)
-	var box := VBoxContainer.new()
-	box.add_theme_constant_override("separation", 8)
-	panel.add_child(box)
-	return [overlay, box]
+	return OverlayUtil.make(width)
 
 
 func _show_party() -> void:
@@ -509,6 +610,7 @@ func _show_party() -> void:
 	add_child(party_panel)
 	_fill_party(_party_box)
 	print("PARTY_SHOWN")
+	_report_layout()
 
 
 func _fill_party(box: VBoxContainer) -> void:
@@ -517,12 +619,24 @@ func _fill_party(box: VBoxContainer) -> void:
 		c.queue_free()
 	party_buttons.clear()
 	var st: RefCounted = Game.state
+	var portrait: bool = Layout.is_portrait()
 	var title := _label(FONT_HEAD)
 	title.text = Loc.t("party.title")
 	title.autowrap_mode = TextServer.AUTOWRAP_OFF
 	box.add_child(title)
+	var rows := VBoxContainer.new()
+	rows.add_theme_constant_override("separation", 8)
+	rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for id in Content.companion_ids():
-		box.add_child(_party_row(st, id))
+		rows.add_child(_party_row(st, id, portrait))
+	if portrait:  # long rows scroll on narrow screens
+		var scroll := ScrollContainer.new()
+		scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		scroll.custom_minimum_size = Vector2(0, 560)
+		scroll.add_child(rows)
+		box.add_child(scroll)
+	else:
+		box.add_child(rows)
 	party_close_button = UiKit.make_button(Vector2(0, 56))
 	party_close_button.text = Loc.t("party.close")
 	party_close_button.add_theme_font_size_override("font_size", FONT_BODY)
@@ -531,16 +645,22 @@ func _fill_party(box: VBoxContainer) -> void:
 	party_close_button.grab_focus()
 
 
-func _party_row(st: RefCounted, id: String) -> Control:
+func _party_row(st: RefCounted, id: String, portrait: bool) -> Control:
 	var c: Dictionary = Content.companion(id)
 	var status: String = st.relationships.get_status(id)
 	var row := PanelContainer.new()
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var outer := VBoxContainer.new()
+	outer.add_theme_constant_override("separation", 6)
+	row.add_child(outer)
 	var h := HBoxContainer.new()
 	h.add_theme_constant_override("separation", 12)
-	row.add_child(h)
-	var portrait := CompanionPortrait.new()
-	portrait.setup(Loc.t(c.name_key), ROLE_COLORS.get(c.role, Color.WHITE))
-	h.add_child(portrait)
+	outer.add_child(h)
+	var medallion := CompanionPortrait.new()
+	medallion.setup(Loc.t(c.name_key), ROLE_COLORS.get(c.role, Color.WHITE))
+	medallion.custom_minimum_size = Vector2(64, 64) if portrait else Vector2(72, 72)
+	medallion.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	h.add_child(medallion)
 	var info := VBoxContainer.new()
 	info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	info.add_theme_constant_override("separation", 0)
@@ -548,26 +668,24 @@ func _party_row(st: RefCounted, id: String) -> Control:
 	var status_text: String = Loc.t("status." + status)
 	if st.relationships.active == id:
 		status_text = Loc.t("party.active")
+	var wrap := TextServer.AUTOWRAP_WORD_SMART if portrait else TextServer.AUTOWRAP_OFF
 	var line1 := _label(FONT_BODY)
-	line1.autowrap_mode = TextServer.AUTOWRAP_OFF
+	line1.autowrap_mode = wrap
 	line1.text = "%s  ·  %s  ·  %s" % [Loc.t(c.name_key), status_text, Loc.t("party.affinity", {"score": st.relationships.get_score(id)})]
 	info.add_child(line1)
 	var likes: Array = []
 	for a in c.preferred_activities:
 		likes.append(Loc.t("activity." + str(a)))
 	var line2 := _label(FONT_SMALL)
-	line2.autowrap_mode = TextServer.AUTOWRAP_OFF
+	line2.autowrap_mode = wrap
 	line2.modulate = Color(1, 1, 1, 0.8)
 	line2.text = Loc.t("party.role_line", {"role": Loc.t("role." + str(c.role)), "list": Loc.t("ui.list_sep").join(likes)})
 	info.add_child(line2)
 	var line3 := _label(FONT_SMALL)
-	line3.autowrap_mode = TextServer.AUTOWRAP_OFF
+	line3.autowrap_mode = wrap
 	line3.modulate = Color(0.75, 1.0, 0.88, 0.9)
 	info.add_child(line3)
 	var btns := {}
-	var col := VBoxContainer.new()
-	col.add_theme_constant_override("separation", 4)
-	h.add_child(col)
 	if status == "joined":
 		line3.text = Loc.t("ability.%s" % c.battle_abilities[0]) + Loc.t("ui.list_sep") + Loc.t("ability.%s" % c.battle_abilities[1])
 		if st.relationships.active != id:
@@ -580,14 +698,24 @@ func _party_row(st: RefCounted, id: String) -> Control:
 			btns["recruit"] = _row_button("party.recruit", func() -> void: _party_action("recruit", id))
 		else:
 			line3.text = Loc.t("party.hint_refuse", {"list": _reason_text(ev.reasons)})
-	for k in btns:
-		col.add_child(btns[k])
+	if not btns.is_empty():
+		var col: BoxContainer = BoxContainer.new()
+		col.vertical = not portrait
+		col.add_theme_constant_override("separation", 6)
+		if portrait:
+			outer.add_child(col)  # buttons go under the text on narrow screens
+		else:
+			h.add_child(col)
+		for k in btns:
+			btns[k].size_flags_horizontal = Control.SIZE_EXPAND_FILL if portrait else Control.SIZE_FILL
+			col.add_child(btns[k])
 	party_buttons[id] = btns
 	return row
 
 
 func _row_button(key: String, cb: Callable) -> Button:
-	var b := UiKit.make_button(Vector2(190, 48))
+	var b := UiKit.make_button(Vector2(0, 48))
+	b.custom_minimum_size.x = 0 if Layout.is_portrait() else 190
 	b.add_theme_font_size_override("font_size", FONT_SMALL)
 	b.text = Loc.t(key)
 	b.pressed.connect(cb)
@@ -655,6 +783,8 @@ func _refresh_all() -> void:
 		h[0].text = Loc.t(h[1])
 	_day_label.text = Loc.t("cult.day", {"day": cal.day, "total": cal.DAYS})
 	_slot_label.text = Loc.t("cult.finished") if cal.finished else Loc.t("cult.slot", {"slot": cal.slot, "total": cal.SLOTS})
+	for id in tab_buttons:
+		tab_buttons[id].text = Loc.t("cult.tab." + id)
 	party_button.text = Loc.t("cult.party")
 	save_button.text = Loc.t("cult.save")
 	menu_button.text = Loc.t("cult.menu")
@@ -674,6 +804,9 @@ func _refresh_hero(st: RefCounted) -> void:
 	_stamina_label.text = Loc.t("cult.stamina_value", {"cur": st.player.stamina, "max": max_st})
 	_stamina_bar.max_value = max_st
 	_stamina_bar.value = st.player.stamina
+	_strip_label.text = _stamina_label.text
+	_strip_bar.max_value = max_st
+	_strip_bar.value = st.player.stamina
 
 	for c in _path_box.get_children():
 		_path_box.remove_child(c)

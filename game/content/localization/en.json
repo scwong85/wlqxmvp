@@ -317,5 +317,9 @@
   "clue.pass_secret": "Gate cipher",
   "battle.bandit_scouts": "Bandit scouts",
   "explore.fx.flag": "Story advanced",
-  "explore.choose": "Choose"
+  "explore.choose": "Choose",
+  "ui.fullscreen": "Fullscreen (phone portrait)",
+  "cult.tab.hero": "Hero",
+  "cult.tab.activities": "Train",
+  "cult.tab.stats": "Status"
 }

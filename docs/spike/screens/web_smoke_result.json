@@ -1,5 +1,5 @@
 {
-  "url": "http://127.0.0.1:40429/index.html",
+  "url": "http://127.0.0.1:38457/index.html",
   "checks": {
     "1280x720": {
       "title_ready": true,
@@ -12,6 +12,9 @@
       "load_enabled_after_reload": true,
       "loaded_slot2_after_reload": true,
       "audit_lines": [
+        "log: LAYOUT_AUDIT size=1280x720 problems=0",
+        "log: LAYOUT_AUDIT size=1280x720 problems=0",
+        "log: LAYOUT_AUDIT size=1280x720 problems=0",
         "log: LAYOUT_AUDIT size=1280x720 problems=0",
         "log: LAYOUT_AUDIT size=1280x720 problems=0",
         "log: LAYOUT_AUDIT size=1280x720 problems=0"
@@ -40,6 +43,46 @@
     "portrait_390x844": {
       "title_ready": true,
       "cultivation_ready_via_keyboard": true,
+      "tab_click": true,
+      "tab_switched": true,
+      "chooser_opens": true,
+      "autosave_ok": true,
+      "party_opens": true,
+      "explore_opens": true,
+      "recruit_prompt": true,
+      "audit_lines": [
+        "log: LAYOUT_AUDIT size=540x1168 problems=0",
+        "log: LAYOUT_AUDIT size=540x1168 problems=0",
+        "log: LAYOUT_AUDIT size=540x1168 problems=0",
+        "log: LAYOUT_AUDIT size=540x1168 problems=0",
+        "log: LAYOUT_AUDIT size=540x1168 problems=0",
+        "log: LAYOUT_AUDIT size=540x1168 problems=0"
+      ],
+      "layout_audit_clean": true,
+      "console_errors": 0
+    },
+    "portrait_360x640": {
+      "title_ready": true,
+      "cultivation_ready_via_keyboard": true,
+      "tab_click": true,
+      "tab_switched": true,
+      "audit_lines": [
+        "log: LAYOUT_AUDIT size=540x960 problems=0",
+        "log: LAYOUT_AUDIT size=540x960 problems=0"
+      ],
+      "layout_audit_clean": true,
+      "console_errors": 0
+    },
+    "portrait_768x1024": {
+      "title_ready": true,
+      "cultivation_ready_via_keyboard": true,
+      "tab_click": true,
+      "tab_switched": true,
+      "audit_lines": [
+        "log: LAYOUT_AUDIT size=720x960 problems=0",
+        "log: LAYOUT_AUDIT size=720x960 problems=0"
+      ],
+      "layout_audit_clean": true,
       "console_errors": 0
     }
   },

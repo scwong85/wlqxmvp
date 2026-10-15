@@ -8,6 +8,7 @@ const Backdrop = preload("res://scenes/shared/backdrop.gd")
 const SafeFrame = preload("res://scenes/shared/safe_frame.gd")
 const ExplorationSystem = preload("res://scripts/domain/exploration_system.gd")
 const RecruitDialog = preload("res://scenes/shared/recruit_dialog.gd")
+const OverlayUtil = preload("res://scenes/shared/overlay_util.gd")
 const DeltaText = preload("res://scenes/shared/delta_text.gd")
 const CultivationRules = preload("res://scripts/domain/cultivation_rules.gd")
 
@@ -30,6 +31,10 @@ var _stamina_label: Label
 var _choices_box: VBoxContainer
 var _last_result: Dictionary = {}
 var _ended: bool = false
+var _bar: BoxContainer
+var _body: BoxContainer
+var _story_panel: PanelContainer
+var _choice_panel: PanelContainer
 var _end_node_id: String = ""
 
 
@@ -48,7 +53,8 @@ func _ready() -> void:
 	main.add_theme_constant_override("separation", 12)
 	frame.add_child(main)
 
-	var bar := HBoxContainer.new()
+	var bar := BoxContainer.new()
+	_bar = bar
 	bar.add_theme_constant_override("separation", 24)
 	_title_label = UiKit.make_label(36)
 	_clues_label = UiKit.make_label(FONT_BODY)
@@ -60,13 +66,16 @@ func _ready() -> void:
 	_stamina_label.size_flags_vertical = Control.SIZE_SHRINK_END
 	main.add_child(bar)
 
-	var body := HBoxContainer.new()
+	var body := BoxContainer.new()
+	_body = body
 	body.add_theme_constant_override("separation", 16)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	main.add_child(body)
 
 	var story_panel := PanelContainer.new()
+	_story_panel = story_panel
 	story_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	story_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	story_panel.size_flags_stretch_ratio = 58.0
 	body.add_child(story_panel)
 	var scroll := ScrollContainer.new()
@@ -85,6 +94,8 @@ func _ready() -> void:
 	story_box.add_child(result_label)
 
 	var choice_panel := PanelContainer.new()
+	_choice_panel = choice_panel
+	choice_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	choice_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	choice_panel.size_flags_stretch_ratio = 42.0
 	body.add_child(choice_panel)
@@ -97,16 +108,44 @@ func _ready() -> void:
 	choice_scroll.add_child(_choices_box)
 
 	Loc.locale_changed.connect(func(_c: String) -> void: _refresh())
+	Layout.mode_changed.connect(func(_m: String) -> void: _on_layout_changed())
+	_apply_layout()
 	if not Game.state.exploration.active:  # nothing to explore: go back to training
 		Router.goto.call_deferred("cultivation")
 		return
 	_refresh()
 	print("EXPLORE_READY route=%s node=%s" % [Game.state.exploration.route, Game.state.exploration.node])
 	_maybe_recruit()
+	_report_layout()
+
+
+## Landscape: story left, choices right. Portrait: title bar wraps, story above, choices below.
+func _apply_layout() -> void:
+	var portrait: bool = Layout.is_portrait()
+	_bar.vertical = portrait
+	_bar.add_theme_constant_override("separation", 4 if portrait else 24)
+	_body.vertical = portrait
+	_title_label.add_theme_font_size_override("font_size", 32 if portrait else 36)
+	for l in [_clues_label, _stamina_label]:
+		l.size_flags_vertical = Control.SIZE_FILL if portrait else Control.SIZE_SHRINK_END
+	# Portrait gives the story a little more than the choices; landscape keeps 58:42 side by side.
+	_story_panel.size_flags_stretch_ratio = 46.0 if portrait else 58.0
+	_choice_panel.size_flags_stretch_ratio = 54.0 if portrait else 42.0
+
+
+func _on_layout_changed() -> void:
+	_apply_layout()
+	OverlayUtil.fit(recruit_panel)
+	_refresh()
+
+
+func _report_layout() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
-	var problems: Array[String] = UiKit.audit(self)
+	if not is_inside_tree():
+		return
 	var vp := get_viewport_rect().size
+	var problems: Array[String] = UiKit.audit(self)
 	print("LAYOUT_AUDIT size=%dx%d problems=%d" % [int(vp.x), int(vp.y), problems.size()])
 	for p in problems:
 		print("  audit: ", p)
@@ -212,6 +251,7 @@ func _maybe_recruit() -> void:
 	recruit_panel = d.overlay
 	add_child(recruit_panel)
 	(recruit_accept_button if recruit_accept_button != null else recruit_decline_button).grab_focus()
+	_report_layout()
 
 
 func _close_recruit() -> void:

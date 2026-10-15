@@ -25,7 +25,7 @@ func _draw() -> void:
 	draw_polygon(band2, PackedColorArray([mid, mid, low, low]))
 
 	# Moon with soft halo.
-	var moon := Vector2(w * 0.74, h * 0.22)
+	var moon := Vector2(w * 0.76, h * 0.09) if h > w else Vector2(w * 0.74, h * 0.22)  # portrait: tuck it into the corner
 	var r := h * 0.085
 	for i in range(5):
 		draw_circle(moon, r * (2.6 - i * 0.4), Color(0.9, 0.93, 0.8, 0.035))

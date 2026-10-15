@@ -10,6 +10,7 @@ config/features=PackedStringArray("4.5", "GL Compatibility")
 [autoload]
 
 Loc="*res://scripts/services/localization_service.gd"
+Layout="*res://scripts/services/layout_service.gd"
 Router="*res://scripts/services/scene_router.gd"
 Saves="*res://scripts/services/save_service.gd"
 Content="*res://scripts/services/content_service.gd"

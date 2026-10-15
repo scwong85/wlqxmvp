@@ -11,17 +11,22 @@ func _init() -> void:
 
 func _ready() -> void:
 	get_viewport().size_changed.connect(_update)
+	Layout.mode_changed.connect(func(_m: String) -> void: _update())
 	_update()
 
 
 func _update() -> void:
 	var vp := get_viewport_rect().size
-	var base := maxf(MIN_MARGIN, vp.y * 0.07)
 	var inset := _device_insets(vp)
-	add_theme_constant_override("margin_left", int(base + inset.x))
-	add_theme_constant_override("margin_top", int(base * 0.8 + inset.y))
-	add_theme_constant_override("margin_right", int(base + inset.z))
-	add_theme_constant_override("margin_bottom", int(base * 0.8 + inset.w))
+	var side := maxf(MIN_MARGIN, minf(vp.y * 0.07, vp.x * 0.04))  # never more than 4% of the width
+	var vertical := maxf(MIN_MARGIN, vp.y * 0.07) * 0.8
+	if Layout.is_portrait():  # narrow screens: keep the content wide, trim the sides
+		side = 20.0
+		vertical = 28.0
+	add_theme_constant_override("margin_left", int(side + inset.x))
+	add_theme_constant_override("margin_top", int(vertical + inset.y))
+	add_theme_constant_override("margin_right", int(side + inset.z))
+	add_theme_constant_override("margin_bottom", int(vertical + inset.w))
 
 
 ## Returns (left, top, right, bottom) device safe-area insets in viewport units. Zero on desktop/web.
