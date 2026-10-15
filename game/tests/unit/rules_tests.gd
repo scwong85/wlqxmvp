@@ -122,7 +122,7 @@ func _availability() -> void:
 	check.call(tired.reasons == ["activity.blocked.stamina"], "availability: not enough stamina")
 	check.call(ActivityRules.availability(g, _act("rest")).ok, "availability: rest needs no stamina")
 	g.calendar.finished = true
-	check.call(ActivityRules.availability(g, _act("rest")).reasons.has("activity.blocked.finished"), "availability: nothing after day 7")
+	check.call(ActivityRules.availability(g, _act("rest")).reasons.has("activity.blocked.finished"), "availability: nothing after the end")
 	check.call(ActivityRules.check_chance(_g(), _act("training")) == 48 and ActivityRules.check_chance(_g(), _act("rest")) == -1,
 			"availability: check chance preview")
 
@@ -135,13 +135,13 @@ func _perform() -> void:
 
 	var r: Dictionary = ActivityRules.perform(g, _act("training"), content)
 	check.call(r.ok and g.player.stamina == 15, "perform: stamina cost is paid (20 -> 15)")
-	check.call(g.calendar.slot == 2 and g.calendar.day == 1, "perform: one slot is consumed")
+	check.call(g.calendar.slot == 2 and g.calendar.week == 1, "perform: one slot is consumed")
 	check.call(g.cultivation.practice_counts.get("training", 0) == 1, "perform: practice is recorded")
 	check.call(r.grade in ["success", "partial"] and r.check.has("roll"), "perform: a check was rolled")
 	var expected_power := 7 if r.grade == "success" else 6
 	check.call(g.player.get_attr("power") == expected_power, "perform: %s grants power %d" % [r.grade, expected_power])
 	check.call(r.cost == [{"id": "stamina", "amount": 5}], "perform: result lists what was paid")
-	check.call(r.time.autosave_due and not r.time.new_day, "perform: autosave is due after a slot")
+	check.call(r.time.autosave_due and not r.time.new_week, "perform: autosave is due after a slot")
 
 	# Same seed, same day and slot gives the same outcome; different seed can differ.
 	var a := _g(11)
@@ -178,7 +178,7 @@ func _rewards_and_clamping() -> void:
 	check.call(g3.relationships.get_score("shen_qinghe") == 3 or g3.relationships.get_score("shen_qinghe") == 3, "rewards: music raises a relationship")
 	check.call(m.deltas.any(func(d: Dictionary) -> bool: return d.type == "relationship"), "rewards: relationship change is in the result")
 	var g4 := _g()
-	g4.calendar.day = 2
+	g4.calendar.week = 2
 	ActivityRules.perform(g4, _act("chess"), content)
 	check.call(g4.resources.get_item("strategy_token") >= 1, "rewards: chess grants a strategy token (even on a partial)")
 	var g5 := _g()
@@ -195,10 +195,10 @@ func _day_transition() -> void:
 	var g := _g()
 	g.player.stamina = 4
 	var r1 := DayRules.end_slot(g)
-	check.call(not r1.new_day and r1.recovered == 0 and g.player.stamina == 4, "day: no recovery between slots")
+	check.call(not r1.new_week and r1.recovered == 0 and g.player.stamina == 4, "day: no recovery between slots")
 	var r2 := DayRules.end_slot(g)
-	check.call(r2.new_day and r2.recovered == 10 and g.player.stamina == 14, "day: a new day restores half of max stamina (+10)")
-	check.call(g.calendar.day == 2 and g.calendar.slot == 1, "day: rolls to day 2 slot 1")
+	check.call(r2.new_week and r2.recovered == 10 and g.player.stamina == 14, "day: a new day restores half of max stamina (+10)")
+	check.call(g.calendar.week == 2 and g.calendar.slot == 1, "day: rolls to week 2 slot 1")
 	g.player.stamina = 19
 	DayRules.end_slot(g)
 	var r3 := DayRules.end_slot(g)
@@ -207,26 +207,32 @@ func _day_transition() -> void:
 
 func _event_hooks() -> void:
 	var g := _g()
-	check.call(EventRules.pending(g, content).map(func(h): return h.id) == ["day1_intro"], "events: only the intro is pending on day 1")
+	check.call(EventRules.pending(g, content).map(func(h): return h.id) == ["day1_intro", "day2_path"], "events: the intro and the path choice are due in week 1")
 	EventRules.mark_fired(g, "day1_intro")
-	check.call(EventRules.pending(g, content).is_empty(), "events: nothing pending after the intro")
 	EventRules.mark_fired(g, "day2_path")
-	g.calendar.day = 3
-	var p3 := EventRules.pending(g, content)
-	check.call(p3.size() == 1 and p3[0].id == "day3_recruit", "events: day 3 hook becomes due on day 3")
-	check.call(p3[0].payload.type == "recruitment_opportunity", "events: day 3 payload is a recruitment stub")
+	check.call(EventRules.pending(g, content).is_empty(), "events: nothing pending after week 1's scenes")
+	g.calendar.week = 2
+	var p2 := EventRules.pending(g, content)
+	check.call(p2.size() == 1 and p2[0].id == "day3_recruit", "events: the recruit hook becomes due in week 2")
+	check.call(p2[0].payload.type == "recruitment_opportunity", "events: its payload is a recruitment opportunity")
 	check.call(EventRules.mark_fired(g, "day3_recruit") and not EventRules.mark_fired(g, "day3_recruit"), "events: acknowledging works once")
 	check.call(EventRules.pending(g, content).is_empty(), "events: a fired hook is not repeated")
+	g.calendar.week = 3
+	check.call(EventRules.pending(g, content).map(func(h): return h.id) == ["day4_battle"], "events: the rescue is due in week 3")
 	EventRules.mark_fired(g, "day4_battle")
 	EventRules.mark_fired(g, "day5_faction")
-	g.calendar.day = 6
-	check.call(EventRules.pending(g, content).map(func(h): return h.id) == ["day6_prepare"], "events: day 6 hook due")
-	g.calendar.day = 7
+	g.calendar.week = 5
 	var both := EventRules.pending(g, content).map(func(h): return h.id)
-	check.call(both == ["day6_prepare", "day7_crisis"], "events: an unacknowledged hook is never skipped (day 6 still due on day 7)")
-	check.call(not EventRules.crisis_pending(g), "events: crisis not pending before the week ends")
-	g.calendar.finished = true
-	check.call(EventRules.crisis_pending(g), "events: crisis is pending once the week is over")
+	check.call(both == ["day6_prepare", "day7_crisis"], "events: week 5 holds the preparation and the warning, in order")
+	g.calendar.week = 9
+	check.call(EventRules.pending(g, content).size() == 2, "events: an unacknowledged hook is never skipped, however late")
+	g.calendar.week = 5
+	g.calendar.slot = 2
+	check.call(not EventRules.crisis_pending(g), "events: the climax is not pending before the opening month is used up")
+	g.calendar.week = 6
+	check.call(EventRules.crisis_pending(g), "events: the climax is pending once the opening month is over")
+	EventRules.mark_fired(g, EventRules.PROLOGUE_CRISIS)
+	check.call(not EventRules.crisis_pending(g), "events: the climax happens once")
 
 
 func _techniques_and_paths() -> void:
@@ -262,12 +268,12 @@ func _techniques_and_paths() -> void:
 	check.call(int(s.cultivation.path_progress.get("green_sword", 0)) == 0, "paths: off-affinity training gives no progress")
 
 
-## Plays seven days with a simple policy and checks the whole loop holds together.
+## Plays all 360 slots with a simple policy and checks the whole loop holds together.
 func _full_week() -> void:
 	var g := _g(5)
 	var fired: Array = []
 	var guard := 0
-	while not g.calendar.finished and guard < 40:
+	while not g.calendar.finished and guard < 400:
 		guard += 1
 		for hook in EventRules.pending(g, content):
 			EventRules.mark_fired(g, hook.id)
@@ -280,22 +286,18 @@ func _full_week() -> void:
 				break
 		if not done:
 			ActivityRules.perform(g, _act("rest"), content)
-	for hook in EventRules.pending(g, content):
-		EventRules.mark_fired(g, hook.id)
-		fired.append(hook.id)
-	check.call(g.calendar.finished and g.calendar.day == 7, "week: 14 slots take the player from day 1 to the end of day 7")
-	check.call(guard == 14, "week: exactly 14 activity slots were used (got %d)" % guard)
-	check.call(fired == ["day1_intro", "day2_path", "day3_recruit", "day4_battle", "day5_faction", "day6_prepare", "day7_crisis"], "week: hooks fired once each, in order")
-	check.call(EventRules.crisis_pending(g), "week: final state is crisis pending")
-	check.call(g.player.stamina >= 0 and g.player.stamina <= CultivationRules.max_stamina(g.player), "week: stamina stays within bounds")
-	check.call(not ActivityRules.perform(g, _act("rest"), content).ok, "week: no activity can run after day 7")
+	check.call(g.calendar.finished and g.calendar.week == 180, "campaign: 360 slots take the player from week 1 to the end of week 180")
+	check.call(guard == 360, "campaign: exactly 360 activity slots were used (got %d)" % guard)
+	check.call(fired == ["day1_intro", "day2_path", "day3_recruit", "day4_battle", "day5_faction", "day6_prepare", "day7_crisis"], "campaign: hooks fired once each, in order")
+	check.call(g.player.stamina >= 0 and g.player.stamina <= CultivationRules.max_stamina(g.player), "campaign: stamina stays within bounds")
+	check.call(not ActivityRules.perform(g, _act("rest"), content).ok, "campaign: no activity can run after the end")
 	# Mid-week save and continue (M3-07).
 	var h := _g(9)
 	for i in 5:
 		ActivityRules.perform(h, _act("rest"), content)
 	EventRules.mark_fired(h, "day3_recruit")
 	var restored = GameState.from_dict(JSON.parse_string(JSON.stringify(h.to_dict())))
-	check.call(_same(h.to_dict(), restored.to_dict()) and restored.calendar.day == 3 and restored.calendar.slot == 2,
+	check.call(_same(h.to_dict(), restored.to_dict()) and restored.calendar.week == 3 and restored.calendar.slot == 2,
 			"week: mid-day save restores day, slot, stamina, seed and fired events")
 	var ra: Dictionary = ActivityRules.perform(h, _act("fishing"), content)
 	var rb: Dictionary = ActivityRules.perform(restored, _act("fishing"), content)
@@ -325,7 +327,7 @@ func _migration() -> void:
 	check.call(r.ok, "migration: a schema v1 save still loads")
 	if r.ok:
 		var s: RefCounted = r.state
-		check.call(s.calendar.day == 4 and s.resources.get_amount("coins") == 33 and s.player.get_attr("body") == 8, "migration: v1 data is preserved")
+		check.call(s.calendar.week == 3 and s.resources.get_amount("coins") == 33 and s.player.get_attr("body") == 8, "migration: v1 data is preserved")
 		check.call(s.player.stamina == CultivationRules.max_stamina(s.player) and s.player.stamina == 24, "migration: stamina starts full (10 + 8 + 6 = 24)")
 		check.call(s.calendar.events_fired.is_empty() and s.run_seed == 1, "migration: new fields get safe defaults")
 		svc.write_slot(SaveService.MANUAL, s)

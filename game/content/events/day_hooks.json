@@ -2,68 +2,68 @@
  "hooks": [
   {
    "id": "day1_intro",
-   "day": 1,
-   "trigger": "day_start",
+   "trigger": "week_start",
    "dialogue": "day1_intro",
    "payload": {
     "type": "dialogue"
-   }
+   },
+   "week": 1
   },
   {
    "id": "day2_path",
-   "day": 2,
-   "trigger": "day_start",
+   "trigger": "week_start",
    "dialogue": "day2_path",
    "payload": {
     "type": "dialogue"
-   }
+   },
+   "week": 1
   },
   {
    "id": "day3_recruit",
-   "day": 3,
-   "trigger": "day_start",
+   "trigger": "week_start",
    "payload": {
     "type": "recruitment_opportunity",
     "npc": "shen_qinghe"
    },
    "title_key": "event.day3_recruit.title",
-   "body_key": "event.day3_recruit.body"
+   "body_key": "event.day3_recruit.body",
+   "week": 2
   },
   {
    "id": "day4_battle",
-   "day": 4,
-   "trigger": "day_start",
+   "trigger": "week_start",
    "dialogue": "day4_battle",
    "payload": {
     "type": "dialogue"
-   }
+   },
+   "week": 3
   },
   {
    "id": "day5_faction",
-   "day": 5,
-   "trigger": "day_start",
+   "trigger": "week_start",
    "dialogue": "day5_faction",
    "payload": {
     "type": "dialogue"
-   }
+   },
+   "week": 4
   },
   {
    "id": "day6_prepare",
-   "day": 6,
-   "trigger": "day_start",
+   "trigger": "week_start",
    "dialogue": "day6_prepare",
    "payload": {
     "type": "dialogue"
-   }
+   },
+   "week": 5
   },
   {
    "id": "day7_crisis",
-   "day": 7,
-   "trigger": "day_start",
+   "trigger": "week_start",
    "dialogue": "day7_crisis",
    "payload": {
     "type": "dialogue"
-   }
+   },
+   "week": 5
   }
  ]
 }

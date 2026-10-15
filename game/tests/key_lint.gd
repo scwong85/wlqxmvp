@@ -63,7 +63,7 @@ static func run(loc: Node) -> Dictionary:
 		_collect_keys(JSON.parse_string(text), json_values)
 	var prefixes := {}
 	var pre_re := RegEx.new()
-	pre_re.compile("\"([a-z0-9_]+(?:\\.[a-z0-9_]+)*\\.)\"")
+	pre_re.compile("\"([a-z0-9_]+(?:\\.[a-z0-9_]+)*\\.)(?:%[sd])?\"")
 	for m in pre_re.search_all(corpus):
 		prefixes[m.get_string(1)] = true
 	for k in zh:

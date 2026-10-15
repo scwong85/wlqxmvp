@@ -5,7 +5,6 @@
    "name_key": "exploration.bamboo_pass",
    "desc_key": "exploration.bamboo_pass.desc",
    "start": "start",
-   "min_day": 2,
    "cost": {
     "stamina": 4
    },
@@ -310,7 +309,8 @@
       }
      ]
     }
-   ]
+   ],
+   "min_week": 2
   }
  ]
 }

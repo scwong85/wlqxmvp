@@ -144,9 +144,9 @@ func validate(has_key: Callable) -> Array[String]:
 		for k in ["name_key", "desc_key"]:
 			if not has_key.call(str(a.get(k, ""))):
 				errs.append("activity %s: translation key missing for %s" % [id, k])
-		var min_day := int(a.get("min_day", 1))
-		if min_day < 1 or min_day > CalendarState.DAYS:
-			errs.append("activity %s: min_day %d out of range" % [id, min_day])
+		var min_week := int(a.get("min_week", 1))
+		if min_week < 1 or min_week > CalendarState.WEEKS:
+			errs.append("activity %s: min_week %d out of range" % [id, min_week])
 		for ck in a.get("cost", {}):
 			if not COST_KEYS.has(ck) or int(a.cost[ck]) < 0:
 				errs.append("activity %s: bad cost '%s'" % [id, ck])
@@ -185,10 +185,10 @@ func validate(has_key: Callable) -> Array[String]:
 	errs.append_array(_validate_combat(has_key))
 	for h in day_hooks:
 		var hid := str(h.get("id", ""))
-		var day := int(h.get("day", 0))
-		if day < 1 or day > CalendarState.DAYS:
-			errs.append("hook %s: day out of range" % hid)
-		if str(h.get("trigger", "")) != "day_start":
+		var hw := int(h.get("week", 0))
+		if hw < 1 or hw > CalendarState.WEEKS:
+			errs.append("hook %s: week out of range" % hid)
+		if str(h.get("trigger", "")) != "week_start":
 			errs.append("hook %s: unsupported trigger" % hid)
 		if str(h.get("payload", {}).get("type", "")) == "":
 			errs.append("hook %s: payload needs a type" % hid)
@@ -395,7 +395,7 @@ func _validate_routes(has_key: Callable) -> Array[String]:
 	var errs: Array[String] = []
 	for r in routes:
 		var rid := str(r.get("id", ""))
-		for f in ["id", "name_key", "desc_key", "start", "min_day", "cost", "nodes"]:
+		for f in ["id", "name_key", "desc_key", "start", "min_week", "cost", "nodes"]:
 			if not r.has(f):
 				errs.append("route %s: missing field '%s'" % [rid, f])
 		if r.has("nodes") == false:
@@ -536,7 +536,7 @@ func _validate_effect(label: String, e: Dictionary, has_key: Callable) -> Array[
 
 
 const ROLES := ["support", "striker", "control"]
-const COMPANION_FIELDS := ["id", "name_key", "bio_key", "portrait", "role", "stats", "preferred_activities", "meet_day",
+const COMPANION_FIELDS := ["id", "name_key", "bio_key", "portrait", "role", "stats", "preferred_activities", "meet_week",
 		"recruit", "depart", "battle_abilities", "relationship_ability"]
 
 
@@ -574,17 +574,17 @@ func _validate_companions(has_key: Callable) -> Array[String]:
 				if not has_key.call("ability." + str(ab) + suffix):
 					errs.append("companion %s: ability '%s' missing translation%s" % [cid, ab, suffix])
 		var rec: Dictionary = c.get("recruit", {})
-		if int(rec.get("score_min", 0)) < 1 or int(rec.get("day_min", 0)) < 1 or int(rec.get("day_min", 0)) > CalendarState.DAYS:
-			errs.append("companion %s: recruit needs score_min >= 1 and day_min in 1..%d" % [cid, CalendarState.DAYS])
+		if int(rec.get("score_min", 0)) < 1 or int(rec.get("week_min", 0)) < 1 or int(rec.get("week_min", 0)) > CalendarState.WEEKS:
+			errs.append("companion %s: recruit needs score_min >= 1 and week_min in 1..%d" % [cid, CalendarState.WEEKS])
 		for attr in rec.get("attr_min", {}):
 			if not PlayerState.ATTRS.has(str(attr)):
 				errs.append("companion %s: recruit attr '%s' unknown" % [cid, attr])
 		var dep: Dictionary = c.get("depart", {})
 		if not dep.has("score_below") and (dep.get("flags", []) as Array).is_empty():
 			errs.append("companion %s: depart needs score_below or flags" % cid)
-		var md := int(c.get("meet_day", 0))
-		if md < 1 or md > CalendarState.DAYS:
-			errs.append("companion %s: meet_day out of range" % cid)
+		var md := int(c.get("meet_week", 0))
+		if md < 1 or md > CalendarState.WEEKS:
+			errs.append("companion %s: meet_week out of range" % cid)
 	return errs
 
 

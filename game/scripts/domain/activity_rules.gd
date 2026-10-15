@@ -61,7 +61,7 @@ static func availability(state: RefCounted, base_def: Dictionary, option_id: Str
 	var reasons: Array = []
 	if state.calendar.finished:
 		reasons.append("activity.blocked.finished")
-	if state.calendar.day < int(def.get("min_day", 1)):
+	if state.calendar.week < int(def.get("min_week", 1)):
 		reasons.append("activity.blocked.day_gate")
 	var cost: Dictionary = def.get("cost", {})
 	if int(cost.get("stamina", 0)) > state.player.stamina:
@@ -91,7 +91,7 @@ static func perform(state: RefCounted, base_def: Dictionary, content: Object, op
 		return {"ok": false, "reasons": av.reasons}
 	var def := effective_def(base_def, option_id)
 
-	var result := {"ok": true, "activity_id": str(def.id), "option_id": str(def.get("option_id", "")), "day": state.calendar.day,
+	var result := {"ok": true, "activity_id": str(def.id), "option_id": str(def.get("option_id", "")), "week": state.calendar.week,
 			"slot": state.calendar.slot, "grade": "success", "check": {}, "cost": [], "deltas": [],
 			"unlocked": [], "time": {}}
 
@@ -107,7 +107,7 @@ static func perform(state: RefCounted, base_def: Dictionary, content: Object, op
 		result.cost.append({"id": str(k), "amount": n})
 
 	if def.has("check"):
-		var key := "%s:%d:%d" % [def.id, state.calendar.day, state.calendar.slot]
+		var key := "%s:%d:%d" % [def.id, state.calendar.week, state.calendar.slot]
 		var c := SkillCheck.check(state.player.effective_attr(str(def.check.attr)), int(def.check.target),
 				int(state.run_seed), key)
 		c["attr"] = str(def.check.attr)

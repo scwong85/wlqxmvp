@@ -36,7 +36,7 @@ func run(check_fn: Callable, loc_service: Node) -> void:
 
 func _g(seed_value: int = 7) -> RefCounted:
 	var g := GameState.new_game(seed_value)
-	g.calendar.day = 2
+	g.calendar.week = 2
 	RelationshipRules.refresh(g, content)
 	return g
 
@@ -97,22 +97,22 @@ func _validator_catches() -> void:
 
 func _start_rules() -> void:
 	var g := _g()
-	g.calendar.day = 1
+	g.calendar.week = 1
 	var early := ExplorationSystem.route_availability(g, route)
 	check.call(not early.ok and early.reasons[0].key == "activity.blocked.day_gate", "start: not before day 2")
-	g.calendar.day = 2
+	g.calendar.week = 2
 	g.player.stamina = 3
 	check.call(not ExplorationSystem.route_availability(g, route).ok, "start: needs 4 stamina")
 	g.player.stamina = 20
 	var before := JSON.stringify(g.to_dict(), "", true)
 	var r: Dictionary = ExplorationSystem.start(g, route, content)
 	check.call(r.ok and g.exploration.active and g.exploration.node == "start" and g.player.stamina == 16, "start: pays 4 stamina and enters the start node")
-	check.call(g.calendar.day == 2 and g.calendar.slot == 1, "start: no time passes until the route ends")
+	check.call(g.calendar.week == 2 and g.calendar.slot == 1, "start: no time passes until the route ends")
 	check.call(not ExplorationSystem.route_availability(g, route).ok and ExplorationSystem.route_availability(g, route).reasons[0].key == "explore.blocked.active", "start: cannot begin a second route while exploring")
 	var refused := ExplorationSystem.start(_g(), route, content)
 	check.call(refused.ok, "start: sanity, a fresh state can start")
 	var blocked := _g()
-	blocked.calendar.day = 1
+	blocked.calendar.week = 1
 	var snap := JSON.stringify(blocked.to_dict(), "", true)
 	ExplorationSystem.start(blocked, route, content)
 	check.call(snap == JSON.stringify(blocked.to_dict(), "", true), "start: a refused start changes nothing")
@@ -220,11 +220,11 @@ func _effects() -> void:
 
 func _route_end_time() -> void:
 	var g := _at("gate")
-	g.calendar.day = 3
+	g.calendar.week = 3
 	var slot_before: int = g.calendar.slot
 	var r: Dictionary = ExplorationSystem.choose(g, route, "pass_through", content)
 	check.call(r.ended and not g.exploration.active and g.exploration.completed == ["bamboo_pass"], "end: the route completes")
-	check.call((g.calendar.slot != slot_before) or g.calendar.day == 4, "end: finishing uses one slot")
+	check.call((g.calendar.slot != slot_before) or g.calendar.week == 4, "end: finishing uses one slot")
 	check.call(g.resources.get_amount("coins") == 23, "end: the ending node pays its reward")
 	check.call(not ExplorationSystem.route_availability(g, route).ok and ExplorationSystem.route_availability(g, route).reasons.any(func(x: Dictionary) -> bool: return x.key == "explore.blocked.done"), "end: a route can only be done once")
 	var w := _at("gate")
@@ -232,9 +232,9 @@ func _route_end_time() -> void:
 	w.exploration.add_clue("b")
 	ExplorationSystem.choose(w, route, "decipher", content)
 	check.call(w.relationships.has_flag("pass_secret_known") and w.exploration.clues.size() == 3 and w.player.get_attr("insight") == 6, "end: the wise ending sets the secret flag, a third clue and +1 insight")
-	# Ending on day 7 slot 2 finishes the week.
+	# Ending on the final slot finishes the campaign.
 	var last := _at("gate")
-	last.calendar.day = 7
+	last.calendar.week = 180
 	last.calendar.slot = 2
 	var rl: Dictionary = ExplorationSystem.choose(last, route, "pass_through", content)
 	check.call(rl.time.finished and last.calendar.finished, "end: ending on the last slot finishes the week")

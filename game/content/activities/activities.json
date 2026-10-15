@@ -4,7 +4,6 @@
    "id": "training",
    "name_key": "activity.training",
    "desc_key": "activity.training.desc",
-   "min_day": 1,
    "cost": {
     "stamina": 5
    },
@@ -59,13 +58,13 @@
      "name_key": "activity.training.opt.iron_body",
      "desc_key": "activity.training.opt.iron_body.desc"
     }
-   ]
+   ],
+   "min_week": 1
   },
   {
    "id": "technique_practice",
    "name_key": "activity.technique_practice",
    "desc_key": "activity.technique_practice.desc",
-   "min_day": 1,
    "cost": {
     "stamina": 5
    },
@@ -128,13 +127,13 @@
      "name_key": "activity.technique_practice.opt.risky",
      "desc_key": "activity.technique_practice.opt.risky.desc"
     }
-   ]
+   ],
+   "min_week": 1
   },
   {
    "id": "meditation",
    "name_key": "activity.meditation",
    "desc_key": "activity.meditation.desc",
-   "min_day": 1,
    "cost": {
     "stamina": 2
    },
@@ -149,13 +148,13 @@
      "id": "stamina",
      "amount": 4
     }
-   ]
+   ],
+   "min_week": 1
   },
   {
    "id": "fishing",
    "name_key": "activity.fishing",
    "desc_key": "activity.fishing.desc",
-   "min_day": 1,
    "cost": {
     "stamina": 3
    },
@@ -213,13 +212,13 @@
      "name_key": "activity.fishing.opt.rapids",
      "desc_key": "activity.fishing.opt.rapids.desc"
     }
-   ]
+   ],
+   "min_week": 1
   },
   {
    "id": "herb_gathering",
    "name_key": "activity.herb_gathering",
    "desc_key": "activity.herb_gathering.desc",
-   "min_day": 1,
    "cost": {
     "stamina": 4
    },
@@ -277,13 +276,13 @@
      "name_key": "activity.herb_gathering.opt.cliff",
      "desc_key": "activity.herb_gathering.opt.cliff.desc"
     }
-   ]
+   ],
+   "min_week": 1
   },
   {
    "id": "mining",
    "name_key": "activity.mining",
    "desc_key": "activity.mining.desc",
-   "min_day": 2,
    "cost": {
     "stamina": 6
    },
@@ -341,13 +340,13 @@
      "name_key": "activity.mining.opt.deep",
      "desc_key": "activity.mining.opt.deep.desc"
     }
-   ]
+   ],
+   "min_week": 2
   },
   {
    "id": "hunting",
    "name_key": "activity.hunting",
    "desc_key": "activity.hunting.desc",
-   "min_day": 2,
    "cost": {
     "stamina": 5
    },
@@ -405,13 +404,13 @@
      "name_key": "activity.hunting.opt.boar",
      "desc_key": "activity.hunting.opt.boar.desc"
     }
-   ]
+   ],
+   "min_week": 2
   },
   {
    "id": "cooking",
    "name_key": "activity.cooking",
    "desc_key": "activity.cooking.desc",
-   "min_day": 1,
    "cost": {
     "stamina": 3,
     "food": 2
@@ -471,13 +470,13 @@
      "name_key": "activity.cooking.opt.feast",
      "desc_key": "activity.cooking.opt.feast.desc"
     }
-   ]
+   ],
+   "min_week": 1
   },
   {
    "id": "music",
    "name_key": "activity.music",
    "desc_key": "activity.music.desc",
-   "min_day": 1,
    "cost": {
     "stamina": 3
    },
@@ -540,13 +539,13 @@
      "name_key": "activity.music.opt.solo",
      "desc_key": "activity.music.opt.solo.desc"
     }
-   ]
+   ],
+   "min_week": 1
   },
   {
    "id": "chess",
    "name_key": "activity.chess",
    "desc_key": "activity.chess.desc",
-   "min_day": 2,
    "cost": {
     "stamina": 3
    },
@@ -604,13 +603,13 @@
      "name_key": "activity.chess.opt.master",
      "desc_key": "activity.chess.opt.master.desc"
     }
-   ]
+   ],
+   "min_week": 2
   },
   {
    "id": "social_visit",
    "name_key": "activity.social_visit",
    "desc_key": "activity.social_visit.desc",
-   "min_day": 2,
    "cost": {
     "stamina": 2
    },
@@ -698,13 +697,13 @@
      "name_key": "activity.social_visit.opt.chat_lu",
      "desc_key": "activity.social_visit.opt.chat_lu.desc"
     }
-   ]
+   ],
+   "min_week": 2
   },
   {
    "id": "rest",
    "name_key": "activity.rest",
    "desc_key": "activity.rest.desc",
-   "min_day": 1,
    "cost": {},
    "rewards": [
     {
@@ -712,7 +711,8 @@
      "id": "stamina",
      "amount": 8
     }
-   ]
+   ],
+   "min_week": 1
   }
  ]
 }

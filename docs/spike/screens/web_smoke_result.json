@@ -1,11 +1,12 @@
 {
-  "url": "http://127.0.0.1:34201/index.html",
+  "url": "http://127.0.0.1:34307/index.html",
   "checks": {
     "1280x720": {
       "title_ready": true,
       "intro_dialogue_shown": true,
+      "path_choice_dialogue": true,
       "cultivation_ready_via_keyboard": true,
-      "day2_choice_dialogue": true,
+      "week2_invitation_popup": true,
       "explore_opens": true,
       "explore_recruit_prompt": true,
       "party_panel_opens": true,
@@ -36,6 +37,7 @@
     "1920x1080": {
       "title_ready": true,
       "intro_dialogue_shown": true,
+      "path_choice_dialogue": true,
       "cultivation_ready_via_keyboard": true,
       "practice_click": true,
       "battle_opens": true,
@@ -60,6 +62,7 @@
     "2400x1080": {
       "title_ready": true,
       "intro_dialogue_shown": true,
+      "path_choice_dialogue": true,
       "cultivation_ready_via_keyboard": true,
       "practice_click": true,
       "battle_opens": true,
@@ -84,13 +87,14 @@
     "portrait_390x844": {
       "title_ready": true,
       "intro_dialogue_shown": true,
+      "path_choice_dialogue": true,
       "cultivation_ready_via_keyboard": true,
       "tab_click": true,
       "tab_switched": true,
       "chooser_opens": true,
       "autosave_ok": true,
       "party_opens": true,
-      "day2_choice_dialogue": true,
+      "week2_invitation_popup": true,
       "explore_opens": true,
       "recruit_prompt": true,
       "practice_click": true,
@@ -116,6 +120,7 @@
     "portrait_360x640": {
       "title_ready": true,
       "intro_dialogue_shown": true,
+      "path_choice_dialogue": true,
       "cultivation_ready_via_keyboard": true,
       "tab_click": true,
       "tab_switched": true,
@@ -142,6 +147,7 @@
     "portrait_768x1024": {
       "title_ready": true,
       "intro_dialogue_shown": true,
+      "path_choice_dialogue": true,
       "cultivation_ready_via_keyboard": true,
       "tab_click": true,
       "tab_switched": true,
@@ -169,40 +175,40 @@
   "errors": [],
   "perf": {
     "1280x720": {
-      "frames": 19,
-      "avg_ms": 151.7,
+      "frames": 20,
+      "avg_ms": 147.5,
       "p95_ms": 300.1,
-      "max_ms": 350.1
+      "max_ms": 383.3
     },
     "1920x1080": {
       "frames": 9,
-      "avg_ms": 294.4,
-      "p95_ms": 383.3,
-      "max_ms": 416.6
+      "avg_ms": 307.4,
+      "p95_ms": 450,
+      "max_ms": 466.6
     },
     "2400x1080": {
-      "frames": 5,
-      "avg_ms": 556.7,
-      "p95_ms": 666.8,
-      "max_ms": 683.2
+      "frames": 9,
+      "avg_ms": 316.6,
+      "p95_ms": 416.6,
+      "max_ms": 433.3
     },
     "portrait_390x844": {
-      "frames": 37,
-      "avg_ms": 81.5,
-      "p95_ms": 133.3,
-      "max_ms": 150
+      "frames": 36,
+      "avg_ms": 81.0,
+      "p95_ms": 116.7,
+      "max_ms": 116.7
     },
     "portrait_360x640": {
-      "frames": 54,
-      "avg_ms": 55.2,
+      "frames": 46,
+      "avg_ms": 65.9,
       "p95_ms": 100,
-      "max_ms": 116.6
+      "max_ms": 150
     },
     "portrait_768x1024": {
-      "frames": 19,
-      "avg_ms": 145.6,
-      "p95_ms": 200,
-      "max_ms": 233.3
+      "frames": 20,
+      "avg_ms": 148.3,
+      "p95_ms": 216.7,
+      "max_ms": 350
     }
   },
   "passed": true

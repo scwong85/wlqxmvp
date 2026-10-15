@@ -1,7 +1,7 @@
 extends RefCounted
 ## Everything that must survive a save/load. Never put transient UI state here.
 
-const SCHEMA_VERSION := 6
+const SCHEMA_VERSION := 7
 
 const PlayerState = preload("res://scripts/domain/player_state.gd")
 const CalendarState = preload("res://scripts/domain/calendar_state.gd")

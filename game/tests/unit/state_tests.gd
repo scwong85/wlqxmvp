@@ -48,20 +48,39 @@ func _player() -> void:
 
 func _calendar() -> void:
 	var c := CalendarState.new()
-	check.call(c.day == 1 and c.slot == 1 and not c.finished, "calendar: starts day 1 slot 1")
-	var new_days := 0
-	for i in 13:
+	check.call(c.week == 1 and c.slot == 1 and not c.finished and c.year() == 1 and c.month() == 1 and c.week_in_month() == 1, "calendar: starts in year 1, month 1, week 1, slot 1")
+	check.call(CalendarState.WEEKS == 180 and CalendarState.TOTAL_SLOTS == 360, "calendar: three years are 180 weeks and 360 slots")
+	var new_weeks := 0
+	var new_months := 0
+	var new_years := 0
+	var steps := 0
+	while not c.finished:
 		var r: Dictionary = c.advance_slot()
-		if r.new_day:
-			new_days += 1
-	check.call(c.day == 7 and c.slot == 2 and not c.finished, "calendar: 13 advances reach day 7 slot 2")
-	check.call(new_days == 6, "calendar: six day rollovers")
-	var last: Dictionary = c.advance_slot()
-	check.call(c.finished and last.finished and last.advanced, "calendar: 14th advance finishes the week")
+		steps += 1
+		if r.new_week:
+			new_weeks += 1
+		if r.new_month:
+			new_months += 1
+		if r.new_year:
+			new_years += 1
+		if steps == 9:
+			check.call(c.week == 5 and c.slot == 2 and c.month() == 1, "calendar: nine advances end the first month's last slot")
+		if steps == 10:
+			check.call(c.week == 6 and c.slot == 1 and c.month() == 2 and c.week_in_month() == 1, "calendar: the tenth advance starts month 2")
+		if steps == 60:
+			check.call(c.year() == 1 and c.month() == 7 and c.season() == 2, "calendar: 60 advances reach month 7 (autumn)")
+		if steps == 120:
+			check.call(c.year() == 2 and c.month() == 1 and c.week_in_month() == 1, "calendar: 120 advances start year 2")
+	check.call(steps == 360 and c.week == 180 and c.year() == 3 and c.month() == 12 and c.week_in_month() == 5, "calendar: 360 advances use every slot and finish in year 3, month 12, week 5")
+	check.call(new_weeks == 179 and new_months == 35 and new_years == 2, "calendar: rollovers (weeks %d, months %d, years %d)" % [new_weeks, new_months, new_years])
+	check.call(c.slots_used() == 360, "calendar: slots_used is 360 when finished")
 	var after: Dictionary = c.advance_slot()
-	check.call(not after.advanced and c.day == 7, "calendar: cannot advance past the end")
-	var bad = CalendarState.from_dict({"day": 99, "slot": -3, "finished": 1})
-	check.call(bad.day == 7 and bad.slot == 1, "calendar: out-of-range values are clamped on load")
+	check.call(not after.advanced and c.week == 180, "calendar: cannot advance past the end")
+	var winter := CalendarState.new()
+	winter.week = 50
+	check.call(winter.month() == 10 and winter.season() == 3, "calendar: month 10 is winter")
+	var bad = CalendarState.from_dict({"week": 999, "slot": -3, "finished": 1})
+	check.call(bad.week == 180 and bad.slot == 1, "calendar: out-of-range values are clamped on load")
 	var rt = CalendarState.from_dict(_json_roundtrip(c.to_dict()))
 	check.call(_same(c.to_dict(), rt.to_dict()), "calendar: JSON round trip")
 
@@ -127,16 +146,16 @@ func _game_state_roundtrip() -> void:
 	var g := _busy_state()
 	var q = GameState.from_dict(_json_roundtrip(g.to_dict()))
 	check.call(_same(g.to_dict(), q.to_dict()), "game state: full JSON round trip is lossless")
-	check.call(q.calendar.day == 2 and q.calendar.slot == 1, "game state: calendar restored")
+	check.call(q.calendar.week == 2 and q.calendar.slot == 1, "game state: calendar restored")
 	check.call(q.resources.get_item("tea") == 2, "game state: items restored")
 
 
 func _tolerant_loading() -> void:
 	for junk in [null, "text", [], 42]:
 		var g = GameState.from_dict(junk)
-		check.call(g.calendar.day == 1 and g.player.get_attr("body") == 5, "tolerant: junk %s gives defaults, no crash" % str(junk))
-	var partial = GameState.from_dict({"calendar": {"day": 4}, "extra_unknown_key": {"x": 1}, "player": "oops"})
-	check.call(partial.calendar.day == 4 and partial.player.get_attr("body") == 5, "tolerant: partial data, unknown keys and bad sections handled")
+		check.call(g.calendar.week == 1 and g.player.get_attr("body") == 5, "tolerant: junk %s gives defaults, no crash" % str(junk))
+	var partial = GameState.from_dict({"calendar": {"week": 4}, "extra_unknown_key": {"x": 1}, "player": "oops"})
+	check.call(partial.calendar.week == 4 and partial.player.get_attr("body") == 5, "tolerant: partial data, unknown keys and bad sections handled")
 
 
 # --- SaveService ---------------------------------------------------------------------------

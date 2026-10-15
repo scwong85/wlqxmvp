@@ -28,7 +28,7 @@ func _ready() -> void:
 	else:
 		var r: Dictionary = Game.load_latest()
 		var s = Game.state
-		ok = r.ok and s.calendar.day == 2 and s.calendar.slot == 1 \
+		ok = r.ok and s.calendar.week == 2 and s.calendar.slot == 1 \
 				and s.resources.get_amount("coins") == 27 and s.player.path_id == "green_sword"
 		print("PERSIST_READ_OK" if ok else "PERSIST_READ_FAIL")
 	get_tree().quit(0 if ok else 1)

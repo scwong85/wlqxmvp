@@ -36,6 +36,7 @@ func _ready() -> void:
 	preload("res://tests/unit/m11_tests.gd").new().run(_check, Loc)
 	preload("res://tests/unit/m12_tests.gd").new().run(_check, Loc)
 	preload("res://tests/unit/m13_tests.gd").new().run(_check, Loc)
+	preload("res://tests/unit/m15_tests.gd").new().run(_check, Loc)
 	for case in [[390, 844, "portrait"], [360, 640, "portrait"], [768, 1024, "portrait"], [844, 390, "landscape"], [1280, 720, "landscape"], [800, 800, "landscape"], [1, 2, "portrait"]]:
 		_check(Layout.mode_for(Vector2(case[0], case[1])) == case[2], "layout: %dx%d is %s" % [case[0], case[1], case[2]])
 	_check(Layout.PORTRAIT_SIZE.x < Layout.PORTRAIT_SIZE.y and Layout.LANDSCAPE_SIZE.x > Layout.LANDSCAPE_SIZE.y, "layout: design sizes have the right orientation")
@@ -52,9 +53,9 @@ func _test_localization() -> void:
 	_check(l.t("title.name") == "Jade Valley Chronicles", "en lookup")
 	_check(l.t("spike.fallback_only_zh") != "[spike.fallback_only_zh]", "missing en key falls back to zh")
 	_check(l.t("no.such.key") == "[no.such.key]", "missing everywhere shows [key]")
-	_check(l.t("cult.day", {"day": 3, "total": 7}) == "Day 3 of 7", "placeholder substitution (en)")
+	_check(l.t("recruit.reason.day", {"need": 3}) == "Available from week 3", "placeholder substitution (en)")
 	l.set_locale("zh_CN")
-	_check(l.t("cult.day", {"day": 3, "total": 7}) == "第 3 天 / 共 7 天", "placeholder substitution (zh)")
+	_check(l.t("recruit.reason.day", {"need": 3}) == "第 3 周起可邀请", "placeholder substitution (zh)")
 	var got: Array = []
 	l.locale_changed.connect(func(c: String) -> void: got.append(c))
 	l.set_locale("en")

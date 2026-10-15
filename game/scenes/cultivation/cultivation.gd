@@ -118,7 +118,7 @@ func _ready() -> void:
 	for id in ["hero", "activities", "stats"]:
 		_body.add_child(_panels[id])
 	# A brand-new game starts on the hero tab so the path choice is seen first (portrait only).
-	current_tab = "hero" if (Game.state.player.path_id == "" and Game.state.calendar.day == 1 and Game.state.calendar.slot == 1) else "activities"
+	current_tab = "hero" if (Game.state.player.path_id == "" and Game.state.calendar.week == 1 and Game.state.calendar.slot == 1) else "activities"
 
 	Loc.locale_changed.connect(func(_c: String) -> void: _refresh_all())
 	Layout.mode_changed.connect(func(_m: String) -> void: _on_layout_changed())
@@ -127,7 +127,7 @@ func _ready() -> void:
 	_refresh_all()
 	confirm_button.grab_focus()
 	var cal: RefCounted = Game.state.calendar
-	print("CULT_READY day=%d slot=%d stamina=%d" % [cal.day, cal.slot, Game.state.player.stamina])
+	print("CULT_READY week=%d slot=%d stamina=%d" % [cal.week, cal.slot, Game.state.player.stamina])
 	_check_events()
 	_report_layout()
 
@@ -484,7 +484,7 @@ func _perform(activity_id: String, option_id: String) -> void:
 	_last_result = r
 	_showing_result = true
 	_status_key = "cult.autosaved" if r.get("saved", false) else "cult.save_failed"
-	print("ACTIVITY %s/%s grade=%s day=%d slot=%d" % [r.activity_id, r.option_id, r.grade, Game.state.calendar.day, Game.state.calendar.slot])
+	print("ACTIVITY %s/%s grade=%s week=%d slot=%d" % [r.activity_id, r.option_id, r.grade, Game.state.calendar.week, Game.state.calendar.slot])
 	_refresh_all()
 	_check_events()
 
@@ -842,7 +842,7 @@ func _refresh_all() -> void:
 	var cal: RefCounted = st.calendar
 	for h in _headers:
 		h[0].text = Loc.t(h[1])
-	_day_label.text = Loc.t("cult.day", {"day": cal.day, "total": cal.DAYS})
+	_day_label.text = Loc.t("cult.date", {"year": cal.year(), "month": cal.month(), "week": cal.week_in_month()})
 	_slot_label.text = Loc.t("cult.finished") if cal.finished else Loc.t("cult.slot", {"slot": cal.slot, "total": cal.SLOTS})
 	for id in tab_buttons:
 		tab_buttons[id].text = Loc.t("cult.tab." + id)
@@ -1032,6 +1032,6 @@ func _result_text(r: Dictionary) -> String:
 		for b_id in r.expired_buffs:
 			faded.append(Loc.t("buff." + str(b_id)))
 		lines.append(Loc.t("cult.buff_expired", {"list": _sep().join(faded)}))
-	if r.time.new_day:
-		lines.append(Loc.t("cult.result.new_day", {"amount": int(r.time.recovered)}))
+	if r.time.new_week:
+		lines.append(Loc.t("cult.result.new_week", {"amount": int(r.time.recovered)}))
 	return "\n".join(lines)

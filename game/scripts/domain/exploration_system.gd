@@ -28,7 +28,7 @@ static func route_availability(state: RefCounted, route: Dictionary) -> Dictiona
 		reasons.append({"key": "explore.blocked.active", "params": {}})
 	if state.exploration.completed.has(str(route.id)):
 		reasons.append({"key": "explore.blocked.done", "params": {}})
-	if state.calendar.day < int(route.get("min_day", 1)):
+	if state.calendar.week < int(route.get("min_week", 1)):
 		reasons.append({"key": "activity.blocked.day_gate", "params": {}})
 	reasons.append_array(_cost_reasons(state, route.get("cost", {})))
 	return {"ok": reasons.is_empty(), "reasons": reasons}

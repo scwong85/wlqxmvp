@@ -145,6 +145,7 @@ func parse_envelope(text: String) -> Dictionary:
 ## v3 -> v4: adds exploration progress (route, node, clues).
 ## v4 -> v5: adds the snapshot of a battle in progress (empty by default).
 ## v5 -> v6: adds story progress (open dialogue, queued dialogue, ending).
+## v6 -> v7: the 3-year calendar (weeks instead of days).
 func migrate(state_dict: Dictionary, from_version: int) -> Dictionary:
 	var d: Dictionary = state_dict.duplicate(true)
 	if from_version < 2:
@@ -163,6 +164,18 @@ func migrate(state_dict: Dictionary, from_version: int) -> Dictionary:
 		d["battle"] = {}
 	if from_version < 6:
 		d["story"] = {"dialogue": {}, "pending_dialogue": "", "ending": ""}
+	if from_version < 7:
+		# Seven days become the five weeks of the opening month: days 1..7 -> weeks 1,1,2,3,4,5,5.
+		var cal: Variant = d.get("calendar", {})
+		if cal is Dictionary and cal.has("day"):
+			var old_day := clampi(int(cal["day"]), 1, 7)
+			cal["week"] = [1, 1, 2, 3, 4, 5, 5][old_day - 1]
+			cal.erase("day")
+			if bool(cal.get("finished", false)):
+				cal["finished"] = false  # the old finale now belongs to the end of the opening month
+				cal["week"] = 5
+				cal["slot"] = 2
+			d["calendar"] = cal
 	return d
 
 

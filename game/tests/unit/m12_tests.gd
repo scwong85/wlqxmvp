@@ -186,8 +186,8 @@ func _play(policy: Dictionary, reload_each_day: bool) -> Dictionary:
 	var picks := {"day2_path.choose": policy.path, "day4_battle.n2": policy.day4, "day5_faction.n2": "pavilion", "day6_prepare.n1": "train", "crisis_final.n2": policy.final}
 	while guard < 500:
 		guard += 1
-		if reload_each_day and game.state.calendar.day != last_day:
-			last_day = game.state.calendar.day
+		if reload_each_day and game.state.calendar.week != last_day:
+			last_day = game.state.calendar.week
 			var before := JSON.stringify(game.state.to_dict(), "", true)
 			game.autosave()
 			var loaded: Dictionary = saves.load_latest()
@@ -254,7 +254,7 @@ func _play(policy: Dictionary, reload_each_day: bool) -> Dictionary:
 	var pid: String = game.state.player.path_id
 	if pid != "" and policy.act == "training":
 		game.state.cultivation.path_progress[pid] = maxi(7, int(game.state.cultivation.path_progress.get(pid, 0)))
-	return {"ending": game.state.story.ending, "log": log, "days": game.state.calendar.day, "reloads": reloads}
+	return {"ending": game.state.story.ending, "log": log, "days": game.state.calendar.week, "reloads": reloads}
 
 
 func _playthroughs() -> void:

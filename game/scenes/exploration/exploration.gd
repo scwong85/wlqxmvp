@@ -312,8 +312,8 @@ func _result_text(r: Dictionary) -> String:
 		lines.append(Loc.t("explore.battle_pending", {"name": Loc.t("battle." + str(r.battle))}))
 	if r.ended:
 		lines.append(Loc.t("explore.ended"))
-		if not r.time.is_empty() and r.time.new_day:
-			lines.append(Loc.t("cult.result.new_day", {"amount": int(r.time.recovered)}))
+		if not r.time.is_empty() and r.time.new_week:
+			lines.append(Loc.t("cult.result.new_week", {"amount": int(r.time.recovered)}))
 		if not r.met.is_empty():
 			lines.append(Loc.t("cult.result.met", {"list": Loc.t("ui.list_sep").join(r.met.map(func(i: String) -> String: return Loc.t("npc." + i)))}))
 		if not r.departed.is_empty():

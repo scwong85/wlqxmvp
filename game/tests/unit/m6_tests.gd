@@ -128,7 +128,7 @@ func _buff_rules() -> void:
 
 func _chess_token() -> void:
 	var g := _g()
-	g.calendar.day = 2
+	g.calendar.week = 2
 	var r: Dictionary = ActivityRules.perform(g, _act("chess"), content, "master")
 	var tokens: int = g.resources.items.get("strategy_token", 0)
 	check.call(r.ok and tokens == (2 if r.grade == "success" else 1), "chess: master match grants 2 tokens (1 on a failed check) - got %d" % tokens)
@@ -137,16 +137,16 @@ func _chess_token() -> void:
 
 func _relationships() -> void:
 	var g := _g()
-	g.calendar.day = 2
+	g.calendar.week = 2
 	ActivityRules.perform(g, _act("music"), content, "for_lu")
 	check.call(g.relationships.scores.get("lu_chenzhou", 0) == 3 and g.relationships.scores.get("shen_qinghe", 0) == 0, "music: only the chosen listener's affinity moves")
 	var s := _g()
-	s.calendar.day = 2
+	s.calendar.week = 2
 	s.resources.add("coins", 0)
 	var r: Dictionary = ActivityRules.perform(s, _act("social_visit"), content, "gift_bai")
 	check.call(r.ok and s.resources.get_amount("coins") == 15 and s.relationships.scores.get("bai_yan", 0) == 7, "social: a gift costs 5 coins and gives +7 affinity")
 	var poor := _g()
-	poor.calendar.day = 2
+	poor.calendar.week = 2
 	poor.resources.add("coins", -20)
 	check.call(not ActivityRules.availability(poor, _act("social_visit"), "gift_bai").ok and ActivityRules.availability(poor, _act("social_visit"), "chat_bai").ok, "social: gift unavailable with no coins; plain chat still works")
 
@@ -157,18 +157,18 @@ func _matrix() -> void:
 	var states := {
 		"fresh": func(g: RefCounted) -> void: pass,
 		"day2_rich": func(g: RefCounted) -> void:
-			g.calendar.day = 2
+			g.calendar.week = 2
 			for k in ["food", "herbs", "ore", "medicine"]:
 				g.resources.add(k, 6)
 			g.resources.add("coins", 40),
 		"exhausted": func(g: RefCounted) -> void:
-			g.calendar.day = 3
+			g.calendar.week = 3
 			g.player.stamina = 1,
 		"empty": func(g: RefCounted) -> void:
-			g.calendar.day = 2
+			g.calendar.week = 2
 			g.resources.add("coins", -99),
 		"pathed": func(g: RefCounted) -> void:
-			g.calendar.day = 4
+			g.calendar.week = 4
 			g.player.path_id = "green_sword",
 		"finished": func(g: RefCounted) -> void:
 			g.calendar.finished = true,

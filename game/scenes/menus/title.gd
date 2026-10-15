@@ -170,7 +170,7 @@ func _refresh_load() -> void:
 	else:
 		var r: Dictionary = Saves.load_latest()
 		if r.ok:
-			load_note.text = Loc.t("ui.load_hint", {"day": r.state.calendar.day, "slot": r.state.calendar.slot})
+			load_note.text = Loc.t("ui.load_hint", {"year": r.state.calendar.year(), "month": r.state.calendar.month(), "week": r.state.calendar.week_in_month(), "slot": r.state.calendar.slot})
 		else:
 			load_note.text = Loc.t(r.error_key)
 	load_button.tooltip_text = load_note.text

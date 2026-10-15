@@ -96,11 +96,21 @@ with sync_playwright() as p:
         page.keyboard.press("Enter")
         page.wait_for_timeout(500)
         page.keyboard.press("Enter")
+        ok_path = wait_for(console, "DIALOGUE_READY id=day2_path", 30, d0)   # week 1 also holds the path choice
+        page.wait_for_timeout(500)
+        page.screenshot(path=os.path.join(out_dir, f"m12_{name}_path_choice.png"))
+        if name.startswith("portrait"):
+            wait_for(console, "dlg_choice1=", 10, d0)
+            click_ui(console, "dlg_choice1", d0)    # tap the first path
+        else:
+            page.keyboard.press("Enter")            # first choice is focused
+        page.wait_for_timeout(600)
+        page.keyboard.press("Enter")                # continue after the choice
         ok_hub = wait_for(console, "CULT_READY", 30, d0)
         page.wait_for_timeout(500)
         page.screenshot(path=os.path.join(out_dir, f"m1_{name}_cultivation.png"))
 
-        results["checks"][name] = {"title_ready": ok_title, "intro_dialogue_shown": ok_dlg, "cultivation_ready_via_keyboard": ok_hub}
+        results["checks"][name] = {"title_ready": ok_title, "intro_dialogue_shown": ok_dlg, "path_choice_dialogue": ok_path, "cultivation_ready_via_keyboard": ok_hub}
 
         if name == "1280x720":
             # Persistence: advance a slot (autosaves), save manually, reload the page, then load.
@@ -127,20 +137,20 @@ with sync_playwright() as p:
             page.keyboard.press("Tab")        # start -> load (enabled now)
             page.keyboard.press("Enter")
             mark2 = len(console)
-            ok_load = wait_for(console, "CULT_READY day=1 slot=2", 20, mark)
+            ok_load = wait_for(console, "CULT_READY week=1 slot=2", 20, mark)
             page.wait_for_timeout(500)
             page.screenshot(path=os.path.join(out_dir, "m2_cultivation_after_load.png"))
             # Exploration in the browser: rest into day 2, open Bamboo Pass, take two steps.
             mark3 = len(console)
             page.locator("canvas").click(position={"x": 697, "y": 467})   # rest card
             page.locator("canvas").click(position={"x": 420, "y": 635})   # confirm
-            ok_day2 = wait_for(console, "DIALOGUE_READY id=day2_path", 15, mark3)
+            ok_day2 = wait_for(console, "EVENT_SHOWN day3_recruit", 15, mark3)   # week 2 opens with the invitation pop-up
             page.wait_for_timeout(500)
-            page.screenshot(path=os.path.join(out_dir, "m12_day2_choice.png"))
-            page.keyboard.press("Enter")      # first choice (the fist path) is focused
-            page.wait_for_timeout(500)
+            page.screenshot(path=os.path.join(out_dir, "m12_week2_invitation.png"))
             page.keyboard.press("Enter")      # continue
-            wait_for(console, "CULT_READY", 15, mark3)
+            wait_for(console, "RECRUIT_PROMPT shen_qinghe", 10, mark3)
+            page.wait_for_timeout(400)
+            page.keyboard.press("Enter")      # focused button of the prompt (maybe later)
             page.wait_for_timeout(800)
             page.locator("canvas").click(position={"x": 660, "y": 635})   # explore button
             ok_explore = wait_for(console, "EXPLORE_READY route=bamboo_pass node=start", 15, mark3)
@@ -152,7 +162,7 @@ with sync_playwright() as p:
             ok_prompt = wait_for(console, "RECRUIT_PROMPT lu_chenzhou", 10, mark3)
             page.wait_for_timeout(400)
             page.screenshot(path=os.path.join(out_dir, "m8_explore_recruit.png"))
-            results["checks"][name].update({"day2_choice_dialogue": ok_day2, "explore_opens": ok_explore, "explore_recruit_prompt": ok_prompt})
+            results["checks"][name].update({"week2_invitation_popup": ok_day2, "explore_opens": ok_explore, "explore_recruit_prompt": ok_prompt})
             results["checks"][name].update({"party_panel_opens": party, "chooser_opens": chooser, "autosave_ok": saved, "load_enabled_after_reload": ok_reload,
                                             "loaded_slot2_after_reload": ok_load})
 
@@ -190,18 +200,15 @@ with sync_playwright() as p:
                 click_ui(console, "card_rest", m4)         # rest -> day 2
                 page.wait_for_timeout(300)
                 click_ui(console, "confirm", m4)
-                checks["day2_choice_dialogue"] = wait_for(console, "DIALOGUE_READY id=day2_path", 15, m4)
+                checks["week2_invitation_popup"] = wait_for(console, "EVENT_SHOWN day3_recruit", 15, m4)
                 page.wait_for_timeout(500)
-                page.screenshot(path=os.path.join(out_dir, f"{name}_day2_choice.png"))
-                m4b = len(console)
-                wait_for(console, "dlg_choice1=", 8, m4)
-                click_ui(console, "dlg_choice1", m4)    # tap the first path
-                page.wait_for_timeout(600)
+                page.screenshot(path=os.path.join(out_dir, f"{name}_week2_invitation.png"))
                 page.keyboard.press("Enter")
-                wait_for(console, "CULT_READY", 15, m4b)
+                wait_for(console, "RECRUIT_PROMPT shen_qinghe", 10, m4)
+                page.wait_for_timeout(400)
+                page.screenshot(path=os.path.join(out_dir, f"{name}_week2_prompt.png"))
+                page.keyboard.press("Enter")
                 page.wait_for_timeout(800)
-                click_ui(console, "tab_activities", m4b)
-                page.wait_for_timeout(500)
                 m5 = len(console)
                 click_ui(console, "explore", m1)
                 checks["explore_opens"] = wait_for(console, "EXPLORE_READY route=bamboo_pass", 15, m5)

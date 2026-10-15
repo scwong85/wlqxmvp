@@ -9,6 +9,7 @@ const PartySystem = preload("res://scripts/domain/party_system.gd")
 const ExplorationSystem = preload("res://scripts/domain/exploration_system.gd")
 const BattleSetup = preload("res://scripts/domain/combat/battle_setup.gd")
 const DialogueSystem = preload("res://scripts/domain/dialogue_system.gd")
+const EndingRules = preload("res://scripts/domain/ending_rules.gd")
 const BattleResult = preload("res://scripts/domain/combat/battle_result.gd")
 
 var state: RefCounted = null
@@ -49,7 +50,7 @@ func load_latest() -> Dictionary:
 	if r.ok:
 		state = r.state
 		RelationshipRules.refresh(state, Content)
-		print("LOAD ok slot=%s day=%d slot_no=%d" % [r.slot, state.calendar.day, state.calendar.slot])
+		print("LOAD ok slot=%s week=%d slot_no=%d" % [r.slot, state.calendar.week, state.calendar.slot])
 	else:
 		print("LOAD failed ", r.error_key)
 	return r
@@ -151,7 +152,7 @@ func start_battle(id: String, from: String) -> bool:
 	var active := PartySystem.active(st)
 	if active != "":
 		party.append(active)
-	var seed_value: int = ("%d|%s|%d|%d" % [st.run_seed, str(sc.id), st.calendar.day, st.calendar.slot]).hash()
+	var seed_value: int = ("%d|%s|%d|%d" % [st.run_seed, str(sc.id), st.calendar.week, st.calendar.slot]).hash()
 	battle = BattleSetup.build(Content, str(sc.id), seed_value, st, party)
 	battle_ctx = {"scenario": str(sc.id), "from": from, "battle_id": id, "applied": false}
 	if battle != null and (from == "exploration" or from == "story"):
@@ -234,6 +235,9 @@ func next_story_scene() -> String:
 		if not Content.dialogue(str(st.story.dialogue.id)).is_empty():
 			return "dialogue"
 		st.story.dialogue = {}
+	if st.calendar.finished and st.story.ending == "":
+		st.story.ending = EndingRules.evaluate(st, Content)  # the three years are over
+		autosave()
 	if st.story.ending != "":
 		return "ending"
 	if st.story.pending_dialogue != "":
@@ -244,7 +248,7 @@ func next_story_scene() -> String:
 	var pending := pending_events()
 	if not pending.is_empty() and pending[0].has("dialogue") and start_dialogue(str(pending[0].dialogue), str(pending[0].id)):
 		return "dialogue"
-	if st.calendar.finished and pending_events().is_empty() and start_dialogue("crisis_final"):
+	if EventRules.crisis_pending(st) and pending_events().is_empty() and start_dialogue("crisis_final", EventRules.PROLOGUE_CRISIS):
 		return "dialogue"
 	return ""
 

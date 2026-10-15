@@ -315,7 +315,7 @@
      "bandits_won"
     ]
    },
-   "ends_run": true
+   "ends_run": false
   },
   {
    "id": "bandit_scouts",

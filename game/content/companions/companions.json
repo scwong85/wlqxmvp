@@ -18,14 +18,13 @@
     "meditation",
     "cooking"
    ],
-   "meet_day": 1,
    "recruit": {
     "score_min": 6,
-    "day_min": 3,
     "attr_min": {
      "insight": 6
     },
-    "flags_block": []
+    "flags_block": [],
+    "week_min": 2
    },
    "depart": {
     "score_below": 0,
@@ -37,7 +36,8 @@
     "herb_poultice",
     "calming_incense"
    ],
-   "relationship_ability": "gentle_hands"
+   "relationship_ability": "gentle_hands",
+   "meet_week": 1
   },
   {
    "id": "lu_chenzhou",
@@ -57,14 +57,13 @@
     "training",
     "mining"
    ],
-   "meet_day": 2,
    "recruit": {
     "score_min": 6,
-    "day_min": 3,
     "attr_min": {
      "agility": 6
     },
-    "flags_block": []
+    "flags_block": [],
+    "week_min": 3
    },
    "depart": {
     "score_below": 0,
@@ -76,7 +75,8 @@
     "swift_dash",
     "ambush_strike"
    ],
-   "relationship_ability": "couriers_shortcut"
+   "relationship_ability": "couriers_shortcut",
+   "meet_week": 2
   },
   {
    "id": "bai_yan",
@@ -96,14 +96,13 @@
     "technique_practice",
     "meditation"
    ],
-   "meet_day": 2,
    "recruit": {
     "score_min": 8,
-    "day_min": 4,
     "attr_min": {
      "insight": 7
     },
-    "flags_block": []
+    "flags_block": [],
+    "week_min": 3
    },
    "depart": {
     "score_below": 0,
@@ -115,7 +114,8 @@
     "binding_script",
     "counter_notes"
    ],
-   "relationship_ability": "margin_notes"
+   "relationship_ability": "margin_notes",
+   "meet_week": 2
   }
  ]
 }

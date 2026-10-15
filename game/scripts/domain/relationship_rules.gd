@@ -30,7 +30,7 @@ static func refresh(state: RefCounted, content: Object) -> Array:
 	var met: Array = []
 	for id in _ids(content):
 		var c: Dictionary = content.companion(id)
-		if state.relationships.get_status(id) == "unknown" and state.calendar.day >= int(c.meet_day):
+		if state.relationships.get_status(id) == "unknown" and state.calendar.week >= int(c.meet_week):
 			state.relationships.set_status(id, "available")
 			met.append(id)
 	return met
@@ -48,8 +48,8 @@ static func evaluate_recruitment(state: RefCounted, npc_id: String, content: Obj
 			return {"result": "unavailable", "reasons": [{"key": "recruit.reason.flag", "params": {}}]}
 	var rec: Dictionary = c.recruit
 	var reasons: Array = []
-	if state.calendar.day < int(rec.day_min):
-		reasons.append({"key": "recruit.reason.day", "params": {"need": int(rec.day_min)}})
+	if state.calendar.week < int(rec.week_min):
+		reasons.append({"key": "recruit.reason.day", "params": {"need": int(rec.week_min)}})
 	if state.relationships.get_score(npc_id) < int(rec.score_min):
 		reasons.append({"key": "recruit.reason.score", "params": {"need": int(rec.score_min)}})
 	for attr in rec.get("attr_min", {}):

@@ -58,7 +58,7 @@ func _data() -> void:
 
 func _preferred_bonus() -> void:
 	var g := _g()
-	g.calendar.day = 2
+	g.calendar.week = 2
 	RelationshipRules.refresh(g, content)
 	# Hunting is liked by Lu only; he is available on day 2.
 	var r: Dictionary = ActivityRules.perform(g, content.activity("hunting"), content, "hare")
@@ -70,7 +70,7 @@ func _preferred_bonus() -> void:
 	check.call(has_delta, "bonus: the bond change shows in the result")
 	# Meditation is liked by Shen and Bai.
 	var m := _g()
-	m.calendar.day = 2
+	m.calendar.week = 2
 	RelationshipRules.refresh(m, content)
 	ActivityRules.perform(m, content.activity("meditation"), content)
 	check.call(m.relationships.get_score("shen_qinghe") == 1 and m.relationships.get_score("bai_yan") == 1, "bonus: shared preference rewards both")
@@ -89,7 +89,7 @@ func _meeting() -> void:
 	var met := RelationshipRules.refresh(g, content)
 	check.call(met == ["shen_qinghe"] and g.relationships.get_status("shen_qinghe") == "available", "meeting: Shen is met on day 1")
 	check.call(RelationshipRules.refresh(g, content).is_empty(), "meeting: refresh is idempotent")
-	g.calendar.day = 2
+	g.calendar.week = 2
 	check.call(RelationshipRules.refresh(g, content) == ["lu_chenzhou", "bai_yan"], "meeting: Lu and Bai are met on day 2")
 	# Meeting also happens through activities.
 	var h := GameState.new_game(3)
@@ -99,7 +99,7 @@ func _meeting() -> void:
 
 func _ready_state(npc: String, day: int) -> RefCounted:
 	var g := _g()
-	g.calendar.day = day
+	g.calendar.week = day
 	RelationshipRules.refresh(g, content)
 	g.relationships.add_score(npc, int(content.companion(npc).recruit.score_min))
 	for attr in content.companion(npc).recruit.attr_min:
@@ -109,7 +109,7 @@ func _ready_state(npc: String, day: int) -> RefCounted:
 
 func _recruitment() -> void:
 	for npc in content.companion_ids():
-		var day: int = int(content.companion(npc).recruit.day_min)
+		var day: int = int(content.companion(npc).recruit.week_min)
 		var g := _ready_state(npc, day)
 		check.call(RelationshipRules.evaluate_recruitment(g, npc, content).result == "ready", "recruit %s: ready when all conditions hold" % npc)
 		var r: Dictionary = RelationshipRules.recruit(g, npc, content)
@@ -208,9 +208,9 @@ func _lifecycle() -> void:
 	check.call(g.relationships.get_score("shen_qinghe") == 4, "week: day 1 music + a liked activity = bond 4")
 	# Day 2: visit her, and meditate again.
 	ActivityRules.perform(g, content.activity("social_visit"), content, "chat_shen")
-	check.call(g.calendar.day == 2 and g.relationships.get_score("shen_qinghe") == 8, "week: day 2 visit gives bond 8")
+	check.call(g.calendar.week == 2 and g.relationships.get_score("shen_qinghe") == 8, "week: day 2 visit gives bond 8")
 	ActivityRules.perform(g, content.activity("rest"), content)
-	check.call(g.calendar.day == 3 and RelationshipRules.evaluate_recruitment(g, "shen_qinghe", content).result == "ready", "week: on day 3 Shen is ready (the first recruitment chance)")
+	check.call(g.calendar.week == 3 and RelationshipRules.evaluate_recruitment(g, "shen_qinghe", content).result == "ready", "week: on day 3 Shen is ready (the first recruitment chance)")
 	check.call(RelationshipRules.recruit(g, "shen_qinghe", content).ok, "week: Shen joins")
 	# Lu is not ready (never visited): the day-3 hook can show a refusal for him.
 	check.call(RelationshipRules.evaluate_recruitment(g, "lu_chenzhou", content).result == "refuse", "week: Lu refuses until his bond grows")
