@@ -1,7 +1,7 @@
 extends RefCounted
 ## Everything that must survive a save/load. Never put transient UI state here.
 
-const SCHEMA_VERSION := 4
+const SCHEMA_VERSION := 5
 
 const PlayerState = preload("res://scripts/domain/player_state.gd")
 const CalendarState = preload("res://scripts/domain/calendar_state.gd")
@@ -17,6 +17,8 @@ var resources: RefCounted
 var cultivation: RefCounted
 var relationships: RefCounted
 var exploration: RefCounted
+## Snapshot of a battle in progress (see Battle.to_dict plus ctx), empty when none. Lets an interrupted fight resume.
+var battle: Dictionary = {}
 ## Seeds every skill check in this run, so outcomes are reproducible from a save.
 var run_seed: int = 1
 
@@ -52,6 +54,7 @@ func to_dict() -> Dictionary:
 		"cultivation": cultivation.to_dict(),
 		"relationships": relationships.to_dict(),
 		"exploration": exploration.to_dict(),
+		"battle": battle.duplicate(true),
 		"run_seed": run_seed,
 	}
 
@@ -67,6 +70,8 @@ static func from_dict(d: Variant) -> RefCounted:
 	s.cultivation = CultivationState.from_dict(d.get("cultivation"))
 	s.relationships = RelationshipState.from_dict(d.get("relationships"))
 	s.exploration = ExplorationState.from_dict(d.get("exploration"))
+	var snap: Variant = d.get("battle")
+	s.battle = (snap as Dictionary).duplicate(true) if snap is Dictionary else {}
 	s.run_seed = maxi(0, int(d.get("run_seed", 1)))
 	s._resolve_stamina()
 	return s

@@ -53,9 +53,9 @@
   {
    "id": "bandit_leader",
    "stats": {
-    "hp": 55,
-    "body": 7,
-    "power": 7,
+    "hp": 80,
+    "body": 8,
+    "power": 9,
     "agility": 5,
     "spirit": 8
    },
@@ -67,7 +67,7 @@
   {
    "id": "villager",
    "stats": {
-    "hp": 40,
+    "hp": 45,
     "body": 4,
     "power": 2,
     "agility": 4,

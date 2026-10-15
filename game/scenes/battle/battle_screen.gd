@@ -9,6 +9,7 @@ const SafeFrame = preload("res://scenes/shared/safe_frame.gd")
 const OverlayUtil = preload("res://scenes/shared/overlay_util.gd")
 const BoardView = preload("res://scenes/battle/board_view.gd")
 const BattleText = preload("res://scenes/battle/battle_text.gd")
+const DeltaText = preload("res://scenes/shared/delta_text.gd")
 const BattleAI = preload("res://scripts/domain/combat/battle_ai.gd")
 const CombatGrid = preload("res://scripts/domain/combat/combat_grid.gd")
 
@@ -125,7 +126,7 @@ func _ready() -> void:
 	Layout.mode_changed.connect(func(_m: String) -> void: _apply_layout(); _refresh())
 	_apply_layout()
 	_append_log(Loc.t("combat.scenario." + battle.scenario_id + ".objective"))
-	_sync()
+	_replay_log()
 	print("BATTLE_READY scenario=%s seed=%d" % [battle.scenario_id, battle.seed_value])
 	_advance_turns()
 	_report_layout()
@@ -140,6 +141,17 @@ func _apply_layout() -> void:
 	_log_scroll.custom_minimum_size.y = 70.0 if portrait else 120.0
 	_side.custom_minimum_size.x = 0.0 if portrait else 430.0
 	board.queue_redraw()
+
+
+## Shows the existing log as text only (a new battle has two lines, a resumed one many), without floating numbers.
+func _replay_log() -> void:
+	while _log_seen < battle.log.size():
+		var line := BattleText.log_line(battle, battle.log[_log_seen])
+		_log_seen += 1
+		if line != "":
+			_append_log(line)
+	board.queue_redraw()
+	_refresh()
 
 
 func _set_fast(on: bool) -> void:
@@ -165,6 +177,7 @@ func _advance_turns() -> void:
 func _begin_player_turn() -> void:
 	_busy = false
 	_selected = battle.active().id
+	Game.save_battle_progress()
 	_set_mode("idle")
 
 
@@ -177,6 +190,13 @@ func _run_ai_turn() -> void:
 	await _wait(0.35)
 	if not is_inside_tree():
 		return
+	for fa in BattleAI.free_actions(battle):
+		if fa.kind == "attack":
+			battle.attack(u.id, fa.tech, fa.target)
+		else:
+			battle.support(u.id, fa.tech, fa.target)
+		_sync()
+		await _wait(0.45)
 	var plan: Dictionary = BattleAI.decide(battle)
 	if not plan.is_empty():
 		if plan.cell != u.pos:
@@ -387,7 +407,11 @@ func _preview_text() -> String:
 		return s
 	if _kind == "support":
 		var q: Dictionary = battle.preview_support(u.id, _tech, _target)
-		return Loc.t("combat.ui.preview_support", {"target": tname, "heal": q.heal, "res": q.resolve_gain}) if q.ok else ""
+		if not q.ok:
+			return ""
+		if int(q.mp) > 0:
+			return Loc.t("combat.ui.preview_boost", {"target": tname, "mp": q.mp})
+		return Loc.t("combat.ui.preview_support", {"target": tname, "heal": q.heal, "res": q.resolve_gain})
 	var item: Dictionary = battle.content.combat_item("medicine")
 	var t2: RefCounted = battle.unit(_target)
 	return Loc.t("combat.ui.preview_support", {"target": tname, "heal": mini(int(item.heal), t2.max_hp - t2.hp), "res": 0})
@@ -411,11 +435,10 @@ func _rebuild_actions() -> void:
 			grid.add_theme_constant_override("v_separation", 6)
 			grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			_action_box.add_child(grid)
-			var has_support := not _techs_of("support").is_empty()
 			var item_n: int = int(battle.items.get("medicine", 0))
 			_add_button(grid, "move", Loc.t("combat.ui.move"), _enter_move, u.mp < 1 or battle.move_options(u).size() <= 1)
-			_add_button(grid, "attack", Loc.t("combat.ui.attack"), func() -> void: _enter_tech("attack"), u.ap < 1)
-			_add_button(grid, "support", Loc.t("combat.ui.support"), func() -> void: _enter_tech("support"), u.ap < 1 or not has_support)
+			_add_button(grid, "attack", Loc.t("combat.ui.attack"), func() -> void: _enter_tech("attack"), not _can_any("attack"))
+			_add_button(grid, "support", Loc.t("combat.ui.support"), func() -> void: _enter_tech("support"), not _can_any("support"))
 			_add_button(grid, "item", "%s %d" % [Loc.t("combat.ui.item"), item_n], _enter_item, u.ap < 1 or item_n < 1)
 			_add_button(grid, "guard", Loc.t("combat.ui.guard"), _guard, u.ap < 1)
 			_add_button(grid, "end", Loc.t("combat.ui.end_turn"), _end_turn, false)
@@ -434,7 +457,9 @@ func _rebuild_actions() -> void:
 			for t in _techs_of(_kind):
 				var cost: int = int(t.get("cost", 0))
 				var label: String = Loc.t("combat.ui.tech_line", {"name": Loc.t(str(t.name_key)), "range": int(t.range), "cost": cost})
-				_add_button(col, "tech:" + str(t.id), label, func() -> void: _pick_tech(str(t.id)), u.tp < cost)
+				if u.used_once.has(str(t.id)):
+					label += "  (%s)" % Loc.t("combat.ui.once_used")
+				_add_button(col, "tech:" + str(t.id), label, func() -> void: _pick_tech(str(t.id)), not battle.can_use(u, str(t.id)))
 			_add_button(col, "back", Loc.t("combat.ui.back"), func() -> void: _set_mode("idle"), false)
 		"confirm":
 			var row := HBoxContainer.new()
@@ -460,6 +485,15 @@ func _add_button(parent: Node, id: String, text: String, cb: Callable, disabled:
 	parent.add_child(b)
 	action_buttons[id] = b
 	return b
+
+
+## Is any technique of this kind usable right now (free bond abilities work even with no action left)?
+func _can_any(kind: String) -> bool:
+	var u: RefCounted = battle.active()
+	for t in _techs_of(kind):
+		if battle.can_use(u, str(t.id)):
+			return true
+	return false
 
 
 func _techs_of(kind: String) -> Array:
@@ -533,6 +567,7 @@ func _skip_follow_up() -> void:
 
 func _after_action() -> void:
 	_sync()
+	Game.save_battle_progress()
 	if battle.outcome != "":
 		_advance_turns()
 		return
@@ -551,6 +586,7 @@ func _on_cell(cell: Vector2i) -> void:
 		var u: RefCounted = battle.active()
 		if occupant == null and battle.move(u.id, cell).ok:
 			_sync()
+			Game.save_battle_progress()
 			_set_mode("idle")
 			return
 	if _player_turn() and (mode == "target" or mode == "confirm") and occupant != null and _valid_targets().has(occupant.id):
@@ -583,10 +619,17 @@ func _finish() -> void:
 	why.text = Loc.t("combat.outcome." + battle.outcome_reason)
 	var rounds := UiKit.make_label(FONT, HORIZONTAL_ALIGNMENT_CENTER)
 	rounds.text = Loc.t("combat.ui.result_rounds", {"n": battle.round_no})
+	var res: Dictionary = Game.apply_battle_result()
+	var lines: Array = res.deltas.map(func(d: Dictionary) -> String: return DeltaText.delta_line(d))
+	if not res.flags.is_empty():
+		lines.append(Loc.t("combat.ui.flag"))
+	var spoils := UiKit.make_label(FONT, HORIZONTAL_ALIGNMENT_CENTER)
+	spoils.text = "%s: %s" % [Loc.t("combat.ui.rewards"), Loc.t("ui.list_sep").join(lines)] if not lines.is_empty() else ""
+	spoils.visible = not lines.is_empty()
 	continue_button = UiKit.make_button(Vector2(260, 64))
 	continue_button.text = Loc.t("combat.ui.continue")
 	continue_button.pressed.connect(_continue)
-	for n in [head, why, rounds, continue_button]:
+	for n in [head, why, rounds, spoils, continue_button]:
 		box.add_child(n)
 	add_child(result_overlay)
 	continue_button.grab_focus()

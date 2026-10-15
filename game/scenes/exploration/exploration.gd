@@ -42,6 +42,9 @@ var _end_node_id: String = ""
 func _ready() -> void:
 	UiKit.apply(self)
 	Game.ensure_state()
+	if Game.has_saved_battle() and Game.resume_battle():  # a fight was interrupted: carry on with it
+		Router.goto.call_deferred("battle")
+		return
 	add_child(Backdrop.new())
 	var dim := ColorRect.new()
 	dim.color = Color(0.02, 0.07, 0.07, 0.5)

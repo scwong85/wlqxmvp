@@ -221,6 +221,8 @@ func preview_attack(unit_id: String, tech_id: String, target_id: String) -> Dict
 		return _no("bad_target")
 	if CombatGrid.distance(u.pos, t.pos) > int(tech.range):
 		return _no("out_of_range")
+	if tech.get("once", false) and u.used_once.has(tech_id):
+		return _no("already_used")
 	var r := CombatRules.attack_result(self, u, tech, t)
 	r["ok"] = true
 	return r
@@ -230,19 +232,16 @@ func attack(unit_id: String, tech_id: String, target_id: String) -> Dictionary:
 	var u := _acting(unit_id)
 	if u == null:
 		return _no("not_your_turn")
-	if u.ap < 1:
-		return _no("no_action")
 	var tech := _tech_for(u, tech_id)
 	if tech.is_empty():
 		return _no("bad_technique")
-	var cost := int(tech.get("cost", 0))
-	if u.tp < cost:
-		return _no("no_technique_points")
+	var gate := _gate(u, tech_id, tech)
+	if not gate.ok:
+		return gate
 	var pv := preview_attack(unit_id, tech_id, target_id)
 	if not pv.ok:
 		return pv
-	u.tp -= cost
-	u.ap -= 1
+	_spend(u, tech_id, tech)
 	_do_attack(u, tech, unit(target_id), false)
 	return _ok()
 
@@ -259,6 +258,8 @@ func preview_support(unit_id: String, tech_id: String, target_id: String) -> Dic
 		return _no("bad_target")
 	if CombatGrid.distance(u.pos, t.pos) > int(tech.range):
 		return _no("out_of_range")
+	if tech.get("once", false) and u.used_once.has(tech_id):
+		return _no("already_used")
 	var r := CombatRules.support_result(tech, t)
 	r["ok"] = true
 	return r
@@ -268,21 +269,42 @@ func support(unit_id: String, tech_id: String, target_id: String) -> Dictionary:
 	var u := _acting(unit_id)
 	if u == null:
 		return _no("not_your_turn")
-	if u.ap < 1:
-		return _no("no_action")
 	var tech := _tech_for(u, tech_id)
 	if tech.is_empty():
 		return _no("bad_technique")
-	var cost := int(tech.get("cost", 0))
-	if u.tp < cost:
-		return _no("no_technique_points")
+	var gate := _gate(u, tech_id, tech)
+	if not gate.ok:
+		return gate
 	var pv := preview_support(unit_id, tech_id, target_id)
 	if not pv.ok:
 		return pv
-	u.tp -= cost
-	u.ap -= 1
+	_spend(u, tech_id, tech)
 	_apply_support(u, tech_id, tech, unit(target_id), pv)
 	return _ok()
+
+
+## Can this unit use the technique right now (action, technique points, once per battle)?
+func _gate(u: RefCounted, tech_id: String, tech: Dictionary) -> Dictionary:
+	if tech.get("once", false) and u.used_once.has(tech_id):
+		return _no("already_used")
+	if not tech.get("free", false) and u.ap < 1:
+		return _no("no_action")
+	if u.tp < int(tech.get("cost", 0)):
+		return _no("no_technique_points")
+	return _ok()
+
+
+func can_use(u: RefCounted, tech_id: String) -> bool:
+	var tech := _tech_for(u, tech_id)
+	return not tech.is_empty() and u.alive() and _gate(u, tech_id, tech).ok
+
+
+func _spend(u: RefCounted, tech_id: String, tech: Dictionary) -> void:
+	u.tp -= int(tech.get("cost", 0))
+	if not tech.get("free", false):
+		u.ap -= 1
+	if tech.get("once", false):
+		u.used_once.append(tech_id)
 
 
 func guard(unit_id: String) -> Dictionary:
@@ -399,6 +421,10 @@ func _apply_support(u: RefCounted, tech_id: String, tech: Dictionary, t: RefCoun
 	t.resolve += int(r.resolve_gain)
 	if tech.get("cleanse", false):
 		t.statuses.clear()
+	if int(r.mp) > 0:
+		t.mp += int(r.mp)
+		_emit({"type": "boost", "unit": u.id, "target": t.id, "tech": tech_id, "mp": int(r.mp)})
+		return
 	_emit({"type": "support", "unit": u.id, "target": t.id, "tech": tech_id, "heal": r.heal,
 			"resolve": r.resolve_gain, "cleansed": r.cleansed})
 
@@ -490,7 +516,48 @@ func to_dict() -> Dictionary:
 		us.append(u.to_dict())
 	return {"scenario": scenario_id, "seed": seed_value, "round": round_no, "turn_index": turn_index, "order": order,
 			"units": us, "grid": grid.to_dict(), "items": items, "outcome": outcome, "reason": outcome_reason,
-			"log": log}
+			"objective": objective, "max_rounds": max_rounds, "pending": pending_followups.duplicate(true), "log": log}
+
+
+## Rebuilds a battle from `to_dict()` (e.g. after the game was closed mid-fight). Tolerant of missing fields.
+static func from_dict(content_ref: Object, d: Dictionary) -> RefCounted:
+	var b = new(content_ref)
+	b.scenario_id = str(d.get("scenario", ""))
+	b.seed_value = int(d.get("seed", 0))
+	b.round_no = maxi(1, int(d.get("round", 1)))
+	b.turn_index = maxi(0, int(d.get("turn_index", 0)))
+	for id in d.get("order", []):
+		b.order.append(str(id))
+	for ud in d.get("units", []):
+		b.units.append(CombatUnit.from_dict(ud))
+	for c in d.get("grid", {}).get("terrain", []):
+		b.grid.set_terrain(Vector2i(int(c[0]), int(c[1])), str(c[2]))
+	for k in d.get("items", {}):
+		b.items[str(k)] = int(d.items[k])
+	b.outcome = str(d.get("outcome", ""))
+	b.outcome_reason = str(d.get("reason", ""))
+	b.objective = (d.get("objective", {}) as Dictionary).duplicate(true)
+	b.max_rounds = maxi(1, int(d.get("max_rounds", 10)))
+	for f in d.get("pending", []):
+		b.pending_followups.append({"unit": str(f.unit), "target": str(f.target)})
+	for e in d.get("log", []):
+		b.log.append(whole_numbers(e))
+	b.objective = whole_numbers(b.objective)
+	return b
+
+
+## JSON text has no int/float distinction: turn whole floats back into ints so hashes and comparisons match.
+static func whole_numbers(v: Variant) -> Variant:
+	if v is float and is_equal_approx(v, roundf(v)):
+		return int(v)
+	if v is Dictionary:
+		var out := {}
+		for k in v:
+			out[k] = whole_numbers(v[k])
+		return out
+	if v is Array:
+		return v.map(func(x: Variant) -> Variant: return whole_numbers(x))
+	return v
 
 
 ## Stable fingerprint of the whole battle, including the log. Equal seeds must give equal hashes.

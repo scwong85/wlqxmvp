@@ -60,6 +60,8 @@ static func log_line(battle: RefCounted, e: Dictionary) -> String:
 		"support":
 			return Loc.t("combat.log.support", {"unit": unit, "tech": tech_name(battle, str(e.tech)), "target": target,
 					"heal": int(e.heal), "res": int(e.resolve)})
+		"boost":
+			return Loc.t("combat.log.boost", {"unit": unit, "tech": tech_name(battle, str(e.tech)), "mp": int(e.mp)})
 		"item":
 			return Loc.t("combat.log.item", {"unit": unit, "target": target, "heal": int(e.heal)})
 		"status":

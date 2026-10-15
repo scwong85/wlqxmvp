@@ -459,6 +459,31 @@ func _battle_ui() -> void:
 	await _frames(4)
 	_check(Router.current_key == "exploration" and Game.state.exploration.pending_battle == "" and _scene().fight_button == null, "battle: after the fight the route continues")
 
+	# Closing the game mid-fight: the next session picks the same battle up from the save.
+	Game.state.exploration.pending_battle = "bandit_scouts"
+	_check(Game.start_battle("bandit_scouts", "exploration"), "resume: a story battle starts")
+	Router.goto("battle")
+	await _frames(4)
+	var live := _scene()
+	live.action_buttons["guard"].pressed.emit()
+	await _frames(2)
+	var saved_hash: String = live.battle.state_hash()
+	var loaded: Dictionary = Saves.load_latest()
+	_check(loaded.ok and not loaded.state.battle.is_empty(), "resume: the autosave holds the battle in progress")
+	Game.state = loaded.state
+	Game.battle = null
+	Router.goto("cultivation")
+	await _frames(6)
+	_check(Router.current_key == "battle" and _scene().battle.state_hash() == saved_hash, "resume: loading the save returns to the same battle")
+	_check(_scene().mode == "idle" and _scene().log_lines.size() >= 3, "resume: it is still the player's turn and the log is back")
+	_scene().action_buttons["end"].pressed.emit()
+	await _frames(2)
+	await _play_battle_with_buttons(_scene(), false)
+	var done := _scene()
+	_check(done.result_overlay != null and Game.state.battle.is_empty() and Game.state.exploration.pending_battle == "", "resume: finishing clears the saved battle and the trigger")
+	done.continue_button.pressed.emit()
+	await _frames(4)
+
 	# Portrait phone, a different battle, confirm/cancel and the pending rules.
 	win.size = Vector2i(390, 844)
 	await _frames(4)

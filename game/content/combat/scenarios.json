@@ -165,6 +165,35 @@
     "defeat_all": true,
     "survive_rounds": 5,
     "protect": "villager"
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 12
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 2
+     }
+    ],
+    "flags": [
+     "villager_saved"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -4
+     }
+    ],
+    "flags": [
+     "villager_lost"
+    ]
    }
   },
   {
@@ -254,11 +283,52 @@
        0
       ]
      ]
+    },
+    {
+     "template": "bandit_archer",
+     "cells": [
+      [
+       1,
+       0
+      ],
+      [
+       4,
+       0
+      ],
+      [
+       4,
+       1
+      ]
+     ]
     }
    ],
    "objective": {
     "defeat_leader": true,
-    "survive_rounds": 8
+    "survive_rounds": 7
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 3
+     }
+    ],
+    "flags": [
+     "bandits_defeated"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -5
+     }
+    ],
+    "flags": [
+     "bandits_won"
+    ]
    }
   },
   {
@@ -315,7 +385,7 @@
      ]
     },
     {
-     "template": "bandit_scout",
+     "template": "bandit_archer",
      "cells": [
       [
        4,
@@ -351,6 +421,35 @@
    ],
    "objective": {
     "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 8
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "scouts_beaten"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "scouts_won"
+    ]
    }
   }
  ]

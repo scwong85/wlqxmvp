@@ -274,7 +274,7 @@ func _persistence() -> void:
 	var old: Dictionary = GameState.new_game(4).to_dict()
 	old.erase("exploration")
 	var m := svc.migrate(old, 3)
-	check.call(m.exploration.active == false and GameState.SCHEMA_VERSION == 4, "migration v3->v4: exploration gets an inactive default")
+	check.call(m.exploration.active == false and GameState.SCHEMA_VERSION >= 4, "migration v3->v4: exploration gets an inactive default")
 	svc.free()
 
 

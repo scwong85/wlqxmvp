@@ -94,6 +94,7 @@ func _session() -> void:
 	game.start_battle("bandit_scouts", "exploration")
 	check.call(game.battle.state_hash() == h1, "m10: the same trigger on the same day builds the same battle")
 	game.battle.items["medicine"] = 1
+	game.battle.outcome = "victory"
 	var dest: String = game.finish_battle()
 	check.call(st.resources.get_amount("medicine") == 1 and st.exploration.pending_battle == "" and game.battle == null, "m10: finishing spends used medicine and clears the trigger")
 	check.call(dest == "cultivation", "m10: with no route running the player returns to training")

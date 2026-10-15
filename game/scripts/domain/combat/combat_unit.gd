@@ -24,6 +24,7 @@ var protected: bool = false       # objective: this unit must survive
 var npc: bool = false             # takes no actions of its own (e.g. the villager to protect)
 var ap: int = 0
 var mp: int = 0
+var used_once: Array = []         # once-per-battle techniques already used
 var followed_round: int = 0       # last round in which this unit took a follow-up (one per round)
 
 
@@ -56,6 +57,43 @@ func add_status(status_id: String, turns: int) -> void:
 
 
 func to_dict() -> Dictionary:
-	return {"id": id, "team": team, "pos": [pos.x, pos.y], "hp": hp, "max_hp": max_hp, "tp": tp, "resolve": resolve,
-			"broken": broken, "guarding": guarding, "statuses": statuses.duplicate(true), "ap": ap, "mp": mp,
-			"followed_round": followed_round, "npc": npc}
+	return {"id": id, "team": team, "name_key": name_key, "template": template, "pos": [pos.x, pos.y], "hp": hp,
+			"max_hp": max_hp, "body": body, "power": power, "agility": agility, "spirit": spirit, "tp": tp,
+			"max_resolve": max_resolve, "resolve": resolve, "broken": broken, "guarding": guarding,
+			"statuses": statuses.duplicate(true), "techniques": techniques.duplicate(), "leader": leader,
+			"protected": protected, "npc": npc, "ap": ap, "mp": mp, "used_once": used_once.duplicate(),
+			"followed_round": followed_round}
+
+
+static func from_dict(d: Dictionary) -> RefCounted:
+	var u = new()
+	u.id = str(d.get("id", ""))
+	u.team = str(d.get("team", "player"))
+	u.name_key = str(d.get("name_key", ""))
+	u.template = str(d.get("template", ""))
+	var p: Array = d.get("pos", [0, 0])
+	u.pos = Vector2i(int(p[0]), int(p[1]))
+	u.max_hp = maxi(1, int(d.get("max_hp", 1)))
+	u.hp = clampi(int(d.get("hp", u.max_hp)), 0, u.max_hp)
+	u.body = int(d.get("body", 5))
+	u.power = int(d.get("power", 5))
+	u.agility = int(d.get("agility", 5))
+	u.spirit = int(d.get("spirit", 5))
+	u.tp = int(d.get("tp", 0))
+	u.max_resolve = maxi(1, int(d.get("max_resolve", 10)))
+	u.resolve = clampi(int(d.get("resolve", u.max_resolve)), 0, u.max_resolve)
+	u.broken = bool(d.get("broken", false))
+	u.guarding = bool(d.get("guarding", false))
+	for s in d.get("statuses", []):
+		u.statuses.append({"id": str(s.id), "turns": int(s.turns)})
+	for t in d.get("techniques", []):
+		u.techniques.append(str(t))
+	u.leader = bool(d.get("leader", false))
+	u.protected = bool(d.get("protected", false))
+	u.npc = bool(d.get("npc", false))
+	u.ap = int(d.get("ap", 0))
+	u.mp = int(d.get("mp", 0))
+	for t in d.get("used_once", []):
+		u.used_once.append(str(t))
+	u.followed_round = int(d.get("followed_round", 0))
+	return u

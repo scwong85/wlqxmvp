@@ -83,6 +83,9 @@ var _status_key: String = ""
 func _ready() -> void:
 	UiKit.apply(self)
 	Game.ensure_state()
+	if Game.has_saved_battle() and Game.resume_battle():  # a fight was interrupted: carry on with it
+		Router.goto.call_deferred("battle")
+		return
 	if Game.state.exploration.active:  # a saved or running exploration resumes on its own screen
 		Router.goto.call_deferred("exploration")
 		return

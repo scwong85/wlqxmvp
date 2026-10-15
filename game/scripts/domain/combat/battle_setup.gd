@@ -4,8 +4,10 @@ extends RefCounted
 
 const Battle = preload("res://scripts/domain/combat/battle.gd")
 const CombatUnit = preload("res://scripts/domain/combat/combat_unit.gd")
+const CombatGrid = preload("res://scripts/domain/combat/combat_grid.gd")
 
 const HERO_ID := "hero"
+const BOND_MIN := 8
 
 
 static func build(content: Object, scenario_id: String, seed_value: int, game_state: RefCounted = null, party_ids: Array = []) -> RefCounted:
@@ -16,7 +18,7 @@ static func build(content: Object, scenario_id: String, seed_value: int, game_st
 	b.scenario_id = scenario_id
 	b.seed_value = seed_value
 	b.max_rounds = int(sc.max_rounds)
-	b.objective = (sc.objective as Dictionary).duplicate(true)
+	b.objective = Battle.whole_numbers((sc.objective as Dictionary).duplicate(true))
 	for t in sc.get("terrain", []):
 		b.grid.set_terrain(Vector2i(int(t[0]), int(t[1])), str(t[2]))
 	var used := {}
@@ -30,7 +32,7 @@ static func build(content: Object, scenario_id: String, seed_value: int, game_st
 	for cid in party_ids:
 		if slot >= cells.size():
 			break
-		var c := _companion(content, str(cid))
+		var c := _companion(content, str(cid), game_state == null or game_state.relationships.get_score(str(cid)) >= BOND_MIN)
 		if c == null:
 			continue
 		c.pos = _cell(cells[slot])
@@ -99,7 +101,8 @@ static func _hero(content: Object, gs: RefCounted) -> RefCounted:
 	return u
 
 
-static func _companion(content: Object, cid: String) -> RefCounted:
+## The bond ability is only available once the bond is strong enough (BOND_MIN).
+static func _companion(content: Object, cid: String, bond_ready: bool) -> RefCounted:
 	var d: Dictionary = content.companion(cid)
 	if d.is_empty():
 		return null
@@ -118,6 +121,10 @@ static func _companion(content: Object, cid: String) -> RefCounted:
 	u.max_resolve = 6 + u.spirit
 	u.resolve = u.max_resolve
 	u.techniques = (d.get("battle_abilities", []) as Array).duplicate()
+	if bond_ready:
+		var bond := str(d.get("relationship_ability", ""))
+		if bond != "" and not content.combat_tech(bond).is_empty():
+			u.techniques.append(bond)
 	return u
 
 
@@ -140,3 +147,18 @@ static func _from_template(content: Object, tpl: String, id: String, team: Strin
 	u.resolve = u.max_resolve
 	u.techniques = (d.get("techniques", []) as Array).duplicate()
 	return u
+
+
+## Rebuilds a battle from a saved snapshot (Battle.to_dict plus ctx). Null if the snapshot is unusable.
+static func rebuild(content: Object, snap: Dictionary) -> RefCounted:
+	if snap.is_empty() or content.scenario(str(snap.get("scenario", ""))).is_empty():
+		return null
+	var b := Battle.from_dict(content, snap)
+	var ids := {}
+	for u in b.units:
+		ids[u.id] = true
+		if not CombatGrid.in_bounds(u.pos):
+			return null
+	if b.units.is_empty() or b.order.any(func(id: String) -> bool: return not ids.has(id)):
+		return null
+	return b

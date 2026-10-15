@@ -8,6 +8,7 @@ const RelationshipRules = preload("res://scripts/domain/relationship_rules.gd")
 const PartySystem = preload("res://scripts/domain/party_system.gd")
 const ExplorationSystem = preload("res://scripts/domain/exploration_system.gd")
 const BattleSetup = preload("res://scripts/domain/combat/battle_setup.gd")
+const BattleResult = preload("res://scripts/domain/combat/battle_result.gd")
 
 var state: RefCounted = null
 ## The battle on screen (not saved: a battle interrupted by closing the game restarts from its trigger).
@@ -151,22 +152,66 @@ func start_battle(id: String, from: String) -> bool:
 		party.append(active)
 	var seed_value: int = ("%d|%s|%d|%d" % [st.run_seed, str(sc.id), st.calendar.day, st.calendar.slot]).hash()
 	battle = BattleSetup.build(Content, str(sc.id), seed_value, st, party)
-	battle_ctx = {"scenario": str(sc.id), "from": from, "battle_id": id}
+	battle_ctx = {"scenario": str(sc.id), "from": from, "battle_id": id, "applied": false}
+	if battle != null and from == "exploration":
+		save_battle_progress()
 	return battle != null
 
 
-## The battle ended and the player pressed Continue: medicine used is spent for real, the trigger is cleared.
+## Story battles are saved after every action so closing the game never loses or re-rolls a fight.
+func save_battle_progress() -> void:
+	if battle == null or str(battle_ctx.get("from", "")) != "exploration" or battle.outcome != "":
+		return
+	var snap: Dictionary = battle.to_dict()
+	snap["ctx"] = battle_ctx.duplicate()
+	ensure_state().battle = snap
+	autosave()
+
+
+func has_saved_battle() -> bool:
+	return battle == null and not ensure_state().battle.is_empty()
+
+
+## Restores a battle saved by save_battle_progress. False (and the snapshot is dropped) if it cannot be rebuilt.
+func resume_battle() -> bool:
+	var st := ensure_state()
+	var snap: Dictionary = st.battle
+	var b: RefCounted = BattleSetup.rebuild(Content, snap)
+	if b == null:
+		st.battle = {}
+		return false
+	battle = b
+	battle_ctx = (snap.get("ctx", {}) as Dictionary).duplicate()
+	battle_ctx["applied"] = false
+	return true
+
+
+## Settles the finished (or abandoned) battle once: rewards/penalties, flags, medicine, trigger and snapshot cleared.
+## Returns {deltas, flags}. Practice battles change nothing except medicine used.
+func apply_battle_result() -> Dictionary:
+	var st := ensure_state()
+	if battle == null or bool(battle_ctx.get("applied", false)):
+		return {"deltas": [], "flags": []}
+	var from := str(battle_ctx.get("from", ""))
+	var sc: Dictionary = Content.scenario(str(battle_ctx.get("scenario", "")))
+	var outcome: String = battle.outcome if from == "exploration" else ""
+	var res: Dictionary = BattleResult.apply(st, sc, outcome, battle.items, Content)
+	battle_ctx["applied"] = true
+	st.battle = {}
+	if from == "exploration":
+		if battle.outcome != "":
+			st.exploration.pending_battle = ""
+		autosave()
+	return res
+
+
+## The player pressed Continue: leaves the battle and returns the scene to go to.
 func finish_battle() -> String:
 	var st := ensure_state()
-	if battle != null:
-		var left: int = int(battle.items.get("medicine", 0))
-		var have: int = st.resources.get_amount("medicine")
-		if left < have:
-			st.resources.spend("medicine", have - left)
+	apply_battle_result()
 	var from := str(battle_ctx.get("from", ""))
-	st.exploration.pending_battle = ""
+	if from == "exploration" and battle != null and battle.outcome == "":
+		pass  # abandoned: the trigger stays pending so the fight is offered again
 	battle = null
 	battle_ctx = {}
-	if from == "exploration":
-		autosave()
 	return "exploration" if from == "exploration" and st.exploration.active else "cultivation" if from == "exploration" else "title"

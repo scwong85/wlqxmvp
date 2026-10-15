@@ -143,6 +143,7 @@ func parse_envelope(text: String) -> Dictionary:
 ## v1 -> v2: adds current stamina (-1 = full), fired story events, and a run seed.
 ## v2 -> v3: adds temporary buffs on the player.
 ## v3 -> v4: adds exploration progress (route, node, clues).
+## v4 -> v5: adds the snapshot of a battle in progress (empty by default).
 func migrate(state_dict: Dictionary, from_version: int) -> Dictionary:
 	var d: Dictionary = state_dict.duplicate(true)
 	if from_version < 2:
@@ -157,6 +158,8 @@ func migrate(state_dict: Dictionary, from_version: int) -> Dictionary:
 	if from_version < 4:
 		d["exploration"] = {"active": false, "route": "", "node": "", "history": [], "clues": [], "completed": [],
 				"pending_recruit": "", "pending_battle": ""}
+	if from_version < 5:
+		d["battle"] = {}
 	return d
 
 

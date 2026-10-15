@@ -15,6 +15,8 @@ static func take_turn(battle: RefCounted) -> void:
 	if u.npc:
 		battle.end_turn()
 		return
+	for fa in free_actions(battle):
+		_run_free(battle, u, fa)
 	var plan := decide(battle)
 	if not plan.is_empty():
 		if plan.cell != u.pos:
@@ -30,6 +32,49 @@ static func take_turn(battle: RefCounted) -> void:
 	take_follow_ups(battle)
 	if battle.outcome == "" and battle.active() == u:
 		battle.end_turn()
+
+
+static func _run_free(battle: RefCounted, u: RefCounted, fa: Dictionary) -> void:
+	if fa.kind == "attack":
+		battle.attack(u.id, fa.tech, fa.target)
+	else:
+		battle.support(u.id, fa.tech, fa.target)
+
+
+## Free once-per-battle (bond) abilities worth using right now, at the unit's current position.
+## Heal when an ally is hurt, mark the strongest foe in range, boost movement when no attack is possible yet.
+static func free_actions(battle: RefCounted) -> Array:
+	var out: Array = []
+	var u: RefCounted = battle.active()
+	if u == null or u.npc:
+		return out
+	var foes: Array = battle.alive_units("enemy" if u.team == "player" else "player")
+	var friends: Array = battle.alive_units(u.team)
+	var no_attack := _best_plan(battle, u).is_empty()
+	for tid in battle.technique_ids(u):
+		var tech: Dictionary = battle.content.combat_tech(str(tid))
+		if tech.is_empty() or not tech.get("free", false) or not battle.can_use(u, str(tid)):
+			continue
+		if tech.kind == "attack":
+			var pick: RefCounted = null
+			for f in foes:
+				if CombatGrid.distance(u.pos, f.pos) <= int(tech.range) and not f.has_status("weaken") \
+						and (pick == null or f.power > pick.power):
+					pick = f
+			if pick != null:
+				out.append({"kind": "attack", "tech": str(tid), "target": pick.id})
+		elif tech.has("mp_bonus"):
+			if no_attack and not foes.is_empty():
+				out.append({"kind": "support", "tech": str(tid), "target": u.id})
+		else:
+			var hurt: RefCounted = null
+			for a in friends:
+				if CombatGrid.distance(u.pos, a.pos) <= int(tech.range) and a.hp <= a.max_hp * 0.6 \
+						and CombatRules.support_result(tech, a).heal >= 6 and (hurt == null or a.hp < hurt.hp):
+					hurt = a
+			if hurt != null:
+				out.append({"kind": "support", "tech": str(tid), "target": hurt.id})
+	return out
 
 
 ## The decision for the active unit: {kind: attack|support|item|advance, cell, tech, target} or {} (stay put).
@@ -89,7 +134,7 @@ static func _best_plan(battle: RefCounted, u: RefCounted) -> Dictionary:
 		for tid in battle.technique_ids(u):
 			var tech: Dictionary = battle.content.combat_tech(str(tid))
 			var cost := int(tech.get("cost", 0))
-			if tech.is_empty() or u.tp < cost:
+			if tech.is_empty() or u.tp < cost or tech.get("once", false):
 				continue
 			if tech.kind == "attack":
 				for t in foes:

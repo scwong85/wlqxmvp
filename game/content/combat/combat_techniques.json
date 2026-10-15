@@ -147,6 +147,45 @@
    "resolve": 2,
    "cost": 0,
    "name_key": "combat.tech.arrow_shot"
+  },
+  {
+   "id": "gentle_hands",
+   "kind": "support",
+   "range": 2,
+   "heal": 10,
+   "cleanse": true,
+   "cost": 0,
+   "free": true,
+   "once": true,
+   "bond": true,
+   "name_key": "ability.gentle_hands"
+  },
+  {
+   "id": "couriers_shortcut",
+   "kind": "support",
+   "range": 0,
+   "mp_bonus": 3,
+   "cost": 0,
+   "free": true,
+   "once": true,
+   "bond": true,
+   "name_key": "ability.couriers_shortcut"
+  },
+  {
+   "id": "margin_notes",
+   "kind": "attack",
+   "range": 3,
+   "damage": 1,
+   "resolve": 3,
+   "status": {
+    "id": "weaken",
+    "turns": 2
+   },
+   "cost": 0,
+   "free": true,
+   "once": true,
+   "bond": true,
+   "name_key": "ability.margin_notes"
   }
  ],
  "statuses": [

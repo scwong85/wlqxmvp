@@ -73,7 +73,7 @@ static func support_result(tech: Dictionary, target: RefCounted) -> Dictionary:
 	if tech.get("cleanse", false):
 		for s in target.statuses:
 			cleansed.append(str(s.id))
-	return {"heal": heal, "resolve_gain": resolve_gain, "cleansed": cleansed}
+	return {"heal": heal, "resolve_gain": resolve_gain, "cleansed": cleansed, "mp": int(tech.get("mp_bonus", 0))}
 
 
 ## Movement points for a unit this turn: 3 + agility / 5, minus Slow, never below 1.
