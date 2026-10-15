@@ -155,6 +155,7 @@ func _apply_layout() -> void:
 	_bar.add_theme_constant_override("separation", 4 if portrait else 16)
 	_body.vertical = portrait
 	_title_label.add_theme_font_size_override("font_size", 32 if portrait else 36)
+	_week_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if portrait else TextServer.AUTOWRAP_OFF
 	_list_panel.size_flags_stretch_ratio = 55.0 if portrait else 52.0
 	_detail_panel.size_flags_stretch_ratio = 45.0 if portrait else 48.0
 

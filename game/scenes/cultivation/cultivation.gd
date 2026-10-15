@@ -379,9 +379,14 @@ func _build_activity_panel() -> Control:
 	map_button.pressed.connect(func() -> void:
 		if not _overlay_open():
 			Router.goto("map"))
+	var second_row := HBoxContainer.new()
+	second_row.add_theme_constant_override("separation", 8)
+	second_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	second_row.size_flags_stretch_ratio = 1.4
+	second_row.add_child(explore_button)
+	second_row.add_child(map_button)
 	action_row.add_child(confirm_button)
-	action_row.add_child(explore_button)
-	action_row.add_child(map_button)
+	action_row.add_child(second_row)
 	box.add_child(action_row)
 	return box.get_meta("panel")
 

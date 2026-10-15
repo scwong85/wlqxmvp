@@ -152,7 +152,7 @@ with sync_playwright() as p:
             page.wait_for_timeout(400)
             page.keyboard.press("Enter")      # focused button of the prompt (maybe later)
             page.wait_for_timeout(800)
-            page.locator("canvas").click(position={"x": 660, "y": 635})   # explore button
+            click_ui(console, "explore", mark3)   # explore button
             ok_explore = wait_for(console, "EXPLORE_READY route=bamboo_pass node=start", 15, mark3)
             page.wait_for_timeout(500)
             page.screenshot(path=os.path.join(out_dir, "m8_explore_start.png"))
@@ -215,8 +215,7 @@ with sync_playwright() as p:
                 page.wait_for_timeout(600)
                 page.screenshot(path=os.path.join(out_dir, f"{name}_map.png"))
                 m6 = len(console)
-                wait_for(console, "UI_POS", 8, m6)
-                click_ui(console, "back", m6)
+                click_ui(console, "back", m5)
                 checks["map_back_to_training"] = wait_for(console, "CULT_READY", 15, m6)
                 page.wait_for_timeout(500)
                 m5 = len(console)
