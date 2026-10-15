@@ -83,7 +83,8 @@ static func check_chance(state: RefCounted, base_def: Dictionary, option_id: Str
 
 ## Runs the activity. Nothing changes unless it is available. Returns
 ## {ok, reasons} on refusal, or {ok:true, activity_id, grade, check, cost, deltas, unlocked, time}.
-static func perform(state: RefCounted, base_def: Dictionary, content: Object, option_id: String = "") -> Dictionary:
+## `play` is an optional minigame record {grade, mult, ...}: it replaces the skill check and scales rewards.
+static func perform(state: RefCounted, base_def: Dictionary, content: Object, option_id: String = "", play: Dictionary = {}) -> Dictionary:
 	if option_id == "":
 		option_id = default_option(base_def)
 	var av := availability(state, base_def, option_id)
@@ -106,7 +107,10 @@ static func perform(state: RefCounted, base_def: Dictionary, content: Object, op
 			state.resources.spend(str(k), n)
 		result.cost.append({"id": str(k), "amount": n})
 
-	if def.has("check"):
+	if not play.is_empty():
+		result["play"] = play
+		result.grade = "partial" if str(play.get("grade", "ok")) == "poor" else "success"
+	elif def.has("check"):
 		var key := "%s:%d:%d" % [def.id, state.calendar.week, state.calendar.slot]
 		var c := SkillCheck.check(state.player.effective_attr(str(def.check.attr)), int(def.check.target),
 				int(state.run_seed), key)
@@ -121,7 +125,10 @@ static func perform(state: RefCounted, base_def: Dictionary, content: Object, op
 
 	for r in def.get("rewards", []):
 		var amount := int(r.amount)
-		if result.grade == "partial" and amount > 0:
+		if not play.is_empty():
+			if amount > 0:
+				amount = maxi(1, roundi(amount * float(play.get("mult", 1.0))))
+		elif result.grade == "partial" and amount > 0:
 			amount = ceili(amount / 2.0)  # a failed check still pays half, rounded up
 		var applied := _apply_reward(state, r, amount, content)
 		if applied.size() > 0:

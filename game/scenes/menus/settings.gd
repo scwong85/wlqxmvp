@@ -11,6 +11,7 @@ var _row: BoxContainer
 var _volume_row: BoxContainer
 var language_buttons: Dictionary = {}  # locale code -> Button
 var animations_button: Button
+var minigames_button: Button
 var sliders: Dictionary = {}           # "music"/"sfx" -> HSlider
 var _slider_labels: Dictionary = {}
 
@@ -73,13 +74,29 @@ func _ready() -> void:
 		sliders[kind] = sl
 		_slider_labels[kind] = lbl
 
-	animations_button = UiKit.make_button(Vector2(0, 64))
+	animations_button = UiKit.make_button(Vector2(0, 60))
 	animations_button.toggle_mode = true
+	animations_button.clip_text = true
+	animations_button.add_theme_font_size_override("font_size", 24)
 	animations_button.set_pressed_no_signal(Game.animations_enabled())
 	animations_button.pressed.connect(func() -> void:
 		Saves.update_settings({"animations": animations_button.button_pressed})
 		_refresh())
-	box.add_child(animations_button)
+	var toggles := HBoxContainer.new()
+	toggles.add_theme_constant_override("separation", 12)
+	box.add_child(toggles)
+	animations_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	toggles.add_child(animations_button)
+	minigames_button = UiKit.make_button(Vector2(0, 60))
+	minigames_button.toggle_mode = true
+	minigames_button.clip_text = true
+	minigames_button.add_theme_font_size_override("font_size", 24)
+	minigames_button.set_pressed_no_signal(Game.minigames_enabled())
+	minigames_button.pressed.connect(func() -> void:
+		Saves.update_settings({"minigames": minigames_button.button_pressed})
+		_refresh())
+	minigames_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	toggles.add_child(minigames_button)
 
 	if Layout.fullscreen_available():
 		fullscreen_button = UiKit.make_button()
@@ -121,6 +138,7 @@ func _refresh() -> void:
 	back_button.text = Loc.t("ui.back")
 	for kind in _slider_labels:
 		_slider_labels[kind].text = "%s: %d" % [Loc.t("ui.volume." + kind), Audio.get_volume(kind)]
+	minigames_button.text = Loc.t("settings.minigames_on" if minigames_button.button_pressed else "settings.minigames_off")
 	animations_button.text = Loc.t("settings.animations_on" if animations_button.button_pressed else "settings.animations_off")
 	if fullscreen_button != null:
 		fullscreen_button.text = Loc.t("ui.fullscreen")

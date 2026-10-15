@@ -18,6 +18,7 @@ const ExplorationSystem = preload("res://scripts/domain/exploration_system.gd")
 const OverlayUtil = preload("res://scenes/shared/overlay_util.gd")
 const RecruitDialog = preload("res://scenes/shared/recruit_dialog.gd")
 const DeltaText = preload("res://scenes/shared/delta_text.gd")
+const ClipOverlay = preload("res://scenes/shared/clip_overlay.gd")
 const ROLE_COLORS := {"support": Color("5fd1a5"), "striker": Color("e0a35a"), "control": Color("7aa8e0")}
 
 const FONT_BODY := 24
@@ -39,6 +40,7 @@ var selected_id: String = ""
 var party_button: Button
 var explore_button: Button
 var map_button: Button
+var clip_overlay: Control = null
 var party_panel: Control = null
 var pause_panel: Control = null
 var pause_buttons: Dictionary = {}  # resume / save / settings / title
@@ -123,6 +125,11 @@ func _ready() -> void:
 
 	Loc.locale_changed.connect(func(_c: String) -> void: _refresh_all())
 	Layout.mode_changed.connect(func(_m: String) -> void: _on_layout_changed())
+	if not Game.pending_result.is_empty():
+		_last_result = Game.pending_result
+		Game.pending_result = {}
+		_showing_result = true
+		_status_key = "cult.autosaved"
 	_select_default()
 	_apply_layout()
 	_refresh_all()
@@ -463,7 +470,7 @@ func _on_confirm() -> void:
 	if not def.get("options", []).is_empty():
 		_show_choice(def)
 		return
-	_perform(selected_id, "")
+	_start_activity(selected_id, "")
 
 
 func _on_explore() -> void:
@@ -488,7 +495,30 @@ func _refresh_explore() -> void:
 
 
 func _overlay_open() -> bool:
-	return event_panel != null or choice_panel != null or party_panel != null or recruit_panel != null or pause_panel != null
+	return event_panel != null or choice_panel != null or party_panel != null or recruit_panel != null or pause_panel != null or clip_overlay != null
+
+
+## Entry for a chosen activity: a minigame if one is registered, else its short clip, else straight to the result.
+func _start_activity(activity_id: String, option_id: String) -> void:
+	var def: Dictionary = Content.activity(activity_id)
+	var opt := option_id if option_id != "" else ActivityRules.default_option(def)
+	if not ActivityRules.availability(Game.state, def, opt).ok:
+		_perform(activity_id, option_id)
+		return
+	if not Content.minigame_for(activity_id).is_empty() and Game.minigames_enabled():
+		Game.pending_play = {"activity": activity_id, "option": opt}
+		Router.goto("minigame")
+		return
+	var clip: Dictionary = Content.clip_for(activity_id)
+	if not clip.is_empty() and Game.animations_enabled():
+		clip_overlay = ClipOverlay.new()
+		clip_overlay.setup(clip)
+		add_child(clip_overlay)
+		clip_overlay.finished.connect(func() -> void:
+			clip_overlay = null
+			_perform(activity_id, option_id))
+		return
+	_perform(activity_id, option_id)
 
 
 func _perform(activity_id: String, option_id: String) -> void:
@@ -574,7 +604,7 @@ func _close_choice() -> void:
 func _on_option_chosen(option_id: String) -> void:
 	var activity_id := selected_id
 	_close_choice()
-	_perform(activity_id, option_id)
+	_start_activity(activity_id, option_id)
 
 
 # --- Story hooks ---------------------------------------------------------------------------------

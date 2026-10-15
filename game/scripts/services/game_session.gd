@@ -21,13 +21,30 @@ var battle: RefCounted = null
 var battle_ctx: Dictionary = {}   # {scenario, from: "exploration"|"practice", battle_id}
 ## Tests set this to play battle animations with no waiting.
 var battle_instant: bool = false
+## A minigame about to start: {activity, option}. A finished activity result waiting to be shown on the training screen.
+var pending_play: Dictionary = {}
+var pending_result: Dictionary = {}
 
 
 ## Story-board and clip animations (settings option; tests turn them off through battle_instant).
+## A URL query parameter (web builds only, used by the browser test): returns "" when absent.
+func web_param(name: String) -> String:
+	if not OS.has_feature("web"):
+		return ""
+	var v: Variant = JavaScriptBridge.eval("(new URLSearchParams(window.location.search)).get('%s') || ''" % name)
+	return str(v) if v != null else ""
+
+
 func animations_enabled() -> bool:
-	if battle_instant:
+	if battle_instant or web_param("noanim") == "1":
 		return false
 	return bool(Saves.load_settings().get("animations", true))
+
+
+func minigames_enabled() -> bool:
+	if battle_instant or web_param("noanim") == "1":
+		return false
+	return bool(Saves.load_settings().get("minigames", true))
 
 
 func hero_name() -> String:
@@ -88,11 +105,11 @@ func load_latest() -> Dictionary:
 
 ## Runs an activity for the current run and autosaves once if time advanced.
 ## Returns the rules result, plus "saved" (bool) when it succeeded.
-func perform_activity(activity_id: String, option_id: String = "") -> Dictionary:
+func perform_activity(activity_id: String, option_id: String = "", play: Dictionary = {}) -> Dictionary:
 	var def: Dictionary = Content.activity(activity_id)
 	if def.is_empty():
 		return {"ok": false, "reasons": ["activity.blocked.unknown"]}
-	var r: Dictionary = ActivityRules.perform(ensure_state(), def, Content, option_id)
+	var r: Dictionary = ActivityRules.perform(ensure_state(), def, Content, option_id, play)
 	if r.ok and r.time.autosave_due:
 		r["saved"] = autosave().ok
 	return r

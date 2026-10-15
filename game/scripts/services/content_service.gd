@@ -28,6 +28,8 @@ var dialogues: Array = []
 var endings: Array = []
 var areas: Array = []
 var looks: Array = []
+var clips: Array = []
+var minigames: Array = []
 var events: Array = []
 
 
@@ -50,6 +52,8 @@ func load_all() -> void:
 	dialogues = _load_list("story/dialogues.json", "dialogues")
 	endings = _load_list("story/endings.json", "endings")
 	looks = _load_list("story/looks.json", "looks")
+	clips = _load_list("clips.json", "clips")
+	minigames = _load_list("minigames.json", "minigames")
 	areas = _load_list("world/areas.json", "areas")
 	events = _load_list("world/events.json", "events")
 	dialogues.append_array(_load_list("world/event_dialogues.json", "dialogues"))
@@ -82,6 +86,18 @@ func dialogue(id: String) -> Dictionary:
 
 func ending(id: String) -> Dictionary:
 	return _find(endings, id)
+
+
+func clip_for(activity_id: String) -> Dictionary:
+	return _find(clips, activity_id)
+
+
+## The minigame registered for an activity, or {}.
+func minigame_for(activity_id: String) -> Dictionary:
+	for m in minigames:
+		if (m.get("activities", []) as Array).has(activity_id):
+			return m
+	return {}
 
 
 func look_of(id: String) -> Dictionary:
@@ -221,6 +237,7 @@ func validate(has_key: Callable) -> Array[String]:
 					errs.append("hook %s: translation key missing for %s" % [hid, k])
 	errs.append_array(_validate_story(has_key))
 	errs.append_array(_validate_world(has_key))
+	errs.append_array(_validate_clips(has_key))
 	return errs
 
 
@@ -761,3 +778,26 @@ func _all_leads() -> Array:
 		for r in ev.get("requires", {}).get("lead", []):
 			out[str(r)] = true
 	return out.keys()
+
+
+func _validate_clips(has_key: Callable) -> Array[String]:
+	var errs: Array[String] = []
+	for c in clips:
+		errs.append_array(preload("res://scripts/domain/clip_rules.gd").problems(c))
+		if activity(str(c.get("id", ""))).is_empty():
+			errs.append("clip %s: no such activity" % str(c.get("id", "")))
+		if not has_key.call(str(c.get("caption_key", ""))):
+			errs.append("clip %s: missing caption text" % str(c.get("id", "")))
+	for a in activities:
+		if clip_for(str(a.id)).is_empty():
+			errs.append("activity %s has no clip" % str(a.id))
+	for m in minigames:
+		for k in ["title_key", "help_key"]:
+			if not has_key.call(str(m.get(k, ""))):
+				errs.append("minigame %s: missing %s text" % [str(m.get("id", "")), k])
+		if preload("res://scripts/domain/minigame_rules.gd").create(str(m.get("id", ""))) == null:
+			errs.append("minigame %s: no implementation" % str(m.get("id", "")))
+		for aid in m.get("activities", []):
+			if activity(str(aid)).is_empty():
+				errs.append("minigame %s: unknown activity %s" % [str(m.get("id", "")), str(aid)])
+	return errs

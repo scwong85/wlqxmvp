@@ -75,7 +75,7 @@ with sync_playwright() as p:
         page_ref["w"], page_ref["h"] = w, h
         page.on("console", lambda m, c=console: c.append(f"{m.type}: {m.text}"))
         page.on("pageerror", lambda e, c=console: c.append(f"error: pageerror {e}"))
-        page.goto(url, wait_until="load")
+        page.goto(url + "?noanim=1", wait_until="load")   # clips and minigames off for the scripted flow
 
         ok_title = wait_for(console, "TITLE_READY")
         page.wait_for_timeout(600)
@@ -276,6 +276,23 @@ with sync_playwright() as p:
         frames = sorted(frames[2:]) or [0]
         results.setdefault("perf", {})[name] = {"frames": len(frames), "avg_ms": round(sum(frames) / len(frames), 1),
                                                  "p95_ms": round(frames[int(len(frames) * 0.95) - 1], 1), "max_ms": round(frames[-1], 1)}
+
+        # Fishing minigame (M19): opened directly with animations on; start it and hold the hook for a moment.
+        g0 = len(console)
+        page.goto(url + "?demo=minigame", wait_until="load")
+        bc["minigame_opens"] = wait_for(console, "MINIGAME_READY fishing", 60, g0)
+        wait_for(console, "mg_start=", 10, g0)
+        page.wait_for_timeout(500)
+        page.screenshot(path=os.path.join(out_dir, f"m19_{name}_minigame_intro.png"))
+        bc["minigame_start_click"] = click_ui(console, "mg_start", g0)
+        page.wait_for_timeout(500)
+        pos = ui_pos(console, "mg_view", g0)
+        if pos:
+            page_ref["p"].mouse.move(pos[0], pos[1])
+            page_ref["p"].mouse.down()
+        page.wait_for_timeout(1500)
+        page.screenshot(path=os.path.join(out_dir, f"m19_{name}_minigame_play.png"))
+        page_ref["p"].mouse.up()
 
         if True:  # every size, portrait included, must pass the layout audit
             audits = [c for c in console if "LAYOUT_AUDIT" in c]

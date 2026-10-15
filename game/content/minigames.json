@@ -1,0 +1,12 @@
+{
+ "minigames": [
+  {
+   "id": "fishing",
+   "activities": [
+    "fishing"
+   ],
+   "title_key": "minigame.fishing.title",
+   "help_key": "minigame.fishing.help"
+  }
+ ]
+}

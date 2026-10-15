@@ -126,6 +126,7 @@ func _play_story(log: Array) -> void:
 
 
 func _run() -> void:
+	Saves.update_settings({"animations": false, "minigames": false})   # clips and minigames are tested separately below
 	Router.goto("boot")
 	await _frames(4)
 	_check(Router.current_key == "title", "boot routes to title")
@@ -515,6 +516,8 @@ func _run() -> void:
 	_check(Router.current_key == "title" and not title.load_note.text.begins_with("["), "corrupt: failed load stays on the title with a real message")
 	await _story_layouts()
 	await _battle_ui()
+	await _clip_and_minigame()
+	Saves.update_settings({"animations": true, "minigames": true})
 	_reached_end = true
 
 
@@ -716,3 +719,56 @@ func _play_battle_with_buttons(scr: Node, test_cancel: bool) -> void:
 			scr.action_buttons["end"].pressed.emit()
 		await _frames(1)
 	_check(cancelled and preview_ok, "battle: cancel leaves the battle untouched and the preview shows the real damage")
+
+
+## Activity clips and the fishing minigame through the real screens.
+func _clip_and_minigame() -> void:
+	Saves.update_settings({"animations": true, "minigames": true})
+	Game.new_game(7)
+	_quiet()
+	Game.state.calendar.week = 3
+	Game.state.world.add_lead("x")
+	Router.goto("cultivation")
+	await _frames(3)
+	var cult := _scene()
+	cult.select_activity("rest")
+	var week0: int = Game.state.calendar.week
+	var slot0: int = Game.state.calendar.slot
+	cult.confirm_button.pressed.emit()
+	await _frames(2)
+	_check(cult.clip_overlay != null and Game.state.calendar.slot == slot0, "clip: confirming an activity plays its clip first (nothing happens yet)")
+	var probs: Array[String] = cult.audit_layout()
+	_check(probs.is_empty(), "clip: layout audit is clean %s" % str(probs.slice(0, 2)))
+	cult.clip_overlay.skip()
+	await _frames(3)
+	_check(cult.clip_overlay == null and (Game.state.calendar.slot != slot0 or Game.state.calendar.week != week0), "clip: skipping it performs the activity")
+	# Fishing: a minigame; quick resolve pays like an average attempt.
+	cult.select_activity("fishing")
+	cult.confirm_button.pressed.emit()
+	await _frames(2)
+	if cult.choice_panel != null:
+		cult.option_buttons.keys()
+		cult.option_buttons[cult.option_buttons.keys()[0]].pressed.emit()
+		await _frames(3)
+	_check(Router.current_key == "minigame", "minigame: fishing opens the minigame screen")
+	var mg := _scene()
+	var mprobs: Array[String] = mg.audit_layout()
+	_check(mprobs.is_empty(), "minigame: layout audit is clean %s" % str(mprobs.slice(0, 2)))
+	var coins0: int = Game.state.resources.get_amount("coins")
+	var food0: int = Game.state.resources.get_amount("food")
+	mg.start_button.pressed.emit()
+	await _frames(2)
+	_check(mg.phase == "play", "minigame: Start begins the play")
+	mg.game_logic.set_input("hold", true)
+	for i in range(60 * 22):   # play it out: the logic is stepped by the screen; here we fast-forward
+		if mg.game_logic.done:
+			break
+		mg.game_logic.step(1.0 / 60.0)
+	await _frames(3)
+	_check(mg.phase == "result" and ["poor", "ok", "good", "perfect"].has(mg.record.grade), "minigame: the play ends with a graded result (%s)" % str(mg.record.get("grade", "")))
+	var slot1: int = Game.state.calendar.slot
+	mg.collect_button.pressed.emit()
+	await _frames(4)
+	_check(Router.current_key == "cultivation" and Game.state.calendar.slot != slot1, "minigame: Collect performs the activity and returns to training")
+	_check(Game.state.resources.get_amount("food") + Game.state.resources.get_amount("coins") >= food0 + coins0, "minigame: rewards were paid")
+	_check(not _scene()._last_result.is_empty() and _scene()._last_result.has("play"), "minigame: the training screen shows the result with the play record")

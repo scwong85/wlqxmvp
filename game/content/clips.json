@@ -1,0 +1,275 @@
+{
+ "clips": [
+  {
+   "id": "training",
+   "bg": "valley_day",
+   "duration": 2.4,
+   "caption_key": "clip.training",
+   "keys": [
+    {
+     "t": 0,
+     "pose": "idle",
+     "face": "neutral"
+    },
+    {
+     "t": 0.4,
+     "pose": "train",
+     "face": "neutral"
+    },
+    {
+     "t": 2.0,
+     "pose": "victory",
+     "face": "happy"
+    }
+   ]
+  },
+  {
+   "id": "technique_practice",
+   "bg": "valley_dawn",
+   "duration": 2.4,
+   "caption_key": "clip.technique_practice",
+   "keys": [
+    {
+     "t": 0,
+     "pose": "idle",
+     "face": "neutral"
+    },
+    {
+     "t": 0.4,
+     "pose": "sword",
+     "face": "angry"
+    },
+    {
+     "t": 2.0,
+     "pose": "idle",
+     "face": "happy"
+    }
+   ]
+  },
+  {
+   "id": "meditation",
+   "bg": "night_camp",
+   "duration": 2.4,
+   "caption_key": "clip.meditation",
+   "keys": [
+    {
+     "t": 0,
+     "pose": "kneel",
+     "face": "neutral"
+    },
+    {
+     "t": 2.2,
+     "pose": "think",
+     "face": "happy"
+    }
+   ]
+  },
+  {
+   "id": "fishing",
+   "bg": "riverside_day",
+   "duration": 2.4,
+   "caption_key": "clip.fishing",
+   "keys": [
+    {
+     "t": 0,
+     "pose": "idle",
+     "face": "neutral"
+    },
+    {
+     "t": 0.4,
+     "pose": "fish",
+     "face": "neutral"
+    },
+    {
+     "t": 2.0,
+     "pose": "victory",
+     "face": "happy"
+    }
+   ]
+  },
+  {
+   "id": "herb_gathering",
+   "bg": "terraces_green",
+   "duration": 2.4,
+   "caption_key": "clip.herb_gathering",
+   "keys": [
+    {
+     "t": 0,
+     "pose": "walk",
+     "face": "neutral"
+    },
+    {
+     "t": 0.8,
+     "pose": "kneel",
+     "face": "neutral"
+    },
+    {
+     "t": 2.0,
+     "pose": "idle",
+     "face": "happy"
+    }
+   ]
+  },
+  {
+   "id": "mining",
+   "bg": "shrine_night",
+   "duration": 2.4,
+   "caption_key": "clip.mining",
+   "keys": [
+    {
+     "t": 0,
+     "pose": "idle",
+     "face": "neutral"
+    },
+    {
+     "t": 0.3,
+     "pose": "mine",
+     "face": "neutral"
+    },
+    {
+     "t": 2.1,
+     "pose": "victory",
+     "face": "happy"
+    }
+   ]
+  },
+  {
+   "id": "hunting",
+   "bg": "valley_dawn",
+   "duration": 2.4,
+   "caption_key": "clip.hunting",
+   "keys": [
+    {
+     "t": 0,
+     "pose": "walk",
+     "face": "neutral"
+    },
+    {
+     "t": 1.0,
+     "pose": "sword",
+     "face": "angry"
+    },
+    {
+     "t": 2.0,
+     "pose": "idle",
+     "face": "happy"
+    }
+   ]
+  },
+  {
+   "id": "cooking",
+   "bg": "village_dusk",
+   "duration": 2.4,
+   "caption_key": "clip.cooking",
+   "keys": [
+    {
+     "t": 0,
+     "pose": "idle",
+     "face": "neutral"
+    },
+    {
+     "t": 0.5,
+     "pose": "think",
+     "face": "happy"
+    },
+    {
+     "t": 2.0,
+     "pose": "laugh",
+     "face": "happy"
+    }
+   ]
+  },
+  {
+   "id": "music",
+   "bg": "village_dusk",
+   "duration": 2.4,
+   "caption_key": "clip.music",
+   "keys": [
+    {
+     "t": 0,
+     "pose": "idle",
+     "face": "neutral"
+    },
+    {
+     "t": 0.4,
+     "pose": "music",
+     "face": "happy"
+    },
+    {
+     "t": 2.2,
+     "pose": "bow",
+     "face": "happy"
+    }
+   ]
+  },
+  {
+   "id": "chess",
+   "bg": "village_dusk",
+   "duration": 2.4,
+   "caption_key": "clip.chess",
+   "keys": [
+    {
+     "t": 0,
+     "pose": "idle",
+     "face": "neutral"
+    },
+    {
+     "t": 0.4,
+     "pose": "chess",
+     "face": "neutral"
+    },
+    {
+     "t": 1.6,
+     "pose": "think",
+     "face": "neutral"
+    },
+    {
+     "t": 2.1,
+     "pose": "victory",
+     "face": "happy"
+    }
+   ]
+  },
+  {
+   "id": "social_visit",
+   "bg": "village_dusk",
+   "duration": 2.4,
+   "caption_key": "clip.social_visit",
+   "keys": [
+    {
+     "t": 0,
+     "pose": "walk",
+     "face": "neutral"
+    },
+    {
+     "t": 1.0,
+     "pose": "bow",
+     "face": "happy"
+    },
+    {
+     "t": 1.8,
+     "pose": "laugh",
+     "face": "happy"
+    }
+   ]
+  },
+  {
+   "id": "rest",
+   "bg": "night_camp",
+   "duration": 2.4,
+   "caption_key": "clip.rest",
+   "keys": [
+    {
+     "t": 0,
+     "pose": "kneel",
+     "face": "sad"
+    },
+    {
+     "t": 1.6,
+     "pose": "idle",
+     "face": "happy"
+    }
+   ]
+  }
+ ]
+}
