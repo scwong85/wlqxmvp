@@ -5,14 +5,20 @@ extends RefCounted
 const ActivityRules = preload("res://scripts/domain/activity_rules.gd")
 const PartySystem = preload("res://scripts/domain/party_system.gd")
 const EndingRules = preload("res://scripts/domain/ending_rules.gd")
+const TechniqueLevels = preload("res://scripts/domain/technique_levels.gd")
 
 const ACTIVE := "$active"   # reward target meaning "the companion in the party, if any"
 
 
 ## `outcome` is "victory", "defeat" or "" (abandoned: nothing but the medicine is settled).
 ## Returns {deltas: Array of delta dictionaries, flags: Array of flag ids}.
-static func apply(state: RefCounted, scenario: Dictionary, outcome: String, items_left: Dictionary, content: Object) -> Dictionary:
-	var result := {"deltas": [], "flags": []}
+## `uses` is the hero's technique use count in the fight ({tech id: n}); each use trains the technique.
+static func apply(state: RefCounted, scenario: Dictionary, outcome: String, items_left: Dictionary, content: Object, uses: Dictionary = {}) -> Dictionary:
+	var result := {"deltas": [], "flags": [], "levels": []}
+	for tid in uses:
+		var lv := TechniqueLevels.add_xp(state, str(tid), mini(int(uses[tid]), 4))   # at most 4 per technique per fight
+		if lv.level_after > lv.level_before:
+			result.levels.append({"id": str(tid), "level": lv.level_after})
 	var have: int = state.resources.get_amount("medicine")
 	var left: int = int(items_left.get("medicine", have))
 	if left < have:

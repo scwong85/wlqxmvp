@@ -80,7 +80,20 @@ func technique_ids(u: RefCounted) -> Array:
 func _tech_for(u: RefCounted, tech_id: String) -> Dictionary:
 	if not technique_ids(u).has(tech_id):
 		return {}
-	return content.combat_tech(tech_id)
+	return leveled(content.combat_tech(tech_id), u.tech_levels.get(tech_id, 1))
+
+
+## A technique at a given level: every two levels above 1 adds 1 damage and 1 healing (level 10 = +4).
+static func leveled(tech: Dictionary, level: int) -> Dictionary:
+	var bonus := (clampi(level, 1, 10) - 1) / 2
+	if bonus <= 0 or tech.is_empty():
+		return tech
+	var t := tech.duplicate(true)
+	if t.has("damage"):
+		t["damage"] = int(t.damage) + bonus
+	if t.has("heal"):
+		t["heal"] = int(t.heal) + bonus
+	return t
 
 
 ## Cells the active unit can walk to right now: {cell: cost}.
@@ -301,6 +314,8 @@ func can_use(u: RefCounted, tech_id: String) -> bool:
 
 func _spend(u: RefCounted, tech_id: String, tech: Dictionary) -> void:
 	u.tp -= int(tech.get("cost", 0))
+	if tech_id != "basic_attack":
+		u.tech_uses[tech_id] = int(u.tech_uses.get(tech_id, 0)) + 1
 	if not tech.get("free", false):
 		u.ap -= 1
 	if tech.get("once", false):

@@ -7,7 +7,6 @@ extends Control
 const UiKit = preload("res://scripts/ui/ui_kit.gd")
 const Backdrop = preload("res://scenes/shared/backdrop.gd")
 const SafeFrame = preload("res://scenes/shared/safe_frame.gd")
-const HeroPortrait = preload("res://scenes/shared/hero_portrait.gd")
 const PlayerState = preload("res://scripts/domain/player_state.gd")
 const ResourceState = preload("res://scripts/domain/resource_state.gd")
 const CultivationRules = preload("res://scripts/domain/cultivation_rules.gd")
@@ -19,6 +18,8 @@ const OverlayUtil = preload("res://scenes/shared/overlay_util.gd")
 const RecruitDialog = preload("res://scenes/shared/recruit_dialog.gd")
 const DeltaText = preload("res://scenes/shared/delta_text.gd")
 const ClipOverlay = preload("res://scenes/shared/clip_overlay.gd")
+const ChibiRig = preload("res://scenes/shared/chibi_rig.gd")
+const RealmRules = preload("res://scripts/domain/realm_rules.gd")
 const ROLE_COLORS := {"support": Color("5fd1a5"), "striker": Color("e0a35a"), "control": Color("7aa8e0")}
 
 const FONT_BODY := 24
@@ -40,6 +41,8 @@ var selected_id: String = ""
 var party_button: Button
 var explore_button: Button
 var map_button: Button
+var sheet_button: Button
+var _hero_rig: Control
 var clip_overlay: Control = null
 var party_panel: Control = null
 var pause_panel: Control = null
@@ -312,10 +315,10 @@ func _on_layout_changed() -> void:
 func _build_hero_panel() -> Control:
 	var box := _panel(19.0)
 	box.add_child(_header("cult.panel.hero"))
-	var portrait := HeroPortrait.new()
-	portrait.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	portrait.custom_minimum_size = Vector2(0, 120)
-	box.add_child(portrait)
+	_hero_rig = ChibiRig.new()
+	_hero_rig.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_hero_rig.custom_minimum_size = Vector2(0, 40)
+	box.add_child(_hero_rig)
 	_hero_name = _label(FONT_BODY)
 	_hero_name.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(_hero_name)
@@ -328,6 +331,13 @@ func _build_hero_panel() -> Control:
 	_path_box = VBoxContainer.new()
 	_path_box.add_theme_constant_override("separation", 6)
 	box.add_child(_path_box)
+	sheet_button = UiKit.make_button(Vector2(0, 52))
+	sheet_button.add_theme_font_size_override("font_size", FONT_SMALL)
+	sheet_button.clip_text = true
+	sheet_button.pressed.connect(func() -> void:
+		if not _overlay_open():
+			Router.goto("sheet"))
+	box.add_child(sheet_button)
 	return box.get_meta("panel")
 
 
@@ -907,7 +917,11 @@ func _refresh_all() -> void:
 
 func _refresh_hero(st: RefCounted) -> void:
 	var max_st: int = CultivationRules.max_stamina(st.player)
-	_hero_name.text = Loc.t("cult.hero.name")
+	_hero_name.text = "%s · %s" % [Game.hero_name(), Loc.t(str(RealmRules.current(st, Content).name_key))]
+	sheet_button.text = Loc.t("sheet.button")
+	var hl: Dictionary = preload("res://scripts/domain/look_rules.gd").sanitize(st.player.look)
+	hl["weapon"] = "sword"
+	_hero_rig.setup(hl, "idle", "neutral")
 	_stamina_label.text = Loc.t("cult.stamina_value", {"cur": st.player.stamina, "max": max_st})
 	_stamina_bar.max_value = max_st
 	_stamina_bar.value = st.player.stamina
@@ -1069,6 +1083,8 @@ func _result_text(r: Dictionary) -> String:
 		for t_id in r.unlocked:
 			names.append(Loc.t("technique." + str(t_id)))
 		lines.append(Loc.t("cult.result.unlocked", {"list": _sep().join(names)}))
+	if r.get("tech_levels", []).size() > 0:
+		lines.append(Loc.t("cult.tech_levels", {"list": _sep().join((r.tech_levels as Array).map(func(t: Dictionary) -> String: return Loc.t("result.tech_level", {"name": Loc.t("technique." + str(t.id)), "lv": int(t.level)})))}))
 	if not r.met.is_empty():
 		lines.append(Loc.t("cult.result.met", {"list": _sep().join(r.met.map(func(i: String) -> String: return Loc.t("npc." + i)))}))
 	if not r.departed.is_empty():

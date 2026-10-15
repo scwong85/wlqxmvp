@@ -3,6 +3,8 @@ extends RefCounted
 
 var path_progress: Dictionary = {}
 var practice_counts: Dictionary = {}
+var technique_xp: Dictionary = {}   # technique id -> experience
+var realm: int = 0                  # index into content realms (0 = first)
 
 
 func add_progress(path_id: String, n: int) -> void:
@@ -19,14 +21,15 @@ func record_practice(activity_id: String) -> int:
 
 
 func to_dict() -> Dictionary:
-	return {"path_progress": path_progress.duplicate(), "practice_counts": practice_counts.duplicate()}
+	return {"path_progress": path_progress.duplicate(), "practice_counts": practice_counts.duplicate(), "technique_xp": technique_xp.duplicate(), "realm": realm}
 
 
 static func from_dict(d: Variant) -> RefCounted:
 	var s = new()
 	if not (d is Dictionary):
 		return s
-	for field in ["path_progress", "practice_counts"]:
+	s.realm = clampi(int(d.get("realm", 0)), 0, 6)
+	for field in ["path_progress", "practice_counts", "technique_xp"]:
 		var src: Variant = d.get(field, {})
 		if src is Dictionary:
 			for k in src:

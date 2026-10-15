@@ -29,6 +29,7 @@ var endings: Array = []
 var areas: Array = []
 var looks: Array = []
 var clips: Array = []
+var realms: Array = []
 var minigames: Array = []
 var events: Array = []
 
@@ -53,6 +54,7 @@ func load_all() -> void:
 	endings = _load_list("story/endings.json", "endings")
 	looks = _load_list("story/looks.json", "looks")
 	clips = _load_list("clips.json", "clips")
+	realms = _load_list("cultivation/realms.json", "realms")
 	minigames = _load_list("minigames.json", "minigames")
 	areas = _load_list("world/areas.json", "areas")
 	events = _load_list("world/events.json", "events")
@@ -238,6 +240,7 @@ func validate(has_key: Callable) -> Array[String]:
 	errs.append_array(_validate_story(has_key))
 	errs.append_array(_validate_world(has_key))
 	errs.append_array(_validate_clips(has_key))
+	errs.append_array(_validate_realms(has_key))
 	return errs
 
 
@@ -800,4 +803,25 @@ func _validate_clips(has_key: Callable) -> Array[String]:
 		for aid in m.get("activities", []):
 			if activity(str(aid)).is_empty():
 				errs.append("minigame %s: unknown activity %s" % [str(m.get("id", "")), str(aid)])
+	return errs
+
+
+func _validate_realms(has_key: Callable) -> Array[String]:
+	var errs: Array[String] = []
+	if realms.size() != 7:
+		errs.append("realms: expected 7, found %d" % realms.size())
+	var last_cap := 0
+	var last_pp := -1
+	for r in realms:
+		var id := str(r.get("id", ""))
+		for k in ["name_key", "desc_key"]:
+			if not has_key.call(str(r.get(k, ""))):
+				errs.append("realm %s: missing %s text" % [id, k])
+		if int(r.get("attr_cap", 0)) <= last_cap:
+			errs.append("realm %s: the attribute cap must grow" % id)
+		last_cap = int(r.get("attr_cap", 0))
+		var pp := int((r.get("requires", {}) as Dictionary).get("path_progress_min", 0))
+		if pp < last_pp:
+			errs.append("realm %s: path progress requirement must not fall" % id)
+		last_pp = pp
 	return errs

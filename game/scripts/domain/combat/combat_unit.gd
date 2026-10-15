@@ -24,6 +24,8 @@ var protected: bool = false       # objective: this unit must survive
 var npc: bool = false             # takes no actions of its own (e.g. the villager to protect)
 var ap: int = 0
 var mp: int = 0
+var tech_levels: Dictionary = {}  # technique id -> level (1..10); raises damage and healing
+var tech_uses: Dictionary = {}    # technique id -> times used this battle (feeds technique experience)
 var used_once: Array = []         # once-per-battle techniques already used
 var followed_round: int = 0       # last round in which this unit took a follow-up (one per round)
 
@@ -62,7 +64,7 @@ func to_dict() -> Dictionary:
 			"max_resolve": max_resolve, "resolve": resolve, "broken": broken, "guarding": guarding,
 			"statuses": statuses.duplicate(true), "techniques": techniques.duplicate(), "leader": leader,
 			"protected": protected, "npc": npc, "ap": ap, "mp": mp, "used_once": used_once.duplicate(),
-			"followed_round": followed_round}
+			"followed_round": followed_round, "tech_levels": tech_levels.duplicate(), "tech_uses": tech_uses.duplicate()}
 
 
 static func from_dict(d: Dictionary) -> RefCounted:
@@ -96,4 +98,12 @@ static func from_dict(d: Dictionary) -> RefCounted:
 	for t in d.get("used_once", []):
 		u.used_once.append(str(t))
 	u.followed_round = int(d.get("followed_round", 0))
+	var tl: Variant = d.get("tech_levels", {})
+	if tl is Dictionary:
+		for k in tl:
+			u.tech_levels[str(k)] = clampi(int(tl[k]), 1, 10)
+	var tu: Variant = d.get("tech_uses", {})
+	if tu is Dictionary:
+		for k in tu:
+			u.tech_uses[str(k)] = maxi(0, int(tu[k]))
 	return u

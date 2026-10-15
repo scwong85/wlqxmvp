@@ -8,6 +8,8 @@ const CombatGrid = preload("res://scripts/domain/combat/combat_grid.gd")
 
 const HERO_ID := "hero"
 const BOND_MIN := 8
+const RealmRules = preload("res://scripts/domain/realm_rules.gd")
+const TechniqueLevels = preload("res://scripts/domain/technique_levels.gd")
 
 
 static func build(content: Object, scenario_id: String, seed_value: int, game_state: RefCounted = null, party_ids: Array = []) -> RefCounted:
@@ -89,6 +91,7 @@ static func _hero(content: Object, gs: RefCounted) -> RefCounted:
 		insight = gs.player.effective_attr("insight")
 		spirit = gs.player.effective_attr("spirit")
 		u.techniques = gs.player.techniques.duplicate()
+		u.tech_levels = TechniqueLevels.levels_of(gs)
 	u.max_hp = 30 + body * 4
 	u.body = body
 	u.power = power
@@ -96,6 +99,9 @@ static func _hero(content: Object, gs: RefCounted) -> RefCounted:
 	u.spirit = spirit
 	u.tp = insight
 	u.max_resolve = 6 + spirit
+	if gs != null:
+		u.max_hp += RealmRules.hp_bonus(gs, content)
+		u.tp += RealmRules.tp_bonus(gs, content)
 	u.hp = u.max_hp
 	u.resolve = u.max_resolve
 	return u

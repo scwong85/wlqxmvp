@@ -1,4 +1,6 @@
 extends RefCounted
+const LifeSkillRules = preload("res://scripts/domain/life_skill_rules.gd")
+const TechniqueLevels = preload("res://scripts/domain/technique_levels.gd")
 ## Availability, cost payment, skill check, reward application and time passing for one activity.
 ## `def` is an activity dictionary from content/activities/activities.json.
 ## `content` is any object exposing `path(id)`, `techniques` (ContentService or a test double).
@@ -123,8 +125,12 @@ static func perform(state: RefCounted, base_def: Dictionary, content: Object, op
 			state.player.stamina -= penalty
 			result.cost.append({"id": "stamina", "amount": penalty})
 
+	var life_bonus := LifeSkillRules.reward_bonus(state, str(def.id))
 	for r in def.get("rewards", []):
 		var amount := int(r.amount)
+		if life_bonus > 0 and amount > 0:   # a practised hobby pays a little more on its first reward
+			amount += life_bonus
+			life_bonus = 0
 		if not play.is_empty():
 			if amount > 0:
 				amount = maxi(1, roundi(amount * float(play.get("mult", 1.0))))
@@ -134,6 +140,13 @@ static func perform(state: RefCounted, base_def: Dictionary, content: Object, op
 		if applied.size() > 0:
 			result.deltas.append_array(applied)
 
+	if str(def.id) == "technique_practice":
+		var gain := 2 if str(def.get("option_id", "")) == "risky" else 1
+		result["tech_levels"] = []
+		for tid in state.player.techniques:
+			var lv := TechniqueLevels.add_xp(state, str(tid), gain)
+			if lv.level_after > lv.level_before:
+				result.tech_levels.append({"id": str(tid), "level": lv.level_after})
 	result.deltas.append_array(RelationshipRules.preferred_bonus(state, str(def.id), content))
 	state.cultivation.record_practice(str(def.id))
 	result.unlocked = TechniqueRules.check_unlocks(state, content)

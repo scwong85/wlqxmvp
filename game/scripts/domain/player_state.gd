@@ -6,6 +6,7 @@ const ATTRS := ["body", "power", "agility", "insight", "spirit"]
 const START_VALUE := 5
 const MIN_ATTR := 1
 const MAX_ATTR := 99
+const BASE_CAP := 12
 
 var attributes: Dictionary = {}
 var path_id: String = ""
@@ -15,6 +16,8 @@ var stamina: int = -1
 ## Temporary bonuses, e.g. from cooking: [{id, attr, amount, slots}]. `slots` = activity slots still affected.
 var buffs: Array = []
 ## Chosen at the start of a run (empty name = the default name).
+## Highest value an attribute can reach; raised by cultivation realms (RealmRules).
+var attr_cap: int = BASE_CAP
 var hero_name: String = ""
 var look: Dictionary = {"gender": "m", "hair": 0, "hair_color": 0, "outfit": 0, "skin": 0}
 
@@ -33,7 +36,7 @@ func add_attr(id: String, delta: int) -> int:
 	if not ATTRS.has(id):
 		return 0
 	var before := get_attr(id)
-	attributes[id] = clampi(before + delta, MIN_ATTR, MAX_ATTR)
+	attributes[id] = clampi(before + delta, MIN_ATTR, maxi(attr_cap, before) if delta > 0 else MAX_ATTR)
 	return get_attr(id) - before
 
 
@@ -77,7 +80,7 @@ func learn(technique_id: String) -> bool:
 
 func to_dict() -> Dictionary:
 	return {"attributes": attributes.duplicate(), "path_id": path_id, "techniques": techniques.duplicate(),
-			"stamina": stamina, "buffs": buffs.duplicate(true), "hero_name": hero_name, "look": look.duplicate()}
+			"stamina": stamina, "buffs": buffs.duplicate(true), "hero_name": hero_name, "look": look.duplicate(), "attr_cap": attr_cap}
 
 
 static func from_dict(d: Variant) -> RefCounted:
@@ -90,6 +93,7 @@ static func from_dict(d: Variant) -> RefCounted:
 			if attrs.has(a):
 				s.attributes[a] = clampi(int(attrs[a]), MIN_ATTR, MAX_ATTR)
 	s.path_id = str(d.get("path_id", ""))
+	s.attr_cap = clampi(int(d.get("attr_cap", BASE_CAP)), BASE_CAP, MAX_ATTR)
 	s.hero_name = LookRules.clean_name(str(d.get("hero_name", "")))
 	s.look = LookRules.sanitize(d.get("look", {}))
 	s.stamina = int(d.get("stamina", -1))

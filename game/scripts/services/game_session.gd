@@ -12,6 +12,7 @@ const DialogueSystem = preload("res://scripts/domain/dialogue_system.gd")
 const EndingRules = preload("res://scripts/domain/ending_rules.gd")
 const WorldRules = preload("res://scripts/domain/world_rules.gd")
 const LookRules = preload("res://scripts/domain/look_rules.gd")
+const RealmRules = preload("res://scripts/domain/realm_rules.gd")
 const DayRules = preload("res://scripts/domain/day_rules.gd")
 const BattleResult = preload("res://scripts/domain/combat/battle_result.gd")
 
@@ -45,6 +46,15 @@ func minigames_enabled() -> bool:
 	if battle_instant or web_param("noanim") == "1":
 		return false
 	return bool(Saves.load_settings().get("minigames", true))
+
+
+## Tries the next realm breakthrough. Autosaves on success.
+func attempt_breakthrough() -> Dictionary:
+	var r: Dictionary = RealmRules.break_through(ensure_state(), Content)
+	if r.ok:
+		RelationshipRules.refresh(state, Content)
+		r["saved"] = autosave().ok
+	return r
 
 
 func hero_name() -> String:
@@ -244,7 +254,9 @@ func apply_battle_result() -> Dictionary:
 	var from := str(battle_ctx.get("from", ""))
 	var sc: Dictionary = Content.scenario(str(battle_ctx.get("scenario", "")))
 	var outcome: String = battle.outcome if from != "practice" else ""
-	var res: Dictionary = BattleResult.apply(st, sc, outcome, battle.items, Content)
+	var hero_unit: RefCounted = battle.unit("hero")
+	var uses: Dictionary = hero_unit.tech_uses if hero_unit != null else {}
+	var res: Dictionary = BattleResult.apply(st, sc, outcome, battle.items, Content, uses)
 	battle_ctx["applied"] = true
 	st.battle = {}
 	if from != "practice":

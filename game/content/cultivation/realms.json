@@ -1,0 +1,89 @@
+{
+ "realms": [
+  {
+   "id": "first_glimpse",
+   "name_key": "realm.first_glimpse",
+   "desc_key": "realm.first_glimpse.desc",
+   "attr_cap": 12,
+   "hp_bonus": 0,
+   "tp_bonus": 0,
+   "requires": {}
+  },
+  {
+   "id": "entering_hall",
+   "name_key": "realm.entering_hall",
+   "desc_key": "realm.entering_hall.desc",
+   "attr_cap": 16,
+   "hp_bonus": 6,
+   "tp_bonus": 0,
+   "requires": {
+    "path_progress_min": 6,
+    "attr_total_min": 42
+   }
+  },
+  {
+   "id": "minor_mastery",
+   "name_key": "realm.minor_mastery",
+   "desc_key": "realm.minor_mastery.desc",
+   "attr_cap": 24,
+   "hp_bonus": 12,
+   "tp_bonus": 1,
+   "requires": {
+    "path_progress_min": 16,
+    "attr_total_min": 56
+   }
+  },
+  {
+   "id": "integrated",
+   "name_key": "realm.integrated",
+   "desc_key": "realm.integrated.desc",
+   "attr_cap": 34,
+   "hp_bonus": 20,
+   "tp_bonus": 1,
+   "requires": {
+    "path_progress_min": 30,
+    "attr_total_min": 84,
+    "tech_levels_min": 4
+   }
+  },
+  {
+   "id": "pure_flame",
+   "name_key": "realm.pure_flame",
+   "desc_key": "realm.pure_flame.desc",
+   "attr_cap": 46,
+   "hp_bonus": 30,
+   "tp_bonus": 2,
+   "requires": {
+    "path_progress_min": 50,
+    "attr_total_min": 118,
+    "tech_levels_min": 8
+   }
+  },
+  {
+   "id": "return_simple",
+   "name_key": "realm.return_simple",
+   "desc_key": "realm.return_simple.desc",
+   "attr_cap": 60,
+   "hp_bonus": 42,
+   "tp_bonus": 2,
+   "requires": {
+    "path_progress_min": 75,
+    "attr_total_min": 161,
+    "tech_levels_min": 14
+   }
+  },
+  {
+   "id": "grandmaster",
+   "name_key": "realm.grandmaster",
+   "desc_key": "realm.grandmaster.desc",
+   "attr_cap": 99,
+   "hp_bonus": 56,
+   "tp_bonus": 3,
+   "requires": {
+    "path_progress_min": 100,
+    "attr_total_min": 210,
+    "tech_levels_min": 20
+   }
+  }
+ ]
+}

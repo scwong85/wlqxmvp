@@ -37,7 +37,9 @@ func _same(a: Dictionary, b: Dictionary) -> bool:
 func _player() -> void:
 	var p := PlayerState.new()
 	check.call(p.get_attr("body") == 5 and p.get_attr("spirit") == 5, "player: five attributes start at 5")
-	check.call(p.add_attr("power", 200) == 94 and p.get_attr("power") == 99, "player: attribute caps at 99, returns applied delta")
+	check.call(p.add_attr("power", 200) == 7 and p.get_attr("power") == 12, "player: attributes stop at the realm cap (12 to start)")
+	p.attr_cap = 99
+	check.call(p.add_attr("power", 200) == 87 and p.get_attr("power") == 99, "player: attribute caps at 99, returns applied delta")
 	check.call(p.add_attr("power", -500) == -98 and p.get_attr("power") == 1, "player: attribute floors at 1")
 	check.call(p.add_attr("luck", 3) == 0, "player: unknown attribute ignored")
 	check.call(p.learn("fist_1") and not p.learn("fist_1") and not p.learn(""), "player: learn is unique, rejects empty")
