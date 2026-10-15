@@ -18,6 +18,11 @@ var techniques: Array = []
 var day_hooks: Array = []
 var companions: Array = []
 var routes: Array = []
+var combat_techniques: Array = []
+var combat_statuses: Array = []
+var combat_items: Array = []
+var combat_units: Array = []
+var scenarios: Array = []
 
 
 func _ready() -> void:
@@ -31,6 +36,11 @@ func load_all() -> void:
 	day_hooks = _load_list("events/day_hooks.json", "hooks")
 	companions = _load_list("companions/companions.json", "companions")
 	routes = _load_list("exploration/routes.json", "routes")
+	combat_techniques = _load_list("combat/combat_techniques.json", "techniques")
+	combat_statuses = _load_list("combat/combat_techniques.json", "statuses")
+	combat_items = _load_list("combat/combat_techniques.json", "items")
+	combat_units = _load_list("combat/units.json", "units")
+	scenarios = _load_list("combat/scenarios.json", "scenarios")
 
 
 func _load_list(rel: String, key: String) -> Array:
@@ -44,6 +54,26 @@ func _load_list(rel: String, key: String) -> Array:
 		return []
 	var arr: Variant = j.data.get(key, [])
 	return arr if arr is Array else []
+
+
+func combat_tech(id: String) -> Dictionary:
+	return _find(combat_techniques, id)
+
+
+func combat_status(id: String) -> Dictionary:
+	return _find(combat_statuses, id)
+
+
+func combat_item(id: String) -> Dictionary:
+	return _find(combat_items, id)
+
+
+func combat_unit(id: String) -> Dictionary:
+	return _find(combat_units, id)
+
+
+func scenario(id: String) -> Dictionary:
+	return _find(scenarios, id)
 
 
 func activity(id: String) -> Dictionary:
@@ -132,6 +162,7 @@ func validate(has_key: Callable) -> Array[String]:
 				errs.append("technique %s: unknown attribute '%s'" % [tid, attr2])
 	errs.append_array(_validate_companions(has_key))
 	errs.append_array(_validate_routes(has_key))
+	errs.append_array(_validate_combat(has_key))
 	for h in day_hooks:
 		var hid := str(h.get("id", ""))
 		var day := int(h.get("day", 0))
@@ -153,6 +184,75 @@ const EFFECT_EXTRA := ["clue", "flag", "battle"]
 
 ## Route graphs: every node reachable, every node able to reach an end, every choice target present,
 ## at least one always-open choice per node, and valid text keys, gates, checks and effects.
+func _validate_combat(has_key: Callable) -> Array[String]:
+	var errs: Array[String] = []
+	var tids := {}
+	for t in combat_techniques:
+		var id := str(t.get("id", ""))
+		if id == "" or tids.has(id):
+			errs.append("combat technique: missing or duplicate id '%s'" % id)
+		tids[id] = true
+		if not has_key.call(str(t.get("name_key", ""))):
+			errs.append("combat technique %s: name key missing" % id)
+		if not ["attack", "support"].has(str(t.get("kind", ""))):
+			errs.append("combat technique %s: bad kind" % id)
+		if int(t.get("range", -1)) < 0 or int(t.get("cost", 1)) < 0:
+			errs.append("combat technique %s: bad range/cost" % id)
+		if t.has("status") and combat_status(str(t.status.get("id", ""))).is_empty():
+			errs.append("combat technique %s: unknown status" % id)
+	for s in combat_statuses:
+		if not has_key.call("combat.status." + str(s.get("id", ""))):
+			errs.append("combat status %s: name key missing" % str(s.get("id", "")))
+	var uids := {}
+	for u in combat_units:
+		var id := str(u.get("id", ""))
+		uids[id] = true
+		if not has_key.call("combat.unit." + id):
+			errs.append("combat unit %s: name key missing" % id)
+		for k in ["hp", "body", "power", "agility", "spirit"]:
+			if int(u.get("stats", {}).get(k, 0)) < 1:
+				errs.append("combat unit %s: stat %s must be >= 1" % [id, k])
+		for tid in u.get("techniques", []):
+			if not tids.has(str(tid)):
+				errs.append("combat unit %s: unknown technique %s" % [id, str(tid)])
+	if uids.size() > 6:
+		errs.append("combat: more than 6 unit types")
+	for sc in scenarios:
+		var sid := str(sc.get("id", ""))
+		for k in ["", ".objective"]:
+			if not has_key.call("combat.scenario." + sid + k):
+				errs.append("scenario %s: text key missing" % (sid + k))
+		var used := {}
+		var cells: Array = []
+		for c in sc.get("player_cells", []):
+			cells.append(c)
+		if sc.has("npc"):
+			cells.append(sc.npc.get("cell", []))
+			if not uids.has(str(sc.npc.get("template", ""))):
+				errs.append("scenario %s: unknown npc template" % sid)
+		for c in cells:
+			var v := Vector2i(int(c[0]), int(c[1]))
+			if v.x < 0 or v.y < 0 or v.x >= 6 or v.y >= 8 or used.has(v):
+				errs.append("scenario %s: bad or overlapping cell %s" % [sid, str(v)])
+			used[v] = true
+		for e in sc.get("enemies", []):
+			if not uids.has(str(e.get("template", ""))):
+				errs.append("scenario %s: unknown enemy %s" % [sid, str(e.get("template", ""))])
+			if e.get("cells", []).is_empty():
+				errs.append("scenario %s: enemy without candidate cells" % sid)
+			for c in e.get("cells", []):
+				if int(c[0]) < 0 or int(c[1]) < 0 or int(c[0]) >= 6 or int(c[1]) >= 8:
+					errs.append("scenario %s: enemy cell out of bounds" % sid)
+				if used.has(Vector2i(int(c[0]), int(c[1]))):
+					errs.append("scenario %s: enemy cell overlaps player cell" % sid)
+		var obj: Dictionary = sc.get("objective", {})
+		if obj.is_empty() or int(sc.get("max_rounds", 0)) < 1:
+			errs.append("scenario %s: needs an objective and max_rounds" % sid)
+		if obj.has("survive_rounds") and int(obj.survive_rounds) > int(sc.get("max_rounds", 0)):
+			errs.append("scenario %s: survive_rounds exceeds max_rounds" % sid)
+	return errs
+
+
 func _validate_routes(has_key: Callable) -> Array[String]:
 	var errs: Array[String] = []
 	for r in routes:

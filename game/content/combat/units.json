@@ -1,0 +1,79 @@
+{
+ "units": [
+  {
+   "id": "training_fighter",
+   "stats": {
+    "hp": 16,
+    "body": 3,
+    "power": 3,
+    "agility": 4,
+    "spirit": 3
+   },
+   "techniques": []
+  },
+  {
+   "id": "bandit_scout",
+   "stats": {
+    "hp": 18,
+    "body": 3,
+    "power": 5,
+    "agility": 7,
+    "spirit": 3
+   },
+   "techniques": [
+    "swift_dash"
+   ]
+  },
+  {
+   "id": "bandit_brute",
+   "stats": {
+    "hp": 34,
+    "body": 6,
+    "power": 6,
+    "agility": 3,
+    "spirit": 6
+   },
+   "techniques": [
+    "club_smash"
+   ]
+  },
+  {
+   "id": "bandit_archer",
+   "stats": {
+    "hp": 16,
+    "body": 2,
+    "power": 5,
+    "agility": 5,
+    "spirit": 3
+   },
+   "techniques": [
+    "arrow_shot"
+   ]
+  },
+  {
+   "id": "bandit_leader",
+   "stats": {
+    "hp": 55,
+    "body": 7,
+    "power": 7,
+    "agility": 5,
+    "spirit": 8
+   },
+   "techniques": [
+    "club_smash"
+   ],
+   "leader": true
+  },
+  {
+   "id": "villager",
+   "stats": {
+    "hp": 40,
+    "body": 4,
+    "power": 2,
+    "agility": 4,
+    "spirit": 4
+   },
+   "techniques": []
+  }
+ ]
+}

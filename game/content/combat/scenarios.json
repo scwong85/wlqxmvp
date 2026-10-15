@@ -1,0 +1,265 @@
+{
+ "scenarios": [
+  {
+   "id": "training_match",
+   "max_rounds": 10,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     4,
+     "cover"
+    ],
+    [
+     2,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "training_fighter",
+     "cells": [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "training_fighter",
+     "cells": [
+      [
+       3,
+       0
+      ],
+      [
+       4,
+       1
+      ],
+      [
+       4,
+       0
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   }
+  },
+  {
+   "id": "rescue_battle",
+   "max_rounds": 8,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "npc": {
+    "template": "villager",
+    "id": "villager",
+    "cell": [
+     2,
+     5
+    ]
+   },
+   "enemies": [
+    {
+     "template": "bandit_scout",
+     "cells": [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       1
+      ],
+      [
+       5,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "bandit_brute",
+     "cells": [
+      [
+       2,
+       0
+      ],
+      [
+       3,
+       0
+      ]
+     ]
+    },
+    {
+     "template": "bandit_archer",
+     "cells": [
+      [
+       4,
+       1
+      ],
+      [
+       5,
+       0
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true,
+    "survive_rounds": 5,
+    "protect": "villager"
+   }
+  },
+  {
+   "id": "final_crisis",
+   "max_rounds": 12,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     2,
+     4,
+     "hazard"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ],
+    [
+     0,
+     5,
+     "cover"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     7
+    ],
+    [
+     3,
+     7
+    ],
+    [
+     1,
+     7
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "bandit_leader",
+     "cells": [
+      [
+       2,
+       0
+      ],
+      [
+       3,
+       0
+      ]
+     ]
+    },
+    {
+     "template": "bandit_scout",
+     "cells": [
+      [
+       1,
+       1
+      ],
+      [
+       4,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "bandit_archer",
+     "cells": [
+      [
+       0,
+       1
+      ],
+      [
+       5,
+       1
+      ],
+      [
+       5,
+       0
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_leader": true,
+    "survive_rounds": 8
+   }
+  }
+ ]
+}
