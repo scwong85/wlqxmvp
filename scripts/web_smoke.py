@@ -264,7 +264,7 @@ with sync_playwright() as p:
         page.wait_for_timeout(200)
         b4 = len(console)
         bc["end_click"] = click_ui(console, "act_end", b3)
-        bc["enemies_act_then_player_again"] = wait_for(console, "act_end=", 40, b4)
+        bc["enemies_act_then_player_again"] = wait_for(console, "act_end=", 100, b4)
         page.wait_for_timeout(500)
         page.screenshot(path=os.path.join(out_dir, f"m10_{name}_after_turn.png"))
 

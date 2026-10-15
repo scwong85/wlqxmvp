@@ -21,7 +21,7 @@ var _stage: Dictionary = {}
 func _init() -> void:
 	clip_contents = true
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	custom_minimum_size = Vector2(0, 160)
+	custom_minimum_size = Vector2(0, 96)
 	background = StageBackground.new()
 	add_child(background)
 	_layer = Control.new()

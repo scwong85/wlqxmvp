@@ -1,7 +1,8 @@
 {
-  "url": "http://127.0.0.1:45415/index.html",
+  "url": "http://127.0.0.1:34453/index.html",
   "checks": {
     "1280x720": {
+      "hero_creation_shown": true,
       "title_ready": true,
       "intro_dialogue_shown": true,
       "path_choice_dialogue": true,
@@ -35,6 +36,7 @@
       "console_errors": 0
     },
     "1920x1080": {
+      "hero_creation_shown": true,
       "title_ready": true,
       "intro_dialogue_shown": true,
       "path_choice_dialogue": true,
@@ -60,6 +62,7 @@
       "console_errors": 0
     },
     "2400x1080": {
+      "hero_creation_shown": true,
       "title_ready": true,
       "intro_dialogue_shown": true,
       "path_choice_dialogue": true,
@@ -85,6 +88,7 @@
       "console_errors": 0
     },
     "portrait_390x844": {
+      "hero_creation_shown": true,
       "title_ready": true,
       "intro_dialogue_shown": true,
       "path_choice_dialogue": true,
@@ -120,6 +124,7 @@
       "console_errors": 0
     },
     "portrait_360x640": {
+      "hero_creation_shown": true,
       "title_ready": true,
       "intro_dialogue_shown": true,
       "path_choice_dialogue": true,
@@ -147,6 +152,7 @@
       "console_errors": 0
     },
     "portrait_768x1024": {
+      "hero_creation_shown": true,
       "title_ready": true,
       "intro_dialogue_shown": true,
       "path_choice_dialogue": true,
@@ -177,40 +183,40 @@
   "errors": [],
   "perf": {
     "1280x720": {
-      "frames": 19,
-      "avg_ms": 155.3,
-      "p95_ms": 316.7,
-      "max_ms": 333.3
-    },
-    "1920x1080": {
-      "frames": 10,
-      "avg_ms": 281.6,
-      "p95_ms": 350,
-      "max_ms": 383.3
-    },
-    "2400x1080": {
-      "frames": 7,
-      "avg_ms": 359.5,
-      "p95_ms": 483.3,
-      "max_ms": 550
-    },
-    "portrait_390x844": {
-      "frames": 35,
-      "avg_ms": 85.2,
-      "p95_ms": 149.9,
+      "frames": 21,
+      "avg_ms": 141.3,
+      "p95_ms": 199.9,
       "max_ms": 216.7
     },
-    "portrait_360x640": {
-      "frames": 53,
-      "avg_ms": 56.3,
-      "p95_ms": 100,
+    "1920x1080": {
+      "frames": 13,
+      "avg_ms": 206.4,
+      "p95_ms": 333.2,
+      "max_ms": 333.3
+    },
+    "2400x1080": {
+      "frames": 9,
+      "avg_ms": 314.8,
+      "p95_ms": 400.1,
+      "max_ms": 483.4
+    },
+    "portrait_390x844": {
+      "frames": 40,
+      "avg_ms": 73.7,
+      "p95_ms": 133.4,
       "max_ms": 150
     },
+    "portrait_360x640": {
+      "frames": 58,
+      "avg_ms": 50.9,
+      "p95_ms": 83.3,
+      "max_ms": 116.7
+    },
     "portrait_768x1024": {
-      "frames": 21,
-      "avg_ms": 145.2,
-      "p95_ms": 183.4,
-      "max_ms": 316.6
+      "frames": 24,
+      "avg_ms": 122.2,
+      "p95_ms": 166.7,
+      "max_ms": 266.7
     }
   },
   "passed": true
