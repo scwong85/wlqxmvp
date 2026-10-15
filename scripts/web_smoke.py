@@ -82,12 +82,25 @@ with sync_playwright() as p:
         page.screenshot(path=os.path.join(out_dir, f"m1_{name}_title.png"))
 
         page.locator("canvas").click(position={"x": 5, "y": 5})  # give the canvas keyboard focus
+        d0 = len(console)
         page.keyboard.press("Enter")  # start button is focused by the title screen
-        ok_hub = wait_for(console, "CULT_READY")
+        ok_dlg = wait_for(console, "DIALOGUE_READY id=day1_intro", 30, d0)
+        page.wait_for_timeout(500)
+        page.screenshot(path=os.path.join(out_dir, f"m12_{name}_dialogue.png"))
+        if name.startswith("portrait"):
+            wait_for(console, "dlg_continue=", 10, d0)
+            click_ui(console, "dlg_continue", d0)   # tap the Continue button
+        else:
+            page.keyboard.press("Enter")
+        page.wait_for_timeout(500)
+        page.keyboard.press("Enter")
+        page.wait_for_timeout(500)
+        page.keyboard.press("Enter")
+        ok_hub = wait_for(console, "CULT_READY", 30, d0)
         page.wait_for_timeout(500)
         page.screenshot(path=os.path.join(out_dir, f"m1_{name}_cultivation.png"))
 
-        results["checks"][name] = {"title_ready": ok_title, "cultivation_ready_via_keyboard": ok_hub}
+        results["checks"][name] = {"title_ready": ok_title, "intro_dialogue_shown": ok_dlg, "cultivation_ready_via_keyboard": ok_hub}
 
         if name == "1280x720":
             # Persistence: advance a slot (autosaves), save manually, reload the page, then load.
@@ -121,7 +134,14 @@ with sync_playwright() as p:
             mark3 = len(console)
             page.locator("canvas").click(position={"x": 697, "y": 467})   # rest card
             page.locator("canvas").click(position={"x": 420, "y": 635})   # confirm
-            page.wait_for_timeout(1200)
+            ok_day2 = wait_for(console, "DIALOGUE_READY id=day2_path", 15, mark3)
+            page.wait_for_timeout(500)
+            page.screenshot(path=os.path.join(out_dir, "m12_day2_choice.png"))
+            page.keyboard.press("Enter")      # first choice (the fist path) is focused
+            page.wait_for_timeout(500)
+            page.keyboard.press("Enter")      # continue
+            wait_for(console, "CULT_READY", 15, mark3)
+            page.wait_for_timeout(800)
             page.locator("canvas").click(position={"x": 660, "y": 635})   # explore button
             ok_explore = wait_for(console, "EXPLORE_READY route=bamboo_pass node=start", 15, mark3)
             page.wait_for_timeout(500)
@@ -132,7 +152,7 @@ with sync_playwright() as p:
             ok_prompt = wait_for(console, "RECRUIT_PROMPT lu_chenzhou", 10, mark3)
             page.wait_for_timeout(400)
             page.screenshot(path=os.path.join(out_dir, "m8_explore_recruit.png"))
-            results["checks"][name].update({"explore_opens": ok_explore, "explore_recruit_prompt": ok_prompt})
+            results["checks"][name].update({"day2_choice_dialogue": ok_day2, "explore_opens": ok_explore, "explore_recruit_prompt": ok_prompt})
             results["checks"][name].update({"party_panel_opens": party, "chooser_opens": chooser, "autosave_ok": saved, "load_enabled_after_reload": ok_reload,
                                             "loaded_slot2_after_reload": ok_load})
 
@@ -170,7 +190,17 @@ with sync_playwright() as p:
                 click_ui(console, "card_rest", m4)         # rest -> day 2
                 page.wait_for_timeout(300)
                 click_ui(console, "confirm", m4)
-                wait_for(console, "SAVE auto ok=true", 8, m4)
+                checks["day2_choice_dialogue"] = wait_for(console, "DIALOGUE_READY id=day2_path", 15, m4)
+                page.wait_for_timeout(500)
+                page.screenshot(path=os.path.join(out_dir, f"{name}_day2_choice.png"))
+                m4b = len(console)
+                wait_for(console, "dlg_choice1=", 8, m4)
+                click_ui(console, "dlg_choice1", m4)    # tap the first path
+                page.wait_for_timeout(600)
+                page.keyboard.press("Enter")
+                wait_for(console, "CULT_READY", 15, m4b)
+                page.wait_for_timeout(800)
+                click_ui(console, "tab_activities", m4b)
                 page.wait_for_timeout(500)
                 m5 = len(console)
                 click_ui(console, "explore", m1)

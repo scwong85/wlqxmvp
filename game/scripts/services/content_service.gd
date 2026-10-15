@@ -23,6 +23,8 @@ var combat_statuses: Array = []
 var combat_items: Array = []
 var combat_units: Array = []
 var scenarios: Array = []
+var dialogues: Array = []
+var endings: Array = []
 
 
 func _ready() -> void:
@@ -41,6 +43,8 @@ func load_all() -> void:
 	combat_items = _load_list("combat/combat_techniques.json", "items")
 	combat_units = _load_list("combat/units.json", "units")
 	scenarios = _load_list("combat/scenarios.json", "scenarios")
+	dialogues = _load_list("story/dialogues.json", "dialogues")
+	endings = _load_list("story/endings.json", "endings")
 
 
 func _load_list(rel: String, key: String) -> Array:
@@ -62,6 +66,14 @@ func scenario_for_battle(battle_id: String) -> Dictionary:
 		if str(sc.get("battle_id", "")) == battle_id:
 			return sc
 	return scenario(battle_id)
+
+
+func dialogue(id: String) -> Dictionary:
+	return _find(dialogues, id)
+
+
+func ending(id: String) -> Dictionary:
+	return _find(endings, id)
 
 
 func combat_tech(id: String) -> Dictionary:
@@ -180,9 +192,14 @@ func validate(has_key: Callable) -> Array[String]:
 			errs.append("hook %s: unsupported trigger" % hid)
 		if str(h.get("payload", {}).get("type", "")) == "":
 			errs.append("hook %s: payload needs a type" % hid)
-		for k in ["title_key", "body_key"]:
-			if not has_key.call(str(h.get(k, ""))):
-				errs.append("hook %s: translation key missing for %s" % [hid, k])
+		if h.has("dialogue"):
+			if dialogue(str(h.dialogue)).is_empty():
+				errs.append("hook %s: unknown dialogue %s" % [hid, str(h.dialogue)])
+		else:
+			for k in ["title_key", "body_key"]:
+				if not has_key.call(str(h.get(k, ""))):
+					errs.append("hook %s: translation key missing for %s" % [hid, k])
+	errs.append_array(_validate_story(has_key))
 	return errs
 
 
@@ -192,6 +209,119 @@ const EFFECT_EXTRA := ["clue", "flag", "battle"]
 
 ## Route graphs: every node reachable, every node able to reach an end, every choice target present,
 ## at least one always-open choice per node, and valid text keys, gates, checks and effects.
+const DIALOGUE_EFFECTS := ["flag", "set_path", "bond", "resource", "attr", "stamina", "battle", "queue"]
+
+
+## Dialogues: unique ids, every node reachable, every next/choice target present, text keys, effects, gates.
+## Endings: unique ids, text keys, unique conditions, and the last one is the requirement-free fallback.
+func _validate_story(has_key: Callable) -> Array[String]:
+	var errs: Array[String] = []
+	var dids := {}
+	for d in dialogues:
+		dids[str(d.get("id", ""))] = true
+	if dids.size() != dialogues.size():
+		errs.append("dialogue: duplicate or missing ids")
+	for d in dialogues:
+		var did := str(d.get("id", ""))
+		var ids := {}
+		for n in d.get("nodes", []):
+			if ids.has(str(n.get("id", ""))):
+				errs.append("dialogue %s: duplicate node %s" % [did, str(n.get("id", ""))])
+			ids[str(n.get("id", ""))] = true
+		var reach := {}
+		for e in d.get("entry", []):
+			if not ids.has(str(e.get("node", ""))):
+				errs.append("dialogue %s: entry points to a missing node" % did)
+			reach[str(e.get("node", ""))] = true
+		if d.get("entry", []).is_empty() or not (d.entry[-1].get("if", {}) as Dictionary).is_empty():
+			errs.append("dialogue %s: the last entry must have no condition" % did)
+		var changed := true
+		while changed:
+			changed = false
+			for n in d.get("nodes", []):
+				if not reach.has(str(n.id)):
+					continue
+				var targets: Array = []
+				if str(n.get("next", "")) != "":
+					targets.append(str(n.next))
+				for c in n.get("choices", []):
+					if str(c.get("next", "")) != "":
+						targets.append(str(c.next))
+				for t in targets:
+					if not reach.has(t):
+						reach[t] = true
+						changed = true
+		for n in d.get("nodes", []):
+			var label := "dialogue %s node %s" % [did, str(n.id)]
+			if not reach.has(str(n.id)):
+				errs.append("%s: unreachable" % label)
+			if not has_key.call(str(n.get("text_key", ""))):
+				errs.append("%s: text key missing" % label)
+			if n.has("speaker_key") and not has_key.call(str(n.speaker_key)):
+				errs.append("%s: speaker key missing" % label)
+			if n.has("choices") and n.has("next"):
+				errs.append("%s: has both choices and next" % label)
+			if str(n.get("next", "")) != "" and not ids.has(str(n.next)):
+				errs.append("%s: next points to a missing node" % label)
+			var open_choice: bool = (n.get("choices", []) as Array).is_empty()
+			for c in n.get("choices", []):
+				if not has_key.call(str(c.get("label_key", ""))):
+					errs.append("%s choice %s: label key missing" % [label, str(c.get("id", ""))])
+				if str(c.get("next", "")) != "" and not ids.has(str(c.next)):
+					errs.append("%s choice %s: next points to a missing node" % [label, str(c.get("id", ""))])
+				if (c.get("gate", {}) as Dictionary).is_empty():
+					open_choice = true
+				for e in c.get("effects", []):
+					errs.append_array(_validate_dialogue_effect(label, e))
+			if not open_choice:
+				errs.append("%s: needs a choice that is always open" % label)
+			for e in n.get("on_enter", []):
+				errs.append_array(_validate_dialogue_effect(label, e))
+	var eids := {}
+	var seen_req := {}
+	for i in endings.size():
+		var e: Dictionary = endings[i]
+		var id := str(e.get("id", ""))
+		if id == "" or eids.has(id):
+			errs.append("ending: missing or duplicate id '%s'" % id)
+		eids[id] = true
+		for k in ["title_key", "body_key"]:
+			if not has_key.call(str(e.get(k, ""))):
+				errs.append("ending %s: translation key missing for %s" % [id, k])
+		var req_text := JSON.stringify(e.get("requires", {}), "", true)
+		if seen_req.has(req_text):
+			errs.append("ending %s: same condition as %s" % [id, seen_req[req_text]])
+		seen_req[req_text] = id
+		if i == endings.size() - 1 and not (e.get("requires", {}) as Dictionary).is_empty():
+			errs.append("ending %s: the last ending must be the fallback (no conditions)" % id)
+		if i < endings.size() - 1 and (e.get("requires", {}) as Dictionary).is_empty():
+			errs.append("ending %s: only the last ending may have no conditions" % id)
+	if endings.size() < 3:
+		errs.append("endings: at least three are required")
+	for k in ["ending.faction.pavilion", "ending.faction.couriers", "ending.faction.scribes", "ending.faction.neutral"]:
+		if not has_key.call(k):
+			errs.append("missing translation key %s" % k)
+	return errs
+
+
+func _validate_dialogue_effect(label: String, e: Dictionary) -> Array[String]:
+	var errs: Array[String] = []
+	var t := str(e.get("type", ""))
+	if not DIALOGUE_EFFECTS.has(t):
+		errs.append("%s: unknown effect '%s'" % [label, t])
+	if t == "battle" and scenario_for_battle(str(e.get("id", ""))).is_empty():
+		errs.append("%s: battle %s has no scenario" % [label, str(e.get("id", ""))])
+	if t == "set_path" and path(str(e.get("id", ""))).is_empty():
+		errs.append("%s: unknown path %s" % [label, str(e.get("id", ""))])
+	if t == "queue" and dialogue(str(e.get("id", ""))).is_empty():
+		errs.append("%s: queued dialogue %s is missing" % [label, str(e.get("id", ""))])
+	if t == "bond" and str(e.get("id", "")) != "$active" and companion(str(e.get("id", ""))).is_empty():
+		errs.append("%s: bond with unknown companion %s" % [label, str(e.get("id", ""))])
+	if ["bond", "resource", "attr", "stamina"].has(t) and not e.has("amount"):
+		errs.append("%s: effect %s needs an amount" % [label, t])
+	return errs
+
+
 func _validate_combat(has_key: Callable) -> Array[String]:
 	var errs: Array[String] = []
 	var tids := {}

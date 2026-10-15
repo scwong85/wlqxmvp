@@ -1,0 +1,44 @@
+{
+ "endings": [
+  {
+   "id": "valley_sage",
+   "title_key": "ending.valley_sage.title",
+   "body_key": "ending.valley_sage.body",
+   "requires": {
+    "flags_all": [
+     "bandits_defeated",
+     "villager_saved"
+    ],
+    "bond_min": 8,
+    "path_progress_min": 6
+   }
+  },
+  {
+   "id": "valley_guardian",
+   "title_key": "ending.valley_guardian.title",
+   "body_key": "ending.valley_guardian.body",
+   "requires": {
+    "flags_all": [
+     "bandits_defeated",
+     "villager_saved"
+    ]
+   }
+  },
+  {
+   "id": "lone_victor",
+   "title_key": "ending.lone_victor.title",
+   "body_key": "ending.lone_victor.body",
+   "requires": {
+    "flags_all": [
+     "bandits_defeated"
+    ]
+   }
+  },
+  {
+   "id": "valley_falls",
+   "title_key": "ending.valley_falls.title",
+   "body_key": "ending.valley_falls.body",
+   "requires": {}
+  }
+ ]
+}

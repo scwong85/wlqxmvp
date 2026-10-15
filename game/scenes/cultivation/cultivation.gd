@@ -83,8 +83,9 @@ var _status_key: String = ""
 func _ready() -> void:
 	UiKit.apply(self)
 	Game.ensure_state()
-	if Game.has_saved_battle() and Game.resume_battle():  # a fight was interrupted: carry on with it
-		Router.goto.call_deferred("battle")
+	var story_scene := Game.next_story_scene()  # an interrupted fight, an open scene, an ending, a day-start scene
+	if story_scene != "":
+		Router.goto.call_deferred(story_scene)
 		return
 	if Game.state.exploration.active:  # a saved or running exploration resumes on its own screen
 		Router.goto.call_deferred("exploration")
@@ -562,6 +563,10 @@ func _on_option_chosen(option_id: String) -> void:
 
 func _check_events() -> void:
 	if event_panel != null or recruit_panel != null:
+		return
+	var story_scene := Game.next_story_scene()  # dialogue hooks and the final crisis open their own screens
+	if story_scene != "":
+		Router.goto(story_scene)
 		return
 	var pending: Array = Game.pending_events()
 	if not pending.is_empty():

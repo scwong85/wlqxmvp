@@ -1,35 +1,69 @@
 {
-  "hooks": [
-    {
-      "id": "day3_recruit",
-      "day": 3,
-      "trigger": "day_start",
-      "payload": {
-        "type": "recruitment_opportunity",
-        "npc": "shen_qinghe"
-      },
-      "title_key": "event.day3_recruit.title",
-      "body_key": "event.day3_recruit.body"
-    },
-    {
-      "id": "day6_prepare",
-      "day": 6,
-      "trigger": "day_start",
-      "payload": {
-        "type": "preparation"
-      },
-      "title_key": "event.day6_prepare.title",
-      "body_key": "event.day6_prepare.body"
-    },
-    {
-      "id": "day7_crisis",
-      "day": 7,
-      "trigger": "day_start",
-      "payload": {
-        "type": "final_crisis"
-      },
-      "title_key": "event.day7_crisis.title",
-      "body_key": "event.day7_crisis.body"
-    }
-  ]
+ "hooks": [
+  {
+   "id": "day1_intro",
+   "day": 1,
+   "trigger": "day_start",
+   "dialogue": "day1_intro",
+   "payload": {
+    "type": "dialogue"
+   }
+  },
+  {
+   "id": "day2_path",
+   "day": 2,
+   "trigger": "day_start",
+   "dialogue": "day2_path",
+   "payload": {
+    "type": "dialogue"
+   }
+  },
+  {
+   "id": "day3_recruit",
+   "day": 3,
+   "trigger": "day_start",
+   "payload": {
+    "type": "recruitment_opportunity",
+    "npc": "shen_qinghe"
+   },
+   "title_key": "event.day3_recruit.title",
+   "body_key": "event.day3_recruit.body"
+  },
+  {
+   "id": "day4_battle",
+   "day": 4,
+   "trigger": "day_start",
+   "dialogue": "day4_battle",
+   "payload": {
+    "type": "dialogue"
+   }
+  },
+  {
+   "id": "day5_faction",
+   "day": 5,
+   "trigger": "day_start",
+   "dialogue": "day5_faction",
+   "payload": {
+    "type": "dialogue"
+   }
+  },
+  {
+   "id": "day6_prepare",
+   "day": 6,
+   "trigger": "day_start",
+   "dialogue": "day6_prepare",
+   "payload": {
+    "type": "dialogue"
+   }
+  },
+  {
+   "id": "day7_crisis",
+   "day": 7,
+   "trigger": "day_start",
+   "dialogue": "day7_crisis",
+   "payload": {
+    "type": "dialogue"
+   }
+  }
+ ]
 }

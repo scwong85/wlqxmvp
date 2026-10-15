@@ -181,7 +181,8 @@
     ],
     "flags": [
      "villager_saved"
-    ]
+    ],
+    "dialogue": "day4_win"
    },
    "on_defeat": {
     "rewards": [
@@ -193,7 +194,8 @@
     ],
     "flags": [
      "villager_lost"
-    ]
+    ],
+    "dialogue": "day4_lose"
    }
   },
   {
@@ -283,23 +285,6 @@
        0
       ]
      ]
-    },
-    {
-     "template": "bandit_archer",
-     "cells": [
-      [
-       1,
-       0
-      ],
-      [
-       4,
-       0
-      ],
-      [
-       4,
-       1
-      ]
-     ]
     }
    ],
    "objective": {
@@ -329,7 +314,8 @@
     "flags": [
      "bandits_won"
     ]
-   }
+   },
+   "ends_run": true
   },
   {
    "id": "bandit_scouts",

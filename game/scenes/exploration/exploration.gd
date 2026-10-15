@@ -42,8 +42,9 @@ var _end_node_id: String = ""
 func _ready() -> void:
 	UiKit.apply(self)
 	Game.ensure_state()
-	if Game.has_saved_battle() and Game.resume_battle():  # a fight was interrupted: carry on with it
-		Router.goto.call_deferred("battle")
+	var story_scene := Game.next_story_scene()  # an interrupted fight, an open scene, an ending, a day-start scene
+	if story_scene != "":
+		Router.goto.call_deferred(story_scene)
 		return
 	add_child(Backdrop.new())
 	var dim := ColorRect.new()

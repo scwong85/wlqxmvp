@@ -6,9 +6,11 @@ extends Node
 
 const UiKit = preload("res://scripts/ui/ui_kit.gd")
 const BattleAI = preload("res://scripts/domain/combat/battle_ai.gd")
+const EventRules = preload("res://scripts/domain/event_rules.gd")
 
 var _fails: Array[String] = []
 var _recruit_log: Array = []
+var _story_problems: Array = []
 
 
 func _check(cond: bool, label: String) -> void:
@@ -57,7 +59,7 @@ func _do(screen: Node, activity_id: String, option_id: String = "") -> void:
 	screen.select_activity(activity_id)
 	screen.confirm_button.pressed.emit()
 	await _frames(1)
-	if screen.choice_panel != null:  # activities with approaches ask first
+	if is_instance_valid(screen) and screen.choice_panel != null:  # activities with approaches ask first
 		var oid: String = option_id if option_id != "" else screen.option_buttons.keys()[0]
 		screen.option_buttons[oid].pressed.emit()
 		await _frames(1)
@@ -83,6 +85,43 @@ func _dismiss_events(screen: Node) -> Array:
 	return seen
 
 
+## Story dialogues are covered by their own checks; other tests start from a run whose story scenes are already seen.
+func _quiet() -> void:
+	for h in Content.day_hooks:
+		if h.has("dialogue"):
+			EventRules.mark_fired(Game.state, str(h.id))
+
+
+## Plays dialogue/battle scenes with the real buttons until the game is back on a normal screen (or at the ending).
+func _play_story(log: Array) -> void:
+	var guard := 0
+	while ["dialogue", "battle", "ending"].has(Router.current_key) and guard < 40:
+		guard += 1
+		var sc := _scene()
+		if Router.current_key == "ending":
+			return
+		if Router.current_key == "dialogue":
+			var did: String = Game.state.story.dialogue.get("id", "")
+			if log.is_empty() or log[-1] != did:
+				log.append(did)
+			var problems: Array[String] = sc.audit_layout()
+			if not problems.is_empty():
+				_story_problems.append("%s: %s" % [did, str(problems.slice(0, 2))])
+			if sc.continue_button != null:
+				sc.continue_button.pressed.emit()
+			else:
+				var pick := ""
+				for cid in sc.choice_buttons:
+					if not sc.choice_buttons[cid].disabled and (pick == "" or cid == "together"):
+						pick = cid
+				sc.choice_buttons[pick].pressed.emit()
+		elif Game.battle != null:
+			log.append("battle:" + str(Game.battle_ctx.scenario))
+			Game.battle.outcome = "victory"
+			Router.goto(Game.finish_battle())
+		await _frames(3)
+
+
 func _run() -> void:
 	Router.goto("boot")
 	await _frames(4)
@@ -94,8 +133,13 @@ func _run() -> void:
 	# --- New game opens the cultivation screen ---
 	title.start_button.pressed.emit()
 	await _frames(4)
-	_check(Router.current_key == "cultivation", "start opens the cultivation screen")
+	_check(Router.current_key == "dialogue", "start opens the day-1 intro dialogue")
 	Game.state.run_seed = 5  # fixed seed so outcomes are reproducible
+	var story_log: Array = []
+	var intro := _scene()
+	_check(intro.continue_button != null and intro.text_label.text == Loc.t("story.day1_intro.n1"), "dialogue: the first node is shown with a Continue button")
+	await _play_story(story_log)
+	_check(Router.current_key == "cultivation" and story_log == ["day1_intro"], "dialogue: finishing the intro opens the cultivation screen")
 	var cult := _scene()
 	_check(cult.cards.size() == 12, "screen: all 12 activities are listed")
 	_check(cult.selected_id == "training", "screen: first available activity is preselected")
@@ -162,16 +206,26 @@ func _run() -> void:
 	Game.state.relationships.add_score("shen_qinghe", 6)
 	Game.state.player.attributes["insight"] = 6
 
-	# --- Play the rest of the week with rests, acknowledging story pop-ups ---
+	# --- Play the week; story scenes are played with the real buttons ---
 	var popup_days: Array = []
 	var guard := 0
 	while not Game.state.calendar.finished and guard < 20:
 		guard += 1
+		if Game.state.calendar.day == 7 and Game.state.calendar.slot == 2:
+			break  # keep the last slot for after the panel checks
+		cult = _scene()
 		await _do(cult, "rest")
+		await _frames(2)
+		await _play_story(story_log)
+		cult = _scene()
 		popup_days.append_array(await _dismiss_events(cult))
-	_check(Game.state.calendar.finished, "week: the seven days end")
-	_check(popup_days == [3, 6, 7], "week: story pop-ups appeared on days 3, 6 and 7 (got %s)" % str(popup_days))
-	_check(Game.state.calendar.events_fired == ["day3_recruit", "day6_prepare", "day7_crisis"], "week: hooks acknowledged and recorded")
+	cult = _scene()
+	_check(Router.current_key == "cultivation" and Game.state.calendar.day == 7, "week: day 7 reached")
+	_check(popup_days == [3], "week: only the day-3 invitation is still a pop-up (got %s)" % str(popup_days))
+	_check(story_log == ["day1_intro", "day2_path", "day4_battle", "battle:rescue_battle", "day4_win", "day5_faction", "day6_prepare", "day7_crisis"], "week: the story scenes came in order (%s)" % str(story_log))
+	_check(Game.state.calendar.events_fired == ["day1_intro", "day2_path", "day3_recruit", "day4_battle", "day5_faction", "day6_prepare", "day7_crisis"], "week: hooks acknowledged and recorded (%s)" % str(Game.state.calendar.events_fired))
+	_check(Game.state.relationships.has_flag("bandits_beaten") or Game.state.relationships.has_flag("villager_saved"), "week: the rescue result is remembered")
+	_check(_story_problems.is_empty(), "layout: every dialogue screen is clean %s" % str(_story_problems.slice(0, 2)))
 	_check(_recruit_log == ["accept"] and Game.state.relationships.active == "shen_qinghe", "recruit: the day-3 invitation was accepted and Shen is the active companion (%s)" % str(_recruit_log))
 	cult.party_button.pressed.emit()
 	await _frames(2)
@@ -185,35 +239,43 @@ func _run() -> void:
 	_check(Game.state.relationships.active == "shen_qinghe", "party: re-inviting works from the panel")
 	cult.party_close_button.pressed.emit()
 	await _frames(2)
-	_check(cult.confirm_button.disabled, "week: nothing can be confirmed after day 7")
 	problems = cult.audit_layout()
-	_check(problems.is_empty(), "layout: still clean at the end of the week")
+	_check(problems.is_empty(), "layout: still clean on the last day")
 
-	# --- Save, restart, load ---
-	cult.save_button.pressed.emit()
-	await _frames(1)
-	_check(Saves.slot_exists(Saves.MANUAL) and cult.status_label.text == Loc.t("cult.saved"), "save: manual save confirmed on screen")
-	cult.menu_button.pressed.emit()
+	# --- The last slot ends the week: the final crisis, then the ending ---
+	await _do(cult, "rest")
+	await _frames(3)
+	_check(Game.state.calendar.finished and Router.current_key == "dialogue" and Game.state.story.dialogue.id == "crisis_final", "crisis: using the last slot opens the final dialogue")
+	await _play_story(story_log)
+	_check(Router.current_key == "ending" and story_log.has("battle:final_crisis") and Game.state.story.ending != "", "ending: winning the final fight opens the ending screen (%s)" % Game.state.story.ending)
+	var end_scene := _scene()
+	_check(end_scene.title_label.text == Loc.t("ending.%s.title" % Game.state.story.ending) and Saves.slot_exists(Saves.AUTO), "ending: its title is shown and the run is saved")
+	problems = end_scene.audit_layout()
+	_check(problems.is_empty(), "ending: layout is clean %s" % str(problems.slice(0, 2)))
+	var ending_id: String = Game.state.story.ending
+
+	# --- Closing and loading a finished run returns to its ending; the ending leads to the title and to a new run ---
+	end_scene.title_button.pressed.emit()
 	await _frames(3)
 	title = _scene()
 	_check(Router.current_key == "title" and not title.load_button.disabled, "load: title offers Load once a save exists")
 	Game.state = null
 	title.load_button.pressed.emit()
-	await _frames(4)
-	_check(Router.current_key == "cultivation", "load: opens the cultivation screen")
-	_check(Game.state.calendar.finished and Game.state.player.path_id == "xuan_fist", "load: week state and path restored")
-	_check(Game.state.run_seed == 5, "load: run seed restored")
-	cult = _scene()
-	_check(cult.confirm_button.disabled, "load: finished week stays finished")
-
-	# --- Language toggle on the real screen ---
+	await _frames(5)
+	_check(Router.current_key == "ending" and Game.state.story.ending == ending_id, "load: a finished run opens its ending again")
+	_check(Game.state.player.path_id == "xuan_fist" and Game.state.run_seed == 5, "load: path and seed restored")
 	Loc.set_locale("en")
-	_check(cult._day_label.text == "Day 7 of 7", "language: cultivation screen follows the language toggle")
+	await _frames(2)
+	_check(_scene().new_run_button.text == "New journey" or _scene().new_run_button.text == Loc.t("ending.new_run"), "language: the ending follows the language toggle")
 	Loc.set_locale("zh_CN")
+	_scene().new_run_button.pressed.emit()
+	await _frames(5)
+	_check(Router.current_key == "dialogue" and Game.state.story.ending == "" and Game.state.calendar.day == 1 and Game.state.player.path_id == "", "ending: starting again clears the finished run and opens the day-1 intro")
 
 	# --- Exploration (M8) ---
 	Saves.delete_slot(Saves.MANUAL)
 	Game.new_game(5)
+	_quiet()
 	Game.state.calendar.day = 2
 	preload("res://scripts/domain/relationship_rules.gd").refresh(Game.state, Content)  # day 2 normally arrives through a slot
 	Router.goto("cultivation")
@@ -253,6 +315,7 @@ func _run() -> void:
 
 	# Resume after reload: start again on a new run, choose once, drop the state, load, land on the same node.
 	Game.new_game(5)
+	_quiet()
 	Game.state.calendar.day = 2
 	preload("res://scripts/domain/relationship_rules.gd").refresh(Game.state, Content)  # day 2 normally arrives through a slot
 	Game.start_exploration("bamboo_pass")
@@ -275,6 +338,7 @@ func _run() -> void:
 	print("PORTRAIT_PROBE window=", win.size, " mode=", Layout.mode, " viewport=", get_viewport().get_visible_rect().size)
 	_check(Layout.is_portrait() and Layout.mode_for(Vector2(390, 844)) == "portrait" and Layout.mode_for(Vector2(844, 390)) == "landscape" and Layout.mode_for(Vector2(800, 800)) == "landscape", "portrait: the layout follows the window shape (tall = portrait, square or wide = landscape)")
 	Game.new_game(5)
+	_quiet()
 	Router.goto("title")
 	await _frames(4)
 	title = _scene()
@@ -405,7 +469,44 @@ func _run() -> void:
 	title.load_button.pressed.emit()
 	await _frames(3)
 	_check(Router.current_key == "title" and not title.load_note.text.begins_with("["), "corrupt: failed load stays on the title with a real message")
+	await _story_layouts()
 	await _battle_ui()
+
+
+## Dialogue and ending screens fit in every orientation and in both languages.
+func _story_layouts() -> void:
+	var win := get_window()
+	for size in [Vector2i(390, 844), Vector2i(360, 640), Vector2i(768, 1024), Vector2i(1280, 720), Vector2i(2400, 1080)]:
+		win.size = size
+		await _frames(3)
+		for lang in ["zh_CN", "en"]:
+			Loc.set_locale(lang)
+			Game.new_game(5)
+			Game.state.calendar.day = 4
+			Game.state.relationships.set_status("shen_qinghe", "joined")
+			Game.state.relationships.scores["shen_qinghe"] = 8
+			preload("res://scripts/domain/party_system.gd").set_active(Game.state, "shen_qinghe")
+			for h in ["day1_intro", "day2_path", "day3_recruit"]:
+				EventRules.mark_fired(Game.state, h)
+			Router.goto("cultivation")
+			await _frames(4)
+			_check(Router.current_key == "dialogue" and Game.state.story.dialogue.id == "day4_battle", "story layout %s %s: day 4 opens its dialogue" % [str(size), lang])
+			var d := _scene()
+			Game.dialogue_advance()
+			d.call("_show")
+			await _frames(3)
+			var problems: Array[String] = d.audit_layout()
+			_check(problems.is_empty() and d.choice_buttons.size() == 2, "story layout %s %s: choices fit %s" % [str(size), lang, str(problems.slice(0, 2))])
+			for e in Content.endings:
+				Game.state.story.dialogue = {}
+				Game.state.story.ending = str(e.id)
+				Router.goto("ending")
+				await _frames(4)
+				problems = _scene().audit_layout()
+				_check(problems.is_empty(), "story layout %s %s: ending %s fits %s" % [str(size), lang, str(e.id), str(problems.slice(0, 2))])
+	Loc.set_locale("zh_CN")
+	win.size = Vector2i(1280, 720)
+	await _frames(3)
 
 
 ## Plays whole battles with the real buttons and board taps (the same path for finger and mouse).
@@ -415,6 +516,7 @@ func _battle_ui() -> void:
 	win.size = Vector2i(1280, 720)
 	await _frames(3)
 	Game.new_game(3)
+	_quiet()
 	Router.goto("title")
 	await _frames(4)
 	var title := _scene()
@@ -443,6 +545,7 @@ func _battle_ui() -> void:
 
 	# A story trigger: the exploration screen offers the fight, the result returns to the route.
 	Game.new_game(4)
+	_quiet()
 	Game.state.calendar.day = 2
 	preload("res://scripts/domain/relationship_rules.gd").refresh(Game.state, Content)
 	Game.start_exploration("bamboo_pass")

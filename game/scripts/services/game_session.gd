@@ -8,6 +8,7 @@ const RelationshipRules = preload("res://scripts/domain/relationship_rules.gd")
 const PartySystem = preload("res://scripts/domain/party_system.gd")
 const ExplorationSystem = preload("res://scripts/domain/exploration_system.gd")
 const BattleSetup = preload("res://scripts/domain/combat/battle_setup.gd")
+const DialogueSystem = preload("res://scripts/domain/dialogue_system.gd")
 const BattleResult = preload("res://scripts/domain/combat/battle_result.gd")
 
 var state: RefCounted = null
@@ -153,14 +154,14 @@ func start_battle(id: String, from: String) -> bool:
 	var seed_value: int = ("%d|%s|%d|%d" % [st.run_seed, str(sc.id), st.calendar.day, st.calendar.slot]).hash()
 	battle = BattleSetup.build(Content, str(sc.id), seed_value, st, party)
 	battle_ctx = {"scenario": str(sc.id), "from": from, "battle_id": id, "applied": false}
-	if battle != null and from == "exploration":
+	if battle != null and (from == "exploration" or from == "story"):
 		save_battle_progress()
 	return battle != null
 
 
 ## Story battles are saved after every action so closing the game never loses or re-rolls a fight.
 func save_battle_progress() -> void:
-	if battle == null or str(battle_ctx.get("from", "")) != "exploration" or battle.outcome != "":
+	if battle == null or not ["exploration", "story"].has(str(battle_ctx.get("from", ""))) or battle.outcome != "":
 		return
 	var snap: Dictionary = battle.to_dict()
 	snap["ctx"] = battle_ctx.duplicate()
@@ -194,12 +195,12 @@ func apply_battle_result() -> Dictionary:
 		return {"deltas": [], "flags": []}
 	var from := str(battle_ctx.get("from", ""))
 	var sc: Dictionary = Content.scenario(str(battle_ctx.get("scenario", "")))
-	var outcome: String = battle.outcome if from == "exploration" else ""
+	var outcome: String = battle.outcome if from != "practice" else ""
 	var res: Dictionary = BattleResult.apply(st, sc, outcome, battle.items, Content)
 	battle_ctx["applied"] = true
 	st.battle = {}
-	if from == "exploration":
-		if battle.outcome != "":
+	if from != "practice":
+		if from == "exploration" and battle.outcome != "":
 			st.exploration.pending_battle = ""
 		autosave()
 	return res
@@ -214,4 +215,78 @@ func finish_battle() -> String:
 		pass  # abandoned: the trigger stays pending so the fight is offered again
 	battle = null
 	battle_ctx = {}
-	return "exploration" if from == "exploration" and st.exploration.active else "cultivation" if from == "exploration" else "title"
+	if st.story.ending != "" and from != "practice":
+		return "ending"
+	if from == "exploration" and st.exploration.active:
+		return "exploration"
+	return "title" if from == "practice" else "cultivation"
+
+
+# --- Story: dialogues, endings ------------------------------------------------------------------
+
+## Which story scene (if any) must be shown now: an interrupted battle, an open dialogue, the ending, a queued
+## dialogue, a day-start dialogue, or the final crisis once the week is over. "" means play on as normal.
+func next_story_scene() -> String:
+	var st := ensure_state()
+	if has_saved_battle() and resume_battle():
+		return "battle"
+	if DialogueSystem.is_open(st):
+		if not Content.dialogue(str(st.story.dialogue.id)).is_empty():
+			return "dialogue"
+		st.story.dialogue = {}
+	if st.story.ending != "":
+		return "ending"
+	if st.story.pending_dialogue != "":
+		var id: String = st.story.pending_dialogue
+		st.story.pending_dialogue = ""
+		if start_dialogue(id):
+			return "dialogue"
+	var pending := pending_events()
+	if not pending.is_empty() and pending[0].has("dialogue") and start_dialogue(str(pending[0].dialogue), str(pending[0].id)):
+		return "dialogue"
+	if st.calendar.finished and pending_events().is_empty() and start_dialogue("crisis_final"):
+		return "dialogue"
+	return ""
+
+
+func start_dialogue(dialogue_id: String, hook_id: String = "") -> bool:
+	var st := ensure_state()
+	var r: Dictionary = DialogueSystem.start(st, Content.dialogue(dialogue_id), hook_id, Content)
+	if r.ok:
+		autosave()
+	return r.ok
+
+
+func current_dialogue() -> Dictionary:
+	var st := ensure_state()
+	return Content.dialogue(str(st.story.dialogue.get("id", ""))) if DialogueSystem.is_open(st) else {}
+
+
+func dialogue_choose(choice_id: String) -> Dictionary:
+	var r: Dictionary = DialogueSystem.choose(ensure_state(), current_dialogue(), choice_id, Content)
+	if r.ok:
+		autosave()
+	return r
+
+
+func dialogue_advance() -> Dictionary:
+	var r: Dictionary = DialogueSystem.advance(ensure_state(), current_dialogue(), Content)
+	if r.ok:
+		autosave()
+	return r
+
+
+## The scene ended (result.ended): returns the next scene key. A fight starts right away; a queued dialogue opens.
+func after_dialogue(result: Dictionary) -> String:
+	if str(result.get("battle", "")) != "":
+		if start_battle(str(result.battle), "story"):
+			return "battle"
+	if str(result.get("queue", "")) != "":
+		ensure_state().story.pending_dialogue = str(result.queue)
+	var dest := next_story_scene()
+	return dest if dest != "" else "cultivation"
+
+
+## Starts over: a fresh run replaces the finished one.
+func restart_run() -> void:
+	new_game()

@@ -144,6 +144,7 @@ func parse_envelope(text: String) -> Dictionary:
 ## v2 -> v3: adds temporary buffs on the player.
 ## v3 -> v4: adds exploration progress (route, node, clues).
 ## v4 -> v5: adds the snapshot of a battle in progress (empty by default).
+## v5 -> v6: adds story progress (open dialogue, queued dialogue, ending).
 func migrate(state_dict: Dictionary, from_version: int) -> Dictionary:
 	var d: Dictionary = state_dict.duplicate(true)
 	if from_version < 2:
@@ -160,6 +161,8 @@ func migrate(state_dict: Dictionary, from_version: int) -> Dictionary:
 				"pending_recruit": "", "pending_battle": ""}
 	if from_version < 5:
 		d["battle"] = {}
+	if from_version < 6:
+		d["story"] = {"dialogue": {}, "pending_dialogue": "", "ending": ""}
 	return d
 
 

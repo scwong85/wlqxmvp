@@ -4,6 +4,7 @@ extends RefCounted
 
 const ActivityRules = preload("res://scripts/domain/activity_rules.gd")
 const PartySystem = preload("res://scripts/domain/party_system.gd")
+const EndingRules = preload("res://scripts/domain/ending_rules.gd")
 
 const ACTIVE := "$active"   # reward target meaning "the companion in the party, if any"
 
@@ -31,4 +32,9 @@ static func apply(state: RefCounted, scenario: Dictionary, outcome: String, item
 	for f in block.get("flags", []):
 		state.relationships.set_flag(str(f))
 		result.flags.append(str(f))
+	if str(block.get("dialogue", "")) != "":
+		state.story.pending_dialogue = str(block.dialogue)
+	if scenario.get("ends_run", false):
+		state.story.ending = EndingRules.evaluate(state, content)
+		result["ending"] = state.story.ending
 	return result

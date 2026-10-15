@@ -53,9 +53,9 @@
   {
    "id": "bandit_leader",
    "stats": {
-    "hp": 80,
-    "body": 8,
-    "power": 9,
+    "hp": 55,
+    "body": 6,
+    "power": 7,
     "agility": 5,
     "spirit": 8
    },

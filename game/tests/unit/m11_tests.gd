@@ -229,7 +229,7 @@ func _snapshot() -> void:
 	check.call(BattleSetup.rebuild(content, bad) == null, "m11: a snapshot with a unit off the board is refused")
 	var svc := SaveService.new()
 	check.call(svc.migrate({"exploration": {}}, 4).get("battle", null) == {}, "m11: migration v4 -> v5 adds an empty battle snapshot")
-	check.call(GameState.SCHEMA_VERSION == 5 and GameState.from_dict({}).battle.is_empty(), "m11: schema 5 and tolerant loading")
+	check.call(GameState.SCHEMA_VERSION >= 5 and GameState.from_dict({}).battle.is_empty(), "m11: schema 5 and tolerant loading")
 
 
 func _session_resume() -> void:

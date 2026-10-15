@@ -1,9 +1,11 @@
 {
-  "url": "http://127.0.0.1:35515/index.html",
+  "url": "http://127.0.0.1:41927/index.html",
   "checks": {
     "1280x720": {
       "title_ready": true,
+      "intro_dialogue_shown": true,
       "cultivation_ready_via_keyboard": true,
+      "day2_choice_dialogue": true,
       "explore_opens": true,
       "explore_recruit_prompt": true,
       "party_panel_opens": true,
@@ -33,6 +35,7 @@
     },
     "1920x1080": {
       "title_ready": true,
+      "intro_dialogue_shown": true,
       "cultivation_ready_via_keyboard": true,
       "practice_click": true,
       "battle_opens": true,
@@ -56,6 +59,7 @@
     },
     "2400x1080": {
       "title_ready": true,
+      "intro_dialogue_shown": true,
       "cultivation_ready_via_keyboard": true,
       "practice_click": true,
       "battle_opens": true,
@@ -79,12 +83,14 @@
     },
     "portrait_390x844": {
       "title_ready": true,
+      "intro_dialogue_shown": true,
       "cultivation_ready_via_keyboard": true,
       "tab_click": true,
       "tab_switched": true,
       "chooser_opens": true,
       "autosave_ok": true,
       "party_opens": true,
+      "day2_choice_dialogue": true,
       "explore_opens": true,
       "recruit_prompt": true,
       "practice_click": true,
@@ -109,6 +115,7 @@
     },
     "portrait_360x640": {
       "title_ready": true,
+      "intro_dialogue_shown": true,
       "cultivation_ready_via_keyboard": true,
       "tab_click": true,
       "tab_switched": true,
@@ -134,6 +141,7 @@
     },
     "portrait_768x1024": {
       "title_ready": true,
+      "intro_dialogue_shown": true,
       "cultivation_ready_via_keyboard": true,
       "tab_click": true,
       "tab_switched": true,

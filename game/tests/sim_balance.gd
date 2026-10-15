@@ -10,8 +10,9 @@ const PartySystem = preload("res://scripts/domain/party_system.gd")
 
 const RUNS := 100
 const COMPANIONS := ["shen_qinghe", "lu_chenzhou", "bai_yan"]
-# Points of attribute growth the hero is expected to have by each fight (about day 3, day 10, day 20).
-const STAGE_POINTS := {"training_match": 4, "bandit_scouts": 8, "rescue_battle": 18, "final_crisis": 36}
+# Attribute growth the hero can really have: the week has 14 slots worth 1-3 points each, so about 5 points by the
+# Bamboo Pass fight, 9 by day 4 and 20 by the end of day 7.
+const STAGE_POINTS := {"training_match": 0, "bandit_scouts": 5, "rescue_battle": 9, "final_crisis": 20}
 const STAGE_TECHS := {"training_match": 0, "bandit_scouts": 1, "rescue_battle": 1, "final_crisis": 2}
 const BUILDS := {
 	"fist": {"weights": {"power": 40, "body": 35, "spirit": 15, "agility": 10}, "techs": ["fist_wave", "fist_counter"]},

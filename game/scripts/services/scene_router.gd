@@ -9,6 +9,8 @@ const SCENES := {
 	"cultivation": "res://scenes/cultivation/cultivation.tscn",
 	"exploration": "res://scenes/exploration/exploration.tscn",
 	"battle": "res://scenes/battle/battle.tscn",
+	"dialogue": "res://scenes/dialogue/dialogue.tscn",
+	"ending": "res://scenes/ending/ending.tscn",
 	"settings": "res://scenes/menus/settings.tscn",
 }
 

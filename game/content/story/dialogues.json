@@ -1,0 +1,449 @@
+{
+ "dialogues": [
+  {
+   "id": "day1_intro",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "story.day1_intro.n1",
+     "speaker_key": "story.speaker.elder",
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "text_key": "story.day1_intro.n2",
+     "speaker_key": "story.speaker.elder",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "story.day1_intro.n3",
+     "speaker_key": "story.speaker.elder",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "tutorial_done"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "day2_path",
+   "entry": [
+    {
+     "if": {
+      "path_set": true
+     },
+     "node": "done"
+    },
+    {
+     "node": "choose"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "choose",
+     "text_key": "story.day2_path.choose",
+     "speaker_key": "story.speaker.elder",
+     "choices": [
+      {
+       "id": "fist",
+       "label_key": "story.day2_path.choose.fist",
+       "next": "chosen",
+       "effects": [
+        {
+         "type": "set_path",
+         "id": "xuan_fist"
+        }
+       ]
+      },
+      {
+       "id": "sword",
+       "label_key": "story.day2_path.choose.sword",
+       "next": "chosen",
+       "effects": [
+        {
+         "type": "set_path",
+         "id": "green_sword"
+        }
+       ]
+      },
+      {
+       "id": "rain",
+       "label_key": "story.day2_path.choose.rain",
+       "next": "chosen",
+       "effects": [
+        {
+         "type": "set_path",
+         "id": "listening_rain"
+        }
+       ]
+      },
+      {
+       "id": "later",
+       "label_key": "story.day2_path.choose.later",
+       "next": ""
+      }
+     ]
+    },
+    {
+     "id": "chosen",
+     "text_key": "story.day2_path.chosen",
+     "speaker_key": "story.speaker.elder",
+     "next": ""
+    },
+    {
+     "id": "done",
+     "text_key": "story.day2_path.done",
+     "speaker_key": "story.speaker.elder",
+     "next": ""
+    }
+   ]
+  },
+  {
+   "id": "day4_battle",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "story.day4_battle.n1",
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "text_key": "story.day4_battle.n2",
+     "speaker_key": "story.speaker.villager",
+     "choices": [
+      {
+       "id": "rush",
+       "label_key": "story.day4_battle.n2.rush",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "day4_rushed"
+        },
+        {
+         "type": "battle",
+         "id": "rescue_battle"
+        }
+       ]
+      },
+      {
+       "id": "together",
+       "label_key": "story.day4_battle.n2.together",
+       "next": "",
+       "gate": {
+        "party_any": true
+       },
+       "effects": [
+        {
+         "type": "flag",
+         "id": "day4_together"
+        },
+        {
+         "type": "bond",
+         "id": "$active",
+         "amount": 1
+        },
+        {
+         "type": "battle",
+         "id": "rescue_battle"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "day4_win",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "story.day4_win.n1",
+     "speaker_key": "story.speaker.villager",
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "text_key": "story.day4_win.n2",
+     "speaker_key": "story.speaker.elder",
+     "next": ""
+    }
+   ]
+  },
+  {
+   "id": "day4_lose",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "story.day4_lose.n1",
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "text_key": "story.day4_lose.n2",
+     "speaker_key": "story.speaker.elder",
+     "next": ""
+    }
+   ]
+  },
+  {
+   "id": "day5_faction",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "story.day5_faction.n1",
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "text_key": "story.day5_faction.n2",
+     "speaker_key": "story.speaker.elder",
+     "choices": [
+      {
+       "id": "pavilion",
+       "label_key": "story.day5_faction.n2.pavilion",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "faction_pavilion"
+        },
+        {
+         "type": "bond",
+         "id": "shen_qinghe",
+         "amount": 2
+        }
+       ]
+      },
+      {
+       "id": "couriers",
+       "label_key": "story.day5_faction.n2.couriers",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "faction_couriers"
+        },
+        {
+         "type": "bond",
+         "id": "lu_chenzhou",
+         "amount": 2
+        }
+       ]
+      },
+      {
+       "id": "scribes",
+       "label_key": "story.day5_faction.n2.scribes",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "faction_scribes"
+        },
+        {
+         "type": "bond",
+         "id": "bai_yan",
+         "amount": 2
+        }
+       ]
+      },
+      {
+       "id": "neutral",
+       "label_key": "story.day5_faction.n2.neutral",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "faction_neutral"
+        },
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 1
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "day6_prepare",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "story.day6_prepare.n1",
+     "speaker_key": "story.speaker.elder",
+     "choices": [
+      {
+       "id": "scout",
+       "label_key": "story.day6_prepare.n1.scout",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "day6_scouting"
+        }
+       ]
+      },
+      {
+       "id": "rest",
+       "label_key": "story.day6_prepare.n1.rest",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "day6_rested"
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 6
+        }
+       ]
+      },
+      {
+       "id": "train",
+       "label_key": "story.day6_prepare.n1.train",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "day6_trained"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "day7_crisis",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "story.day7_crisis.n1",
+     "next": "n2"
+    },
+    {
+     "id": "n2",
+     "text_key": "story.day7_crisis.n2",
+     "speaker_key": "story.speaker.elder",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "crisis_warned"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "crisis_final",
+   "entry": [
+    {
+     "if": {
+      "flag": "villager_saved"
+     },
+     "node": "n1_saved"
+    },
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "story.crisis_final.n1",
+     "speaker_key": "story.speaker.leader",
+     "next": "n2"
+    },
+    {
+     "id": "n1_saved",
+     "text_key": "story.crisis_final.n1_saved",
+     "next": "n1"
+    },
+    {
+     "id": "n2",
+     "text_key": "story.crisis_final.n2",
+     "choices": [
+      {
+       "id": "fight",
+       "label_key": "story.crisis_final.n2.fight",
+       "next": "",
+       "effects": [
+        {
+         "type": "battle",
+         "id": "final_crisis"
+        }
+       ]
+      },
+      {
+       "id": "together",
+       "label_key": "story.crisis_final.n2.together",
+       "next": "",
+       "gate": {
+        "party_any": true
+       },
+       "effects": [
+        {
+         "type": "flag",
+         "id": "final_together"
+        },
+        {
+         "type": "bond",
+         "id": "$active",
+         "amount": 1
+        },
+        {
+         "type": "battle",
+         "id": "final_crisis"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

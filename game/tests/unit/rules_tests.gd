@@ -207,13 +207,18 @@ func _day_transition() -> void:
 
 func _event_hooks() -> void:
 	var g := _g()
-	check.call(EventRules.pending(g, content).is_empty(), "events: nothing pending on day 1")
+	check.call(EventRules.pending(g, content).map(func(h): return h.id) == ["day1_intro"], "events: only the intro is pending on day 1")
+	EventRules.mark_fired(g, "day1_intro")
+	check.call(EventRules.pending(g, content).is_empty(), "events: nothing pending after the intro")
+	EventRules.mark_fired(g, "day2_path")
 	g.calendar.day = 3
 	var p3 := EventRules.pending(g, content)
 	check.call(p3.size() == 1 and p3[0].id == "day3_recruit", "events: day 3 hook becomes due on day 3")
 	check.call(p3[0].payload.type == "recruitment_opportunity", "events: day 3 payload is a recruitment stub")
 	check.call(EventRules.mark_fired(g, "day3_recruit") and not EventRules.mark_fired(g, "day3_recruit"), "events: acknowledging works once")
 	check.call(EventRules.pending(g, content).is_empty(), "events: a fired hook is not repeated")
+	EventRules.mark_fired(g, "day4_battle")
+	EventRules.mark_fired(g, "day5_faction")
 	g.calendar.day = 6
 	check.call(EventRules.pending(g, content).map(func(h): return h.id) == ["day6_prepare"], "events: day 6 hook due")
 	g.calendar.day = 7
@@ -280,7 +285,7 @@ func _full_week() -> void:
 		fired.append(hook.id)
 	check.call(g.calendar.finished and g.calendar.day == 7, "week: 14 slots take the player from day 1 to the end of day 7")
 	check.call(guard == 14, "week: exactly 14 activity slots were used (got %d)" % guard)
-	check.call(fired == ["day3_recruit", "day6_prepare", "day7_crisis"], "week: hooks fired once each, in order")
+	check.call(fired == ["day1_intro", "day2_path", "day3_recruit", "day4_battle", "day5_faction", "day6_prepare", "day7_crisis"], "week: hooks fired once each, in order")
 	check.call(EventRules.crisis_pending(g), "week: final state is crisis pending")
 	check.call(g.player.stamina >= 0 and g.player.stamina <= CultivationRules.max_stamina(g.player), "week: stamina stays within bounds")
 	check.call(not ActivityRules.perform(g, _act("rest"), content).ok, "week: no activity can run after day 7")
