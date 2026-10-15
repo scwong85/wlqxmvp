@@ -248,6 +248,15 @@ with sync_playwright() as p:
         page.wait_for_timeout(500)
         page.screenshot(path=os.path.join(out_dir, f"m10_{name}_after_turn.png"))
 
+        # Performance (M13): frame times on the battle screen, sampled for 3 s. Software rendering (SwiftShader) in a
+        # container is far slower than a phone GPU, so these are an upper bound, recorded to catch regressions.
+        frames = page.evaluate("""() => new Promise(res => { const t = []; let last = performance.now(); const end = last + 3000;
+            function f(n) { t.push(n - last); last = n; if (n < end) requestAnimationFrame(f); else res(t); }
+            requestAnimationFrame(f); })""")
+        frames = sorted(frames[2:]) or [0]
+        results.setdefault("perf", {})[name] = {"frames": len(frames), "avg_ms": round(sum(frames) / len(frames), 1),
+                                                 "p95_ms": round(frames[int(len(frames) * 0.95) - 1], 1), "max_ms": round(frames[-1], 1)}
+
         if True:  # every size, portrait included, must pass the layout audit
             audits = [c for c in console if "LAYOUT_AUDIT" in c]
             results["checks"][name]["audit_lines"] = [c for c in console if "LAYOUT_AUDIT" in c or "audit:" in c][:6]

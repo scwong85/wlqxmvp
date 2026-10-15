@@ -1,5 +1,5 @@
 {
-  "url": "http://127.0.0.1:41927/index.html",
+  "url": "http://127.0.0.1:34201/index.html",
   "checks": {
     "1280x720": {
       "title_ready": true,
@@ -167,5 +167,43 @@
     }
   },
   "errors": [],
+  "perf": {
+    "1280x720": {
+      "frames": 19,
+      "avg_ms": 151.7,
+      "p95_ms": 300.1,
+      "max_ms": 350.1
+    },
+    "1920x1080": {
+      "frames": 9,
+      "avg_ms": 294.4,
+      "p95_ms": 383.3,
+      "max_ms": 416.6
+    },
+    "2400x1080": {
+      "frames": 5,
+      "avg_ms": 556.7,
+      "p95_ms": 666.8,
+      "max_ms": 683.2
+    },
+    "portrait_390x844": {
+      "frames": 37,
+      "avg_ms": 81.5,
+      "p95_ms": 133.3,
+      "max_ms": 150
+    },
+    "portrait_360x640": {
+      "frames": 54,
+      "avg_ms": 55.2,
+      "p95_ms": 100,
+      "max_ms": 116.6
+    },
+    "portrait_768x1024": {
+      "frames": 19,
+      "avg_ms": 145.6,
+      "p95_ms": 200,
+      "max_ms": 233.3
+    }
+  },
   "passed": true
 }

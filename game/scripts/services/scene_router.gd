@@ -15,6 +15,8 @@ const SCENES := {
 }
 
 var current_key: String = ""
+## Where the Settings screen's Back button leads (the pause menu sets it to the game screen it came from).
+var settings_back: String = "title"
 
 
 func goto(key: String) -> bool:

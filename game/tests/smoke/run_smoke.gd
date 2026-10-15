@@ -446,12 +446,37 @@ func _run() -> void:
 	cult = _scene()
 
 	# --- Settings keeps working ---
+	# --- Pause menu (M13): resume, save mid-day, settings and back to the game, title ---
 	cult.menu_button.pressed.emit()
 	await _frames(3)
-	_scene().settings_button.pressed.emit()
+	_check(cult.pause_panel != null and cult.pause_buttons.size() == 4, "pause: the menu button opens the pause menu")
+	problems = cult.audit_layout()
+	_check(problems.is_empty(), "pause: menu fits with readable text %s" % str(problems.slice(0, 2)))
+	cult.pause_buttons.resume.pressed.emit()
+	await _frames(2)
+	_check(cult.pause_panel == null, "pause: resume closes it")
+	Saves.delete_slot(Saves.MANUAL)
+	cult.menu_button.pressed.emit()
+	await _frames(2)
+	cult.pause_buttons.save.pressed.emit()
+	await _frames(2)
+	_check(Saves.slot_exists(Saves.MANUAL), "pause: manual save works from the pause menu")
+	cult.pause_buttons.settings.pressed.emit()
 	await _frames(3)
 	var settings := _scene()
-	_check(Router.current_key == "settings", "settings: opens")
+	_check(Router.current_key == "settings", "settings: opens from the pause menu")
+	settings.sliders["sfx"].value = 35
+	await _frames(1)
+	_check(Saves.load_settings().get("sfx_volume") == 35 and Audio.get_volume("sfx") == 35, "settings: the volume slider saves")
+	settings.sliders["sfx"].value = Audio.DEFAULTS.sfx
+	problems = UiKit.audit(settings)
+	_check(problems.is_empty(), "settings: layout with volume sliders is clean %s" % str(problems.slice(0, 2)))
+	settings.back_button.pressed.emit()
+	await _frames(3)
+	_check(Router.current_key == "cultivation", "settings: Back from the pause menu returns to the game")
+	Router.goto("settings")
+	await _frames(2)
+	settings = _scene()
 	settings.language_buttons["en"].pressed.emit()
 	await _frames(1)
 	_check(Loc.locale == "en" and Saves.load_settings().get("locale") == "en", "settings: language switches and persists")
@@ -497,6 +522,11 @@ func _story_layouts() -> void:
 			await _frames(3)
 			var problems: Array[String] = d.audit_layout()
 			_check(problems.is_empty() and d.choice_buttons.size() == 2, "story layout %s %s: choices fit %s" % [str(size), lang, str(problems.slice(0, 2))])
+			Router.settings_back = "title"
+			Router.goto("settings")
+			await _frames(3)
+			problems = UiKit.audit(_scene())
+			_check(problems.is_empty(), "story layout %s %s: settings fits %s" % [str(size), lang, str(problems.slice(0, 2))])
 			for e in Content.endings:
 				Game.state.story.dialogue = {}
 				Game.state.story.ending = str(e.id)

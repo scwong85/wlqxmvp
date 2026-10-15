@@ -75,7 +75,9 @@ func _ready() -> void:
 
 	start_button.pressed.connect(_on_start)
 	load_button.pressed.connect(_on_load)
-	settings_button.pressed.connect(func() -> void: Router.goto("settings"))
+	settings_button.pressed.connect(func() -> void:
+		Router.settings_back = "title"
+		Router.goto("settings"))
 	practice_button.pressed.connect(_on_practice)
 	Loc.locale_changed.connect(func(_c: String) -> void: _refresh())
 	Layout.mode_changed.connect(func(_m: String) -> void: _apply_layout())

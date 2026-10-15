@@ -39,6 +39,8 @@ var selected_id: String = ""
 var party_button: Button
 var explore_button: Button
 var party_panel: Control = null
+var pause_panel: Control = null
+var pause_buttons: Dictionary = {}  # resume / save / settings / title
 var party_close_button: Button
 var _party_box: VBoxContainer
 var party_buttons: Dictionary = {}   # npc id -> {recruit, activate, dismiss} (only those shown)
@@ -212,7 +214,7 @@ func _build_top_bar() -> Control:
 	for b in [party_button, save_button, menu_button]:
 		b.add_theme_font_size_override("font_size", FONT_BODY)
 	save_button.pressed.connect(_on_save)
-	menu_button.pressed.connect(func() -> void: Router.goto("title"))
+	menu_button.pressed.connect(_show_pause)
 	return box
 
 
@@ -292,7 +294,7 @@ func _on_layout_changed() -> void:
 	# A rotated screen: pop-ups re-fit; the approach chooser is simply closed (nothing was chosen yet).
 	if choice_panel != null:
 		_close_choice()
-	for ov in [event_panel, recruit_panel, party_panel]:
+	for ov in [event_panel, recruit_panel, party_panel, pause_panel]:
 		OverlayUtil.fit(ov)
 	if party_panel != null:
 		_fill_party(_party_box)
@@ -470,7 +472,7 @@ func _refresh_explore() -> void:
 
 
 func _overlay_open() -> bool:
-	return event_panel != null or choice_panel != null or party_panel != null or recruit_panel != null
+	return event_panel != null or choice_panel != null or party_panel != null or recruit_panel != null or pause_panel != null
 
 
 func _perform(activity_id: String, option_id: String) -> void:
@@ -746,6 +748,57 @@ func _party_action(action: String, id: String) -> void:
 	if party_panel != null:
 		_fill_party(_party_box)
 	_refresh_all()
+
+
+## Pause menu (M13): resume, manual save (works mid-day), settings, back to the title.
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		if pause_panel != null:
+			_close_pause()
+		elif not _overlay_open():
+			_show_pause()
+
+
+func _show_pause() -> void:
+	if _overlay_open():
+		return
+	var parts := _make_overlay(640)
+	pause_panel = parts[0]
+	var box: VBoxContainer = parts[1]
+	add_child(pause_panel)
+	var title := _label(FONT_HEAD)
+	title.text = Loc.t("pause.title")
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(title)
+	var note := _label(FONT_BODY)
+	note.name = "PauseNote"
+	note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box.add_child(note)
+	pause_buttons.clear()
+	for id in ["resume", "save", "settings", "title"]:
+		var b := UiKit.make_button(Vector2(0, 68))
+		b.text = Loc.t("pause." + ("title_screen" if id == "title" else id))
+		box.add_child(b)
+		pause_buttons[id] = b
+	pause_buttons.resume.pressed.connect(_close_pause)
+	pause_buttons.save.pressed.connect(func() -> void:
+		var r: Dictionary = Game.save_manual()
+		note.text = Loc.t("pause.saved") if r.ok else Loc.t("cult.save_failed"))
+	pause_buttons.settings.pressed.connect(func() -> void:
+		Router.settings_back = "cultivation"
+		Router.goto("settings"))
+	pause_buttons.title.pressed.connect(func() -> void: Router.goto("title"))
+	pause_buttons.resume.grab_focus()
+	print("PAUSE_SHOWN")
+	_report_layout()
+
+
+func _close_pause() -> void:
+	if pause_panel != null:
+		pause_panel.queue_free()
+		pause_panel = null
+		pause_buttons.clear()
+	menu_button.grab_focus()
 
 
 func _close_party() -> void:

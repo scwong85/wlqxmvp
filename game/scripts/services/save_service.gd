@@ -211,3 +211,11 @@ func save_settings(settings: Dictionary) -> bool:
 	f.store_string(JSON.stringify(settings, "\t", true))
 	f.close()
 	return true
+
+
+## Merges `patch` into the stored settings (language, volumes) instead of replacing the file.
+func update_settings(patch: Dictionary) -> bool:
+	var merged: Dictionary = load_settings()
+	for k in patch:
+		merged[k] = patch[k]
+	return save_settings(merged)

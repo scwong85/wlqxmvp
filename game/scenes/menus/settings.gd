@@ -1,5 +1,5 @@
 extends Control
-## Settings placeholder with the language toggle. Persisting the choice arrives with SaveService (M2).
+## Settings: language, music and effects volume (saved), fullscreen on web.
 
 const UiKit = preload("res://scripts/ui/ui_kit.gd")
 const Backdrop = preload("res://scenes/shared/backdrop.gd")
@@ -8,7 +8,10 @@ const SafeFrame = preload("res://scenes/shared/safe_frame.gd")
 var back_button: Button
 var fullscreen_button: Button   # web only
 var _row: BoxContainer
+var _volume_row: BoxContainer
 var language_buttons: Dictionary = {}  # locale code -> Button
+var sliders: Dictionary = {}           # "music"/"sfx" -> HSlider
+var _slider_labels: Dictionary = {}
 
 var _title_label: Label
 var _language_label: Label
@@ -42,9 +45,32 @@ func _ready() -> void:
 		b.button_group = group
 		b.pressed.connect(func() -> void:
 			Loc.set_locale(code)
-			Saves.save_settings({"locale": code}))
+			Saves.update_settings({"locale": code}))
 		row.add_child(b)
 		language_buttons[code] = b
+
+	_volume_row = BoxContainer.new()
+	_volume_row.add_theme_constant_override("separation", 20)
+	box.add_child(_volume_row)
+	for kind in ["music", "sfx"]:
+		var col := VBoxContainer.new()
+		col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_volume_row.add_child(col)
+		var lbl := UiKit.make_label(32)
+		col.add_child(lbl)
+		var sl := HSlider.new()
+		sl.min_value = 0
+		sl.max_value = 100
+		sl.step = 5
+		sl.value = Audio.get_volume(kind)
+		sl.custom_minimum_size = Vector2(0, 56)
+		sl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		sl.value_changed.connect(func(v: float) -> void:
+			Audio.set_volume(kind, int(v))
+			_refresh())
+		col.add_child(sl)
+		sliders[kind] = sl
+		_slider_labels[kind] = lbl
 
 	if Layout.fullscreen_available():
 		fullscreen_button = UiKit.make_button()
@@ -54,7 +80,7 @@ func _ready() -> void:
 	back_button = UiKit.make_button()
 	back_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	box.add_child(back_button)
-	back_button.pressed.connect(func() -> void: Router.goto("title"))
+	back_button.pressed.connect(func() -> void: Router.goto(Router.settings_back))
 
 	Loc.locale_changed.connect(func(_c: String) -> void: _refresh())
 	Layout.mode_changed.connect(func(_m: String) -> void: _apply_layout())
@@ -66,6 +92,7 @@ func _ready() -> void:
 func _apply_layout() -> void:
 	var portrait: bool = Layout.is_portrait()
 	_row.vertical = portrait
+	_volume_row.vertical = portrait
 	_title_label.add_theme_font_size_override("font_size", 56 if portrait else 64)
 	var align := HORIZONTAL_ALIGNMENT_CENTER if portrait else HORIZONTAL_ALIGNMENT_LEFT
 	_title_label.horizontal_alignment = align
@@ -83,6 +110,8 @@ func _refresh() -> void:
 	_title_label.text = Loc.t("ui.settings")
 	_language_label.text = Loc.t("ui.language")
 	back_button.text = Loc.t("ui.back")
+	for kind in _slider_labels:
+		_slider_labels[kind].text = "%s: %d" % [Loc.t("ui.volume." + kind), Audio.get_volume(kind)]
 	if fullscreen_button != null:
 		fullscreen_button.text = Loc.t("ui.fullscreen")
 	for code in language_buttons:
