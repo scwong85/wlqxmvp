@@ -1,5 +1,5 @@
 {
-  "url": "http://127.0.0.1:34307/index.html",
+  "url": "http://127.0.0.1:44635/index.html",
   "checks": {
     "1280x720": {
       "title_ready": true,
@@ -175,40 +175,40 @@
   "errors": [],
   "perf": {
     "1280x720": {
-      "frames": 20,
-      "avg_ms": 147.5,
-      "p95_ms": 300.1,
-      "max_ms": 383.3
+      "frames": 18,
+      "avg_ms": 153.7,
+      "p95_ms": 200,
+      "max_ms": 333.3
     },
     "1920x1080": {
-      "frames": 9,
-      "avg_ms": 307.4,
-      "p95_ms": 450,
-      "max_ms": 466.6
+      "frames": 8,
+      "avg_ms": 347.9,
+      "p95_ms": 383.3,
+      "max_ms": 383.4
     },
     "2400x1080": {
-      "frames": 9,
-      "avg_ms": 316.6,
-      "p95_ms": 416.6,
-      "max_ms": 433.3
+      "frames": 7,
+      "avg_ms": 380.9,
+      "p95_ms": 466.6,
+      "max_ms": 483.3
     },
     "portrait_390x844": {
-      "frames": 36,
-      "avg_ms": 81.0,
-      "p95_ms": 116.7,
-      "max_ms": 116.7
+      "frames": 37,
+      "avg_ms": 77.5,
+      "p95_ms": 133.3,
+      "max_ms": 183.3
     },
     "portrait_360x640": {
-      "frames": 46,
-      "avg_ms": 65.9,
-      "p95_ms": 100,
-      "max_ms": 150
+      "frames": 56,
+      "avg_ms": 53.0,
+      "p95_ms": 83.3,
+      "max_ms": 116.7
     },
     "portrait_768x1024": {
       "frames": 20,
-      "avg_ms": 148.3,
-      "p95_ms": 216.7,
-      "max_ms": 350
+      "avg_ms": 150.8,
+      "p95_ms": 283.4,
+      "max_ms": 300.1
     }
   },
   "passed": true
