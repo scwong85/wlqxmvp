@@ -1,0 +1,100 @@
+{
+ "arcs": [
+  {
+   "companion": "shen_qinghe",
+   "stages": [
+    {
+     "id": "1",
+     "event": "arc_shen_qinghe_1"
+    },
+    {
+     "id": "2",
+     "event": "arc_shen_qinghe_2"
+    },
+    {
+     "id": "3",
+     "event": "arc_shen_qinghe_3"
+    },
+    {
+     "id": "4",
+     "event": "arc_shen_qinghe_4"
+    }
+   ],
+   "outcomes": [
+    "redeemed",
+    "alternate",
+    "lost"
+   ],
+   "bonds": [
+    "friend",
+    "sworn",
+    "romance",
+    "rival"
+   ]
+  },
+  {
+   "companion": "lu_chenzhou",
+   "stages": [
+    {
+     "id": "1",
+     "event": "arc_lu_chenzhou_1"
+    },
+    {
+     "id": "2",
+     "event": "arc_lu_chenzhou_2"
+    },
+    {
+     "id": "3",
+     "event": "arc_lu_chenzhou_3"
+    },
+    {
+     "id": "4",
+     "event": "arc_lu_chenzhou_4"
+    }
+   ],
+   "outcomes": [
+    "redeemed",
+    "alternate",
+    "lost"
+   ],
+   "bonds": [
+    "friend",
+    "sworn",
+    "romance",
+    "rival"
+   ]
+  },
+  {
+   "companion": "bai_yan",
+   "stages": [
+    {
+     "id": "1",
+     "event": "arc_bai_yan_1"
+    },
+    {
+     "id": "2",
+     "event": "arc_bai_yan_2"
+    },
+    {
+     "id": "3",
+     "event": "arc_bai_yan_3"
+    },
+    {
+     "id": "4",
+     "event": "arc_bai_yan_4"
+    }
+   ],
+   "outcomes": [
+    "redeemed",
+    "alternate",
+    "lost"
+   ],
+   "bonds": [
+    "friend",
+    "sworn",
+    "romance",
+    "rival"
+   ]
+  }
+ ]
+}

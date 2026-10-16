@@ -32,6 +32,7 @@ var clips: Array = []
 var realms: Array = []
 var skill_nodes: Array = []
 var duos: Array = []
+var arcs: Array = []
 var manuals: Array = []
 var equipment: Array = []
 var minigames: Array = []
@@ -61,6 +62,7 @@ func load_all() -> void:
 	realms = _load_list("cultivation/realms.json", "realms")
 	skill_nodes = _load_list("cultivation/skill_tree.json", "nodes")
 	duos = _load_list("combat/duo.json", "duos")
+	arcs = _load_list("companions/arcs.json", "arcs")
 	manuals = _load_list("cultivation/manuals.json", "manuals")
 	equipment = _load_list("cultivation/equipment.json", "equipment")
 	minigames = _load_list("minigames.json", "minigames")
@@ -258,6 +260,7 @@ func validate(has_key: Callable) -> Array[String]:
 	errs.append_array(_validate_clips(has_key))
 	errs.append_array(_validate_realms(has_key))
 	errs.append_array(_validate_arts(has_key))
+	errs.append_array(_validate_arcs(has_key))
 	return errs
 
 
@@ -267,7 +270,7 @@ const EFFECT_EXTRA := ["clue", "flag", "battle"]
 
 ## Route graphs: every node reachable, every node able to reach an end, every choice target present,
 ## at least one always-open choice per node, and valid text keys, gates, checks and effects.
-const DIALOGUE_EFFECTS := ["flag", "set_path", "bond", "resource", "attr", "stamina", "battle", "queue", "lead", "schedule", "unlock_area", "lock_area"]
+const DIALOGUE_EFFECTS := ["flag", "set_path", "bond", "resource", "attr", "stamina", "battle", "queue", "lead", "schedule", "unlock_area", "lock_area", "arc_stage", "arc_outcome", "arc_bond"]
 
 
 ## Dialogues: unique ids, every node reachable, every next/choice target present, text keys, effects, gates.
@@ -383,6 +386,12 @@ func _validate_dialogue_effect(label: String, e: Dictionary) -> Array[String]:
 		errs.append("%s: schedules unknown event %s" % [label, id])
 	if (t == "unlock_area" or t == "lock_area") and area(id).is_empty():
 		errs.append("%s: %s unknown area %s" % [label, t, id])
+	if t.begins_with("arc_") and companion(id).is_empty():
+		errs.append("%s: %s for unknown companion %s" % [label, t, id])
+	if t == "arc_outcome" and not ["redeemed", "alternate", "lost"].has(str(e.get("value", ""))):
+		errs.append("%s: bad arc outcome" % label)
+	if t == "arc_bond" and not ["friend", "sworn", "romance", "rival"].has(str(e.get("value", ""))):
+		errs.append("%s: bad arc bond type" % label)
 	if t == "lead" and id == "":
 		errs.append("%s: lead needs an id" % label)
 	if ["bond", "resource", "attr", "stamina"].has(t) and not e.has("amount"):
@@ -870,4 +879,24 @@ func _validate_arts(has_key: Callable) -> Array[String]:
 	for e in equipment:
 		if not has_key.call(str(e.get("name_key", ""))) or not ["weapon", "armor", "charm"].has(str(e.get("slot", ""))):
 			errs.append("equipment %s: bad text or slot" % str(e.get("id", "")))
+	return errs
+
+
+func _validate_arcs(has_key: Callable) -> Array[String]:
+	var errs: Array[String] = []
+	for a in arcs:
+		var cid := str(a.get("companion", ""))
+		if companion(cid).is_empty():
+			errs.append("arc %s: unknown companion" % cid)
+		if (a.get("stages", []) as Array).size() != 4:
+			errs.append("arc %s: expected four stages" % cid)
+		for s in a.get("stages", []):
+			if event(str(s.get("event", ""))).is_empty():
+				errs.append("arc %s: unknown event %s" % [cid, str(s.get("event", ""))])
+		for o in a.get("outcomes", []):
+			if not has_key.call("arc.outcome." + str(o)):
+				errs.append("arc %s: outcome %s has no text" % [cid, str(o)])
+		for b in a.get("bonds", []):
+			if not has_key.call("arc.bond." + str(b)):
+				errs.append("arc %s: bond %s has no text" % [cid, str(b)])
 	return errs

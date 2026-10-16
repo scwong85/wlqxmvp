@@ -200,6 +200,378 @@
     ]
    },
    "title_key": "event.r_winter_frost.title"
+  },
+  {
+   "id": "arc_shen_qinghe_1",
+   "kind": "fixed",
+   "area": "herb_terraces",
+   "scene": {
+    "dialogue": "ev_arc_shen_qinghe_1"
+   },
+   "title_key": "event.arc_shen_qinghe_1.title",
+   "requires": {
+    "bond_min": {
+     "shen_qinghe": 4
+    }
+   },
+   "priority": 6,
+   "window": {
+    "from": 10,
+    "to": 100
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "shen_qinghe",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "shen_qinghe",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_shen_qinghe_2",
+   "kind": "fixed",
+   "area": "herb_terraces",
+   "scene": {
+    "dialogue": "ev_arc_shen_qinghe_2"
+   },
+   "title_key": "event.arc_shen_qinghe_2.title",
+   "requires": {
+    "bond_min": {
+     "shen_qinghe": 8
+    },
+    "arc_min": {
+     "shen_qinghe": 1
+    }
+   },
+   "priority": 6,
+   "scheduled_only": true,
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "shen_qinghe",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "shen_qinghe",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_shen_qinghe_3",
+   "kind": "fixed",
+   "area": "herb_terraces",
+   "scene": {
+    "dialogue": "ev_arc_shen_qinghe_3"
+   },
+   "title_key": "event.arc_shen_qinghe_3.title",
+   "requires": {
+    "bond_min": {
+     "shen_qinghe": 12
+    },
+    "arc_min": {
+     "shen_qinghe": 2
+    }
+   },
+   "priority": 6,
+   "scheduled_only": true,
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "shen_qinghe",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "shen_qinghe",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_shen_qinghe_4",
+   "kind": "fixed",
+   "area": "herb_terraces",
+   "scene": {
+    "dialogue": "ev_arc_shen_qinghe_4"
+   },
+   "title_key": "event.arc_shen_qinghe_4.title",
+   "requires": {
+    "bond_min": {
+     "shen_qinghe": 6
+    },
+    "arc_min": {
+     "shen_qinghe": 3
+    }
+   },
+   "priority": 6,
+   "scheduled_only": true,
+   "on_miss": [
+    {
+     "type": "arc_bond",
+     "id": "shen_qinghe",
+     "value": "friend"
+    },
+    {
+     "type": "arc_stage",
+     "id": "shen_qinghe",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_lu_chenzhou_1",
+   "kind": "fixed",
+   "area": "river_bend",
+   "scene": {
+    "dialogue": "ev_arc_lu_chenzhou_1"
+   },
+   "title_key": "event.arc_lu_chenzhou_1.title",
+   "requires": {
+    "bond_min": {
+     "lu_chenzhou": 4
+    }
+   },
+   "priority": 6,
+   "window": {
+    "from": 10,
+    "to": 100
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "lu_chenzhou",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "lu_chenzhou",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_lu_chenzhou_2",
+   "kind": "fixed",
+   "area": "river_bend",
+   "scene": {
+    "dialogue": "ev_arc_lu_chenzhou_2"
+   },
+   "title_key": "event.arc_lu_chenzhou_2.title",
+   "requires": {
+    "bond_min": {
+     "lu_chenzhou": 8
+    },
+    "arc_min": {
+     "lu_chenzhou": 1
+    }
+   },
+   "priority": 6,
+   "scheduled_only": true,
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "lu_chenzhou",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "lu_chenzhou",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_lu_chenzhou_3",
+   "kind": "fixed",
+   "area": "river_bend",
+   "scene": {
+    "dialogue": "ev_arc_lu_chenzhou_3"
+   },
+   "title_key": "event.arc_lu_chenzhou_3.title",
+   "requires": {
+    "bond_min": {
+     "lu_chenzhou": 12
+    },
+    "arc_min": {
+     "lu_chenzhou": 2
+    }
+   },
+   "priority": 6,
+   "scheduled_only": true,
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "lu_chenzhou",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "lu_chenzhou",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_lu_chenzhou_4",
+   "kind": "fixed",
+   "area": "river_bend",
+   "scene": {
+    "dialogue": "ev_arc_lu_chenzhou_4"
+   },
+   "title_key": "event.arc_lu_chenzhou_4.title",
+   "requires": {
+    "bond_min": {
+     "lu_chenzhou": 6
+    },
+    "arc_min": {
+     "lu_chenzhou": 3
+    }
+   },
+   "priority": 6,
+   "scheduled_only": true,
+   "on_miss": [
+    {
+     "type": "arc_bond",
+     "id": "lu_chenzhou",
+     "value": "friend"
+    },
+    {
+     "type": "arc_stage",
+     "id": "lu_chenzhou",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_bai_yan_1",
+   "kind": "fixed",
+   "area": "old_shrine",
+   "scene": {
+    "dialogue": "ev_arc_bai_yan_1"
+   },
+   "title_key": "event.arc_bai_yan_1.title",
+   "requires": {
+    "bond_min": {
+     "bai_yan": 4
+    }
+   },
+   "priority": 6,
+   "window": {
+    "from": 10,
+    "to": 100
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "bai_yan",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "bai_yan",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_bai_yan_2",
+   "kind": "fixed",
+   "area": "old_shrine",
+   "scene": {
+    "dialogue": "ev_arc_bai_yan_2"
+   },
+   "title_key": "event.arc_bai_yan_2.title",
+   "requires": {
+    "bond_min": {
+     "bai_yan": 8
+    },
+    "arc_min": {
+     "bai_yan": 1
+    }
+   },
+   "priority": 6,
+   "scheduled_only": true,
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "bai_yan",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "bai_yan",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_bai_yan_3",
+   "kind": "fixed",
+   "area": "old_shrine",
+   "scene": {
+    "dialogue": "ev_arc_bai_yan_3"
+   },
+   "title_key": "event.arc_bai_yan_3.title",
+   "requires": {
+    "bond_min": {
+     "bai_yan": 12
+    },
+    "arc_min": {
+     "bai_yan": 2
+    }
+   },
+   "priority": 6,
+   "scheduled_only": true,
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "bai_yan",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "bai_yan",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_bai_yan_4",
+   "kind": "fixed",
+   "area": "old_shrine",
+   "scene": {
+    "dialogue": "ev_arc_bai_yan_4"
+   },
+   "title_key": "event.arc_bai_yan_4.title",
+   "requires": {
+    "bond_min": {
+     "bai_yan": 6
+    },
+    "arc_min": {
+     "bai_yan": 3
+    }
+   },
+   "priority": 6,
+   "scheduled_only": true,
+   "on_miss": [
+    {
+     "type": "arc_bond",
+     "id": "bai_yan",
+     "value": "friend"
+    },
+    {
+     "type": "arc_stage",
+     "id": "bai_yan",
+     "amount": 4
+    }
+   ]
   }
  ]
 }

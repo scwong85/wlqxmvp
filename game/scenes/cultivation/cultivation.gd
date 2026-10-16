@@ -5,6 +5,7 @@ extends Control
 ## same as mouse and nothing depends on hover.
 
 const PartySystem = preload("res://scripts/domain/party_system.gd")
+const ArcRules = preload("res://scripts/domain/arc_rules.gd")
 const UiKit = preload("res://scripts/ui/ui_kit.gd")
 const Backdrop = preload("res://scenes/shared/backdrop.gd")
 const SafeFrame = preload("res://scenes/shared/safe_frame.gd")
@@ -757,6 +758,18 @@ func _party_row(st: RefCounted, id: String, portrait: bool) -> Control:
 	line3.autowrap_mode = wrap
 	line3.modulate = Color(0.75, 1.0, 0.88, 0.9)
 	info.add_child(line3)
+	var arc: Dictionary = ArcRules.summary(st, Content, id)
+	if arc.total > 0 and ["available", "joined", "left"].has(status):
+		var line4 := _label(FONT_SMALL)
+		line4.autowrap_mode = wrap
+		line4.modulate = Color(1.0, 0.92, 0.7, 0.9)
+		var parts: Array = [Loc.t("arc.progress", {"stage": arc.stage, "total": arc.total})]
+		if arc.outcome != "":
+			parts.append(Loc.t("arc.result", {"outcome": Loc.t("arc.outcome." + str(arc.outcome))}))
+		if arc.bond != "":
+			parts.append(Loc.t("arc.relation", {"bond": Loc.t("arc.bond." + str(arc.bond))}))
+		line4.text = Loc.t("ui.list_sep").join(parts)
+		info.add_child(line4)
 	var btns := {}
 	if status == "joined":
 		line3.text = Loc.t("ability.%s" % c.battle_abilities[0]) + Loc.t("ui.list_sep") + Loc.t("ability.%s" % c.battle_abilities[1])

@@ -91,6 +91,9 @@ static func gate_reasons(state: RefCounted, gate: Dictionary, content: Object) -
 	for npc in gate.get("bond_min", {}):
 		if state.relationships.get_score(str(npc)) < int(gate.bond_min[npc]):
 			out.append({"key": "explore.gate.bond", "params": {"npc": str(npc), "need": int(gate.bond_min[npc])}})
+	for npc in gate.get("arc_min", {}):
+		if int(state.relationships.arcs.get(str(npc), {}).get("stage", 0)) < int(gate.arc_min[npc]):
+			out.append({"key": "arc.gate.stage", "params": {}})
 	if gate.has("flag") and not state.relationships.has_flag(str(gate.flag)):
 		out.append({"key": "explore.gate.flag", "params": {}})
 	if gate.has("flag_not") and state.relationships.has_flag(str(gate.flag_not)):

@@ -12,6 +12,8 @@ var flags: Dictionary = {}
 var active: String = ""
 ## A second companion in the party ("" = none). Must have status "joined" and differ from `active`.
 var second: String = ""
+## Companion arc records: {npc id: {stage, outcome, bond}} (see ArcRules).
+var arcs: Dictionary = {}
 
 
 func get_score(npc_id: String) -> int:
@@ -47,7 +49,7 @@ func has_flag(flag_id: String) -> bool:
 
 
 func to_dict() -> Dictionary:
-	return {"scores": scores.duplicate(), "status": status.duplicate(), "flags": flags.duplicate(), "active": active, "second": second}
+	return {"scores": scores.duplicate(), "status": status.duplicate(), "flags": flags.duplicate(), "active": active, "second": second, "arcs": arcs.duplicate(true)}
 
 
 static func from_dict(d: Variant) -> RefCounted:
@@ -69,6 +71,15 @@ static func from_dict(d: Variant) -> RefCounted:
 	s.active = str(d.get("active", ""))
 	if s.active != "" and s.get_status(s.active) != "joined":
 		s.active = ""  # a save must not name an active companion who is not in the party
+	var ar: Variant = d.get("arcs", {})
+	if ar is Dictionary:
+		for k in ar:
+			if ar[k] is Dictionary:
+				var o := str(ar[k].get("outcome", ""))
+				var b := str(ar[k].get("bond", ""))
+				s.arcs[str(k)] = {"stage": clampi(int(ar[k].get("stage", 0)), 0, 4),
+						"outcome": o if ["redeemed", "alternate", "lost"].has(o) else "",
+						"bond": b if ["friend", "sworn", "romance", "rival"].has(b) else ""}
 	s.second = str(d.get("second", ""))
 	if s.second == s.active or s.get_status(s.second) != "joined":
 		s.second = ""

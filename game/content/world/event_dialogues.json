@@ -722,6 +722,1157 @@
      ]
     }
    ]
+  },
+  {
+   "id": "ev_arc_shen_qinghe_1",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_shen_qinghe_1.1",
+     "speaker_key": "npc.shen_qinghe",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "terraces_green"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "shen_qinghe",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_shen_qinghe_1.2",
+     "speaker_key": "npc.shen_qinghe",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.arc_shen_qinghe_1.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "arc_stage",
+       "id": "shen_qinghe",
+       "amount": 1
+      },
+      {
+       "type": "schedule",
+       "id": "arc_shen_qinghe_2",
+       "min": 4,
+       "max": 26
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_shen_qinghe_2",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_shen_qinghe_2.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "terraces_green"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "shen_qinghe",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_shen_qinghe_2.2",
+     "speaker_key": "npc.shen_qinghe",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.arc_shen_qinghe_2.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "arc_stage",
+       "id": "shen_qinghe",
+       "amount": 2
+      },
+      {
+       "type": "schedule",
+       "id": "arc_shen_qinghe_3",
+       "min": 4,
+       "max": 26
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_shen_qinghe_3",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_shen_qinghe_3.1",
+     "speaker_key": "npc.shen_qinghe",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "terraces_green"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "shen_qinghe",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_shen_qinghe_3.2",
+     "speaker_key": "npc.shen_qinghe",
+     "choices": [
+      {
+       "id": "open",
+       "label_key": "event.arc_shen_qinghe_3.c.open",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_stage",
+         "id": "shen_qinghe",
+         "amount": 3
+        },
+        {
+         "type": "schedule",
+         "id": "arc_shen_qinghe_4",
+         "min": 2,
+         "max": 16
+        },
+        {
+         "type": "arc_outcome",
+         "id": "shen_qinghe",
+         "value": "redeemed"
+        },
+        {
+         "type": "bond",
+         "id": "shen_qinghe",
+         "amount": 10
+        }
+       ]
+      },
+      {
+       "id": "quiet",
+       "label_key": "event.arc_shen_qinghe_3.c.quiet",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_stage",
+         "id": "shen_qinghe",
+         "amount": 3
+        },
+        {
+         "type": "schedule",
+         "id": "arc_shen_qinghe_4",
+         "min": 2,
+         "max": 16
+        },
+        {
+         "type": "arc_outcome",
+         "id": "shen_qinghe",
+         "value": "alternate"
+        },
+        {
+         "type": "bond",
+         "id": "shen_qinghe",
+         "amount": 6
+        }
+       ]
+      },
+      {
+       "id": "leave",
+       "label_key": "event.arc_shen_qinghe_3.c.leave",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_stage",
+         "id": "shen_qinghe",
+         "amount": 3
+        },
+        {
+         "type": "schedule",
+         "id": "arc_shen_qinghe_4",
+         "min": 2,
+         "max": 16
+        },
+        {
+         "type": "arc_outcome",
+         "id": "shen_qinghe",
+         "value": "lost"
+        },
+        {
+         "type": "bond",
+         "id": "shen_qinghe",
+         "amount": -6
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_shen_qinghe_4",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_shen_qinghe_4.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "terraces_green"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "shen_qinghe",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_shen_qinghe_4.2",
+     "speaker_key": "npc.shen_qinghe",
+     "choices": [
+      {
+       "id": "friend",
+       "label_key": "event.arc_shen_qinghe_4.c.friend",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "shen_qinghe",
+         "value": "friend"
+        },
+        {
+         "type": "arc_stage",
+         "id": "shen_qinghe",
+         "amount": 4
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "shen_qinghe": 10
+        }
+       }
+      },
+      {
+       "id": "sworn",
+       "label_key": "event.arc_shen_qinghe_4.c.sworn",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "shen_qinghe",
+         "value": "sworn"
+        },
+        {
+         "type": "arc_stage",
+         "id": "shen_qinghe",
+         "amount": 4
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "shen_qinghe": 14
+        }
+       }
+      },
+      {
+       "id": "romance",
+       "label_key": "event.arc_shen_qinghe_4.c.romance",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "shen_qinghe",
+         "value": "romance"
+        },
+        {
+         "type": "arc_stage",
+         "id": "shen_qinghe",
+         "amount": 4
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "shen_qinghe": 16
+        }
+       }
+      },
+      {
+       "id": "rival",
+       "label_key": "event.arc_shen_qinghe_4.c.rival",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "shen_qinghe",
+         "value": "rival"
+        },
+        {
+         "type": "arc_stage",
+         "id": "shen_qinghe",
+         "amount": 4
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_lu_chenzhou_1",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_lu_chenzhou_1.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "riverside_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "lu_chenzhou",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_lu_chenzhou_1.2",
+     "speaker_key": "npc.lu_chenzhou",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.arc_lu_chenzhou_1.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "arc_stage",
+       "id": "lu_chenzhou",
+       "amount": 1
+      },
+      {
+       "type": "schedule",
+       "id": "arc_lu_chenzhou_2",
+       "min": 4,
+       "max": 26
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_lu_chenzhou_2",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_lu_chenzhou_2.1",
+     "speaker_key": "npc.lu_chenzhou",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "riverside_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "lu_chenzhou",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_lu_chenzhou_2.2",
+     "speaker_key": "world.speaker.wanderer",
+     "choices": [
+      {
+       "id": "fight",
+       "label_key": "event.arc_lu_chenzhou_2.c.fight",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_stage",
+         "id": "lu_chenzhou",
+         "amount": 2
+        },
+        {
+         "type": "schedule",
+         "id": "arc_lu_chenzhou_3",
+         "min": 4,
+         "max": 26
+        },
+        {
+         "type": "battle",
+         "id": "bandit_scouts"
+        },
+        {
+         "type": "bond",
+         "id": "lu_chenzhou",
+         "amount": 6
+        }
+       ]
+      },
+      {
+       "id": "slip",
+       "label_key": "event.arc_lu_chenzhou_2.c.slip",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_stage",
+         "id": "lu_chenzhou",
+         "amount": 2
+        },
+        {
+         "type": "schedule",
+         "id": "arc_lu_chenzhou_3",
+         "min": 4,
+         "max": 26
+        },
+        {
+         "type": "bond",
+         "id": "lu_chenzhou",
+         "amount": 3
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_lu_chenzhou_3",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_lu_chenzhou_3.1",
+     "speaker_key": "npc.lu_chenzhou",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "riverside_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "lu_chenzhou",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_lu_chenzhou_3.2",
+     "speaker_key": "npc.lu_chenzhou",
+     "choices": [
+      {
+       "id": "deliver",
+       "label_key": "event.arc_lu_chenzhou_3.c.deliver",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_stage",
+         "id": "lu_chenzhou",
+         "amount": 3
+        },
+        {
+         "type": "schedule",
+         "id": "arc_lu_chenzhou_4",
+         "min": 2,
+         "max": 16
+        },
+        {
+         "type": "arc_outcome",
+         "id": "lu_chenzhou",
+         "value": "redeemed"
+        },
+        {
+         "type": "bond",
+         "id": "lu_chenzhou",
+         "amount": 10
+        }
+       ]
+      },
+      {
+       "id": "burn",
+       "label_key": "event.arc_lu_chenzhou_3.c.burn",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_stage",
+         "id": "lu_chenzhou",
+         "amount": 3
+        },
+        {
+         "type": "schedule",
+         "id": "arc_lu_chenzhou_4",
+         "min": 2,
+         "max": 16
+        },
+        {
+         "type": "arc_outcome",
+         "id": "lu_chenzhou",
+         "value": "alternate"
+        },
+        {
+         "type": "bond",
+         "id": "lu_chenzhou",
+         "amount": 4
+        }
+       ]
+      },
+      {
+       "id": "sell",
+       "label_key": "event.arc_lu_chenzhou_3.c.sell",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_stage",
+         "id": "lu_chenzhou",
+         "amount": 3
+        },
+        {
+         "type": "schedule",
+         "id": "arc_lu_chenzhou_4",
+         "min": 2,
+         "max": 16
+        },
+        {
+         "type": "arc_outcome",
+         "id": "lu_chenzhou",
+         "value": "lost"
+        },
+        {
+         "type": "bond",
+         "id": "lu_chenzhou",
+         "amount": -6
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_lu_chenzhou_4",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_lu_chenzhou_4.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "riverside_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "lu_chenzhou",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_lu_chenzhou_4.2",
+     "speaker_key": "npc.lu_chenzhou",
+     "choices": [
+      {
+       "id": "friend",
+       "label_key": "event.arc_lu_chenzhou_4.c.friend",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "lu_chenzhou",
+         "value": "friend"
+        },
+        {
+         "type": "arc_stage",
+         "id": "lu_chenzhou",
+         "amount": 4
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "lu_chenzhou": 10
+        }
+       }
+      },
+      {
+       "id": "sworn",
+       "label_key": "event.arc_lu_chenzhou_4.c.sworn",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "lu_chenzhou",
+         "value": "sworn"
+        },
+        {
+         "type": "arc_stage",
+         "id": "lu_chenzhou",
+         "amount": 4
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "lu_chenzhou": 14
+        }
+       }
+      },
+      {
+       "id": "romance",
+       "label_key": "event.arc_lu_chenzhou_4.c.romance",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "lu_chenzhou",
+         "value": "romance"
+        },
+        {
+         "type": "arc_stage",
+         "id": "lu_chenzhou",
+         "amount": 4
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "lu_chenzhou": 16
+        }
+       }
+      },
+      {
+       "id": "rival",
+       "label_key": "event.arc_lu_chenzhou_4.c.rival",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "lu_chenzhou",
+         "value": "rival"
+        },
+        {
+         "type": "arc_stage",
+         "id": "lu_chenzhou",
+         "amount": 4
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_bai_yan_1",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_bai_yan_1.1",
+     "speaker_key": "npc.bai_yan",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "shrine_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "bai_yan",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_bai_yan_1.2",
+     "speaker_key": "world.speaker.hero",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.arc_bai_yan_1.3",
+     "speaker_key": "npc.bai_yan",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "arc_stage",
+       "id": "bai_yan",
+       "amount": 1
+      },
+      {
+       "type": "schedule",
+       "id": "arc_bai_yan_2",
+       "min": 4,
+       "max": 26
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_bai_yan_2",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_bai_yan_2.1",
+     "speaker_key": "npc.bai_yan",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "shrine_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "bai_yan",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_bai_yan_2.2",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "arc_stage",
+       "id": "bai_yan",
+       "amount": 2
+      },
+      {
+       "type": "schedule",
+       "id": "arc_bai_yan_3",
+       "min": 4,
+       "max": 26
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_bai_yan_3",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_bai_yan_3.1",
+     "speaker_key": "npc.bai_yan",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "shrine_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "bai_yan",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_bai_yan_3.2",
+     "speaker_key": "npc.bai_yan",
+     "choices": [
+      {
+       "id": "share",
+       "label_key": "event.arc_bai_yan_3.c.share",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_stage",
+         "id": "bai_yan",
+         "amount": 3
+        },
+        {
+         "type": "schedule",
+         "id": "arc_bai_yan_4",
+         "min": 2,
+         "max": 16
+        },
+        {
+         "type": "arc_outcome",
+         "id": "bai_yan",
+         "value": "redeemed"
+        },
+        {
+         "type": "bond",
+         "id": "bai_yan",
+         "amount": 10
+        }
+       ]
+      },
+      {
+       "id": "keep",
+       "label_key": "event.arc_bai_yan_3.c.keep",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_stage",
+         "id": "bai_yan",
+         "amount": 3
+        },
+        {
+         "type": "schedule",
+         "id": "arc_bai_yan_4",
+         "min": 2,
+         "max": 16
+        },
+        {
+         "type": "arc_outcome",
+         "id": "bai_yan",
+         "value": "alternate"
+        },
+        {
+         "type": "bond",
+         "id": "bai_yan",
+         "amount": 6
+        }
+       ]
+      },
+      {
+       "id": "burn",
+       "label_key": "event.arc_bai_yan_3.c.burn",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_stage",
+         "id": "bai_yan",
+         "amount": 3
+        },
+        {
+         "type": "schedule",
+         "id": "arc_bai_yan_4",
+         "min": 2,
+         "max": 16
+        },
+        {
+         "type": "arc_outcome",
+         "id": "bai_yan",
+         "value": "lost"
+        },
+        {
+         "type": "bond",
+         "id": "bai_yan",
+         "amount": -6
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_bai_yan_4",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_bai_yan_4.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "shrine_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "bai_yan",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_bai_yan_4.2",
+     "speaker_key": "npc.bai_yan",
+     "choices": [
+      {
+       "id": "friend",
+       "label_key": "event.arc_bai_yan_4.c.friend",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "bai_yan",
+         "value": "friend"
+        },
+        {
+         "type": "arc_stage",
+         "id": "bai_yan",
+         "amount": 4
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "bai_yan": 10
+        }
+       }
+      },
+      {
+       "id": "sworn",
+       "label_key": "event.arc_bai_yan_4.c.sworn",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "bai_yan",
+         "value": "sworn"
+        },
+        {
+         "type": "arc_stage",
+         "id": "bai_yan",
+         "amount": 4
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "bai_yan": 14
+        }
+       }
+      },
+      {
+       "id": "romance",
+       "label_key": "event.arc_bai_yan_4.c.romance",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "bai_yan",
+         "value": "romance"
+        },
+        {
+         "type": "arc_stage",
+         "id": "bai_yan",
+         "amount": 4
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "bai_yan": 16
+        }
+       }
+      },
+      {
+       "id": "rival",
+       "label_key": "event.arc_bai_yan_4.c.rival",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "bai_yan",
+         "value": "rival"
+        },
+        {
+         "type": "arc_stage",
+         "id": "bai_yan",
+         "amount": 4
+        }
+       ]
+      }
+     ]
+    }
+   ]
   }
  ]
 }

@@ -12,7 +12,8 @@ extends RefCounted
 const ExplorationSystem = preload("res://scripts/domain/exploration_system.gd")
 const PartySystem = preload("res://scripts/domain/party_system.gd")
 
-const WORLD_EFFECTS := ["lead", "schedule", "unlock_area", "lock_area"]
+const ArcRules = preload("res://scripts/domain/arc_rules.gd")
+const WORLD_EFFECTS := ["lead", "schedule", "unlock_area", "lock_area", "arc_stage", "arc_outcome", "arc_bond"]
 
 
 static func requires_reasons(state: RefCounted, req: Dictionary, content: Object) -> Array:
@@ -219,6 +220,12 @@ static func apply_effect(state: RefCounted, e: Dictionary, content: Object) -> b
 		"lock_area":
 			if not state.world.areas_closed.has(id):
 				state.world.areas_closed.append(id)
+		"arc_stage":
+			ArcRules.set_stage(state, id, int(e.get("amount", 1)))
+		"arc_outcome":
+			ArcRules.set_outcome(state, id, str(e.get("value", "")))
+		"arc_bond":
+			ArcRules.set_bond(state, id, str(e.get("value", "")))
 		_:
 			return false
 	return true
