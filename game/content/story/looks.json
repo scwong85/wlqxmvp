@@ -117,6 +117,33 @@
    "outfit_hex": "30303c",
    "skin_hex": "d8b898",
    "weapon": "blade"
+  },
+  {
+   "id": "xie_wujiu",
+   "gender": "m",
+   "hair": 1,
+   "hair_hex": "1c1414",
+   "outfit_hex": "8a2a2a",
+   "skin_hex": "d8b090",
+   "weapon": "staff"
+  },
+  {
+   "id": "master_gu",
+   "gender": "m",
+   "hair": 2,
+   "hair_hex": "3a3a3a",
+   "outfit_hex": "3a4a5a",
+   "skin_hex": "d8b898",
+   "weapon": ""
+  },
+  {
+   "id": "mask_hui",
+   "gender": "m",
+   "hair": 0,
+   "hair_hex": "6a6a70",
+   "outfit_hex": "5a5a62",
+   "skin_hex": "d8b898",
+   "weapon": ""
   }
  ]
 }

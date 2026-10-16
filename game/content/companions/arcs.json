@@ -137,6 +137,27 @@
     "romance",
     "rival"
    ]
+  },
+  {
+   "companion": "xie_wujiu",
+   "planned": 4,
+   "stages": [
+    {
+     "id": "1",
+     "event": "arc_xie_wujiu_1"
+    }
+   ],
+   "outcomes": [
+    "redeemed",
+    "alternate",
+    "lost"
+   ],
+   "bonds": [
+    "friend",
+    "sworn",
+    "romance",
+    "rival"
+   ]
   }
  ]
 }

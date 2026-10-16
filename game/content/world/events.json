@@ -961,6 +961,300 @@
    "title_key": "event.ry1_alley_cat.title",
    "weight": 2,
    "cooldown": 8
+  },
+  {
+   "id": "q3_invitation",
+   "kind": "fixed",
+   "area": "lj_teahouse",
+   "scene": {
+    "dialogue": "ev_q3_invitation"
+   },
+   "title_key": "event.q3_invitation.title",
+   "window": {
+    "from": 31,
+    "to": 44
+   },
+   "priority": 5,
+   "requires": {
+    "lead": [
+     "fragment_traced"
+    ]
+   },
+   "on_miss": [
+    {
+     "type": "lead",
+     "id": "cangwu_invite"
+    },
+    {
+     "type": "schedule",
+     "id": "q3_gate_steps",
+     "min": 1,
+     "max": 6
+    }
+   ]
+  },
+  {
+   "id": "q3_gate_steps",
+   "kind": "fixed",
+   "area": "cw_gate",
+   "scene": {
+    "dialogue": "ev_q3_gate_steps"
+   },
+   "title_key": "event.q3_gate_steps.title",
+   "scheduled_only": true,
+   "priority": 5,
+   "on_miss": [
+    {
+     "type": "schedule",
+     "id": "q3_library",
+     "min": 1,
+     "max": 5
+    }
+   ]
+  },
+  {
+   "id": "q3_library",
+   "kind": "fixed",
+   "area": "cw_library",
+   "scene": {
+    "dialogue": "ev_q3_library"
+   },
+   "title_key": "event.q3_library.title",
+   "scheduled_only": true,
+   "priority": 4
+  },
+  {
+   "id": "q3_xie_wujiu",
+   "kind": "fixed",
+   "area": "cw_courts",
+   "scene": {
+    "dialogue": "ev_q3_xie_wujiu"
+   },
+   "title_key": "event.q3_xie_wujiu.title",
+   "window": {
+    "from": 35,
+    "to": 45
+   },
+   "priority": 4
+  },
+  {
+   "id": "arc_xie_wujiu_1",
+   "kind": "fixed",
+   "area": "cw_courts",
+   "scene": {
+    "dialogue": "ev_arc_xie_wujiu_1"
+   },
+   "title_key": "event.arc_xie_wujiu_1.title",
+   "window": {
+    "from": 35,
+    "to": 100
+   },
+   "priority": 6,
+   "requires": {
+    "bond_min": {
+     "xie_wujiu": 4
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "xie_wujiu",
+     "value": "lost"
+    }
+   ]
+  },
+  {
+   "id": "q3_mid_autumn",
+   "kind": "fixed",
+   "area": "cw_spring",
+   "scene": {
+    "dialogue": "ev_q3_mid_autumn"
+   },
+   "title_key": "event.q3_mid_autumn.title",
+   "window": {
+    "from": 37,
+    "to": 39
+   },
+   "priority": 4,
+   "requires": {
+    "season": [
+     2
+    ]
+   }
+  },
+  {
+   "id": "q3_tournament_1",
+   "kind": "fixed",
+   "area": "cw_courts",
+   "scene": {
+    "dialogue": "ev_q3_tournament_1"
+   },
+   "title_key": "event.q3_tournament_1.title",
+   "window": {
+    "from": 39,
+    "to": 43
+   },
+   "priority": 5,
+   "on_miss": [
+    {
+     "type": "schedule",
+     "id": "q3_tournament_2",
+     "min": 1,
+     "max": 3
+    }
+   ]
+  },
+  {
+   "id": "q3_tournament_2",
+   "kind": "fixed",
+   "area": "cw_courts",
+   "scene": {
+    "dialogue": "ev_q3_tournament_2"
+   },
+   "title_key": "event.q3_tournament_2.title",
+   "scheduled_only": true,
+   "priority": 5,
+   "on_miss": [
+    {
+     "type": "schedule",
+     "id": "q3_tournament_3",
+     "min": 1,
+     "max": 3
+    }
+   ]
+  },
+  {
+   "id": "q3_tournament_3",
+   "kind": "fixed",
+   "area": "cw_courts",
+   "scene": {
+    "dialogue": "ev_q3_tournament_3"
+   },
+   "title_key": "event.q3_tournament_3.title",
+   "scheduled_only": true,
+   "priority": 5
+  },
+  {
+   "id": "q3_theft",
+   "kind": "fixed",
+   "area": "cw_library",
+   "scene": {
+    "dialogue": "ev_q3_theft"
+   },
+   "title_key": "event.q3_theft.title",
+   "window": {
+    "from": 43,
+    "to": 50
+   },
+   "priority": 6,
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "xie_abandoned"
+    }
+   ]
+  },
+  {
+   "id": "q3_hui_mask",
+   "kind": "fixed",
+   "area": "cw_cave",
+   "scene": {
+    "dialogue": "ev_q3_hui_mask"
+   },
+   "title_key": "event.q3_hui_mask.title",
+   "window": {
+    "from": 44,
+    "to": 52
+   },
+   "priority": 5
+  },
+  {
+   "id": "ry3_gate_pines",
+   "kind": "random",
+   "area": "cw_gate",
+   "scene": {
+    "dialogue": "ev_ry3_gate_pines"
+   },
+   "title_key": "event.ry3_gate_pines.title",
+   "weight": 3,
+   "cooldown": 6
+  },
+  {
+   "id": "ry3_courts_spar",
+   "kind": "random",
+   "area": "cw_courts",
+   "scene": {
+    "dialogue": "ev_ry3_courts_spar"
+   },
+   "title_key": "event.ry3_courts_spar.title",
+   "weight": 3,
+   "cooldown": 5
+  },
+  {
+   "id": "ry3_courts_drill",
+   "kind": "random",
+   "area": "cw_courts",
+   "scene": {
+    "dialogue": "ev_ry3_courts_drill"
+   },
+   "title_key": "event.ry3_courts_drill.title",
+   "weight": 3,
+   "cooldown": 8
+  },
+  {
+   "id": "ry3_library_read",
+   "kind": "random",
+   "area": "cw_library",
+   "scene": {
+    "dialogue": "ev_ry3_library_read"
+   },
+   "title_key": "event.ry3_library_read.title",
+   "weight": 3,
+   "cooldown": 6
+  },
+  {
+   "id": "ry3_library_keeper",
+   "kind": "random",
+   "area": "cw_library",
+   "scene": {
+    "dialogue": "ev_ry3_library_keeper"
+   },
+   "title_key": "event.ry3_library_keeper.title",
+   "weight": 2,
+   "cooldown": 10
+  },
+  {
+   "id": "ry3_cave_echo",
+   "kind": "random",
+   "area": "cw_cave",
+   "scene": {
+    "dialogue": "ev_ry3_cave_echo"
+   },
+   "title_key": "event.ry3_cave_echo.title",
+   "weight": 3,
+   "cooldown": 6
+  },
+  {
+   "id": "ry3_spring_soak",
+   "kind": "random",
+   "area": "cw_spring",
+   "scene": {
+    "dialogue": "ev_ry3_spring_soak"
+   },
+   "title_key": "event.ry3_spring_soak.title",
+   "weight": 4,
+   "cooldown": 4
+  },
+  {
+   "id": "ry3_spring_gossip",
+   "kind": "random",
+   "area": "cw_spring",
+   "scene": {
+    "dialogue": "ev_ry3_spring_gossip"
+   },
+   "title_key": "event.ry3_spring_gossip.title",
+   "weight": 3,
+   "cooldown": 8
   }
  ]
 }

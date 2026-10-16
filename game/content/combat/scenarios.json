@@ -948,6 +948,427 @@
      "guild_won"
     ]
    }
+  },
+  {
+   "id": "xie_duel",
+   "battle_id": "xie_duel",
+   "max_rounds": 8,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "cangwu_disciple",
+     "cells": [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "cangwu_disciple",
+     "cells": [
+      [
+       4,
+       1
+      ],
+      [
+       5,
+       1
+      ],
+      [
+       4,
+       0
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 6
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "xie_duel_won"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "xie_duel_lost"
+    ]
+   }
+  },
+  {
+   "id": "cw_bout_1",
+   "battle_id": "cw_bout_1",
+   "max_rounds": 8,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "cangwu_disciple",
+     "cells": [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "cangwu_disciple",
+     "cells": [
+      [
+       4,
+       1
+      ],
+      [
+       5,
+       1
+      ],
+      [
+       4,
+       0
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 8
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "bout1_won"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "bout1_lost"
+    ]
+   }
+  },
+  {
+   "id": "cw_bout_2",
+   "battle_id": "cw_bout_2",
+   "max_rounds": 8,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "cangwu_disciple",
+     "cells": [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "cangwu_disciple",
+     "cells": [
+      [
+       4,
+       1
+      ],
+      [
+       5,
+       1
+      ],
+      [
+       4,
+       0
+      ]
+     ]
+    },
+    {
+     "template": "cangwu_disciple",
+     "cells": [
+      [
+       2,
+       0
+      ],
+      [
+       3,
+       0
+      ],
+      [
+       1,
+       0
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 12
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "bout2_won"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "bout2_lost"
+    ]
+   }
+  },
+  {
+   "id": "cw_bout_3",
+   "battle_id": "cw_bout_3",
+   "max_rounds": 10,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "cangwu_senior",
+     "cells": [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 20
+     },
+     {
+      "type": "item",
+      "id": "manual_pine_sutra",
+      "amount": 1
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "champion"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "bout3_lost"
+    ]
+   }
   }
  ]
 }

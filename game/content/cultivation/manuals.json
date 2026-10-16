@@ -47,6 +47,14 @@
    "technique": "jade_shield",
    "group": "rare",
    "realm_min": 3
+  },
+  {
+   "id": "pine_sutra",
+   "item": "manual_pine_sutra",
+   "name_key": "manual.pine_sutra",
+   "technique": "pine_strike",
+   "group": "champion",
+   "realm_min": 2
   }
  ]
 }

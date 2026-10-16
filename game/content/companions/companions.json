@@ -194,6 +194,46 @@
    ],
    "relationship_ability": "forge_oath",
    "meet_week": 22
+  },
+  {
+   "id": "xie_wujiu",
+   "name_key": "npc.xie_wujiu",
+   "bio_key": "companion.xie_wujiu.bio",
+   "portrait": "portrait_xie_wujiu",
+   "role": "striker",
+   "stats": {
+    "body": 6,
+    "power": 9,
+    "agility": 6,
+    "insight": 5,
+    "spirit": 4
+   },
+   "preferred_activities": [
+    "training",
+    "technique_practice",
+    "meditation"
+   ],
+   "recruit": {
+    "score_min": 8,
+    "attr_min": {
+     "power": 8
+    },
+    "flags_block": [],
+    "week_min": 46
+   },
+   "depart": {
+    "score_below": 0,
+    "flags": [
+     "xie_abandoned",
+     "xie_wujiu_betrayed"
+    ]
+   },
+   "battle_abilities": [
+    "spear_sweep",
+    "proud_stance"
+   ],
+   "relationship_ability": "spear_oath",
+   "meet_week": 35
   }
  ]
 }

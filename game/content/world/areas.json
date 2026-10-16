@@ -458,6 +458,186 @@
     ],
     "week_min": 16
    }
+  },
+  {
+   "id": "cw_gate",
+   "region": "cangwu",
+   "name_key": "world.area.cw_gate.name",
+   "desc_key": "world.area.cw_gate.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.cw_gate.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.cw_gate.w2",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "cangwu_invite"
+    ],
+    "week_min": 31
+   }
+  },
+  {
+   "id": "cw_courts",
+   "region": "cangwu",
+   "name_key": "world.area.cw_courts.name",
+   "desc_key": "world.area.cw_courts.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.cw_courts.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "power",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.cw_courts.w2",
+     "rewards": [
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 6
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "cangwu_invite"
+    ],
+    "week_min": 31
+   }
+  },
+  {
+   "id": "cw_library",
+   "region": "cangwu",
+   "name_key": "world.area.cw_library.name",
+   "desc_key": "world.area.cw_library.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.cw_library.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.cw_library.w2",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 8
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "cangwu_invite"
+    ],
+    "week_min": 31
+   }
+  },
+  {
+   "id": "cw_cave",
+   "region": "cangwu",
+   "name_key": "world.area.cw_cave.name",
+   "desc_key": "world.area.cw_cave.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.cw_cave.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.cw_cave.w2",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "ore",
+       "amount": 2
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "cangwu_invite"
+    ],
+    "week_min": 31
+   }
+  },
+  {
+   "id": "cw_spring",
+   "region": "cangwu",
+   "name_key": "world.area.cw_spring.name",
+   "desc_key": "world.area.cw_spring.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.cw_spring.w1",
+     "rewards": [
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 10
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.cw_spring.w2",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "cangwu_invite"
+    ],
+    "week_min": 31
+   }
   }
  ]
 }

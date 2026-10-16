@@ -113,6 +113,32 @@
    "techniques": [
     "club_smash"
    ]
+  },
+  {
+   "id": "cangwu_disciple",
+   "stats": {
+    "hp": 26,
+    "body": 4,
+    "power": 5,
+    "agility": 5,
+    "spirit": 4
+   },
+   "techniques": [
+    "swift_dash"
+   ]
+  },
+  {
+   "id": "cangwu_senior",
+   "stats": {
+    "hp": 48,
+    "body": 6,
+    "power": 8,
+    "agility": 6,
+    "spirit": 6
+   },
+   "techniques": [
+    "club_smash"
+   ]
   }
  ]
 }

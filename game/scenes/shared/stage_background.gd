@@ -16,6 +16,8 @@ const THEMES := {
 	"city_docks": {"top": "5a86b0", "mid": "a8c8d8", "low": "ecefe4", "ground": "55697a", "kind": "river", "sun": true},
 	"city_market": {"top": "6a9cc4", "mid": "d8c8a0", "low": "f4e6c4", "ground": "6a5a48", "kind": "houses", "sun": true},
 	"city_night": {"top": "080c18", "mid": "1c2238", "low": "383e58", "ground": "22222c", "kind": "houses", "moon": true},
+	"cangwu_day": {"top": "6a9ec0", "mid": "b8d4d8", "low": "e8eedc", "ground": "6a7a68", "kind": "terraces", "sun": true},
+	"cangwu_night": {"top": "060a14", "mid": "121e30", "low": "2c3c52", "ground": "222e2c", "kind": "shrine", "moon": true},
 	"night_camp": {"top": "060a12", "mid": "10202c", "low": "203540", "ground": "1c2a22", "kind": "camp", "moon": true},
 }
 

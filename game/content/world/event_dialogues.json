@@ -3317,6 +3317,1126 @@
      ]
     }
    ]
+  },
+  {
+   "id": "ev_q3_invitation",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.q3_invitation.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_market"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.q3_invitation.2",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.q3_invitation.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "lead",
+       "id": "cangwu_invite"
+      },
+      {
+       "type": "schedule",
+       "id": "q3_gate_steps",
+       "min": 1,
+       "max": 6
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_q3_gate_steps",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.q3_gate_steps.1",
+     "speaker_key": "npc.master_gu",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "master_gu",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.q3_gate_steps.2",
+     "speaker_key": "npc.master_gu",
+     "choices": [
+      {
+       "id": "steady",
+       "label_key": "event.q3_gate_steps.c.steady",
+       "next": "",
+       "effects": [
+        {
+         "type": "schedule",
+         "id": "q3_library",
+         "min": 1,
+         "max": 5
+        },
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": -4
+        },
+        {
+         "type": "flag",
+         "id": "gate_steady"
+        }
+       ]
+      },
+      {
+       "id": "swift",
+       "label_key": "event.q3_gate_steps.c.swift",
+       "next": "",
+       "effects": [
+        {
+         "type": "schedule",
+         "id": "q3_library",
+         "min": 1,
+         "max": 5
+        },
+        {
+         "type": "attr",
+         "id": "agility",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": -4
+        },
+        {
+         "type": "flag",
+         "id": "gate_swift"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_q3_library",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.q3_library.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "bai_yan",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.q3_library.2",
+     "speaker_key": "npc.bai_yan",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.q3_library.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "lead",
+       "id": "library_files"
+      },
+      {
+       "type": "bond",
+       "id": "bai_yan",
+       "amount": 2
+      },
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_q3_xie_wujiu",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.q3_xie_wujiu.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xie_wujiu",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.q3_xie_wujiu.2",
+     "speaker_key": "npc.xie_wujiu",
+     "choices": [
+      {
+       "id": "duel",
+       "label_key": "event.q3_xie_wujiu.c.duel",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "xie_wujiu",
+         "amount": 3
+        },
+        {
+         "type": "battle",
+         "id": "xie_duel"
+        },
+        {
+         "type": "flag",
+         "id": "xie_dueled"
+        }
+       ]
+      },
+      {
+       "id": "polite",
+       "label_key": "event.q3_xie_wujiu.c.polite",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "xie_wujiu",
+         "amount": 3
+        },
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 1
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_xie_wujiu_1",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_xie_wujiu_1.1",
+     "speaker_key": "npc.xie_wujiu",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xie_wujiu",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_xie_wujiu_1.2",
+     "speaker_key": "npc.xie_wujiu",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.arc_xie_wujiu_1.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "arc_stage",
+       "id": "xie_wujiu",
+       "amount": 1
+      },
+      {
+       "type": "lead",
+       "id": "frame_whisper"
+      },
+      {
+       "type": "bond",
+       "id": "xie_wujiu",
+       "amount": 2
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_q3_mid_autumn",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.q3_mid_autumn.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.q3_mid_autumn.2",
+     "speaker_key": "world.speaker.narrator",
+     "choices": [
+      {
+       "id": "shen",
+       "label_key": "event.q3_mid_autumn.c.shen",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "shen_qinghe",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 6
+        }
+       ]
+      },
+      {
+       "id": "lu",
+       "label_key": "event.q3_mid_autumn.c.lu",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "lu_chenzhou",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 6
+        }
+       ]
+      },
+      {
+       "id": "bai",
+       "label_key": "event.q3_mid_autumn.c.bai",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "bai_yan",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 6
+        }
+       ]
+      },
+      {
+       "id": "alone",
+       "label_key": "event.q3_mid_autumn.c.alone",
+       "next": "",
+       "effects": [
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 8
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_q3_tournament_1",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.q3_tournament_1.1",
+     "speaker_key": "npc.master_gu",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "master_gu",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.q3_tournament_1.2",
+     "speaker_key": "npc.cangwu_disciple",
+     "choices": [
+      {
+       "id": "fight",
+       "label_key": "event.q3_tournament_1.c.fight",
+       "next": "",
+       "effects": [
+        {
+         "type": "schedule",
+         "id": "q3_tournament_2",
+         "min": 1,
+         "max": 3
+        },
+        {
+         "type": "battle",
+         "id": "cw_bout_1"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_q3_tournament_2",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.q3_tournament_2.1",
+     "speaker_key": "npc.master_gu",
+     "choices": [
+      {
+       "id": "fight",
+       "label_key": "event.q3_tournament_2.c.fight",
+       "next": "",
+       "effects": [
+        {
+         "type": "schedule",
+         "id": "q3_tournament_3",
+         "min": 1,
+         "max": 3
+        },
+        {
+         "type": "battle",
+         "id": "cw_bout_2"
+        }
+       ]
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "master_gu",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_q3_tournament_3",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.q3_tournament_3.1",
+     "speaker_key": "npc.master_gu",
+     "choices": [
+      {
+       "id": "fight",
+       "label_key": "event.q3_tournament_3.c.fight",
+       "next": "",
+       "effects": [
+        {
+         "type": "battle",
+         "id": "cw_bout_3"
+        }
+       ]
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "master_gu",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_q3_theft",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.q3_theft.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "master_gu",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.q3_theft.2",
+     "speaker_key": "npc.master_gu",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.q3_theft.3",
+     "speaker_key": "npc.xie_wujiu",
+     "choices": [
+      {
+       "id": "public",
+       "label_key": "event.q3_theft.c.public",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "xie_defended_public"
+        },
+        {
+         "type": "bond",
+         "id": "xie_wujiu",
+         "amount": 4
+        },
+        {
+         "type": "lead",
+         "id": "theft_clue"
+        }
+       ]
+      },
+      {
+       "id": "quiet",
+       "label_key": "event.q3_theft.c.quiet",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "xie_defended_quiet"
+        },
+        {
+         "type": "bond",
+         "id": "xie_wujiu",
+         "amount": 2
+        },
+        {
+         "type": "lead",
+         "id": "theft_clue"
+        }
+       ]
+      },
+      {
+       "id": "stay",
+       "label_key": "event.q3_theft.c.stay",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "xie_abandoned"
+        },
+        {
+         "type": "bond",
+         "id": "xie_wujiu",
+         "amount": -3
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_q3_hui_mask",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.q3_hui_mask.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "mask_hui",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.q3_hui_mask.2",
+     "speaker_key": "npc.mask_hui",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.q3_hui_mask.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "lead",
+       "id": "hui_mask_seen"
+      },
+      {
+       "type": "flag",
+       "id": "hui_seen"
+      },
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry3_gate_pines",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry3_gate_pines.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      },
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 4
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry3_courts_spar",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry3_courts_spar.1",
+     "speaker_key": "npc.cangwu_disciple",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "power",
+       "amount": 1
+      },
+      {
+       "type": "attr",
+       "id": "agility",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "wanderer",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry3_courts_drill",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry3_courts_drill.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "body",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry3_library_read",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry3_library_read.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      },
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry3_library_keeper",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry3_library_keeper.1",
+     "speaker_key": "world.speaker.wanderer",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      },
+      {
+       "type": "lead",
+       "id": "library_footsteps"
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "wanderer",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry3_cave_echo",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry3_cave_echo.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry3_spring_soak",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry3_spring_soak.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 10
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry3_spring_gossip",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry3_spring_gossip.1",
+     "speaker_key": "world.speaker.wanderer",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "wanderer",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
   }
  ]
 }

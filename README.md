@@ -11,3 +11,4 @@ Source on branch `godot-spike`; playable web build on `gh-pages`.
 - docs/M20C_REPORT.md
 - docs/M21_REPORT.md
 - docs/M22AB_REPORT.md
+- docs/M22C_REPORT.md

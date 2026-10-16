@@ -29,6 +29,12 @@
    "companion": "li_shan",
    "tech": "duo_hammer_anvil",
    "bond_min": 12
+  },
+  {
+   "id": "duo_spear_wind",
+   "companion": "xie_wujiu",
+   "tech": "duo_spear_wind",
+   "bond_min": 12
   }
  ]
 }
