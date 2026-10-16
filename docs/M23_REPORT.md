@@ -13,3 +13,9 @@
 | cw_bout_2 | 3 | bai_yan,li_shan | 100 | 4.6 |
 | cw_bout_3 | 3 | bai_yan | 100 | 7.0 |
 | q4_ambush | 3 | lu_chenzhou,xie_wujiu | 0 | 7.0 |
+
+## M23b: music and the art/music prompt sheet
+- `docs/ART_AND_MUSIC_PROMPTS.md`: one merged sheet with the global style blocks, prompts for all characters (reference and pose sheets, bust portraits), backgrounds (current and future), key art, endings, UI icons, battle art, 20 music tracks, 4 later themes, companion leitmotifs and a sound-effect list.
+- Placeholder music: `scripts/gen_music.py` synthesises 20 tracks (18 loops, 2 stingers, 1.2 MB total) to `game/audio/music/*.ogg` and writes `game/content/audio/music.json` (catalog plus the rules).
+- In game: `MusicRules` (pure) picks a track from the screen, the region of the last visited area, the dialogue background, event overrides and the battle kind; `Audio` polls every 0.4 s, cross-fades 1.2 s, plays victory/defeat stingers; missing files fall back to the old soft pad. World state now remembers `last_area`.
+- Tests: m23b_tests.gd (catalog files, every mapping valid, rule cases).

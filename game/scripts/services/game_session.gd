@@ -413,6 +413,7 @@ func visit_area(area_id: String) -> Dictionary:
 			time["finished"] = t.finished
 			time["new_week"] = bool(time.get("new_week", false)) or bool(t.new_week)
 			time["recovered"] = int(time.get("recovered", 0)) + int(t.recovered)
+	st.world.last_area = area_id
 	RelationshipRules.refresh(st, Content)
 	var result := {"ok": true, "reasons": [], "event_id": "", "wander": p.wander, "deltas": [], "time": time, "scene": ""}
 	if not (p.event as Dictionary).is_empty():

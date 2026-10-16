@@ -10,6 +10,7 @@ var leads: Array = []            # lead ids, in the order learned
 var areas_open: Array = []       # areas opened by events
 var areas_closed: Array = []     # areas closed by events
 var visits: Dictionary = {}      # area id -> times visited
+var last_area: String = ""      # the area visited last (music and the map use its region)
 
 
 func has_lead(id: String) -> bool:
@@ -26,7 +27,7 @@ func add_lead(id: String) -> bool:
 func to_dict() -> Dictionary:
 	return {"done": done.duplicate(), "missed": missed.duplicate(), "scheduled": scheduled.duplicate(true),
 			"cooldown": cooldown.duplicate(), "leads": leads.duplicate(), "areas_open": areas_open.duplicate(),
-			"areas_closed": areas_closed.duplicate(), "visits": visits.duplicate()}
+			"areas_closed": areas_closed.duplicate(), "visits": visits.duplicate(), "last_area": last_area}
 
 
 static func from_dict(d: Variant) -> RefCounted:
@@ -48,6 +49,7 @@ static func from_dict(d: Variant) -> RefCounted:
 		for k in sc:
 			if sc[k] is Dictionary:
 				s.scheduled[str(k)] = {"from": int(sc[k].get("from", 1)), "to": int(sc[k].get("to", 1))}
+	s.last_area = str(d.get("last_area", ""))
 	for key in ["cooldown", "visits"]:
 		var m: Variant = d.get(key)
 		if m is Dictionary:
