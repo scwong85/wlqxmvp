@@ -117,11 +117,11 @@
   {
    "id": "cangwu_disciple",
    "stats": {
-    "hp": 26,
-    "body": 4,
-    "power": 5,
-    "agility": 5,
-    "spirit": 4
+    "hp": 50,
+    "body": 7,
+    "power": 9,
+    "agility": 7,
+    "spirit": 5
    },
    "techniques": [
     "swift_dash"
@@ -130,11 +130,11 @@
   {
    "id": "cangwu_senior",
    "stats": {
-    "hp": 48,
-    "body": 6,
-    "power": 8,
-    "agility": 6,
-    "spirit": 6
+    "hp": 120,
+    "body": 11,
+    "power": 14,
+    "agility": 9,
+    "spirit": 9
    },
    "techniques": [
     "club_smash"
@@ -143,11 +143,11 @@
   {
    "id": "gate_scout",
    "stats": {
-    "hp": 30,
-    "body": 5,
-    "power": 6,
-    "agility": 6,
-    "spirit": 4
+    "hp": 34,
+    "body": 6,
+    "power": 7,
+    "agility": 9,
+    "spirit": 6
    },
    "techniques": [
     "swift_dash"
@@ -156,11 +156,11 @@
   {
    "id": "gate_blade",
    "stats": {
-    "hp": 44,
-    "body": 7,
-    "power": 9,
-    "agility": 6,
-    "spirit": 5
+    "hp": 48,
+    "body": 8,
+    "power": 10,
+    "agility": 9,
+    "spirit": 7
    },
    "techniques": [
     "club_smash"
@@ -169,11 +169,11 @@
   {
    "id": "gate_captain",
    "stats": {
-    "hp": 72,
-    "body": 9,
-    "power": 11,
-    "agility": 7,
-    "spirit": 7
+    "hp": 80,
+    "body": 10,
+    "power": 12,
+    "agility": 10,
+    "spirit": 10
    },
    "techniques": [
     "club_smash"

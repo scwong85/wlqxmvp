@@ -1212,5 +1212,10 @@
  "world.lead.elder_advisor.name": "墨长老同行",
  "world.lead.elder_advisor.desc": "墨长老卸下守村之责，随你同行出主意。",
  "world.lead.elder_seal_lead.name": "墨长老的旧印",
- "world.lead.elder_seal_lead.desc": "墨长老留下一枚旧印，玉谷的将来待你决断。"
+ "world.lead.elder_seal_lead.desc": "墨长老留下一枚旧印，玉谷的将来待你决断。",
+ "minigame.mining.title": "挖矿",
+ "minigame.mining.help": "游标扫过岩壁，在它经过发光矿脉时点按。共五锤，越准越好。",
+ "minigame.music.title": "抚琴",
+ "minigame.music.help": "音符漂向金线，在它到达时点按。越准越好。",
+ "world.gate.realm": "需要境界 {need}"
 }

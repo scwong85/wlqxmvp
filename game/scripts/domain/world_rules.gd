@@ -5,7 +5,7 @@ extends RefCounted
 ## Area:  {id, region, name_key, desc_key, open_default?, requires?, seasons?:[0..3], cost?:int, wander:[{text_key, rewards?}]}
 ## Event: {id, area, kind:"fixed"|"random", window?:{from,to}, scheduled_only?, requires?, priority?, weight?, cooldown?,
 ##         once?, scene:{dialogue}, on_miss?:[effect]}
-## Requires: week_min, week_max, season:[..], flags_all, flags_none, done, not_done, lead, path, party_any, plus the
+## Requires: realm_min, week_min, week_max, season:[..], flags_all, flags_none, done, not_done, lead, path, party_any, plus the
 ##           exploration gates (attr_min, item, bond_min, flag, flag_not, clue_min).
 ## World effects (used by dialogues and on_miss): lead, schedule {id,min,max}, unlock_area, lock_area.
 
@@ -23,6 +23,8 @@ static func requires_reasons(state: RefCounted, req: Dictionary, content: Object
 		out.append({"key": "world.gate.week", "params": {"need": int(req.week_min)}})
 	if req.has("week_max") and week > int(req.week_max):
 		out.append({"key": "world.gate.too_late", "params": {}})
+	if req.has("realm_min") and int(state.cultivation.realm) < int(req.realm_min):
+		out.append({"key": "world.gate.realm", "params": {"need": int(req.realm_min)}})
 	if req.has("season") and not _has_int(req.season, state.calendar.season()):
 		out.append({"key": "world.gate.season", "params": {}})
 	for f in req.get("flags_all", []):

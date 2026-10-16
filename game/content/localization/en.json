@@ -1211,5 +1211,10 @@
  "world.lead.elder_advisor.name": "Elder Mo Travels With You",
  "world.lead.elder_advisor.desc": "Elder Mo has laid down the village watch and travels with you as an advisor.",
  "world.lead.elder_seal_lead.name": "Elder Mo's Seal",
- "world.lead.elder_seal_lead.desc": "Elder Mo left an old seal; the valley's future is yours to decide."
+ "world.lead.elder_seal_lead.desc": "Elder Mo left an old seal; the valley's future is yours to decide.",
+ "minigame.mining.title": "Mining",
+ "minigame.mining.help": "A marker sweeps the rock face. Tap as it crosses the glowing vein. Five strikes; the closer the better.",
+ "minigame.music.title": "Music",
+ "minigame.music.help": "Notes drift toward the gold line. Tap as each one arrives; the closer the better.",
+ "world.gate.realm": "Needs realm {need}"
 }

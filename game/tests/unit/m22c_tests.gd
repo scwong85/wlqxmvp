@@ -56,6 +56,7 @@ func _chain() -> void:
 	_jump("q3_library")
 	check.call(_play("cw_library", "") == "q3_library" and s.world.has_lead("library_files"), "m22c: the library scene plays and gives the files lead")
 	s.calendar.week = 39
+	s.cultivation.realm = 2
 	for step in [["q3_tournament_1", "fight"], ["q3_tournament_2", "fight"], ["q3_tournament_3", "fight"]]:
 		_jump(str(step[0]))
 		var got := ""

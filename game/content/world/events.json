@@ -1095,6 +1095,9 @@
     "to": 43
    },
    "priority": 5,
+   "requires": {
+    "realm_min": 2
+   },
    "on_miss": [
     {
      "type": "schedule",

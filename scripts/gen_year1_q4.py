@@ -167,9 +167,9 @@ for id, ar, lines, eff, title, wt, cd in RANDOM:
     event(id, "random", ar, lines, eff, title=title, weight=wt, cooldown=cd)
 
 # ===================================================================== AMBUSH BATTLE
-units["units"].append({"id": "gate_scout", "stats": {"hp": 30, "body": 5, "power": 6, "agility": 6, "spirit": 4}, "techniques": ["swift_dash"]})
-units["units"].append({"id": "gate_blade", "stats": {"hp": 44, "body": 7, "power": 9, "agility": 6, "spirit": 5}, "techniques": ["club_smash"]})
-units["units"].append({"id": "gate_captain", "stats": {"hp": 72, "body": 9, "power": 11, "agility": 7, "spirit": 7}, "techniques": ["club_smash"]})
+units["units"].append({"id": "gate_scout", "stats": {"hp": 34, "body": 6, "power": 7, "agility": 9, "spirit": 6}, "techniques": ["swift_dash"]})
+units["units"].append({"id": "gate_blade", "stats": {"hp": 48, "body": 8, "power": 10, "agility": 9, "spirit": 7}, "techniques": ["club_smash"]})
+units["units"].append({"id": "gate_captain", "stats": {"hp": 80, "body": 10, "power": 12, "agility": 10, "spirit": 10}, "techniques": ["club_smash"]})
 L("combat.unit.gate_scout", "九曜探子", "Gate Scout"); L("combat.unit.gate_blade", "九曜刀手", "Gate Blade"); L("combat.unit.gate_captain", "九曜头目", "Gate Captain")
 CELLS = [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [2, 0]]
 scen["scenarios"].append({"id": "q4_ambush", "battle_id": "q4_ambush", "max_rounds": 12, "terrain": [[1, 3, "cover"], [4, 3, "cover"], [3, 4, "hazard"], [0, 2, "hazard"]],

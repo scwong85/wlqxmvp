@@ -7,6 +7,22 @@
    ],
    "title_key": "minigame.fishing.title",
    "help_key": "minigame.fishing.help"
+  },
+  {
+   "id": "mining",
+   "activities": [
+    "mining"
+   ],
+   "title_key": "minigame.mining.title",
+   "help_key": "minigame.mining.help"
+  },
+  {
+   "id": "music",
+   "activities": [
+    "music"
+   ],
+   "title_key": "minigame.music.title",
+   "help_key": "minigame.music.help"
   }
  ]
 }

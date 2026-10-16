@@ -137,7 +137,7 @@ event("q3_mid_autumn", "fixed", "cw_spring",
 event("q3_tournament_1", "fixed", "cw_courts",
       [("gu", "擂台上，顾行舟宣布：「初赛，两人对两人。胜者进入复赛。」", "On the platform Gu Xingzhou announces: \"First round, two against two. Winners advance.\""),
        ("disc", "对面的两名弟子抱拳行礼，眼神却毫不含糊。", "Two disciples across the ring salute, their eyes anything but soft.")],
-      [SCHED("q3_tournament_2", 1, 3)], title=("山门比武：初赛", "Tournament: First Round"), window=(39, 43), priority=5,
+      [SCHED("q3_tournament_2", 1, 3)], title=("山门比武：初赛", "Tournament: First Round"), window=(39, 43), priority=5, requires={"realm_min": 2},
       choices=[("fight", "上场", "Step into the ring", [SCHED("q3_tournament_2", 1, 3), BATTLE("cw_bout_1")])],
       on_miss=[SCHED("q3_tournament_2", 1, 3)])
 event("q3_tournament_2", "fixed", "cw_courts",
@@ -178,8 +178,8 @@ for id, ar, lines, eff, title, wt, cd in RANDOM:
     event(id, "random", ar, lines, eff, title=title, weight=wt, cooldown=cd)
 
 # ===================================================================== BATTLES
-units["units"].append({"id": "cangwu_disciple", "stats": {"hp": 26, "body": 4, "power": 5, "agility": 5, "spirit": 4}, "techniques": ["swift_dash"]})
-units["units"].append({"id": "cangwu_senior", "stats": {"hp": 48, "body": 6, "power": 8, "agility": 6, "spirit": 6}, "techniques": ["club_smash"]})
+units["units"].append({"id": "cangwu_disciple", "stats": {"hp": 50, "body": 7, "power": 9, "agility": 7, "spirit": 5}, "techniques": ["swift_dash"]})
+units["units"].append({"id": "cangwu_senior", "stats": {"hp": 120, "body": 11, "power": 14, "agility": 9, "spirit": 9}, "techniques": ["club_smash"]})
 L("combat.unit.cangwu_disciple", "苍梧弟子", "Cangwu Disciple"); L("combat.unit.cangwu_senior", "苍梧师兄", "Cangwu Senior")
 CELLS = [[[1, 1], [2, 1], [3, 1]], [[4, 1], [5, 1], [4, 0]], [[2, 0], [3, 0], [1, 0]]]
 def scenario(id, zn, en_, oz, oe, enemies, win, fw, fl, rounds=8):

@@ -8,6 +8,7 @@ const Backdrop = preload("res://scenes/shared/backdrop.gd")
 const SafeFrame = preload("res://scenes/shared/safe_frame.gd")
 const MinigameRules = preload("res://scripts/domain/minigame_rules.gd")
 const FishingView = preload("res://scenes/minigame/fishing_view.gd")
+const TapView = preload("res://scenes/minigame/tap_view.gd")
 const ActivityRules = preload("res://scripts/domain/activity_rules.gd")
 const STEP := 1.0 / 60.0
 
@@ -59,7 +60,7 @@ func _ready() -> void:
 	help_label = UiKit.make_label(24)
 	help_label.text = Loc.t(str(mg.help_key))
 	_box.add_child(help_label)
-	view = FishingView.new()
+	view = FishingView.new() if str(mg.id) == "fishing" else TapView.new()
 	view.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	view.custom_minimum_size = Vector2(0, 150)

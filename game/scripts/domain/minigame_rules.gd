@@ -3,6 +3,9 @@ extends RefCounted
 
 const FishingGame = preload("res://scripts/domain/minigames/fishing_game.gd")
 
+const MiningGame = preload("res://scripts/domain/minigames/mining_game.gd")
+const MusicGame = preload("res://scripts/domain/minigames/music_game.gd")
+
 const GRADES := ["poor", "ok", "good", "perfect"]
 const THRESHOLDS := {"perfect": 0.9, "good": 0.6, "ok": 0.3}
 const MULTIPLIERS := {"poor": 0.5, "ok": 1.0, "good": 1.25, "perfect": 1.5}
@@ -13,6 +16,10 @@ static func create(minigame_id: String) -> RefCounted:
 	match minigame_id:
 		"fishing":
 			return FishingGame.new()
+		"mining":
+			return MiningGame.new()
+		"music":
+			return MusicGame.new()
 	return null
 
 
