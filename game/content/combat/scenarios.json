@@ -1771,6 +1771,340 @@
      "xia_escaped"
     ]
    }
+  },
+  {
+   "id": "y2_xiao_spar",
+   "battle_id": "y2_xiao_spar",
+   "max_rounds": 8,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "garrison_sabre",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 8
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "xiao_spar_won"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "xiao_spar_lost"
+    ]
+   }
+  },
+  {
+   "id": "y2_snow_pass",
+   "battle_id": "y2_snow_pass",
+   "max_rounds": 10,
+   "terrain": [
+    [
+     1,
+     3,
+     "hazard"
+    ],
+    [
+     4,
+     3,
+     "hazard"
+    ],
+    [
+     2,
+     4,
+     "cover"
+    ],
+    [
+     3,
+     2,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "yanmen_raider",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "yanmen_raider",
+     "cells": [
+      [
+       2,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "yanmen_raider",
+     "cells": [
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "yanmen_raider",
+     "cells": [
+      [
+       4,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 20
+     },
+     {
+      "type": "resource",
+      "id": "ore",
+      "amount": 2
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "pass_raid_won"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "pass_raid_lost"
+    ]
+   }
+  },
+  {
+   "id": "y2_pass_battle",
+   "battle_id": "y2_pass_battle",
+   "max_rounds": 12,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ],
+    [
+     0,
+     2,
+     "hazard"
+    ],
+    [
+     5,
+     2,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "gate_captain",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_blade",
+     "cells": [
+      [
+       2,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "yanmen_raider",
+     "cells": [
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "yanmen_raider",
+     "cells": [
+      [
+       4,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_scout",
+     "cells": [
+      [
+       5,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_scout",
+     "cells": [
+      [
+       2,
+       0
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 40
+     },
+     {
+      "type": "resource",
+      "id": "ore",
+      "amount": 3
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "pass_won"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "pass_lost"
+    ]
+   }
   }
  ]
 }

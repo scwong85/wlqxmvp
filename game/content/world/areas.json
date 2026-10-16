@@ -746,6 +746,150 @@
     ],
     "week_min": 46
    }
+  },
+  {
+   "id": "ym_fort",
+   "region": "yanmen",
+   "name_key": "world.area.ym_fort.name",
+   "desc_key": "world.area.ym_fort.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.ym_fort.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.ym_fort.w2",
+     "rewards": [
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 8
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "yanmen_road"
+    ],
+    "week_min": 76
+   }
+  },
+  {
+   "id": "ym_road",
+   "region": "yanmen",
+   "name_key": "world.area.ym_road.name",
+   "desc_key": "world.area.ym_road.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.ym_road.w1",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 8
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.ym_road.w2",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "yanmen_road"
+    ],
+    "week_min": 76
+   }
+  },
+  {
+   "id": "ym_pass",
+   "region": "yanmen",
+   "name_key": "world.area.ym_pass.name",
+   "desc_key": "world.area.ym_pass.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.ym_pass.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "body",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.ym_pass.w2",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "ore",
+       "amount": 1
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "yanmen_road"
+    ],
+    "week_min": 76
+   }
+  },
+  {
+   "id": "ym_field",
+   "region": "yanmen",
+   "name_key": "world.area.ym_field.name",
+   "desc_key": "world.area.ym_field.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.ym_field.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.ym_field.w2",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "yanmen_road"
+    ],
+    "week_min": 76
+   }
   }
  ]
 }

@@ -153,6 +153,15 @@
    "outfit_hex": "6a5a7a",
    "skin_hex": "ecd0b4",
    "weapon": "blade"
+  },
+  {
+   "id": "xiao_hanchuan",
+   "gender": "m",
+   "hair": 2,
+   "hair_hex": "1c1c22",
+   "outfit_hex": "34383f",
+   "skin_hex": "d8b494",
+   "weapon": "blade"
   }
  ]
 }

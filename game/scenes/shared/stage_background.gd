@@ -20,6 +20,8 @@ const THEMES := {
 	"cangwu_night": {"top": "060a14", "mid": "121e30", "low": "2c3c52", "ground": "222e2c", "kind": "shrine", "moon": true},
 	"marsh_day": {"top": "8aa8a0", "mid": "b8cabc", "low": "dce6d4", "ground": "4a6a54", "kind": "river"},
 	"marsh_night": {"top": "04080e", "mid": "0e1c24", "low": "24404a", "ground": "142a2a", "kind": "shrine", "moon": true},
+	"yanmen_fort": {"top": "7f93a8", "mid": "c0cad2", "low": "e8ecee", "ground": "6a6e74", "kind": "houses", "sun": true},
+	"yanmen_snow": {"top": "9fb4c6", "mid": "d4dfe8", "low": "f4f7fa", "ground": "9aa6b2", "kind": "hills"},
 	"night_camp": {"top": "060a12", "mid": "10202c", "low": "203540", "ground": "1c2a22", "kind": "camp", "moon": true},
 }
 

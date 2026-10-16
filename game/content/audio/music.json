@@ -179,6 +179,8 @@
    "cangwu_night": "night_theme",
    "marsh_day": "marsh_theme",
    "marsh_night": "mystery_theme",
+   "yanmen_fort": "yanmen_theme",
+   "yanmen_snow": "yanmen_theme",
    "default": "valley_theme"
   },
   "events": {

@@ -42,7 +42,7 @@ RULES = {
  "backgrounds": {"valley_dawn": "valley_theme", "valley_day": "valley_theme", "village_dusk": "valley_theme", "riverside_day": "valley_theme", "terraces_green": "valley_theme",
                  "shrine_night": "night_theme", "ferry_dusk": "road_theme", "bamboo_mist": "road_theme", "night_camp": "night_theme", "city_docks": "linjiang_theme",
                  "city_market": "linjiang_theme", "city_night": "night_theme", "cangwu_day": "cangwu_theme", "cangwu_night": "night_theme", "marsh_day": "marsh_theme",
-                 "marsh_night": "mystery_theme", "default": "valley_theme"},
+                 "marsh_night": "mystery_theme", "yanmen_fort": "yanmen_theme", "yanmen_snow": "yanmen_theme", "default": "valley_theme"},
  "events": {"f_spring_fair": "festival_theme", "q2_dragon_boat": "festival_theme", "q3_mid_autumn": "festival_theme", "q4_solstice": "festival_theme",
             "q3_hui_mask": "mystery_theme", "q4_temple": "mystery_theme", "q4_ferryman": "mystery_theme", "q3_theft": "sorrow_theme", "q4_elder_fork": "sorrow_theme",
             "f_shrine_first": "mystery_theme", "q3_tournament_1": "duel_theme", "q3_tournament_2": "duel_theme", "q3_tournament_3": "duel_theme"},

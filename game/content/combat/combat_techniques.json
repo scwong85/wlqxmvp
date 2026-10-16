@@ -551,6 +551,46 @@
    "resolve": 5,
    "push": 1,
    "cost": 3
+  },
+  {
+   "id": "rally_cry",
+   "name_key": "ability.rally_cry",
+   "kind": "support",
+   "range": 3,
+   "resolve_restore": 5,
+   "cost": 1
+  },
+  {
+   "id": "sabre_counter",
+   "name_key": "ability.sabre_counter",
+   "kind": "attack",
+   "range": 1,
+   "damage": 9,
+   "resolve": 5,
+   "push": 1,
+   "cost": 2
+  },
+  {
+   "id": "garrison_order",
+   "name_key": "ability.garrison_order",
+   "kind": "support",
+   "range": 0,
+   "mp_bonus": 2,
+   "resolve_restore": 6,
+   "cost": 0,
+   "free": true,
+   "once": true,
+   "bond": true
+  },
+  {
+   "id": "duo_command_charge",
+   "name_key": "technique.duo_command_charge",
+   "duo": "xiao_hanchuan",
+   "kind": "attack",
+   "range": 2,
+   "damage": 11,
+   "resolve": 6,
+   "cost": 3
   }
  ],
  "statuses": [

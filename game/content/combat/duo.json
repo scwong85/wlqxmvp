@@ -41,6 +41,12 @@
    "companion": "xia_zhi",
    "tech": "duo_shadow_cut",
    "bond_min": 12
+  },
+  {
+   "id": "duo_command_charge",
+   "companion": "xiao_hanchuan",
+   "tech": "duo_command_charge",
+   "bond_min": 12
   }
  ]
 }

@@ -103,6 +103,10 @@
     {
      "id": "1",
      "event": "arc_su_dai_1"
+    },
+    {
+     "id": "2",
+     "event": "arc_su_dai_2"
     }
    ],
    "outcomes": [
@@ -124,6 +128,10 @@
     {
      "id": "1",
      "event": "arc_li_shan_1"
+    },
+    {
+     "id": "2",
+     "event": "arc_li_shan_2"
     }
    ],
    "outcomes": [
@@ -170,6 +178,27 @@
     {
      "id": "1",
      "event": "arc_xia_zhi_1"
+    }
+   ],
+   "outcomes": [
+    "redeemed",
+    "alternate",
+    "lost"
+   ],
+   "bonds": [
+    "friend",
+    "sworn",
+    "romance",
+    "rival"
+   ]
+  },
+  {
+   "companion": "xiao_hanchuan",
+   "planned": 4,
+   "stages": [
+    {
+     "id": "1",
+     "event": "arc_xiao_hanchuan_1"
     }
    ],
    "outcomes": [

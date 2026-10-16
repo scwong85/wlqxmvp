@@ -217,6 +217,32 @@
    "techniques": [
     "ambush_strike"
    ]
+  },
+  {
+   "id": "yanmen_raider",
+   "stats": {
+    "hp": 48,
+    "body": 8,
+    "power": 11,
+    "agility": 8,
+    "spirit": 6
+   },
+   "techniques": [
+    "swift_dash"
+   ]
+  },
+  {
+   "id": "garrison_sabre",
+   "stats": {
+    "hp": 130,
+    "body": 12,
+    "power": 15,
+    "agility": 8,
+    "spirit": 9
+   },
+   "techniques": [
+    "club_smash"
+   ]
   }
  ]
 }

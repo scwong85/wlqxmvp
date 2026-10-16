@@ -1798,6 +1798,331 @@
      "amount": 4
     }
    ]
+  },
+  {
+   "id": "y2_road_north",
+   "kind": "fixed",
+   "area": "ym_road",
+   "scene": {
+    "dialogue": "ev_y2_road_north"
+   },
+   "title_key": "event.y2_road_north.title",
+   "window": {
+    "from": 76,
+    "to": 80
+   },
+   "priority": 5,
+   "requires": {
+    "lead": [
+     "yanmen_road"
+    ],
+    "week_min": 76
+   },
+   "on_miss": [
+    {
+     "type": "lead",
+     "id": "fort_road"
+    },
+    {
+     "type": "schedule",
+     "id": "y2_xiao_hanchuan",
+     "min": 1,
+     "max": 4
+    }
+   ]
+  },
+  {
+   "id": "y2_xiao_hanchuan",
+   "kind": "fixed",
+   "area": "ym_fort",
+   "scene": {
+    "dialogue": "ev_y2_xiao_hanchuan"
+   },
+   "title_key": "event.y2_xiao_hanchuan.title",
+   "scheduled_only": true,
+   "priority": 5,
+   "on_miss": [
+    {
+     "type": "schedule",
+     "id": "y2_fort_orders",
+     "min": 1,
+     "max": 5
+    }
+   ]
+  },
+  {
+   "id": "y2_fort_orders",
+   "kind": "fixed",
+   "area": "ym_fort",
+   "scene": {
+    "dialogue": "ev_y2_fort_orders"
+   },
+   "title_key": "event.y2_fort_orders.title",
+   "scheduled_only": true,
+   "priority": 5,
+   "on_miss": [
+    {
+     "type": "lead",
+     "id": "field_raids"
+    },
+    {
+     "type": "schedule",
+     "id": "y2_snow_pass",
+     "min": 1,
+     "max": 5
+    }
+   ]
+  },
+  {
+   "id": "y2_snow_pass",
+   "kind": "fixed",
+   "area": "ym_pass",
+   "scene": {
+    "dialogue": "ev_y2_snow_pass"
+   },
+   "title_key": "event.y2_snow_pass.title",
+   "scheduled_only": true,
+   "priority": 6,
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "pass_raid_missed"
+    },
+    {
+     "type": "schedule",
+     "id": "y2_pass_battle",
+     "min": 1,
+     "max": 5
+    }
+   ]
+  },
+  {
+   "id": "y2_pass_battle",
+   "kind": "fixed",
+   "area": "ym_field",
+   "scene": {
+    "dialogue": "ev_y2_pass_battle"
+   },
+   "title_key": "event.y2_pass_battle.title",
+   "scheduled_only": true,
+   "priority": 7,
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "pass_lost"
+    }
+   ]
+  },
+  {
+   "id": "arc_xiao_hanchuan_1",
+   "kind": "fixed",
+   "area": "ym_fort",
+   "scene": {
+    "dialogue": "ev_arc_xiao_hanchuan_1"
+   },
+   "title_key": "event.arc_xiao_hanchuan_1.title",
+   "window": {
+    "from": 80,
+    "to": 120
+   },
+   "priority": 6,
+   "requires": {
+    "bond_min": {
+     "xiao_hanchuan": 4
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "xiao_hanchuan",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "xiao_hanchuan",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_su_dai_2",
+   "kind": "fixed",
+   "area": "ym_road",
+   "scene": {
+    "dialogue": "ev_arc_su_dai_2"
+   },
+   "title_key": "event.arc_su_dai_2.title",
+   "window": {
+    "from": 80,
+    "to": 110
+   },
+   "priority": 6,
+   "requires": {
+    "bond_min": {
+     "su_dai": 8
+    },
+    "arc_min": {
+     "su_dai": 1
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "su_dai",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "su_dai",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_li_shan_2",
+   "kind": "fixed",
+   "area": "ym_road",
+   "scene": {
+    "dialogue": "ev_arc_li_shan_2"
+   },
+   "title_key": "event.arc_li_shan_2.title",
+   "window": {
+    "from": 78,
+    "to": 110
+   },
+   "priority": 6,
+   "requires": {
+    "bond_min": {
+     "li_shan": 8
+    },
+    "arc_min": {
+     "li_shan": 1
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "li_shan",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "li_shan",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "ry6_fort_drill",
+   "kind": "random",
+   "area": "ym_fort",
+   "scene": {
+    "dialogue": "ev_ry6_fort_drill"
+   },
+   "title_key": "event.ry6_fort_drill.title",
+   "weight": 3,
+   "cooldown": 5,
+   "requires": {
+    "week_min": 76
+   }
+  },
+  {
+   "id": "ry6_fort_mess",
+   "kind": "random",
+   "area": "ym_fort",
+   "scene": {
+    "dialogue": "ev_ry6_fort_mess"
+   },
+   "title_key": "event.ry6_fort_mess.title",
+   "weight": 4,
+   "cooldown": 4,
+   "requires": {
+    "week_min": 76
+   }
+  },
+  {
+   "id": "ry6_road_wagon",
+   "kind": "random",
+   "area": "ym_road",
+   "scene": {
+    "dialogue": "ev_ry6_road_wagon"
+   },
+   "title_key": "event.ry6_road_wagon.title",
+   "weight": 3,
+   "cooldown": 5,
+   "requires": {
+    "week_min": 76
+   }
+  },
+  {
+   "id": "ry6_road_tale",
+   "kind": "random",
+   "area": "ym_road",
+   "scene": {
+    "dialogue": "ev_ry6_road_tale"
+   },
+   "title_key": "event.ry6_road_tale.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 76
+   }
+  },
+  {
+   "id": "ry6_pass_wind",
+   "kind": "random",
+   "area": "ym_pass",
+   "scene": {
+    "dialogue": "ev_ry6_pass_wind"
+   },
+   "title_key": "event.ry6_pass_wind.title",
+   "weight": 3,
+   "cooldown": 5,
+   "requires": {
+    "week_min": 76
+   }
+  },
+  {
+   "id": "ry6_pass_hunt",
+   "kind": "random",
+   "area": "ym_pass",
+   "scene": {
+    "dialogue": "ev_ry6_pass_hunt"
+   },
+   "title_key": "event.ry6_pass_hunt.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 76
+   }
+  },
+  {
+   "id": "ry6_field_spears",
+   "kind": "random",
+   "area": "ym_field",
+   "scene": {
+    "dialogue": "ev_ry6_field_spears"
+   },
+   "title_key": "event.ry6_field_spears.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 76
+   }
+  },
+  {
+   "id": "ry6_field_song",
+   "kind": "random",
+   "area": "ym_field",
+   "scene": {
+    "dialogue": "ev_ry6_field_song"
+   },
+   "title_key": "event.ry6_field_song.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 76
+   }
   }
  ]
 }

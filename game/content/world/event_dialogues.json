@@ -6328,6 +6328,937 @@
      ]
     }
    ]
+  },
+  {
+   "id": "ev_y2_road_north",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y2_road_north.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_snow"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "wanderer",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y2_road_north.2",
+     "speaker_key": "world.speaker.wanderer",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.y2_road_north.3",
+     "speaker_key": "world.speaker.hero",
+     "choices": [
+      {
+       "id": "shelter",
+       "label_key": "event.y2_road_north.c.shelter",
+       "next": "",
+       "effects": [
+        {
+         "type": "lead",
+         "id": "fort_road"
+        },
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 1
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 4
+        },
+        {
+         "type": "schedule",
+         "id": "y2_xiao_hanchuan",
+         "min": 1,
+         "max": 4
+        }
+       ]
+      },
+      {
+       "id": "push",
+       "label_key": "event.y2_road_north.c.push",
+       "next": "",
+       "effects": [
+        {
+         "type": "lead",
+         "id": "fort_road"
+        },
+        {
+         "type": "attr",
+         "id": "body",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": -6
+        },
+        {
+         "type": "schedule",
+         "id": "y2_xiao_hanchuan",
+         "min": 1,
+         "max": 4
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y2_xiao_hanchuan",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y2_xiao_hanchuan.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_fort"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xiao_hanchuan",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y2_xiao_hanchuan.2",
+     "speaker_key": "npc.xiao_hanchuan",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.y2_xiao_hanchuan.3",
+     "speaker_key": "npc.xiao_hanchuan",
+     "choices": [
+      {
+       "id": "show",
+       "label_key": "event.y2_xiao_hanchuan.c.show",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "xiao_hanchuan",
+         "amount": 3
+        },
+        {
+         "type": "lead",
+         "id": "fort_trust"
+        },
+        {
+         "type": "schedule",
+         "id": "y2_fort_orders",
+         "min": 2,
+         "max": 5
+        }
+       ]
+      },
+      {
+       "id": "plain",
+       "label_key": "event.y2_xiao_hanchuan.c.plain",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "xiao_hanchuan",
+         "amount": 3
+        },
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 1
+        },
+        {
+         "type": "schedule",
+         "id": "y2_fort_orders",
+         "min": 2,
+         "max": 5
+        }
+       ]
+      },
+      {
+       "id": "spar",
+       "label_key": "event.y2_xiao_hanchuan.c.spar",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "xiao_hanchuan",
+         "amount": 4
+        },
+        {
+         "type": "battle",
+         "id": "y2_xiao_spar"
+        },
+        {
+         "type": "schedule",
+         "id": "y2_fort_orders",
+         "min": 2,
+         "max": 5
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y2_fort_orders",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y2_fort_orders.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_fort"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xiao_hanchuan",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y2_fort_orders.2",
+     "speaker_key": "npc.xiao_hanchuan",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.y2_fort_orders.3",
+     "speaker_key": "npc.xiao_hanchuan",
+     "choices": [
+      {
+       "id": "tell",
+       "label_key": "event.y2_fort_orders.c.tell",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "xiao_hanchuan",
+         "amount": 3
+        },
+        {
+         "type": "flag",
+         "id": "orders_exposed"
+        },
+        {
+         "type": "lead",
+         "id": "field_raids"
+        },
+        {
+         "type": "schedule",
+         "id": "y2_snow_pass",
+         "min": 2,
+         "max": 5
+        }
+       ]
+      },
+      {
+       "id": "watch",
+       "label_key": "event.y2_fort_orders.c.watch",
+       "next": "",
+       "effects": [
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 2
+        },
+        {
+         "type": "lead",
+         "id": "field_raids"
+        },
+        {
+         "type": "schedule",
+         "id": "y2_snow_pass",
+         "min": 2,
+         "max": 5
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y2_snow_pass",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y2_snow_pass.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_snow"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "wanderer",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y2_snow_pass.2",
+     "speaker_key": "world.speaker.wanderer",
+     "choices": [
+      {
+       "id": "fight",
+       "label_key": "event.y2_snow_pass.c.fight",
+       "next": "",
+       "effects": [
+        {
+         "type": "battle",
+         "id": "y2_snow_pass"
+        },
+        {
+         "type": "lead",
+         "id": "pass_raiders"
+        },
+        {
+         "type": "schedule",
+         "id": "y2_pass_battle",
+         "min": 2,
+         "max": 5
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y2_pass_battle",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y2_pass_battle.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_fort"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xiao_hanchuan",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y2_pass_battle.2",
+     "speaker_key": "npc.xiao_hanchuan",
+     "choices": [
+      {
+       "id": "fight",
+       "label_key": "event.y2_pass_battle.c.fight",
+       "next": "",
+       "effects": [
+        {
+         "type": "battle",
+         "id": "y2_pass_battle"
+        },
+        {
+         "type": "bond",
+         "id": "xiao_hanchuan",
+         "amount": 3
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_xiao_hanchuan_1",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_xiao_hanchuan_1.1",
+     "speaker_key": "npc.xiao_hanchuan",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_fort"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xiao_hanchuan",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_xiao_hanchuan_1.2",
+     "speaker_key": "npc.xiao_hanchuan",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.arc_xiao_hanchuan_1.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "arc_stage",
+       "id": "xiao_hanchuan",
+       "amount": 1
+      },
+      {
+       "type": "lead",
+       "id": "garrison_orders"
+      },
+      {
+       "type": "bond",
+       "id": "xiao_hanchuan",
+       "amount": 2
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_su_dai_2",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_su_dai_2.1",
+     "speaker_key": "npc.su_dai",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_snow"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "su_dai",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_su_dai_2.2",
+     "speaker_key": "npc.su_dai",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "arc_stage",
+       "id": "su_dai",
+       "amount": 2
+      },
+      {
+       "type": "lead",
+       "id": "song_second_verse"
+      },
+      {
+       "type": "bond",
+       "id": "su_dai",
+       "amount": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_li_shan_2",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_li_shan_2.1",
+     "speaker_key": "npc.li_shan",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_snow"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "li_shan",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_li_shan_2.2",
+     "speaker_key": "npc.li_shan",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "arc_stage",
+       "id": "li_shan",
+       "amount": 2
+      },
+      {
+       "type": "lead",
+       "id": "northern_ore"
+      },
+      {
+       "type": "bond",
+       "id": "li_shan",
+       "amount": 3
+      },
+      {
+       "type": "attr",
+       "id": "body",
+       "amount": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry6_fort_drill",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry6_fort_drill.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "power",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_fort"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry6_fort_mess",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry6_fort_mess.1",
+     "speaker_key": "npc.garrison_soldier",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 10
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_fort"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "wanderer",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry6_road_wagon",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry6_road_wagon.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 6
+      },
+      {
+       "type": "attr",
+       "id": "body",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_snow"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry6_road_tale",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry6_road_tale.1",
+     "speaker_key": "world.speaker.wanderer",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_snow"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "wanderer",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry6_pass_wind",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry6_pass_wind.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "agility",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_snow"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry6_pass_hunt",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry6_pass_hunt.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "resource",
+       "id": "food",
+       "amount": 3
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_snow"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry6_field_spears",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry6_field_spears.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_fort"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry6_field_song",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry6_field_song.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_fort"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
   }
  ]
 }

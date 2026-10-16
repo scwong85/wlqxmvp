@@ -273,6 +273,45 @@
    ],
    "relationship_ability": "vanish",
    "meet_week": 64
+  },
+  {
+   "id": "xiao_hanchuan",
+   "name_key": "npc.xiao_hanchuan",
+   "bio_key": "companion.xiao_hanchuan.bio",
+   "portrait": "portrait_xiao_hanchuan",
+   "role": "control",
+   "stats": {
+    "body": 9,
+    "power": 8,
+    "agility": 5,
+    "insight": 6,
+    "spirit": 7
+   },
+   "preferred_activities": [
+    "training",
+    "hunting",
+    "meditation"
+   ],
+   "recruit": {
+    "score_min": 8,
+    "attr_min": {
+     "body": 8
+    },
+    "flags_block": [],
+    "week_min": 80
+   },
+   "depart": {
+    "score_below": 0,
+    "flags": [
+     "xiao_hanchuan_betrayed"
+    ]
+   },
+   "battle_abilities": [
+    "rally_cry",
+    "sabre_counter"
+   ],
+   "relationship_ability": "garrison_order",
+   "meet_week": 78
   }
  ]
 }
