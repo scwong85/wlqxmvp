@@ -10,7 +10,7 @@
 ## Opening month (prologue, year 1 month 1, weeks 1 to 5; already implemented as playable content)
 | Week | Beat |
 |---|---|
-| 1 | Welcome and tutorial (Elder Wen); choose a path (or later) |
+| 1 | Welcome and tutorial (Elder Mo); choose a path (or later) |
 | 2 | Shen Qinghe's invitation; Bamboo Pass opens |
 | 3 | Bandit raid: the rescue battle (alone or with a companion) |
 | 4 | Three visitors ask the hero to side with them (factions) |
@@ -18,10 +18,10 @@
 
 ## Main plot by quarter (12 chapters)
 **Year 1: Roots**
-- Q1 (months 1 to 3) **玉谷风起 Winds over Jade Valley:** prologue; the aftermath; the first leads; Spring Fair; Lu and Bai join. Elder Wen gives the hero the tally and a first name for the ninth house.
+- Q1 (months 1 to 3) **玉谷风起 Winds over Jade Valley:** prologue; the aftermath; the first leads; Spring Fair; Lu and Bai join. Elder Mo gives the hero the tally and a first name for the ninth house.
 - Q2 (months 4 to 6) **临江风云 Storm in Linjiang:** the hero travels to the city; guilds, pawnshop, night alleys; Su Dai and Li Shan; the first star fragment is traced to the barge guild.
 - Q3 (months 7 to 9) **苍梧山门 The Cangwu Gate:** the sect tournament; Xie Wujiu's frame; Mid-Autumn; the Hui-Mask's first appearance.
-- Q4 (months 10 to 12) **沉星泽初探 First into the Marsh:** the marsh and the ferryman; the first vault gate; year-end: an ambush, Elder Wen's fate fork.
+- Q4 (months 10 to 12) **沉星泽初探 First into the Marsh:** the marsh and the ferryman; the first vault gate; year-end: an ambush, Elder Mo's fate fork.
 
 **Year 2: Cracks**
 - Q5 **暗河浮出 The Undertow Surfaces:** the Faceless Gate shows itself; Xia Zhi joins; a house is replaced.

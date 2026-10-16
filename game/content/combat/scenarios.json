@@ -447,6 +447,507 @@
      "scouts_won"
     ]
    }
+  },
+  {
+   "id": "masked_escort",
+   "battle_id": "masked_escort",
+   "max_rounds": 8,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "masked_guard",
+     "cells": [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "masked_guard",
+     "cells": [
+      [
+       4,
+       1
+      ],
+      [
+       5,
+       1
+      ],
+      [
+       4,
+       0
+      ]
+     ]
+    },
+    {
+     "template": "bandit_archer",
+     "cells": [
+      [
+       2,
+       0
+      ],
+      [
+       3,
+       0
+      ],
+      [
+       1,
+       0
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 10
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "escort_beaten"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "escort_won"
+    ]
+   }
+  },
+  {
+   "id": "dock_scam",
+   "battle_id": "dock_scam",
+   "max_rounds": 8,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "dock_thug",
+     "cells": [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "dock_thug",
+     "cells": [
+      [
+       4,
+       1
+      ],
+      [
+       5,
+       1
+      ],
+      [
+       4,
+       0
+      ]
+     ]
+    },
+    {
+     "template": "dock_thug",
+     "cells": [
+      [
+       2,
+       0
+      ],
+      [
+       3,
+       0
+      ],
+      [
+       1,
+       0
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 6
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "dock_beaten"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "dock_lost"
+    ]
+   }
+  },
+  {
+   "id": "caravan_escort",
+   "battle_id": "caravan_escort",
+   "max_rounds": 8,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "bandit_scout",
+     "cells": [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "bandit_brute",
+     "cells": [
+      [
+       4,
+       1
+      ],
+      [
+       5,
+       1
+      ],
+      [
+       4,
+       0
+      ]
+     ]
+    },
+    {
+     "template": "bandit_archer",
+     "cells": [
+      [
+       2,
+       0
+      ],
+      [
+       3,
+       0
+      ],
+      [
+       1,
+       0
+      ]
+     ]
+    },
+    {
+     "template": "bandit_archer",
+     "cells": [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 8
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "caravan_saved"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "caravan_lost"
+    ]
+   }
+  },
+  {
+   "id": "guild_night",
+   "battle_id": "guild_night",
+   "max_rounds": 9,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "guild_enforcer",
+     "cells": [
+      [
+       1,
+       1
+      ],
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "dock_thug",
+     "cells": [
+      [
+       4,
+       1
+      ],
+      [
+       5,
+       1
+      ],
+      [
+       4,
+       0
+      ]
+     ]
+    },
+    {
+     "template": "dock_thug",
+     "cells": [
+      [
+       2,
+       0
+      ],
+      [
+       3,
+       0
+      ],
+      [
+       1,
+       0
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "ore",
+      "amount": 3
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "guild_beaten"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "guild_won"
+    ]
+   }
   }
  ]
 }

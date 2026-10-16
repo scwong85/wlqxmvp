@@ -53,8 +53,8 @@
     "dialogue": "ev_f_spring_fair"
    },
    "window": {
-    "from": 11,
-    "to": 15
+    "from": 6,
+    "to": 10
    },
    "requires": {
     "season": [
@@ -572,6 +572,395 @@
      "amount": 4
     }
    ]
+  },
+  {
+   "id": "q1_tally",
+   "kind": "fixed",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_q1_tally"
+   },
+   "title_key": "event.q1_tally.title",
+   "window": {
+    "from": 11,
+    "to": 15
+   },
+   "requires": {
+    "week_min": 11
+   },
+   "priority": 5,
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "tally_known"
+    },
+    {
+     "type": "schedule",
+     "id": "q1_bamboo",
+     "min": 1,
+     "max": 6
+    }
+   ]
+  },
+  {
+   "id": "q1_bamboo",
+   "kind": "fixed",
+   "area": "bamboo_pass",
+   "scene": {
+    "dialogue": "ev_q1_bamboo"
+   },
+   "title_key": "event.q1_bamboo.title",
+   "scheduled_only": true,
+   "priority": 5,
+   "requires": {
+    "flags_all": [
+     "tally_known"
+    ]
+   },
+   "on_miss": [
+    {
+     "type": "lead",
+     "id": "linjiang_token"
+    }
+   ]
+  },
+  {
+   "id": "ry1_bamboo_mist",
+   "kind": "random",
+   "area": "bamboo_pass",
+   "scene": {
+    "dialogue": "ev_ry1_bamboo_mist"
+   },
+   "title_key": "event.ry1_bamboo_mist.title",
+   "weight": 3,
+   "cooldown": 6
+  },
+  {
+   "id": "ry1_bamboo_cutter",
+   "kind": "random",
+   "area": "bamboo_pass",
+   "scene": {
+    "dialogue": "ev_ry1_bamboo_cutter"
+   },
+   "title_key": "event.ry1_bamboo_cutter.title",
+   "weight": 3,
+   "cooldown": 6
+  },
+  {
+   "id": "ry1_bend_heron",
+   "kind": "random",
+   "area": "river_bend",
+   "scene": {
+    "dialogue": "ev_ry1_bend_heron"
+   },
+   "title_key": "event.ry1_bend_heron.title",
+   "weight": 3,
+   "cooldown": 8
+  },
+  {
+   "id": "q2_arrival",
+   "kind": "fixed",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_q2_arrival"
+   },
+   "title_key": "event.q2_arrival.title",
+   "window": {
+    "from": 16,
+    "to": 24
+   },
+   "priority": 5,
+   "on_miss": [
+    {
+     "type": "schedule",
+     "id": "q2_qian_man",
+     "min": 1,
+     "max": 6
+    }
+   ]
+  },
+  {
+   "id": "q2_qian_man",
+   "kind": "fixed",
+   "area": "lj_pawn",
+   "scene": {
+    "dialogue": "ev_q2_qian_man"
+   },
+   "title_key": "event.q2_qian_man.title",
+   "scheduled_only": true,
+   "priority": 5,
+   "on_miss": [
+    {
+     "type": "schedule",
+     "id": "q2_escort",
+     "min": 1,
+     "max": 8
+    }
+   ]
+  },
+  {
+   "id": "q2_su_dai",
+   "kind": "fixed",
+   "area": "lj_market",
+   "scene": {
+    "dialogue": "ev_q2_su_dai"
+   },
+   "title_key": "event.q2_su_dai.title",
+   "window": {
+    "from": 18,
+    "to": 30
+   },
+   "priority": 4
+  },
+  {
+   "id": "arc_su_dai_1",
+   "kind": "fixed",
+   "area": "lj_market",
+   "scene": {
+    "dialogue": "ev_arc_su_dai_1"
+   },
+   "title_key": "event.arc_su_dai_1.title",
+   "window": {
+    "from": 18,
+    "to": 100
+   },
+   "priority": 6,
+   "requires": {
+    "bond_min": {
+     "su_dai": 4
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "su_dai",
+     "value": "lost"
+    }
+   ]
+  },
+  {
+   "id": "q2_dragon_boat",
+   "kind": "fixed",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_q2_dragon_boat"
+   },
+   "title_key": "event.q2_dragon_boat.title",
+   "window": {
+    "from": 21,
+    "to": 25
+   },
+   "priority": 4,
+   "requires": {
+    "season": [
+     1
+    ]
+   }
+  },
+  {
+   "id": "q2_li_shan",
+   "kind": "fixed",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_q2_li_shan"
+   },
+   "title_key": "event.q2_li_shan.title",
+   "window": {
+    "from": 22,
+    "to": 34
+   },
+   "priority": 4
+  },
+  {
+   "id": "arc_li_shan_1",
+   "kind": "fixed",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_arc_li_shan_1"
+   },
+   "title_key": "event.arc_li_shan_1.title",
+   "window": {
+    "from": 22,
+    "to": 100
+   },
+   "priority": 6,
+   "requires": {
+    "bond_min": {
+     "li_shan": 4
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "li_shan",
+     "value": "lost"
+    }
+   ]
+  },
+  {
+   "id": "q2_escort",
+   "kind": "fixed",
+   "area": "lj_escort",
+   "scene": {
+    "dialogue": "ev_q2_escort"
+   },
+   "title_key": "event.q2_escort.title",
+   "scheduled_only": true,
+   "priority": 5,
+   "on_miss": [
+    {
+     "type": "lead",
+     "id": "barge_trail"
+    },
+    {
+     "type": "schedule",
+     "id": "q2_barge_guild",
+     "min": 2,
+     "max": 8
+    }
+   ]
+  },
+  {
+   "id": "q2_barge_guild",
+   "kind": "fixed",
+   "area": "lj_alleys",
+   "scene": {
+    "dialogue": "ev_q2_barge_guild"
+   },
+   "title_key": "event.q2_barge_guild.title",
+   "scheduled_only": true,
+   "priority": 5,
+   "requires": {
+    "lead": [
+     "barge_trail"
+    ]
+   },
+   "on_miss": [
+    {
+     "type": "lead",
+     "id": "fragment_one"
+    },
+    {
+     "type": "schedule",
+     "id": "q2_fragment",
+     "min": 1,
+     "max": 8
+    }
+   ]
+  },
+  {
+   "id": "q2_fragment",
+   "kind": "fixed",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_q2_fragment"
+   },
+   "title_key": "event.q2_fragment.title",
+   "scheduled_only": true,
+   "priority": 6,
+   "requires": {
+    "lead": [
+     "fragment_one"
+    ]
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "guild_refused"
+    },
+    {
+     "type": "lead",
+     "id": "fragment_traced"
+    }
+   ]
+  },
+  {
+   "id": "ry1_dock_porter",
+   "kind": "random",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_ry1_dock_porter"
+   },
+   "title_key": "event.ry1_dock_porter.title",
+   "weight": 3,
+   "cooldown": 5
+  },
+  {
+   "id": "ry1_dock_fisher",
+   "kind": "random",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_ry1_dock_fisher"
+   },
+   "title_key": "event.ry1_dock_fisher.title",
+   "weight": 3,
+   "cooldown": 6
+  },
+  {
+   "id": "ry1_market_haggle",
+   "kind": "random",
+   "area": "lj_market",
+   "scene": {
+    "dialogue": "ev_ry1_market_haggle"
+   },
+   "title_key": "event.ry1_market_haggle.title",
+   "weight": 3,
+   "cooldown": 5
+  },
+  {
+   "id": "ry1_market_acrobat",
+   "kind": "random",
+   "area": "lj_market",
+   "scene": {
+    "dialogue": "ev_ry1_market_acrobat"
+   },
+   "title_key": "event.ry1_market_acrobat.title",
+   "weight": 3,
+   "cooldown": 6
+  },
+  {
+   "id": "ry1_tea_gossip",
+   "kind": "random",
+   "area": "lj_teahouse",
+   "scene": {
+    "dialogue": "ev_ry1_tea_gossip"
+   },
+   "title_key": "event.ry1_tea_gossip.title",
+   "weight": 3,
+   "cooldown": 8
+  },
+  {
+   "id": "ry1_escort_drill",
+   "kind": "random",
+   "area": "lj_escort",
+   "scene": {
+    "dialogue": "ev_ry1_escort_drill"
+   },
+   "title_key": "event.ry1_escort_drill.title",
+   "weight": 3,
+   "cooldown": 6
+  },
+  {
+   "id": "ry1_pawn_curio",
+   "kind": "random",
+   "area": "lj_pawn",
+   "scene": {
+    "dialogue": "ev_ry1_pawn_curio"
+   },
+   "title_key": "event.ry1_pawn_curio.title",
+   "weight": 2,
+   "cooldown": 8
+  },
+  {
+   "id": "ry1_alley_cat",
+   "kind": "random",
+   "area": "lj_alleys",
+   "scene": {
+    "dialogue": "ev_ry1_alley_cat"
+   },
+   "title_key": "event.ry1_alley_cat.title",
+   "weight": 2,
+   "cooldown": 8
   }
  ]
 }

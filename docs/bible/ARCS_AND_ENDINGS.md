@@ -23,7 +23,7 @@ Three stages, each gated by bond and by time windows; every stage is one or two 
 Companion deaths are possible in the *fallen* outcome only, and always offstage or in a chosen scene; there is no permadeath in battle.
 
 ## Hero stats that feed endings
-Realm reached, signature skill (highest-level technique), life-skill titles, faction standing (pavilion / couriers / scribes / neutral), wealth bracket, hometown fate (valley saved / rebuilt / lost), Elder Wen's fate.
+Realm reached, signature skill (highest-level technique), life-skill titles, faction standing (pavilion / couriers / scribes / neutral), wealth bracket, hometown fate (valley saved / rebuilt / lost), Elder Mo's fate.
 
 ## The five big endings
 Evaluated at the end of year 3 (or earlier if the finale triggers). The first matching row wins.

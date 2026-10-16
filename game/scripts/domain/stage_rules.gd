@@ -7,7 +7,7 @@ extends RefCounted
 const SLOTS := ["left", "center", "right", "far"]
 const POSES := ["idle", "walk", "bow", "laugh", "cry", "angry", "think", "hit", "victory", "kneel", "train", "sword", "fish", "mine", "music", "chess"]
 const FACES := ["neutral", "happy", "sad", "angry", "surprised"]
-const BACKGROUNDS := ["valley_dawn", "valley_day", "village_dusk", "riverside_day", "terraces_green", "shrine_night", "ferry_dusk", "night_camp", "default"]
+const BACKGROUNDS := ["valley_dawn", "valley_day", "village_dusk", "riverside_day", "terraces_green", "shrine_night", "ferry_dusk", "night_camp", "bamboo_mist", "city_docks", "city_market", "city_night", "default"]
 const PERSISTENT := ["bg", "show", "hide", "pose", "face", "move", "focus", "clear"]
 const TRANSIENT := ["shake", "flash", "fade", "sfx"]
 

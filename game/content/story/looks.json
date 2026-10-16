@@ -72,6 +72,51 @@
    "outfit_hex": "3a2020",
    "skin_hex": "c79a74",
    "weapon": "blade"
+  },
+  {
+   "id": "su_dai",
+   "gender": "f",
+   "hair": 2,
+   "hair_hex": "2b3a4a",
+   "outfit_hex": "4fb5a8",
+   "skin_hex": "f0d8c0",
+   "weapon": "fan"
+  },
+  {
+   "id": "li_shan",
+   "gender": "m",
+   "hair": 3,
+   "hair_hex": "1c1c1c",
+   "outfit_hex": "5a4a42",
+   "skin_hex": "c89a78",
+   "weapon": "staff"
+  },
+  {
+   "id": "qian_man",
+   "gender": "m",
+   "hair": 2,
+   "hair_hex": "3a3a3a",
+   "outfit_hex": "8a6a3a",
+   "skin_hex": "e0c8a8",
+   "weapon": ""
+  },
+  {
+   "id": "guild_master",
+   "gender": "m",
+   "hair": 1,
+   "hair_hex": "4a4a50",
+   "outfit_hex": "3a5a78",
+   "skin_hex": "d0a888",
+   "weapon": ""
+  },
+  {
+   "id": "masked_rider",
+   "gender": "m",
+   "hair": 0,
+   "hair_hex": "20202a",
+   "outfit_hex": "30303c",
+   "skin_hex": "d8b898",
+   "weapon": "blade"
   }
  ]
 }

@@ -95,6 +95,48 @@
     "romance",
     "rival"
    ]
+  },
+  {
+   "companion": "su_dai",
+   "planned": 4,
+   "stages": [
+    {
+     "id": "1",
+     "event": "arc_su_dai_1"
+    }
+   ],
+   "outcomes": [
+    "redeemed",
+    "alternate",
+    "lost"
+   ],
+   "bonds": [
+    "friend",
+    "sworn",
+    "romance",
+    "rival"
+   ]
+  },
+  {
+   "companion": "li_shan",
+   "planned": 4,
+   "stages": [
+    {
+     "id": "1",
+     "event": "arc_li_shan_1"
+    }
+   ],
+   "outcomes": [
+    "redeemed",
+    "alternate",
+    "lost"
+   ],
+   "bonds": [
+    "friend",
+    "sworn",
+    "romance",
+    "rival"
+   ]
   }
  ]
 }

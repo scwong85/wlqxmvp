@@ -208,7 +208,7 @@ func _run() -> void:
 	# --- Companion panel (M7) ---
 	cult.party_button.pressed.emit()
 	await _frames(2)
-	_check(cult.party_panel != null and cult.party_buttons.size() == 3, "party: the companion panel lists the three companions")
+	_check(cult.party_panel != null and cult.party_buttons.size() == Content.companions.size(), "party: the companion panel lists every companion")
 	problems = cult.audit_layout()
 	_check(problems.is_empty(), "party: panel fits the screen with readable text %s" % str(problems.slice(0, 2)))
 	_check(cult.party_buttons["shen_qinghe"].is_empty() and Game.state.relationships.get_status("shen_qinghe") == "available", "party: nobody can be invited before conditions are met")

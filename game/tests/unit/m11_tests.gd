@@ -91,7 +91,7 @@ func _abilities() -> void:
 				"counter_notes":
 					check.call(foe.has_status("weaken"), "m11: counter notes weakens")
 			seen += 1
-	check.call(seen == 6, "m11: six companion abilities covered")
+	check.call(seen == 2 * content.companions.size(), "m11: every companion ability covered")
 
 
 func _bond_abilities() -> void:

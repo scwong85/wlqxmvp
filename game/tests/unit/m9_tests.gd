@@ -80,8 +80,8 @@ func _play(scenario: String, seed_value: int, party: Array = []) -> RefCounted:
 func _content() -> void:
 	var has := func(k: String) -> bool: return loc.has_key(k)
 	check.call(content.validate(has).is_empty(), "m9: all content (incl. combat) validates: %s" % str(content.validate(has)))
-	check.call(content.combat_units.size() <= 6, "m9: at most 6 unit types")
-	check.call(content.scenarios.size() == 4, "m9: four scenarios")
+	check.call(content.combat_units.size() <= 14, "m9: at most 14 unit types")
+	check.call(content.scenarios.size() >= 4, "m9: at least the four original scenarios")
 	for t in content.combat_techniques:
 		check.call(loc.has_key(str(t.name_key)), "m9: technique name key %s" % t.id)
 	# the validator rejects broken data

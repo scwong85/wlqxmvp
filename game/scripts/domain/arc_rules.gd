@@ -3,7 +3,8 @@ extends RefCounted
 ## outcome) and 4 (a closing scene that fixes the relationship type). The events are ordinary content gated by bond
 ## and by `arc_min`; this module only keeps the record and answers questions about it.
 ## Record per companion: {stage: 0..4, outcome: "" | redeemed | alternate | lost, bond: "" | friend | sworn | romance | rival}.
-## content/companions/arcs.json: [{companion, stages:[{id, event}], outcomes:[..], bonds:[..]}]
+## content/companions/arcs.json: [{companion, planned?, stages:[{id, event}], outcomes:[..], bonds:[..]}]; `planned` (default: the
+## number of stages) is the full length, so an arc whose later scenes are not written yet still reads "1/4".
 
 const OUTCOMES := ["redeemed", "alternate", "lost"]
 const BONDS := ["friend", "sworn", "romance", "rival"]
@@ -61,11 +62,12 @@ static func summary(state: RefCounted, content: Object, cid: String) -> Dictiona
 	var a := arc_of(content, cid)
 	var st := stage(state, cid)
 	var stages: Array = a.get("stages", [])
+	var total := maxi(int(a.get("planned", stages.size())), stages.size())
 	var next := ""
 	if st < stages.size():
 		next = str(stages[st].event)
-	return {"stage": st, "total": stages.size(), "outcome": outcome(state, cid), "bond": bond_type(state, cid),
-			"done": st >= stages.size() and not stages.is_empty(), "event": next}
+	return {"stage": st, "total": total, "outcome": outcome(state, cid), "bond": bond_type(state, cid),
+			"done": st >= total and total > 0, "event": next}
 
 
 ## Outcome tags of every companion with an arc, for the ending composer: {cid: {outcome, bond, stage}}.

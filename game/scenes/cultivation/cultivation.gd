@@ -702,14 +702,12 @@ func _fill_party(box: VBoxContainer) -> void:
 	rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for id in Content.companion_ids():
 		rows.add_child(_party_row(st, id, portrait))
-	if portrait:  # long rows scroll on narrow screens
-		var scroll := ScrollContainer.new()
-		scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-		scroll.custom_minimum_size = Vector2(0, 560)
-		scroll.add_child(rows)
-		box.add_child(scroll)
-	else:
-		box.add_child(rows)
+	# Five companions and up: the list scrolls in every orientation, sized to fit the screen.
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.custom_minimum_size = Vector2(0, clampf(Layout.usable_height() - 260.0, 180.0, 560.0))
+	scroll.add_child(rows)
+	box.add_child(scroll)
 	party_close_button = UiKit.make_button(Vector2(0, 56))
 	party_close_button.text = Loc.t("party.close")
 	party_close_button.add_theme_font_size_override("font_size", FONT_BODY)

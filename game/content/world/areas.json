@@ -209,6 +209,255 @@
     ],
     "week_min": 12
    }
+  },
+  {
+   "id": "bamboo_pass",
+   "region": "jade_valley",
+   "name_key": "world.area.bamboo_pass.name",
+   "desc_key": "world.area.bamboo_pass.desc",
+   "cost": 1,
+   "wander": [
+    {
+     "text_key": "world.area.bamboo_pass.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "agility",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.bamboo_pass.w2",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "food",
+       "amount": 2
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "week_min": 10
+   }
+  },
+  {
+   "id": "lj_docks",
+   "region": "linjiang",
+   "name_key": "world.area.lj_docks.name",
+   "desc_key": "world.area.lj_docks.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.lj_docks.w1",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 10
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.lj_docks.w2",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "linjiang_token"
+    ],
+    "week_min": 16
+   }
+  },
+  {
+   "id": "lj_market",
+   "region": "linjiang",
+   "name_key": "world.area.lj_market.name",
+   "desc_key": "world.area.lj_market.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.lj_market.w1",
+     "rewards": [
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 6
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.lj_market.w2",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 8
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "linjiang_token"
+    ],
+    "week_min": 16
+   }
+  },
+  {
+   "id": "lj_teahouse",
+   "region": "linjiang",
+   "name_key": "world.area.lj_teahouse.name",
+   "desc_key": "world.area.lj_teahouse.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.lj_teahouse.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.lj_teahouse.w2",
+     "rewards": [
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 5
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "linjiang_token"
+    ],
+    "week_min": 16
+   }
+  },
+  {
+   "id": "lj_escort",
+   "region": "linjiang",
+   "name_key": "world.area.lj_escort.name",
+   "desc_key": "world.area.lj_escort.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.lj_escort.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "power",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.lj_escort.w2",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 8
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "linjiang_token"
+    ],
+    "week_min": 16
+   }
+  },
+  {
+   "id": "lj_pawn",
+   "region": "linjiang",
+   "name_key": "world.area.lj_pawn.name",
+   "desc_key": "world.area.lj_pawn.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.lj_pawn.w1",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "ore",
+       "amount": 2
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.lj_pawn.w2",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "linjiang_token"
+    ],
+    "week_min": 16
+   }
+  },
+  {
+   "id": "lj_alleys",
+   "region": "linjiang",
+   "name_key": "world.area.lj_alleys.name",
+   "desc_key": "world.area.lj_alleys.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.lj_alleys.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.lj_alleys.w2",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "agility",
+       "amount": 1
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "linjiang_token"
+    ],
+    "week_min": 16
+   }
   }
  ]
 }

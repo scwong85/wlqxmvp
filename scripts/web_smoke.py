@@ -296,7 +296,7 @@ with sync_playwright() as p:
 
         if True:  # every size, portrait included, must pass the layout audit
             audits = [c for c in console if "LAYOUT_AUDIT" in c]
-            results["checks"][name]["audit_lines"] = [c for c in console if "LAYOUT_AUDIT" in c or "audit:" in c][:6]
+            results["checks"][name]["audit_lines"] = [c for c in console if ("LAYOUT_AUDIT" in c and "problems=0" not in c) or "audit:" in c][:8] or [c for c in console if "LAYOUT_AUDIT" in c][:3]
             results["checks"][name]["layout_audit_clean"] = bool(audits) and all("problems=0" in c for c in audits)
         errs = [c for c in console if c.startswith("error") or "SCRIPT ERROR" in c]
         results["checks"][name]["console_errors"] = len(errs)

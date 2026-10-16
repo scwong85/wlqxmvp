@@ -74,6 +74,45 @@
     "spirit": 4
    },
    "techniques": []
+  },
+  {
+   "id": "masked_guard",
+   "stats": {
+    "hp": 26,
+    "body": 4,
+    "power": 6,
+    "agility": 5,
+    "spirit": 5
+   },
+   "techniques": [
+    "swift_dash"
+   ]
+  },
+  {
+   "id": "dock_thug",
+   "stats": {
+    "hp": 24,
+    "body": 5,
+    "power": 5,
+    "agility": 3,
+    "spirit": 3
+   },
+   "techniques": [
+    "club_smash"
+   ]
+  },
+  {
+   "id": "guild_enforcer",
+   "stats": {
+    "hp": 38,
+    "body": 6,
+    "power": 7,
+    "agility": 4,
+    "spirit": 5
+   },
+   "techniques": [
+    "club_smash"
+   ]
   }
  ]
 }

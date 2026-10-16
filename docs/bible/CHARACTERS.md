@@ -3,7 +3,7 @@
 IDs are stable keys used in data. Ages are at the start (year 1, month 1).
 
 ## The hero (player-named)
-- Orphan raised in Jade Valley by the village teacher **老先生 Elder Wen (文伯)**. Carries half of a jade tally and a worn travelling-pack sewn with the valley's crest. Name chosen by the player; gender chosen by the player; chibi look chosen at the start. Text addresses the hero by name or with neutral forms ("你").
+- Orphan raised in Jade Valley by the village teacher **老先生 Elder Mo (墨长老)**. Carries half of a jade tally and a worn travelling-pack sewn with the valley's crest. Name chosen by the player; gender chosen by the player; chibi look chosen at the start. Text addresses the hero by name or with neutral forms ("你").
 - Starting temperament is a blank the player fills; the writing gives choices of tone (steady, bold, wry, gentle) that colour how NPCs react but never block the plot.
 
 ## Companions (8)
@@ -44,7 +44,7 @@ Relationship options for each companion: friend (默契), sworn sibling (结义)
 - **盟主 Lei Zhenyue (雷震岳, `head_lei`)** — current Alliance Head, aging, may be replaced; ambiguous.
 
 ## Recurring NPCs
-- **文伯 Elder Wen (`elder_wen`)** — the valley's teacher, guardian of the hero's past, dies or retires in year 1 (outcome depends on choices).
+- **墨长老 Elder Mo (`elder_mo`)** — the valley's teacher, guardian of the hero's past, dies or retires in year 1 (outcome depends on choices).
 - **村民阿福 Villager A-Fu (`villager_afu`)** — the villager rescued in the prologue; later runs the valley inn if saved.
 - **掌柜 钱满 Qian Man (`qian_man`)** — Linjiang pawnshop keeper, information broker.
 - **苍梧掌门 Cangwu Master Gu Xingzhou (顾行舟, `master_gu`)** — strict head of Cangwu School.

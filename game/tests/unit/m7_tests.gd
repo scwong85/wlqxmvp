@@ -37,7 +37,7 @@ func _g(seed_value: int = 7) -> RefCounted:
 
 
 func _data() -> void:
-	check.call(content.companions.size() == 3 and content.companion_ids() == ["shen_qinghe", "lu_chenzhou", "bai_yan"], "companions: the three companions exist")
+	check.call(content.companions.size() >= 3 and content.companion_ids().slice(0, 3) == ["shen_qinghe", "lu_chenzhou", "bai_yan"], "companions: the original three companions exist")
 	check.call(content.validate(loc.has_key).is_empty(), "companions: data validates with every translation key")
 	# The validator really catches broken data.
 	var saved: Array = content.companions

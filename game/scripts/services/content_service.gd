@@ -430,8 +430,8 @@ func _validate_combat(has_key: Callable) -> Array[String]:
 		for tid in u.get("techniques", []):
 			if not tids.has(str(tid)):
 				errs.append("combat unit %s: unknown technique %s" % [id, str(tid)])
-	if uids.size() > 6:
-		errs.append("combat: more than 6 unit types")
+	if uids.size() > 14:
+		errs.append("combat: more than 14 unit types")
 	for sc in scenarios:
 		var sid := str(sc.get("id", ""))
 		for k in ["", ".objective"]:
@@ -888,8 +888,9 @@ func _validate_arcs(has_key: Callable) -> Array[String]:
 		var cid := str(a.get("companion", ""))
 		if companion(cid).is_empty():
 			errs.append("arc %s: unknown companion" % cid)
-		if (a.get("stages", []) as Array).size() != 4:
-			errs.append("arc %s: expected four stages" % cid)
+		var authored: int = (a.get("stages", []) as Array).size()
+		if authored < 1 or authored > int(a.get("planned", 4)) or int(a.get("planned", 4)) != 4:
+			errs.append("arc %s: needs 1 to 4 authored stages out of 4 planned" % cid)
 		for s in a.get("stages", []):
 			if event(str(s.get("event", ""))).is_empty():
 				errs.append("arc %s: unknown event %s" % [cid, str(s.get("event", ""))])

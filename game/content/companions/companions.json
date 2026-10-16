@@ -116,6 +116,84 @@
    ],
    "relationship_ability": "margin_notes",
    "meet_week": 2
+  },
+  {
+   "id": "su_dai",
+   "name_key": "npc.su_dai",
+   "bio_key": "companion.su_dai.bio",
+   "portrait": "portrait_su_dai",
+   "role": "support",
+   "stats": {
+    "body": 4,
+    "power": 3,
+    "agility": 6,
+    "insight": 7,
+    "spirit": 8
+   },
+   "preferred_activities": [
+    "music",
+    "social_visit",
+    "cooking"
+   ],
+   "recruit": {
+    "score_min": 6,
+    "attr_min": {
+     "spirit": 6
+    },
+    "flags_block": [],
+    "week_min": 25
+   },
+   "depart": {
+    "score_below": 0,
+    "flags": [
+     "su_dai_betrayed"
+    ]
+   },
+   "battle_abilities": [
+    "soothing_tune",
+    "bell_strike"
+   ],
+   "relationship_ability": "pipa_crescendo",
+   "meet_week": 18
+  },
+  {
+   "id": "li_shan",
+   "name_key": "npc.li_shan",
+   "bio_key": "companion.li_shan.bio",
+   "portrait": "portrait_li_shan",
+   "role": "control",
+   "stats": {
+    "body": 8,
+    "power": 7,
+    "agility": 3,
+    "insight": 4,
+    "spirit": 6
+   },
+   "preferred_activities": [
+    "mining",
+    "training",
+    "cooking"
+   ],
+   "recruit": {
+    "score_min": 6,
+    "attr_min": {
+     "body": 7
+    },
+    "flags_block": [],
+    "week_min": 28
+   },
+   "depart": {
+    "score_below": 0,
+    "flags": [
+     "li_shan_betrayed"
+    ]
+   },
+   "battle_abilities": [
+    "hammer_blow",
+    "iron_taunt"
+   ],
+   "relationship_ability": "forge_oath",
+   "meet_week": 22
   }
  ]
 }

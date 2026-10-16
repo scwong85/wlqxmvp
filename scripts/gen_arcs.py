@@ -11,8 +11,9 @@ def L(k, z, e): zh[k] = z; en[k] = e
 
 events = load("world/events.json")
 dlgs = load("world/event_dialogues.json")
-events["events"] = [e for e in events["events"] if not e["id"].startswith("arc_")]
-dlgs["dialogues"] = [d for d in dlgs["dialogues"] if not d["id"].startswith("ev_arc_")]
+OWN = ("arc_shen_qinghe_", "arc_lu_chenzhou_", "arc_bai_yan_")
+events["events"] = [e for e in events["events"] if not e["id"].startswith(OWN)]
+dlgs["dialogues"] = [d for d in dlgs["dialogues"] if not d["id"].startswith(tuple("ev_" + o for o in OWN))]
 
 BG = {"river_bend": "riverside_day", "herb_terraces": "terraces_green", "ferry_dock": "ferry_dusk", "old_shrine": "shrine_night"}
 OUTCOMES = {"redeemed": ("圆满", "Redeemed"), "alternate": ("另寻出路", "Another Way"), "lost": ("失之交臂", "Slipped Away")}
@@ -135,7 +136,7 @@ for cid, a in ARCS.items():
         stages.append({"id": sid, "event": eid})
     arcs.append({"companion": cid, "stages": stages, "outcomes": list(OUTCOMES), "bonds": list(BONDS)})
 dump("world/events.json", events); dump("world/event_dialogues.json", dlgs)
-dump("companions/arcs.json", {"arcs": arcs})
+dump("companions/arcs.json", {"arcs": arcs})   # gen_year1.py appends the later companions
 for o, (z, e) in OUTCOMES.items(): L("arc.outcome." + o, z, e)
 for b, (z, e) in BONDS.items(): L("arc.bond." + b, z, e)
 zh.update({"arc.progress": "羁绊故事 {stage}/{total}", "arc.result": "结局：{outcome}", "arc.relation": "关系：{bond}", "arc.gate.stage": "需先经历此前的故事"})

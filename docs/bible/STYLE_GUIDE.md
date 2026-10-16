@@ -19,7 +19,7 @@
 | Li Shan | 慢，具体，工艺比喻 | slow, concrete, craft metaphors |
 | Xia Zhi | 街头快语，突然沉默 | fast street talk, sudden silence |
 | Xiao Hanchuan | 军令式，慢慢解冻 | formal, military, thaws slowly |
-| Elder Wen | 温和，老式，留白 | gentle, old-fashioned, leaves things unsaid |
+| Elder Mo | 温和，老式，留白 | gentle, old-fashioned, leaves things unsaid |
 | Faceless Gate | 平静，格言，不威胁 | calm, proverbs, never threatens openly |
 
 ## Glossary (use these exact forms)

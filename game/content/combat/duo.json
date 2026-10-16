@@ -17,6 +17,18 @@
    "companion": "bai_yan",
    "tech": "duo_ink_seal",
    "bond_min": 12
+  },
+  {
+   "id": "duo_pipa_duet",
+   "companion": "su_dai",
+   "tech": "duo_pipa_duet",
+   "bond_min": 12
+  },
+  {
+   "id": "duo_hammer_anvil",
+   "companion": "li_shan",
+   "tech": "duo_hammer_anvil",
+   "bond_min": 12
   }
  ]
 }

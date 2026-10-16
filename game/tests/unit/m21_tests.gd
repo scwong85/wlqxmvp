@@ -41,9 +41,9 @@ func _record() -> void:
 	var bad: RefCounted = GameState.from_dict({"relationships": {"arcs": {"x": {"stage": 99, "outcome": "zz", "bond": "friend"}, "y": 5}}})
 	check.call(ArcRules.stage(bad, "x") == 4 and ArcRules.outcome(bad, "x") == "" and ArcRules.bond_type(bad, "x") == "friend" and not bad.relationships.arcs.has("y"), "m21: damaged arc data is cleaned")
 	check.call(GameState.from_dict({"calendar": {"week": 2, "slot": 1}}).relationships.arcs.is_empty(), "m21: older saves have no arcs")
-	check.call(content.arcs.size() == 3, "m21: three arcs ship")
-	for a in content.arcs:
-		check.call(a.stages.size() == 4, "m21: %s has four stages" % str(a.companion))
+	check.call(content.arcs.size() >= 3, "m21: the template arcs ship")
+	for cid in ["shen_qinghe", "lu_chenzhou", "bai_yan"]:
+		check.call(ArcRules.arc_of(content, cid).stages.size() == 4, "m21: %s has four stages" % cid)
 	var sm := ArcRules.summary(s, content, "shen_qinghe")
 	check.call(sm.stage == 2 and sm.total == 4 and sm.event == "arc_shen_qinghe_3" and not sm.done, "m21: the summary names the next scene")
 

@@ -12,6 +12,10 @@ const THEMES := {
 	"terraces_green": {"top": "7fb8d0", "mid": "bfe0c8", "low": "e8f2d8", "ground": "4a8a3c", "kind": "terraces"},
 	"shrine_night": {"top": "070d16", "mid": "142437", "low": "2a4258", "ground": "1a2a28", "kind": "shrine", "moon": true},
 	"ferry_dusk": {"top": "3a3560", "mid": "c0707a", "low": "f2c090", "ground": "2a4a5a", "kind": "river"},
+	"bamboo_mist": {"top": "8fb8b0", "mid": "c8e0d0", "low": "eef6ea", "ground": "3d7a50", "kind": "hills"},
+	"city_docks": {"top": "5a86b0", "mid": "a8c8d8", "low": "ecefe4", "ground": "55697a", "kind": "river", "sun": true},
+	"city_market": {"top": "6a9cc4", "mid": "d8c8a0", "low": "f4e6c4", "ground": "6a5a48", "kind": "houses", "sun": true},
+	"city_night": {"top": "080c18", "mid": "1c2238", "low": "383e58", "ground": "22222c", "kind": "houses", "moon": true},
 	"night_camp": {"top": "060a12", "mid": "10202c", "low": "203540", "ground": "1c2a22", "kind": "camp", "moon": true},
 }
 
