@@ -2441,6 +2441,375 @@
    "requires": {
     "week_min": 91
    }
+  },
+  {
+   "id": "y2_council",
+   "kind": "fixed",
+   "area": "lj_teahouse",
+   "scene": {
+    "dialogue": "ev_y2_council"
+   },
+   "title_key": "event.y2_council.title",
+   "window": {
+    "from": 106,
+    "to": 110
+   },
+   "priority": 6,
+   "requires": {
+    "week_min": 106
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "council_neutral"
+    },
+    {
+     "type": "lead",
+     "id": "houses_split"
+    }
+   ]
+  },
+  {
+   "id": "arc_xie_wujiu_3",
+   "kind": "fixed",
+   "area": "cw_courts",
+   "scene": {
+    "dialogue": "ev_arc_xie_wujiu_3"
+   },
+   "title_key": "event.arc_xie_wujiu_3.title",
+   "window": {
+    "from": 106,
+    "to": 114
+   },
+   "priority": 6,
+   "requires": {
+    "bond_min": {
+     "xie_wujiu": 12
+    },
+    "arc_min": {
+     "xie_wujiu": 2
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "xie_wujiu",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "xie_wujiu",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_su_dai_3",
+   "kind": "fixed",
+   "area": "lj_market",
+   "scene": {
+    "dialogue": "ev_arc_su_dai_3"
+   },
+   "title_key": "event.arc_su_dai_3.title",
+   "window": {
+    "from": 108,
+    "to": 116
+   },
+   "priority": 6,
+   "requires": {
+    "bond_min": {
+     "su_dai": 12
+    },
+    "arc_min": {
+     "su_dai": 2
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "su_dai",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "su_dai",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_li_shan_3",
+   "kind": "fixed",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_arc_li_shan_3"
+   },
+   "title_key": "event.arc_li_shan_3.title",
+   "window": {
+    "from": 108,
+    "to": 118
+   },
+   "priority": 6,
+   "requires": {
+    "bond_min": {
+     "li_shan": 12
+    },
+    "arc_min": {
+     "li_shan": 2
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "li_shan",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "li_shan",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_xia_zhi_3",
+   "kind": "fixed",
+   "area": "lj_alleys",
+   "scene": {
+    "dialogue": "ev_arc_xia_zhi_3"
+   },
+   "title_key": "event.arc_xia_zhi_3.title",
+   "window": {
+    "from": 110,
+    "to": 118
+   },
+   "priority": 6,
+   "requires": {
+    "bond_min": {
+     "xia_zhi": 12
+    },
+    "arc_min": {
+     "xia_zhi": 2
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "xia_zhi",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "xia_zhi",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_xiao_hanchuan_3",
+   "kind": "fixed",
+   "area": "ym_fort",
+   "scene": {
+    "dialogue": "ev_arc_xiao_hanchuan_3"
+   },
+   "title_key": "event.arc_xiao_hanchuan_3.title",
+   "window": {
+    "from": 106,
+    "to": 116
+   },
+   "priority": 6,
+   "requires": {
+    "bond_min": {
+     "xiao_hanchuan": 12
+    },
+    "arc_min": {
+     "xiao_hanchuan": 2
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "xiao_hanchuan",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "xiao_hanchuan",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "y2_betrayal",
+   "kind": "fixed",
+   "area": "lj_alleys",
+   "scene": {
+    "dialogue": "ev_y2_betrayal"
+   },
+   "title_key": "event.y2_betrayal.title",
+   "window": {
+    "from": 112,
+    "to": 116
+   },
+   "priority": 7,
+   "requires": {
+    "week_min": 106
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "betrayal_unseen"
+    }
+   ]
+  },
+  {
+   "id": "y2_rescue",
+   "kind": "fixed",
+   "area": "lj_alleys",
+   "scene": {
+    "dialogue": "ev_y2_rescue"
+   },
+   "title_key": "event.y2_rescue.title",
+   "scheduled_only": true,
+   "priority": 7,
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "rescue_lost"
+    }
+   ]
+  },
+  {
+   "id": "y2_solstice",
+   "kind": "fixed",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_y2_solstice"
+   },
+   "title_key": "event.y2_solstice.title",
+   "window": {
+    "from": 113,
+    "to": 114
+   },
+   "priority": 6,
+   "requires": {
+    "week_min": 113
+   }
+  },
+  {
+   "id": "y2_winter_end",
+   "kind": "fixed",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_y2_winter_end"
+   },
+   "title_key": "event.y2_winter_end.title",
+   "window": {
+    "from": 119,
+    "to": 120
+   },
+   "priority": 8,
+   "requires": {
+    "week_min": 119
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "year2_done"
+    },
+    {
+     "type": "lead",
+     "id": "vault_second_gate"
+    },
+    {
+     "type": "lead",
+     "id": "platform_year3"
+    }
+   ]
+  },
+  {
+   "id": "ry8_village_snow",
+   "kind": "random",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_ry8_village_snow"
+   },
+   "title_key": "event.ry8_village_snow.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 106
+   }
+  },
+  {
+   "id": "ry8_teahouse_split",
+   "kind": "random",
+   "area": "lj_teahouse",
+   "scene": {
+    "dialogue": "ev_ry8_teahouse_split"
+   },
+   "title_key": "event.ry8_teahouse_split.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 106
+   }
+  },
+  {
+   "id": "ry8_courts_empty",
+   "kind": "random",
+   "area": "cw_courts",
+   "scene": {
+    "dialogue": "ev_ry8_courts_empty"
+   },
+   "title_key": "event.ry8_courts_empty.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 106
+   }
+  },
+  {
+   "id": "ry8_fort_watch",
+   "kind": "random",
+   "area": "ym_fort",
+   "scene": {
+    "dialogue": "ev_ry8_fort_watch"
+   },
+   "title_key": "event.ry8_fort_watch.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 106
+   }
+  },
+  {
+   "id": "ry8_harbour_lamp",
+   "kind": "random",
+   "area": "pd_harbour",
+   "scene": {
+    "dialogue": "ev_ry8_harbour_lamp"
+   },
+   "title_key": "event.ry8_harbour_lamp.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 106
+   }
+  },
+  {
+   "id": "ry8_market_gossip",
+   "kind": "random",
+   "area": "lj_market",
+   "scene": {
+    "dialogue": "ev_ry8_market_gossip"
+   },
+   "title_key": "event.ry8_market_gossip.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 106
+   }
   }
  ]
 }

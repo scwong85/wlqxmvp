@@ -1,0 +1,11 @@
+# M24d report: Year 2, quarter 8 "The Rift" (weeks 106 to 120) and Year 2 close
+
+- **Council of Houses** (wk 106-110): stand with the orthodox houses, the trade guilds, or neither (flags council_orthodox / council_trade / council_neutral, lead houses_split).
+- **Stage-3 tests** for Xie Wujiu (face to face, public proof battle), Su Dai (share, hide or sell the song), Li Shan (rebuild together, small stall, or Gate gold), Xia Zhi (defect, fake a failure, or steal), Xiao Hanchuan (break ranks with a battle, petition, or obey). Each needs bond 12 and stage 2, records the outcome (redeemed / alternate / lost), and a missed test closes the arc as lost. Shen, Lu and Bai already have stage 3 from M21. All eight arcs now have at least three authored stages (stage 4, the relationship scene, is year 3).
+- **The betrayal** (wk 112-116): who is compromised depends on earlier choices (Xia Zhi if she was caught in the alley, Xie Wujiu if he was abandoned at the theft, otherwise an insider in the council; never Shen, Lu or Bai). Chase (schedules the rescue, bond +2) or let them choose (the companion leaves and the arc is lost).
+- **The rescue** (battle, full party), the **second Winter Solstice** (wk 113, gift scene) and **Winter of the Second Year** (wk 119-120, flag year2_done, leads to the vault's second gate and next year's Platform gathering). Both fall back to safe defaults if missed.
+- 6 random templates, 3 battles (public proof, break ranks, rescue), 3 new leads.
+- **120-week random walk** (two seeds, tests/unit/m24d_tests.gd): reaches week 121 with no error and sees at least 15 different events.
+- **Balance** (sim_year1): the new battles win at 55 to 70 percent of the realm cap in 4 to 10 rounds. Pace (sim_progress, full-time training): breakthrough weeks 8, 13, 23, 36 (pure flame, gated by the hermit trial), 75, 170; a player who spends half their slots on story is roughly at 16, 26, 46, 72 and 150, so the fifth realm lands about the time of the Penglai trial and the sixth is a year-3 target.
+- Generator scripts/gen_year2_q8.py (after gen_year2_q7). 3351 unit checks in total.
+- **Year 2 totals**: 40 new fixed scenes and arc stages, 30 random templates, 12 battles, 7 new areas, 2 new companions (8 total), 5 new backgrounds.

@@ -2397,6 +2397,325 @@
      "brawl_lost"
     ]
    }
+  },
+  {
+   "id": "y2_public_proof",
+   "battle_id": "y2_public_proof",
+   "max_rounds": 10,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "cangwu_senior",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "cangwu_disciple",
+     "cells": [
+      [
+       2,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 20
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "public_proof_won"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "public_proof_lost"
+    ]
+   }
+  },
+  {
+   "id": "y2_break_ranks",
+   "battle_id": "y2_break_ranks",
+   "max_rounds": 10,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "garrison_sabre",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "garrison_sabre",
+     "cells": [
+      [
+       2,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "yanmen_raider",
+     "cells": [
+      [
+       3,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 25
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "ranks_broken"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "ranks_held"
+    ]
+   }
+  },
+  {
+   "id": "y2_rescue",
+   "battle_id": "y2_rescue",
+   "max_rounds": 12,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ],
+    [
+     0,
+     2,
+     "hazard"
+    ],
+    [
+     5,
+     2,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "gate_captain",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_blade",
+     "cells": [
+      [
+       2,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_blade",
+     "cells": [
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_scout",
+     "cells": [
+      [
+       4,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_scout",
+     "cells": [
+      [
+       5,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "sea_raider",
+     "cells": [
+      [
+       2,
+       0
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 40
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "rescued"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "rescue_failed"
+    ]
+   }
   }
  ]
 }
