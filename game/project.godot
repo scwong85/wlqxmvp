@@ -14,6 +14,7 @@ Layout="*res://scripts/services/layout_service.gd"
 Router="*res://scripts/services/scene_router.gd"
 Saves="*res://scripts/services/save_service.gd"
 Audio="*res://scripts/services/audio_service.gd"
+DragScroll="*res://scripts/services/drag_scroll.gd"
 Content="*res://scripts/services/content_service.gd"
 Game="*res://scripts/services/game_session.gd"
 

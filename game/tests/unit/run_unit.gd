@@ -54,6 +54,7 @@ func _ready() -> void:
 	preload("res://tests/unit/m24b_tests.gd").new().run(_check, Loc)
 	preload("res://tests/unit/m24c_tests.gd").new().run(_check, Loc)
 	preload("res://tests/unit/m24d_tests.gd").new().run(_check, Loc)
+	preload("res://tests/unit/drag_scroll_tests.gd").new().run(_check, Loc)
 	for case in [[390, 844, "portrait"], [360, 640, "portrait"], [768, 1024, "portrait"], [844, 390, "landscape"], [1280, 720, "landscape"], [800, 800, "landscape"], [1, 2, "portrait"]]:
 		_check(Layout.mode_for(Vector2(case[0], case[1])) == case[2], "layout: %dx%d is %s" % [case[0], case[1], case[2]])
 	_check(Layout.PORTRAIT_SIZE.x < Layout.PORTRAIT_SIZE.y and Layout.LANDSCAPE_SIZE.x > Layout.LANDSCAPE_SIZE.y, "layout: design sizes have the right orientation")

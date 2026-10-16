@@ -76,14 +76,17 @@ func _apply(kind: String) -> void:
 func _start_playback() -> void:
 	_sfx = AudioStreamPlayer.new()
 	_sfx.bus = SFX_BUS
+	_sfx.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
 	add_child(_sfx)
 	_click = _tone([660.0, 990.0], 0.07, 0.5, false)
 	catalog = MusicRules.load_catalog()
 	_music = AudioStreamPlayer.new()
 	_music.bus = MUSIC_BUS
+	_music.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
 	add_child(_music)
 	_music_b = AudioStreamPlayer.new()
 	_music_b.bus = MUSIC_BUS
+	_music_b.playback_type = AudioServer.PLAYBACK_TYPE_STREAM
 	add_child(_music_b)
 	_active = _music
 	_fallback_pad = _tone([220.0, 277.18, 329.63], 6.0, 0.18, true)
