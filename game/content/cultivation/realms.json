@@ -56,7 +56,8 @@
    "requires": {
     "path_progress_min": 50,
     "attr_total_min": 118,
-    "tech_levels_min": 8
+    "tech_levels_min": 8,
+    "flag": "hermit_trial_done"
    }
   },
   {

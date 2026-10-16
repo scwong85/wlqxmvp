@@ -2105,6 +2105,298 @@
      "pass_lost"
     ]
    }
+  },
+  {
+   "id": "y2_hermit_trial",
+   "battle_id": "y2_hermit_trial",
+   "max_rounds": 12,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "hermit_master",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 20
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "hermit_trial_won"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "hermit_trial_lost"
+    ]
+   }
+  },
+  {
+   "id": "y2_sea_ambush",
+   "battle_id": "y2_sea_ambush",
+   "max_rounds": 12,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     0,
+     2,
+     "hazard"
+    ],
+    [
+     5,
+     2,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "gate_captain",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "sea_raider",
+     "cells": [
+      [
+       2,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "sea_raider",
+     "cells": [
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "sea_raider",
+     "cells": [
+      [
+       4,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 30
+     },
+     {
+      "type": "resource",
+      "id": "ore",
+      "amount": 2
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "sea_ambush_won"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "sea_ambush_lost"
+    ]
+   }
+  },
+  {
+   "id": "y2_harbour_brawl",
+   "battle_id": "y2_harbour_brawl",
+   "max_rounds": 10,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "sea_raider",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "sea_raider",
+     "cells": [
+      [
+       2,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "sea_raider",
+     "cells": [
+      [
+       3,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 12
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "brawl_won"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "brawl_lost"
+    ]
+   }
   }
  ]
 }

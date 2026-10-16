@@ -13,7 +13,8 @@ var RATIO := 0.7
 const PLAN := {"masked_escort": [1, ["shen_qinghe"]], "dock_scam": [2, ["shen_qinghe"]], "caravan_escort": [2, ["lu_chenzhou"]], "guild_night": [2, ["lu_chenzhou", "su_dai"]],
 	"xie_duel": [3, ["bai_yan"]], "cw_bout_1": [3, ["bai_yan"]], "cw_bout_2": [3, ["bai_yan", "li_shan"]], "cw_bout_3": [3, ["bai_yan"]], "q4_ambush": [3, ["lu_chenzhou", "xie_wujiu"]],
 	"y2_xia_catch": [3, ["bai_yan"]], "y2_patrol": [3, ["shen_qinghe"]], "y2_barge_riot": [3, ["lu_chenzhou", "xia_zhi"]],
-	"y2_xiao_spar": [3, ["bai_yan"]], "y2_snow_pass": [4, ["xiao_hanchuan"]], "y2_pass_battle": [4, ["xiao_hanchuan", "li_shan"]]}
+	"y2_xiao_spar": [3, ["bai_yan"]], "y2_snow_pass": [4, ["xiao_hanchuan"]], "y2_pass_battle": [4, ["xiao_hanchuan", "li_shan"]],
+	"y2_hermit_trial": [4, ["xiao_hanchuan"]], "y2_sea_ambush": [4, ["xiao_hanchuan", "xia_zhi"]], "y2_harbour_brawl": [4, ["su_dai"]]}
 const CAPS := {1: 16, 2: 24, 3: 34, 4: 46}
 
 

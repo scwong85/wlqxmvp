@@ -22,6 +22,8 @@ const THEMES := {
 	"marsh_night": {"top": "04080e", "mid": "0e1c24", "low": "24404a", "ground": "142a2a", "kind": "shrine", "moon": true},
 	"yanmen_fort": {"top": "7f93a8", "mid": "c0cad2", "low": "e8ecee", "ground": "6a6e74", "kind": "houses", "sun": true},
 	"yanmen_snow": {"top": "9fb4c6", "mid": "d4dfe8", "low": "f4f7fa", "ground": "9aa6b2", "kind": "hills"},
+	"penglai_sea": {"top": "5cc0d0", "mid": "a8e0e0", "low": "f4f0e4", "ground": "3a8a9a", "kind": "river", "sun": true},
+	"penglai_cave": {"top": "10343c", "mid": "2a6a74", "low": "6ab0b0", "ground": "1c4046", "kind": "shrine", "moon": true},
 	"night_camp": {"top": "060a12", "mid": "10202c", "low": "203540", "ground": "1c2a22", "kind": "camp", "moon": true},
 }
 

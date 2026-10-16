@@ -2123,6 +2123,324 @@
    "requires": {
     "week_min": 76
    }
+  },
+  {
+   "id": "y2_guild_ship",
+   "kind": "fixed",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_y2_guild_ship"
+   },
+   "title_key": "event.y2_guild_ship.title",
+   "window": {
+    "from": 88,
+    "to": 95
+   },
+   "priority": 5,
+   "requires": {
+    "week_min": 88
+   },
+   "on_miss": [
+    {
+     "type": "lead",
+     "id": "penglai_route"
+    },
+    {
+     "type": "schedule",
+     "id": "y2_crossing",
+     "min": 1,
+     "max": 3
+    }
+   ]
+  },
+  {
+   "id": "y2_crossing",
+   "kind": "fixed",
+   "area": "pd_harbour",
+   "scene": {
+    "dialogue": "ev_y2_crossing"
+   },
+   "title_key": "event.y2_crossing.title",
+   "scheduled_only": true,
+   "priority": 5,
+   "on_miss": [
+    {
+     "type": "schedule",
+     "id": "y2_yun_mian",
+     "min": 1,
+     "max": 4
+    }
+   ]
+  },
+  {
+   "id": "y2_yun_mian",
+   "kind": "fixed",
+   "area": "pd_monastery",
+   "scene": {
+    "dialogue": "ev_y2_yun_mian"
+   },
+   "title_key": "event.y2_yun_mian.title",
+   "scheduled_only": true,
+   "priority": 5,
+   "on_miss": [
+    {
+     "type": "lead",
+     "id": "hermit_trials"
+    },
+    {
+     "type": "schedule",
+     "id": "y2_coral_cave",
+     "min": 1,
+     "max": 5
+    }
+   ]
+  },
+  {
+   "id": "y2_coral_cave",
+   "kind": "fixed",
+   "area": "pd_cave",
+   "scene": {
+    "dialogue": "ev_y2_coral_cave"
+   },
+   "title_key": "event.y2_coral_cave.title",
+   "scheduled_only": true,
+   "priority": 6,
+   "on_miss": [
+    {
+     "type": "lead",
+     "id": "fragment_two"
+    },
+    {
+     "type": "schedule",
+     "id": "y2_trial_breakthrough",
+     "min": 1,
+     "max": 5
+    }
+   ]
+  },
+  {
+   "id": "y2_trial_breakthrough",
+   "kind": "fixed",
+   "area": "pd_monastery",
+   "scene": {
+    "dialogue": "ev_y2_trial_breakthrough"
+   },
+   "title_key": "event.y2_trial_breakthrough.title",
+   "scheduled_only": true,
+   "priority": 6,
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "hermit_trial_done"
+    },
+    {
+     "type": "flag",
+     "id": "hermit_trial_skipped"
+    },
+    {
+     "type": "schedule",
+     "id": "y2_ship_back",
+     "min": 1,
+     "max": 4
+    }
+   ]
+  },
+  {
+   "id": "y2_ship_back",
+   "kind": "fixed",
+   "area": "pd_harbour",
+   "scene": {
+    "dialogue": "ev_y2_ship_back"
+   },
+   "title_key": "event.y2_ship_back.title",
+   "scheduled_only": true,
+   "priority": 6,
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "sea_ambush_missed"
+    }
+   ]
+  },
+  {
+   "id": "arc_xia_zhi_2",
+   "kind": "fixed",
+   "area": "lj_alleys",
+   "scene": {
+    "dialogue": "ev_arc_xia_zhi_2"
+   },
+   "title_key": "event.arc_xia_zhi_2.title",
+   "window": {
+    "from": 84,
+    "to": 115
+   },
+   "priority": 6,
+   "requires": {
+    "bond_min": {
+     "xia_zhi": 8
+    },
+    "arc_min": {
+     "xia_zhi": 1
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "xia_zhi",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "xia_zhi",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_xiao_hanchuan_2",
+   "kind": "fixed",
+   "area": "ym_fort",
+   "scene": {
+    "dialogue": "ev_arc_xiao_hanchuan_2"
+   },
+   "title_key": "event.arc_xiao_hanchuan_2.title",
+   "window": {
+    "from": 88,
+    "to": 118
+   },
+   "priority": 6,
+   "requires": {
+    "bond_min": {
+     "xiao_hanchuan": 8
+    },
+    "arc_min": {
+     "xiao_hanchuan": 1
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "xiao_hanchuan",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "xiao_hanchuan",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "ry7_harbour_nets",
+   "kind": "random",
+   "area": "pd_harbour",
+   "scene": {
+    "dialogue": "ev_ry7_harbour_nets"
+   },
+   "title_key": "event.ry7_harbour_nets.title",
+   "weight": 3,
+   "cooldown": 5,
+   "requires": {
+    "week_min": 91
+   }
+  },
+  {
+   "id": "ry7_harbour_pirates",
+   "kind": "random",
+   "area": "pd_harbour",
+   "scene": {
+    "dialogue": "ev_ry7_harbour_pirates"
+   },
+   "title_key": "event.ry7_harbour_pirates.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 91
+   }
+  },
+  {
+   "id": "ry7_harbour_tale",
+   "kind": "random",
+   "area": "pd_harbour",
+   "scene": {
+    "dialogue": "ev_ry7_harbour_tale"
+   },
+   "title_key": "event.ry7_harbour_tale.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 91
+   }
+  },
+  {
+   "id": "ry7_cave_pearls",
+   "kind": "random",
+   "area": "pd_cave",
+   "scene": {
+    "dialogue": "ev_ry7_cave_pearls"
+   },
+   "title_key": "event.ry7_cave_pearls.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 91
+   }
+  },
+  {
+   "id": "ry7_cave_echo",
+   "kind": "random",
+   "area": "pd_cave",
+   "scene": {
+    "dialogue": "ev_ry7_cave_echo"
+   },
+   "title_key": "event.ry7_cave_echo.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 91
+   }
+  },
+  {
+   "id": "ry7_monastery_sweep",
+   "kind": "random",
+   "area": "pd_monastery",
+   "scene": {
+    "dialogue": "ev_ry7_monastery_sweep"
+   },
+   "title_key": "event.ry7_monastery_sweep.title",
+   "weight": 3,
+   "cooldown": 5,
+   "requires": {
+    "week_min": 91
+   }
+  },
+  {
+   "id": "ry7_monastery_copy",
+   "kind": "random",
+   "area": "pd_monastery",
+   "scene": {
+    "dialogue": "ev_ry7_monastery_copy"
+   },
+   "title_key": "event.ry7_monastery_copy.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 91
+   }
+  },
+  {
+   "id": "ry7_monastery_tea",
+   "kind": "random",
+   "area": "pd_monastery",
+   "scene": {
+    "dialogue": "ev_ry7_monastery_tea"
+   },
+   "title_key": "event.ry7_monastery_tea.title",
+   "weight": 3,
+   "cooldown": 4,
+   "requires": {
+    "week_min": 91
+   }
   }
  ]
 }

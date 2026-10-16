@@ -181,6 +181,8 @@
    "marsh_night": "mystery_theme",
    "yanmen_fort": "yanmen_theme",
    "yanmen_snow": "yanmen_theme",
+   "penglai_sea": "penglai_theme",
+   "penglai_cave": "penglai_theme",
    "default": "valley_theme"
   },
   "events": {

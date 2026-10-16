@@ -243,6 +243,32 @@
    "techniques": [
     "club_smash"
    ]
+  },
+  {
+   "id": "sea_raider",
+   "stats": {
+    "hp": 56,
+    "body": 9,
+    "power": 12,
+    "agility": 9,
+    "spirit": 7
+   },
+   "techniques": [
+    "swift_dash"
+   ]
+  },
+  {
+   "id": "hermit_master",
+   "stats": {
+    "hp": 300,
+    "body": 16,
+    "power": 19,
+    "agility": 11,
+    "spirit": 16
+   },
+   "techniques": [
+    "club_smash"
+   ]
   }
  ]
 }

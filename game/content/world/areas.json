@@ -890,6 +890,114 @@
     ],
     "week_min": 76
    }
+  },
+  {
+   "id": "pd_harbour",
+   "region": "penglai",
+   "name_key": "world.area.pd_harbour.name",
+   "desc_key": "world.area.pd_harbour.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.pd_harbour.w1",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "food",
+       "amount": 3
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.pd_harbour.w2",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "penglai_route"
+    ],
+    "week_min": 91
+   }
+  },
+  {
+   "id": "pd_cave",
+   "region": "penglai",
+   "name_key": "world.area.pd_cave.name",
+   "desc_key": "world.area.pd_cave.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.pd_cave.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.pd_cave.w2",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "ore",
+       "amount": 2
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "penglai_route"
+    ],
+    "week_min": 91
+   }
+  },
+  {
+   "id": "pd_monastery",
+   "region": "penglai",
+   "name_key": "world.area.pd_monastery.name",
+   "desc_key": "world.area.pd_monastery.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.pd_monastery.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.pd_monastery.w2",
+     "rewards": [
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 8
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "penglai_route"
+    ],
+    "week_min": 91
+   }
   }
  ]
 }

@@ -162,6 +162,15 @@
    "outfit_hex": "34383f",
    "skin_hex": "d8b494",
    "weapon": "blade"
+  },
+  {
+   "id": "isle_yun",
+   "gender": "f",
+   "hair": 3,
+   "hair_hex": "3a4a5a",
+   "outfit_hex": "9ad0cc",
+   "skin_hex": "f0d8c4",
+   "weapon": ""
   }
  ]
 }

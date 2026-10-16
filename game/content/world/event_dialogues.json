@@ -7259,6 +7259,1012 @@
      ]
     }
    ]
+  },
+  {
+   "id": "ev_y2_guild_ship",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y2_guild_ship.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_docks"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "guild_master",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y2_guild_ship.2",
+     "speaker_key": "npc.guild_master",
+     "choices": [
+      {
+       "id": "pay",
+       "label_key": "event.y2_guild_ship.c.pay",
+       "next": "",
+       "effects": [
+        {
+         "type": "lead",
+         "id": "penglai_route"
+        },
+        {
+         "type": "schedule",
+         "id": "y2_crossing",
+         "min": 1,
+         "max": 3
+        },
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 1
+        }
+       ]
+      },
+      {
+       "id": "work",
+       "label_key": "event.y2_guild_ship.c.work",
+       "next": "",
+       "effects": [
+        {
+         "type": "lead",
+         "id": "penglai_route"
+        },
+        {
+         "type": "schedule",
+         "id": "y2_crossing",
+         "min": 1,
+         "max": 3
+        },
+        {
+         "type": "attr",
+         "id": "body",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": -4
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y2_crossing",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y2_crossing.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "penglai_sea"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "wanderer",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y2_crossing.2",
+     "speaker_key": "npc.sailor",
+     "choices": [
+      {
+       "id": "sail",
+       "label_key": "event.y2_crossing.c.sail",
+       "next": "",
+       "effects": [
+        {
+         "type": "attr",
+         "id": "agility",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": -6
+        },
+        {
+         "type": "schedule",
+         "id": "y2_yun_mian",
+         "min": 1,
+         "max": 4
+        },
+        {
+         "type": "flag",
+         "id": "crossing_sail"
+        }
+       ]
+      },
+      {
+       "id": "bail",
+       "label_key": "event.y2_crossing.c.bail",
+       "next": "",
+       "effects": [
+        {
+         "type": "attr",
+         "id": "body",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": -6
+        },
+        {
+         "type": "schedule",
+         "id": "y2_yun_mian",
+         "min": 1,
+         "max": 4
+        },
+        {
+         "type": "flag",
+         "id": "crossing_bail"
+        }
+       ]
+      },
+      {
+       "id": "rope",
+       "label_key": "event.y2_crossing.c.rope",
+       "next": "",
+       "effects": [
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 2
+        },
+        {
+         "type": "schedule",
+         "id": "y2_yun_mian",
+         "min": 1,
+         "max": 4
+        },
+        {
+         "type": "flag",
+         "id": "crossing_rope"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y2_yun_mian",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y2_yun_mian.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "penglai_sea"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "isle_yun",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y2_yun_mian.2",
+     "speaker_key": "npc.isle_yun",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.y2_yun_mian.3",
+     "speaker_key": "npc.isle_yun",
+     "choices": [
+      {
+       "id": "protect",
+       "label_key": "event.y2_yun_mian.c.protect",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "yun_guard"
+        },
+        {
+         "type": "lead",
+         "id": "hermit_trials"
+        },
+        {
+         "type": "schedule",
+         "id": "y2_coral_cave",
+         "min": 2,
+         "max": 5
+        },
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 2
+        }
+       ]
+      },
+      {
+       "id": "mend",
+       "label_key": "event.y2_yun_mian.c.mend",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "yun_mend"
+        },
+        {
+         "type": "lead",
+         "id": "hermit_trials"
+        },
+        {
+         "type": "schedule",
+         "id": "y2_coral_cave",
+         "min": 2,
+         "max": 5
+        },
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 2
+        }
+       ]
+      },
+      {
+       "id": "unknown",
+       "label_key": "event.y2_yun_mian.c.unknown",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "yun_unsure"
+        },
+        {
+         "type": "lead",
+         "id": "hermit_trials"
+        },
+        {
+         "type": "schedule",
+         "id": "y2_coral_cave",
+         "min": 2,
+         "max": 5
+        },
+        {
+         "type": "bond",
+         "id": "su_dai",
+         "amount": 1
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y2_coral_cave",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y2_coral_cave.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "penglai_cave"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y2_coral_cave.2",
+     "speaker_key": "world.speaker.hero",
+     "choices": [
+      {
+       "id": "take",
+       "label_key": "event.y2_coral_cave.c.take",
+       "next": "",
+       "effects": [
+        {
+         "type": "lead",
+         "id": "fragment_two"
+        },
+        {
+         "type": "flag",
+         "id": "fragment_two_taken"
+        },
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 2
+        },
+        {
+         "type": "schedule",
+         "id": "y2_trial_breakthrough",
+         "min": 2,
+         "max": 5
+        }
+       ]
+      },
+      {
+       "id": "leave",
+       "label_key": "event.y2_coral_cave.c.leave",
+       "next": "",
+       "effects": [
+        {
+         "type": "lead",
+         "id": "fragment_two"
+        },
+        {
+         "type": "flag",
+         "id": "fragment_two_left"
+        },
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 2
+        },
+        {
+         "type": "schedule",
+         "id": "y2_trial_breakthrough",
+         "min": 2,
+         "max": 5
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y2_trial_breakthrough",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y2_trial_breakthrough.1",
+     "speaker_key": "npc.isle_yun",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "penglai_sea"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "isle_yun",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y2_trial_breakthrough.2",
+     "speaker_key": "world.speaker.hero",
+     "choices": [
+      {
+       "id": "face",
+       "label_key": "event.y2_trial_breakthrough.c.face",
+       "next": "",
+       "effects": [
+        {
+         "type": "battle",
+         "id": "y2_hermit_trial"
+        },
+        {
+         "type": "flag",
+         "id": "hermit_trial_done"
+        },
+        {
+         "type": "lead",
+         "id": "hermit_blessing"
+        },
+        {
+         "type": "schedule",
+         "id": "y2_ship_back",
+         "min": 2,
+         "max": 5
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y2_ship_back",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y2_ship_back.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "penglai_sea"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "wanderer",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y2_ship_back.2",
+     "speaker_key": "npc.sailor",
+     "choices": [
+      {
+       "id": "fight",
+       "label_key": "event.y2_ship_back.c.fight",
+       "next": "",
+       "effects": [
+        {
+         "type": "battle",
+         "id": "y2_sea_ambush"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_xia_zhi_2",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_xia_zhi_2.1",
+     "speaker_key": "npc.xia_zhi",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xia_zhi",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_xia_zhi_2.2",
+     "speaker_key": "npc.xia_zhi",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "arc_stage",
+       "id": "xia_zhi",
+       "amount": 2
+      },
+      {
+       "type": "lead",
+       "id": "gate_errand"
+      },
+      {
+       "type": "bond",
+       "id": "xia_zhi",
+       "amount": 3
+      },
+      {
+       "type": "attr",
+       "id": "agility",
+       "amount": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_xiao_hanchuan_2",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_xiao_hanchuan_2.1",
+     "speaker_key": "npc.xiao_hanchuan",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_fort"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xiao_hanchuan",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_xiao_hanchuan_2.2",
+     "speaker_key": "npc.xiao_hanchuan",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "arc_stage",
+       "id": "xiao_hanchuan",
+       "amount": 2
+      },
+      {
+       "type": "lead",
+       "id": "fathers_reply"
+      },
+      {
+       "type": "bond",
+       "id": "xiao_hanchuan",
+       "amount": 3
+      },
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry7_harbour_nets",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry7_harbour_nets.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "resource",
+       "id": "food",
+       "amount": 3
+      },
+      {
+       "type": "attr",
+       "id": "body",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "penglai_sea"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry7_harbour_pirates",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry7_harbour_pirates.1",
+     "speaker_key": "world.speaker.narrator",
+     "choices": [
+      {
+       "id": "fight",
+       "label_key": "event.ry7_harbour_pirates.c.fight",
+       "next": "",
+       "effects": [
+        {
+         "type": "battle",
+         "id": "y2_harbour_brawl"
+        },
+        {
+         "type": "attr",
+         "id": "power",
+         "amount": 1
+        }
+       ]
+      },
+      {
+       "id": "walk",
+       "label_key": "event.ry7_harbour_pirates.c.walk",
+       "next": "",
+       "effects": [
+        {
+         "type": "attr",
+         "id": "agility",
+         "amount": 1
+        }
+       ]
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "penglai_sea"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry7_harbour_tale",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry7_harbour_tale.1",
+     "speaker_key": "npc.sailor",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "penglai_sea"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "wanderer",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry7_cave_pearls",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry7_cave_pearls.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "resource",
+       "id": "ore",
+       "amount": 2
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "penglai_cave"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry7_cave_echo",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry7_cave_echo.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      },
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "penglai_cave"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry7_monastery_sweep",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry7_monastery_sweep.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      },
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 4
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "penglai_sea"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry7_monastery_copy",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry7_monastery_copy.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "penglai_sea"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry7_monastery_tea",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry7_monastery_tea.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 10
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "penglai_sea"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
   }
  ]
 }
