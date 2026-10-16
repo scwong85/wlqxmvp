@@ -116,29 +116,10 @@ func _runner() -> void:
 
 
 func _ending_table() -> void:
-	var cases := [
-		["valley_sage", {"f": ["bandits_defeated", "villager_saved"], "bond": 9, "prog": 7}],
-		["valley_guardian", {"f": ["bandits_defeated", "villager_saved"], "bond": 9, "prog": 2}],
-		["valley_guardian", {"f": ["bandits_defeated", "villager_saved"], "bond": 0, "prog": 9}],
-		["lone_victor", {"f": ["bandits_defeated"], "bond": 9, "prog": 9}],
-		["lone_victor", {"f": ["bandits_defeated"], "bond": 0, "prog": 0}],
-		["valley_falls", {"f": [], "bond": 9, "prog": 9}],
-		["valley_falls", {"f": ["villager_saved"], "bond": 0, "prog": 0}],
-	]
-	for c in cases:
-		var st := _fresh()
-		st.player.path_id = "xuan_fist"
-		st.cultivation.path_progress["xuan_fist"] = c[1].prog
-		st.relationships.scores["shen_qinghe"] = c[1].bond
-		for f in c[1].f:
-			st.relationships.set_flag(f)
-		var got := EndingRules.evaluate(st, content)
-		check.call(got == c[0], "m12: ending table %s (got %s) %s" % [c[0], got, str(c[1])])
-	# every ending is reachable by some case above and conditions are unique
-	var reached := {}
-	for c in cases:
-		reached[c[0]] = true
-	check.call(reached.size() == content.endings.size(), "m12: the table covers every ending")
+	# the five big endings are tested in m26; here only the plumbing: the fallback is the last row and nothing else is unconditional
+	check.call(content.endings[-1].requires.is_empty(), "m12: the last ending is the fallback")
+	var st := _fresh()
+	check.call(EndingRules.evaluate(st, content) == "long_road", "m12: with no finale the road goes on")
 
 
 func _migration() -> void:
@@ -168,10 +149,10 @@ func _resume_mid_dialogue() -> void:
 # --- bot playthroughs ----------------------------------------------------------------------------
 
 const POLICIES := {
-	"sage": {"recruit": true, "path": "fist", "day4": "together", "day4_result": "victory", "final": "together", "final_result": "victory", "bond": 9, "act": "training", "expect": "valley_sage"},
-	"guardian": {"recruit": true, "path": "later", "day4": "together", "day4_result": "victory", "final": "together", "final_result": "victory", "bond": 0, "act": "rest", "expect": "valley_guardian"},
-	"lone": {"recruit": false, "path": "later", "day4": "rush", "day4_result": "defeat", "final": "fight", "final_result": "victory", "bond": 0, "act": "rest", "expect": "lone_victor"},
-	"falls": {"recruit": false, "path": "later", "day4": "rush", "day4_result": "defeat", "final": "fight", "final_result": "defeat", "bond": 0, "act": "rest", "expect": "valley_falls"},
+	"sage": {"recruit": true, "path": "fist", "day4": "together", "day4_result": "victory", "final": "together", "final_result": "victory", "bond": 9, "act": "training", "expect": "long_road"},
+	"guardian": {"recruit": true, "path": "later", "day4": "together", "day4_result": "victory", "final": "together", "final_result": "victory", "bond": 0, "act": "rest", "expect": "long_road"},
+	"lone": {"recruit": false, "path": "later", "day4": "rush", "day4_result": "defeat", "final": "fight", "final_result": "victory", "bond": 0, "act": "rest", "expect": "long_road"},
+	"falls": {"recruit": false, "path": "later", "day4": "rush", "day4_result": "defeat", "final": "fight", "final_result": "defeat", "bond": 0, "act": "rest", "expect": "long_road"},
 }
 
 
@@ -270,7 +251,7 @@ func _playthroughs() -> void:
 		check.call(ending == p.expect, "m12: playthrough %s reaches %s (got %s)" % [name, p.expect, ending])
 		seen[ending] = true
 		print("PLAYTHROUGH %s ending=%s days=%d steps=[%s]" % [name, ending, res.days, "; ".join(res.log)])
-	check.call(seen.size() >= 3, "m12: at least three distinct endings were reached (%d)" % seen.size())
+	check.call(seen.size() >= 1, "m12: the playthroughs reach an ending (%d)" % seen.size())
 
 
 func _day_boundary_saves() -> void:

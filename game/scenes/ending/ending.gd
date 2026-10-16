@@ -1,6 +1,7 @@
 extends Control
 ## Ending screen (M12): title and text of the ending reached, the faction epilogue, and the way back.
 
+const EpilogueRules = preload("res://scripts/domain/epilogue_rules.gd")
 const UiKit = preload("res://scripts/ui/ui_kit.gd")
 const Backdrop = preload("res://scenes/shared/backdrop.gd")
 const SafeFrame = preload("res://scenes/shared/safe_frame.gd")
@@ -69,9 +70,11 @@ func _refresh() -> void:
 	var e: Dictionary = Content.ending(ending_id)
 	title_label.text = Loc.t(str(e.title_key))
 	var parts: Array[String] = [Loc.t("ending.days"), Loc.t(str(e.body_key))]
-	for f in ["pavilion", "couriers", "scribes", "neutral"]:
-		if Game.state.relationships.has_flag("faction_" + f):
-			parts.append(Loc.t("ending.faction." + f))
+	for p in EpilogueRules.compose(Game.state, Content, ending_id):
+		var line: Array[String] = []
+		for k in p.keys:
+			line.append(Loc.t(str(k), p.params))
+		parts.append(" ".join(line))
 	body_label.text = "\n\n".join(parts)
 	new_run_button.text = Loc.t("ending.new_run")
 	title_button.text = Loc.t("ending.to_title")

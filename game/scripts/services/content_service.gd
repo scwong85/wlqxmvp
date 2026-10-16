@@ -26,6 +26,7 @@ var combat_units: Array = []
 var scenarios: Array = []
 var dialogues: Array = []
 var endings: Array = []
+var epilogue: Dictionary = {}
 var areas: Array = []
 var looks: Array = []
 var clips: Array = []
@@ -57,6 +58,7 @@ func load_all() -> void:
 	scenarios = _load_list("combat/scenarios.json", "scenarios")
 	dialogues = _load_list("story/dialogues.json", "dialogues")
 	endings = _load_list("story/endings.json", "endings")
+	epilogue = _load_dict("story/epilogue.json")
 	looks = _load_list("story/looks.json", "looks")
 	clips = _load_list("clips.json", "clips")
 	realms = _load_list("cultivation/realms.json", "realms")
@@ -69,6 +71,15 @@ func load_all() -> void:
 	areas = _load_list("world/areas.json", "areas")
 	events = _load_list("world/events.json", "events")
 	dialogues.append_array(_load_list("world/event_dialogues.json", "dialogues"))
+
+
+func _load_dict(rel: String) -> Dictionary:
+	var path := DIR + rel
+	var j := JSON.new()
+	if not FileAccess.file_exists(path) or j.parse(FileAccess.get_file_as_string(path)) != OK or not (j.data is Dictionary):
+		push_error("Content: cannot read %s" % path)
+		return {}
+	return j.data
 
 
 func _load_list(rel: String, key: String) -> Array:
@@ -360,11 +371,11 @@ func _validate_story(has_key: Callable) -> Array[String]:
 			errs.append("ending %s: the last ending must be the fallback (no conditions)" % id)
 		if i < endings.size() - 1 and (e.get("requires", {}) as Dictionary).is_empty():
 			errs.append("ending %s: only the last ending may have no conditions" % id)
-	if endings.size() < 3:
-		errs.append("endings: at least three are required")
-	for k in ["ending.faction.pavilion", "ending.faction.couriers", "ending.faction.scribes", "ending.faction.neutral"]:
-		if not has_key.call(k):
-			errs.append("missing translation key %s" % k)
+	if endings.size() < 5:
+		errs.append("endings: at least five are required")
+	for sn in epilogue.get("snippets", []):
+		if not has_key.call(str(sn.get("key", ""))):
+			errs.append("epilogue %s: translation key missing" % str(sn.get("id", "")))
 	return errs
 
 

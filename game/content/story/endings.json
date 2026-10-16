@@ -1,43 +1,66 @@
 {
  "endings": [
   {
-   "id": "valley_sage",
-   "title_key": "ending.valley_sage.title",
-   "body_key": "ending.valley_sage.body",
+   "id": "alliance_head",
+   "title_key": "ending.alliance_head.title",
+   "body_key": "ending.alliance_head.body",
    "requires": {
     "flags_all": [
-     "bandits_defeated",
-     "villager_saved"
+     "finale_seat"
     ],
-    "bond_min": 8,
-    "path_progress_min": 6
+    "kept_min": 6,
+    "flags_any": [
+     "pledge_orthodox",
+     "pledge_trade",
+     "pledge_free"
+    ],
+    "realm_min": 3
    }
   },
   {
-   "id": "valley_guardian",
-   "title_key": "ending.valley_guardian.title",
-   "body_key": "ending.valley_guardian.body",
+   "id": "recluse",
+   "title_key": "ending.recluse.title",
+   "body_key": "ending.recluse.body",
    "requires": {
     "flags_all": [
-     "bandits_defeated",
-     "villager_saved"
+     "finale_refuse",
+     "valley_kept"
+    ],
+    "realm_min": 4
+   }
+  },
+  {
+   "id": "breaker",
+   "title_key": "ending.breaker.title",
+   "body_key": "ending.breaker.body",
+   "requires": {
+    "flags_all": [
+     "finale_break"
+    ],
+    "outcome_any": [
+     "bai_yan:redeemed",
+     "xia_zhi:redeemed"
     ]
    }
   },
   {
-   "id": "lone_victor",
-   "title_key": "ending.lone_victor.title",
-   "body_key": "ending.lone_victor.body",
+   "id": "undertow",
+   "title_key": "ending.undertow.title",
+   "body_key": "ending.undertow.body",
    "requires": {
     "flags_all": [
-     "bandits_defeated"
+     "finale_gate"
+    ],
+    "flags_any": [
+     "arcout_xia_zhi_lost",
+     "xuan_pact"
     ]
    }
   },
   {
-   "id": "valley_falls",
-   "title_key": "ending.valley_falls.title",
-   "body_key": "ending.valley_falls.body",
+   "id": "long_road",
+   "title_key": "ending.long_road.title",
+   "body_key": "ending.long_road.body",
    "requires": {}
   }
  ]

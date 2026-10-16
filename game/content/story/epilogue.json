@@ -1,0 +1,918 @@
+{
+ "sections": [
+  "why",
+  "hero_realm",
+  "hero_skill",
+  "comp",
+  "comp_unmet",
+  "faction",
+  "pledge",
+  "deeds",
+  "hometown",
+  "wealth",
+  "image"
+ ],
+ "companions": [
+  "shen_qinghe",
+  "lu_chenzhou",
+  "bai_yan",
+  "su_dai",
+  "li_shan",
+  "xie_wujiu",
+  "xia_zhi",
+  "xiao_hanchuan"
+ ],
+ "snippets": [
+  {
+   "id": "why_seat",
+   "section": "why",
+   "key": "epi.why_seat",
+   "requires": {
+    "ending": [
+     "long_road"
+    ],
+    "flags_all": [
+     "finale_seat"
+    ]
+   }
+  },
+  {
+   "id": "why_refuse",
+   "section": "why",
+   "key": "epi.why_refuse",
+   "requires": {
+    "ending": [
+     "long_road"
+    ],
+    "flags_all": [
+     "finale_refuse"
+    ]
+   }
+  },
+  {
+   "id": "why_break",
+   "section": "why",
+   "key": "epi.why_break",
+   "requires": {
+    "ending": [
+     "long_road"
+    ],
+    "flags_all": [
+     "finale_break"
+    ]
+   }
+  },
+  {
+   "id": "why_gate",
+   "section": "why",
+   "key": "epi.why_gate",
+   "requires": {
+    "ending": [
+     "long_road"
+    ],
+    "flags_all": [
+     "finale_gate"
+    ]
+   }
+  },
+  {
+   "id": "why_walk",
+   "section": "why",
+   "key": "epi.why_walk",
+   "requires": {
+    "ending": [
+     "long_road"
+    ],
+    "flags_all": [
+     "finale_walk"
+    ]
+   }
+  },
+  {
+   "id": "realm_6",
+   "section": "hero_realm",
+   "key": "epi.realm_6",
+   "requires": {
+    "realm_min": 6
+   }
+  },
+  {
+   "id": "realm_5",
+   "section": "hero_realm",
+   "key": "epi.realm_5",
+   "requires": {
+    "realm_min": 5
+   }
+  },
+  {
+   "id": "realm_4",
+   "section": "hero_realm",
+   "key": "epi.realm_4",
+   "requires": {
+    "realm_min": 4
+   }
+  },
+  {
+   "id": "realm_3",
+   "section": "hero_realm",
+   "key": "epi.realm_3",
+   "requires": {
+    "realm_min": 3
+   }
+  },
+  {
+   "id": "realm_2",
+   "section": "hero_realm",
+   "key": "epi.realm_2",
+   "requires": {
+    "realm_min": 2
+   }
+  },
+  {
+   "id": "realm_1",
+   "section": "hero_realm",
+   "key": "epi.realm_1",
+   "requires": {
+    "realm_min": 1
+   }
+  },
+  {
+   "id": "realm_0",
+   "section": "hero_realm",
+   "key": "epi.realm_0",
+   "requires": {
+    "realm_min": 0
+   }
+  },
+  {
+   "id": "skill_high",
+   "section": "hero_skill",
+   "key": "epi.skill_high",
+   "requires": {
+    "skill_min": 8
+   }
+  },
+  {
+   "id": "skill_mid",
+   "section": "hero_skill",
+   "key": "epi.skill_mid",
+   "requires": {
+    "skill_min": 4
+   }
+  },
+  {
+   "id": "skill_low",
+   "section": "hero_skill",
+   "key": "epi.skill_low",
+   "requires": {}
+  },
+  {
+   "id": "shen_qinghe_redeemed",
+   "section": "comp_outcome",
+   "key": "epi.shen_qinghe_redeemed",
+   "requires": {
+    "outcome": "redeemed"
+   },
+   "companion": "shen_qinghe"
+  },
+  {
+   "id": "shen_qinghe_alternate",
+   "section": "comp_outcome",
+   "key": "epi.shen_qinghe_alternate",
+   "requires": {
+    "outcome": "alternate"
+   },
+   "companion": "shen_qinghe"
+  },
+  {
+   "id": "shen_qinghe_lost",
+   "section": "comp_outcome",
+   "key": "epi.shen_qinghe_lost",
+   "requires": {
+    "outcome": "lost"
+   },
+   "companion": "shen_qinghe"
+  },
+  {
+   "id": "shen_qinghe_friend",
+   "section": "comp_bond",
+   "key": "epi.shen_qinghe_friend",
+   "requires": {
+    "bond": "friend"
+   },
+   "companion": "shen_qinghe"
+  },
+  {
+   "id": "shen_qinghe_sworn",
+   "section": "comp_bond",
+   "key": "epi.shen_qinghe_sworn",
+   "requires": {
+    "bond": "sworn"
+   },
+   "companion": "shen_qinghe"
+  },
+  {
+   "id": "shen_qinghe_romance",
+   "section": "comp_bond",
+   "key": "epi.shen_qinghe_romance",
+   "requires": {
+    "bond": "romance"
+   },
+   "companion": "shen_qinghe"
+  },
+  {
+   "id": "shen_qinghe_rival",
+   "section": "comp_bond",
+   "key": "epi.shen_qinghe_rival",
+   "requires": {
+    "bond": "rival"
+   },
+   "companion": "shen_qinghe"
+  },
+  {
+   "id": "lu_chenzhou_redeemed",
+   "section": "comp_outcome",
+   "key": "epi.lu_chenzhou_redeemed",
+   "requires": {
+    "outcome": "redeemed"
+   },
+   "companion": "lu_chenzhou"
+  },
+  {
+   "id": "lu_chenzhou_alternate",
+   "section": "comp_outcome",
+   "key": "epi.lu_chenzhou_alternate",
+   "requires": {
+    "outcome": "alternate"
+   },
+   "companion": "lu_chenzhou"
+  },
+  {
+   "id": "lu_chenzhou_lost",
+   "section": "comp_outcome",
+   "key": "epi.lu_chenzhou_lost",
+   "requires": {
+    "outcome": "lost"
+   },
+   "companion": "lu_chenzhou"
+  },
+  {
+   "id": "lu_chenzhou_friend",
+   "section": "comp_bond",
+   "key": "epi.lu_chenzhou_friend",
+   "requires": {
+    "bond": "friend"
+   },
+   "companion": "lu_chenzhou"
+  },
+  {
+   "id": "lu_chenzhou_sworn",
+   "section": "comp_bond",
+   "key": "epi.lu_chenzhou_sworn",
+   "requires": {
+    "bond": "sworn"
+   },
+   "companion": "lu_chenzhou"
+  },
+  {
+   "id": "lu_chenzhou_romance",
+   "section": "comp_bond",
+   "key": "epi.lu_chenzhou_romance",
+   "requires": {
+    "bond": "romance"
+   },
+   "companion": "lu_chenzhou"
+  },
+  {
+   "id": "lu_chenzhou_rival",
+   "section": "comp_bond",
+   "key": "epi.lu_chenzhou_rival",
+   "requires": {
+    "bond": "rival"
+   },
+   "companion": "lu_chenzhou"
+  },
+  {
+   "id": "bai_yan_redeemed",
+   "section": "comp_outcome",
+   "key": "epi.bai_yan_redeemed",
+   "requires": {
+    "outcome": "redeemed"
+   },
+   "companion": "bai_yan"
+  },
+  {
+   "id": "bai_yan_alternate",
+   "section": "comp_outcome",
+   "key": "epi.bai_yan_alternate",
+   "requires": {
+    "outcome": "alternate"
+   },
+   "companion": "bai_yan"
+  },
+  {
+   "id": "bai_yan_lost",
+   "section": "comp_outcome",
+   "key": "epi.bai_yan_lost",
+   "requires": {
+    "outcome": "lost"
+   },
+   "companion": "bai_yan"
+  },
+  {
+   "id": "bai_yan_friend",
+   "section": "comp_bond",
+   "key": "epi.bai_yan_friend",
+   "requires": {
+    "bond": "friend"
+   },
+   "companion": "bai_yan"
+  },
+  {
+   "id": "bai_yan_sworn",
+   "section": "comp_bond",
+   "key": "epi.bai_yan_sworn",
+   "requires": {
+    "bond": "sworn"
+   },
+   "companion": "bai_yan"
+  },
+  {
+   "id": "bai_yan_romance",
+   "section": "comp_bond",
+   "key": "epi.bai_yan_romance",
+   "requires": {
+    "bond": "romance"
+   },
+   "companion": "bai_yan"
+  },
+  {
+   "id": "bai_yan_rival",
+   "section": "comp_bond",
+   "key": "epi.bai_yan_rival",
+   "requires": {
+    "bond": "rival"
+   },
+   "companion": "bai_yan"
+  },
+  {
+   "id": "su_dai_redeemed",
+   "section": "comp_outcome",
+   "key": "epi.su_dai_redeemed",
+   "requires": {
+    "outcome": "redeemed"
+   },
+   "companion": "su_dai"
+  },
+  {
+   "id": "su_dai_alternate",
+   "section": "comp_outcome",
+   "key": "epi.su_dai_alternate",
+   "requires": {
+    "outcome": "alternate"
+   },
+   "companion": "su_dai"
+  },
+  {
+   "id": "su_dai_lost",
+   "section": "comp_outcome",
+   "key": "epi.su_dai_lost",
+   "requires": {
+    "outcome": "lost"
+   },
+   "companion": "su_dai"
+  },
+  {
+   "id": "su_dai_friend",
+   "section": "comp_bond",
+   "key": "epi.su_dai_friend",
+   "requires": {
+    "bond": "friend"
+   },
+   "companion": "su_dai"
+  },
+  {
+   "id": "su_dai_sworn",
+   "section": "comp_bond",
+   "key": "epi.su_dai_sworn",
+   "requires": {
+    "bond": "sworn"
+   },
+   "companion": "su_dai"
+  },
+  {
+   "id": "su_dai_romance",
+   "section": "comp_bond",
+   "key": "epi.su_dai_romance",
+   "requires": {
+    "bond": "romance"
+   },
+   "companion": "su_dai"
+  },
+  {
+   "id": "su_dai_rival",
+   "section": "comp_bond",
+   "key": "epi.su_dai_rival",
+   "requires": {
+    "bond": "rival"
+   },
+   "companion": "su_dai"
+  },
+  {
+   "id": "li_shan_redeemed",
+   "section": "comp_outcome",
+   "key": "epi.li_shan_redeemed",
+   "requires": {
+    "outcome": "redeemed"
+   },
+   "companion": "li_shan"
+  },
+  {
+   "id": "li_shan_alternate",
+   "section": "comp_outcome",
+   "key": "epi.li_shan_alternate",
+   "requires": {
+    "outcome": "alternate"
+   },
+   "companion": "li_shan"
+  },
+  {
+   "id": "li_shan_lost",
+   "section": "comp_outcome",
+   "key": "epi.li_shan_lost",
+   "requires": {
+    "outcome": "lost"
+   },
+   "companion": "li_shan"
+  },
+  {
+   "id": "li_shan_friend",
+   "section": "comp_bond",
+   "key": "epi.li_shan_friend",
+   "requires": {
+    "bond": "friend"
+   },
+   "companion": "li_shan"
+  },
+  {
+   "id": "li_shan_sworn",
+   "section": "comp_bond",
+   "key": "epi.li_shan_sworn",
+   "requires": {
+    "bond": "sworn"
+   },
+   "companion": "li_shan"
+  },
+  {
+   "id": "li_shan_romance",
+   "section": "comp_bond",
+   "key": "epi.li_shan_romance",
+   "requires": {
+    "bond": "romance"
+   },
+   "companion": "li_shan"
+  },
+  {
+   "id": "li_shan_rival",
+   "section": "comp_bond",
+   "key": "epi.li_shan_rival",
+   "requires": {
+    "bond": "rival"
+   },
+   "companion": "li_shan"
+  },
+  {
+   "id": "xie_wujiu_redeemed",
+   "section": "comp_outcome",
+   "key": "epi.xie_wujiu_redeemed",
+   "requires": {
+    "outcome": "redeemed"
+   },
+   "companion": "xie_wujiu"
+  },
+  {
+   "id": "xie_wujiu_alternate",
+   "section": "comp_outcome",
+   "key": "epi.xie_wujiu_alternate",
+   "requires": {
+    "outcome": "alternate"
+   },
+   "companion": "xie_wujiu"
+  },
+  {
+   "id": "xie_wujiu_lost",
+   "section": "comp_outcome",
+   "key": "epi.xie_wujiu_lost",
+   "requires": {
+    "outcome": "lost"
+   },
+   "companion": "xie_wujiu"
+  },
+  {
+   "id": "xie_wujiu_friend",
+   "section": "comp_bond",
+   "key": "epi.xie_wujiu_friend",
+   "requires": {
+    "bond": "friend"
+   },
+   "companion": "xie_wujiu"
+  },
+  {
+   "id": "xie_wujiu_sworn",
+   "section": "comp_bond",
+   "key": "epi.xie_wujiu_sworn",
+   "requires": {
+    "bond": "sworn"
+   },
+   "companion": "xie_wujiu"
+  },
+  {
+   "id": "xie_wujiu_romance",
+   "section": "comp_bond",
+   "key": "epi.xie_wujiu_romance",
+   "requires": {
+    "bond": "romance"
+   },
+   "companion": "xie_wujiu"
+  },
+  {
+   "id": "xie_wujiu_rival",
+   "section": "comp_bond",
+   "key": "epi.xie_wujiu_rival",
+   "requires": {
+    "bond": "rival"
+   },
+   "companion": "xie_wujiu"
+  },
+  {
+   "id": "xia_zhi_redeemed",
+   "section": "comp_outcome",
+   "key": "epi.xia_zhi_redeemed",
+   "requires": {
+    "outcome": "redeemed"
+   },
+   "companion": "xia_zhi"
+  },
+  {
+   "id": "xia_zhi_alternate",
+   "section": "comp_outcome",
+   "key": "epi.xia_zhi_alternate",
+   "requires": {
+    "outcome": "alternate"
+   },
+   "companion": "xia_zhi"
+  },
+  {
+   "id": "xia_zhi_lost",
+   "section": "comp_outcome",
+   "key": "epi.xia_zhi_lost",
+   "requires": {
+    "outcome": "lost"
+   },
+   "companion": "xia_zhi"
+  },
+  {
+   "id": "xia_zhi_friend",
+   "section": "comp_bond",
+   "key": "epi.xia_zhi_friend",
+   "requires": {
+    "bond": "friend"
+   },
+   "companion": "xia_zhi"
+  },
+  {
+   "id": "xia_zhi_sworn",
+   "section": "comp_bond",
+   "key": "epi.xia_zhi_sworn",
+   "requires": {
+    "bond": "sworn"
+   },
+   "companion": "xia_zhi"
+  },
+  {
+   "id": "xia_zhi_romance",
+   "section": "comp_bond",
+   "key": "epi.xia_zhi_romance",
+   "requires": {
+    "bond": "romance"
+   },
+   "companion": "xia_zhi"
+  },
+  {
+   "id": "xia_zhi_rival",
+   "section": "comp_bond",
+   "key": "epi.xia_zhi_rival",
+   "requires": {
+    "bond": "rival"
+   },
+   "companion": "xia_zhi"
+  },
+  {
+   "id": "xiao_hanchuan_redeemed",
+   "section": "comp_outcome",
+   "key": "epi.xiao_hanchuan_redeemed",
+   "requires": {
+    "outcome": "redeemed"
+   },
+   "companion": "xiao_hanchuan"
+  },
+  {
+   "id": "xiao_hanchuan_alternate",
+   "section": "comp_outcome",
+   "key": "epi.xiao_hanchuan_alternate",
+   "requires": {
+    "outcome": "alternate"
+   },
+   "companion": "xiao_hanchuan"
+  },
+  {
+   "id": "xiao_hanchuan_lost",
+   "section": "comp_outcome",
+   "key": "epi.xiao_hanchuan_lost",
+   "requires": {
+    "outcome": "lost"
+   },
+   "companion": "xiao_hanchuan"
+  },
+  {
+   "id": "xiao_hanchuan_friend",
+   "section": "comp_bond",
+   "key": "epi.xiao_hanchuan_friend",
+   "requires": {
+    "bond": "friend"
+   },
+   "companion": "xiao_hanchuan"
+  },
+  {
+   "id": "xiao_hanchuan_sworn",
+   "section": "comp_bond",
+   "key": "epi.xiao_hanchuan_sworn",
+   "requires": {
+    "bond": "sworn"
+   },
+   "companion": "xiao_hanchuan"
+  },
+  {
+   "id": "xiao_hanchuan_romance",
+   "section": "comp_bond",
+   "key": "epi.xiao_hanchuan_romance",
+   "requires": {
+    "bond": "romance"
+   },
+   "companion": "xiao_hanchuan"
+  },
+  {
+   "id": "xiao_hanchuan_rival",
+   "section": "comp_bond",
+   "key": "epi.xiao_hanchuan_rival",
+   "requires": {
+    "bond": "rival"
+   },
+   "companion": "xiao_hanchuan"
+  },
+  {
+   "id": "comp_unmet",
+   "section": "comp_unmet",
+   "key": "epi.comp_unmet",
+   "requires": {
+    "unmet_min": 1
+   }
+  },
+  {
+   "id": "faction_pavilion",
+   "section": "faction",
+   "key": "epi.faction_pavilion",
+   "requires": {
+    "flags_all": [
+     "faction_pavilion"
+    ]
+   }
+  },
+  {
+   "id": "faction_couriers",
+   "section": "faction",
+   "key": "epi.faction_couriers",
+   "requires": {
+    "flags_all": [
+     "faction_couriers"
+    ]
+   }
+  },
+  {
+   "id": "faction_scribes",
+   "section": "faction",
+   "key": "epi.faction_scribes",
+   "requires": {
+    "flags_all": [
+     "faction_scribes"
+    ]
+   }
+  },
+  {
+   "id": "faction_neutral",
+   "section": "faction",
+   "key": "epi.faction_neutral",
+   "requires": {
+    "flags_all": [
+     "faction_neutral"
+    ]
+   }
+  },
+  {
+   "id": "pledge_orthodox",
+   "section": "pledge",
+   "key": "epi.pledge_orthodox",
+   "requires": {
+    "flags_all": [
+     "pledge_orthodox"
+    ]
+   }
+  },
+  {
+   "id": "pledge_trade",
+   "section": "pledge",
+   "key": "epi.pledge_trade",
+   "requires": {
+    "flags_all": [
+     "pledge_trade"
+    ]
+   }
+  },
+  {
+   "id": "pledge_free",
+   "section": "pledge",
+   "key": "epi.pledge_free",
+   "requires": {
+    "flags_all": [
+     "pledge_free"
+    ]
+   }
+  },
+  {
+   "id": "valley_kept",
+   "section": "hometown",
+   "key": "epi.valley_kept",
+   "requires": {
+    "flags_all": [
+     "valley_kept"
+    ]
+   }
+  },
+  {
+   "id": "valley_elder_fell",
+   "section": "hometown",
+   "key": "epi.valley_elder_fell",
+   "requires": {
+    "flags_all": [
+     "elder_fallen"
+    ]
+   }
+  },
+  {
+   "id": "valley_away",
+   "section": "hometown",
+   "key": "epi.valley_away",
+   "requires": {
+    "flags_none": [
+     "valley_kept",
+     "elder_fallen"
+    ]
+   }
+  },
+  {
+   "id": "wealth_rich",
+   "section": "wealth",
+   "key": "epi.wealth_rich",
+   "requires": {
+    "coins_min": 1500
+   }
+  },
+  {
+   "id": "wealth_mid",
+   "section": "wealth",
+   "key": "epi.wealth_mid",
+   "requires": {
+    "coins_min": 400
+   }
+  },
+  {
+   "id": "wealth_low",
+   "section": "wealth",
+   "key": "epi.wealth_low",
+   "requires": {
+    "coins_min": 0
+   }
+  },
+  {
+   "id": "deed_ninth_named",
+   "section": "deeds",
+   "key": "epi.deed_ninth_named",
+   "requires": {
+    "flags_all": [
+     "ninth_house_named"
+    ]
+   }
+  },
+  {
+   "id": "deed_star_read",
+   "section": "deeds",
+   "key": "epi.deed_star_read",
+   "requires": {
+    "flags_all": [
+     "ninth_star_read"
+    ]
+   }
+  },
+  {
+   "id": "deed_star_lost",
+   "section": "deeds",
+   "key": "epi.deed_star_lost",
+   "requires": {
+    "flags_all": [
+     "star_lost"
+    ]
+   }
+  },
+  {
+   "id": "deed_trial",
+   "section": "deeds",
+   "key": "epi.deed_trial",
+   "requires": {
+    "flags_all": [
+     "cliff_trial_done"
+    ]
+   }
+  },
+  {
+   "id": "deed_xuan_pact",
+   "section": "deeds",
+   "key": "epi.deed_xuan_pact",
+   "requires": {
+    "flags_all": [
+     "xuan_pact"
+    ]
+   }
+  },
+  {
+   "id": "deed_lei",
+   "section": "deeds",
+   "key": "epi.deed_lei",
+   "requires": {
+    "flags_any": [
+     "lei_endorse",
+     "lei_stays"
+    ]
+   }
+  },
+  {
+   "id": "image_alliance_head",
+   "section": "image",
+   "key": "epi.image_alliance_head",
+   "requires": {
+    "ending": [
+     "alliance_head"
+    ]
+   }
+  },
+  {
+   "id": "image_recluse",
+   "section": "image",
+   "key": "epi.image_recluse",
+   "requires": {
+    "ending": [
+     "recluse"
+    ]
+   }
+  },
+  {
+   "id": "image_breaker",
+   "section": "image",
+   "key": "epi.image_breaker",
+   "requires": {
+    "ending": [
+     "breaker"
+    ]
+   }
+  },
+  {
+   "id": "image_undertow",
+   "section": "image",
+   "key": "epi.image_undertow",
+   "requires": {
+    "ending": [
+     "undertow"
+    ]
+   }
+  },
+  {
+   "id": "image_long_road",
+   "section": "image",
+   "key": "epi.image_long_road",
+   "requires": {
+    "ending": [
+     "long_road"
+    ]
+   }
+  }
+ ]
+}

@@ -124,4 +124,4 @@ func _story_flow() -> void:
 	game.perform_activity("rest")
 	check.call(game.state.calendar.finished, "m15: the last slot finishes the three years")
 	check.call(game.next_story_scene() == "ending" and game.state.story.ending != "", "m15: the end of year 3 opens the ending (%s)" % game.state.story.ending)
-	check.call(game.state.story.ending == "valley_guardian" or game.state.story.ending == "lone_victor" or game.state.story.ending == "valley_sage" or game.state.story.ending == "valley_falls", "m15: the ending is one of the known endings")
+	check.call(["alliance_head", "recluse", "breaker", "undertow", "long_road"].has(game.state.story.ending), "m15: the ending is one of the five endings")
