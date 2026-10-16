@@ -1112,6 +1112,78 @@
      "second_gate_open"
     ]
    }
+  },
+  {
+   "id": "pg_steps",
+   "region": "cangwu",
+   "name_key": "world.area.pg_steps.name",
+   "desc_key": "world.area.pg_steps.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.pg_steps.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.pg_steps.w2",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "food",
+       "amount": 2
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "platform_year3"
+    ],
+    "week_min": 151
+   }
+  },
+  {
+   "id": "pg_pavilions",
+   "region": "cangwu",
+   "name_key": "world.area.pg_pavilions.name",
+   "desc_key": "world.area.pg_pavilions.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.pg_pavilions.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.pg_pavilions.w2",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 14
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "platform_year3"
+    ],
+    "week_min": 151
+   }
   }
  ]
 }

@@ -13341,6 +13341,882 @@
      ]
     }
    ]
+  },
+  {
+   "id": "ev_y3c_alliances",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y3c_alliances.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "qian_man",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y3c_alliances.2",
+     "speaker_key": "npc.qian_man",
+     "choices": [
+      {
+       "id": "orthodox",
+       "label_key": "event.y3c_alliances.c.orthodox",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "pledge_orthodox"
+        },
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 2
+        }
+       ]
+      },
+      {
+       "id": "trade",
+       "label_key": "event.y3c_alliances.c.trade",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "pledge_trade"
+        },
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 2
+        }
+       ]
+      },
+      {
+       "id": "free",
+       "label_key": "event.y3c_alliances.c.free",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "pledge_free"
+        },
+        {
+         "type": "attr",
+         "id": "agility",
+         "amount": 2
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y3c_gate_agents",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y3c_gate_agents.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y3c_gate_agents.2",
+     "speaker_key": "world.speaker.hero",
+     "choices": [
+      {
+       "id": "fight",
+       "label_key": "event.y3c_gate_agents.c.fight",
+       "next": "",
+       "effects": [
+        {
+         "type": "battle",
+         "id": "y3_gate_agents"
+        }
+       ]
+      },
+      {
+       "id": "report",
+       "label_key": "event.y3c_gate_agents.c.report",
+       "next": "",
+       "effects": [
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 2
+        },
+        {
+         "type": "flag",
+         "id": "agents_reported"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y3c_midautumn",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y3c_midautumn.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y3c_midautumn.2",
+     "speaker_key": "world.speaker.narrator",
+     "choices": [
+      {
+       "id": "valley",
+       "label_key": "event.y3c_midautumn.c.valley",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "shen_qinghe",
+         "amount": 2
+        },
+        {
+         "type": "bond",
+         "id": "lu_chenzhou",
+         "amount": 2
+        },
+        {
+         "type": "bond",
+         "id": "bai_yan",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 8
+        }
+       ]
+      },
+      {
+       "id": "fighters",
+       "label_key": "event.y3c_midautumn.c.fighters",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "xie_wujiu",
+         "amount": 2
+        },
+        {
+         "type": "bond",
+         "id": "li_shan",
+         "amount": 2
+        },
+        {
+         "type": "bond",
+         "id": "xiao_hanchuan",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 8
+        }
+       ]
+      },
+      {
+       "id": "street",
+       "label_key": "event.y3c_midautumn.c.street",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "su_dai",
+         "amount": 2
+        },
+        {
+         "type": "bond",
+         "id": "xia_zhi",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 8
+        }
+       ]
+      },
+      {
+       "id": "all",
+       "label_key": "event.y3c_midautumn.c.all",
+       "next": "",
+       "effects": [
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 8
+        },
+        {
+         "type": "flag",
+         "id": "midautumn3_together"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y3c_lei_head",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y3c_lei_head.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "head_lei",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y3c_lei_head.2",
+     "speaker_key": "npc.head_lei",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.y3c_lei_head.3",
+     "speaker_key": "npc.head_lei",
+     "choices": [
+      {
+       "id": "endorse",
+       "label_key": "event.y3c_lei_head.c.endorse",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "lei_endorse"
+        },
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 2
+        }
+       ]
+      },
+      {
+       "id": "stay",
+       "label_key": "event.y3c_lei_head.c.stay",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "lei_stays"
+        },
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 1
+        },
+        {
+         "type": "bond",
+         "id": "shen_qinghe",
+         "amount": 1
+        }
+       ]
+      },
+      {
+       "id": "other",
+       "label_key": "event.y3c_lei_head.c.other",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "lei_other"
+        },
+        {
+         "type": "attr",
+         "id": "agility",
+         "amount": 2
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y3c_masks_offer",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y3c_masks_offer.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "mask_xuan",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y3c_masks_offer.2",
+     "speaker_key": "npc.mask_xuan",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.y3c_masks_offer.3",
+     "speaker_key": "npc.mask_chi",
+     "next": "n4"
+    },
+    {
+     "id": "n4",
+     "text_key": "event.y3c_masks_offer.4",
+     "speaker_key": "npc.mask_hui",
+     "choices": [
+      {
+       "id": "xuan",
+       "label_key": "event.y3c_masks_offer.c.xuan",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "offer_xuan"
+        },
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 2
+        }
+       ]
+      },
+      {
+       "id": "chi",
+       "label_key": "event.y3c_masks_offer.c.chi",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "offer_chi"
+        },
+        {
+         "type": "attr",
+         "id": "power",
+         "amount": 2
+        }
+       ]
+      },
+      {
+       "id": "hui",
+       "label_key": "event.y3c_masks_offer.c.hui",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "offer_hui"
+        },
+        {
+         "type": "attr",
+         "id": "agility",
+         "amount": 2
+        }
+       ]
+      },
+      {
+       "id": "none",
+       "label_key": "event.y3c_masks_offer.c.none",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "offer_none"
+        },
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 2
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y3c_cliff_trial",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y3c_cliff_trial.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "master_gu",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y3c_cliff_trial.2",
+     "speaker_key": "npc.master_gu",
+     "choices": [
+      {
+       "id": "trial",
+       "label_key": "event.y3c_cliff_trial.c.trial",
+       "next": "",
+       "effects": [
+        {
+         "type": "battle",
+         "id": "y3_cliff_trial"
+        },
+        {
+         "type": "flag",
+         "id": "cliff_trial_done"
+        }
+       ]
+      },
+      {
+       "id": "sit",
+       "label_key": "event.y3c_cliff_trial.c.sit",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "cliff_trial_done"
+        },
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 3
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y3c_vigil",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y3c_vigil.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y3c_vigil.2",
+     "speaker_key": "world.speaker.narrator",
+     "choices": [
+      {
+       "id": "together",
+       "label_key": "event.y3c_vigil.c.together",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "vigil_together"
+        },
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 10
+        }
+       ]
+      },
+      {
+       "id": "alone",
+       "label_key": "event.y3c_vigil.c.alone",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "vigil_alone"
+        },
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 10
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry11_steps_vendors",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry11_steps_vendors.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry11_pavilion_lanterns",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry11_pavilion_lanterns.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry11_courts_ranks",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry11_courts_ranks.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "power",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry11_teahouse_odds",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry11_teahouse_odds.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_market"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry11_valley_letters",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry11_valley_letters.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry11_docks_pilgrims",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry11_docks_pilgrims.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "agility",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_docks"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
   }
  ]
 }

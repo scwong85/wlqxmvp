@@ -430,8 +430,8 @@ func _validate_combat(has_key: Callable) -> Array[String]:
 		for tid in u.get("techniques", []):
 			if not tids.has(str(tid)):
 				errs.append("combat unit %s: unknown technique %s" % [id, str(tid)])
-	if uids.size() > 24:
-		errs.append("combat: more than 24 unit types")
+	if uids.size() > 32:
+		errs.append("combat: more than 32 unit types")
 	for sc in scenarios:
 		var sid := str(sc.get("id", ""))
 		for k in ["", ".objective"]:

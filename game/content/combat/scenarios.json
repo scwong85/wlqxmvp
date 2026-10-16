@@ -3246,6 +3246,196 @@
      "star_lost"
     ]
    }
+  },
+  {
+   "id": "y3_gate_agents",
+   "battle_id": "y3_gate_agents",
+   "max_rounds": 12,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "gate_captain",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_elite",
+     "cells": [
+      [
+       2,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_elite",
+     "cells": [
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_blade",
+     "cells": [
+      [
+       4,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 55
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "agents_caught"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "agents_free"
+    ]
+   }
+  },
+  {
+   "id": "y3_cliff_trial",
+   "battle_id": "y3_cliff_trial",
+   "max_rounds": 14,
+   "terrain": [
+    [
+     2,
+     2,
+     "hazard"
+    ],
+    [
+     4,
+     2,
+     "hazard"
+    ],
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "cliff_master",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 40
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "cliff_trial_won"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "cliff_trial_lost"
+    ]
+   }
   }
  ]
 }

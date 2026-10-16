@@ -60,7 +60,7 @@ static func requirement_lines(state: RefCounted, content: Object) -> Array:
 		lines.append({"key": "tech_levels", "have": tl, "need": int(req.tech_levels_min), "met": tl >= int(req.tech_levels_min)})
 	if req.has("flag"):
 		var done: bool = state.relationships.has_flag(str(req.flag))
-		lines.append({"key": "hermit", "have": 1 if done else 0, "need": 1, "met": done})
+		lines.append({"key": str(req.get("flag_key", "hermit")), "have": 1 if done else 0, "need": 1, "met": done})
 	return lines
 
 

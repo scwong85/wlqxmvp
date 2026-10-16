@@ -189,6 +189,15 @@
    "outfit_hex": "2a3a5a",
    "skin_hex": "d8b898",
    "weapon": ""
+  },
+  {
+   "id": "head_lei",
+   "gender": "m",
+   "hair": 2,
+   "hair_hex": "b8b8b8",
+   "outfit_hex": "4a3a2a",
+   "skin_hex": "d0b090",
+   "weapon": "staff"
   }
  ]
 }

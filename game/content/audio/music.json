@@ -200,10 +200,15 @@
    "f_shrine_first": "mystery_theme",
    "q3_tournament_1": "duel_theme",
    "q3_tournament_2": "duel_theme",
-   "q3_tournament_3": "duel_theme"
+   "q3_tournament_3": "duel_theme",
+   "y3c_midautumn": "festival_theme",
+   "y3c_masks_offer": "mystery_theme",
+   "y3c_lei_head": "sorrow_theme",
+   "y3c_vigil": "sorrow_theme"
   },
   "battles": {
    "boss": [
+    "y3_cliff_trial",
     "final_crisis",
     "q4_ambush",
     "cw_bout_3",

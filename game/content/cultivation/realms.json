@@ -70,7 +70,9 @@
    "requires": {
     "path_progress_min": 75,
     "attr_total_min": 161,
-    "tech_levels_min": 14
+    "tech_levels_min": 14,
+    "flag": "cliff_trial_done",
+    "flag_key": "cliff"
    }
   },
   {

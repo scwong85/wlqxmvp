@@ -3563,6 +3563,251 @@
    "requires": {
     "week_min": 136
    }
+  },
+  {
+   "id": "y3c_alliances",
+   "kind": "fixed",
+   "area": "pg_pavilions",
+   "scene": {
+    "dialogue": "ev_y3c_alliances"
+   },
+   "title_key": "event.y3c_alliances.title",
+   "window": {
+    "from": 151,
+    "to": 155
+   },
+   "priority": 7,
+   "requires": {
+    "week_min": 151
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "pledge_free"
+    }
+   ]
+  },
+  {
+   "id": "y3c_gate_agents",
+   "kind": "fixed",
+   "area": "pg_steps",
+   "scene": {
+    "dialogue": "ev_y3c_gate_agents"
+   },
+   "title_key": "event.y3c_gate_agents.title",
+   "window": {
+    "from": 152,
+    "to": 158
+   },
+   "priority": 7,
+   "requires": {
+    "week_min": 151
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "agents_free"
+    }
+   ]
+  },
+  {
+   "id": "y3c_midautumn",
+   "kind": "fixed",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_y3c_midautumn"
+   },
+   "title_key": "event.y3c_midautumn.title",
+   "window": {
+    "from": 157,
+    "to": 158
+   },
+   "priority": 7,
+   "requires": {
+    "week_min": 156
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "midautumn3_missed"
+    }
+   ]
+  },
+  {
+   "id": "y3c_lei_head",
+   "kind": "fixed",
+   "area": "pg_pavilions",
+   "scene": {
+    "dialogue": "ev_y3c_lei_head"
+   },
+   "title_key": "event.y3c_lei_head.title",
+   "window": {
+    "from": 156,
+    "to": 160
+   },
+   "priority": 7,
+   "requires": {
+    "week_min": 151
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "lei_other"
+    }
+   ]
+  },
+  {
+   "id": "y3c_masks_offer",
+   "kind": "fixed",
+   "area": "pg_steps",
+   "scene": {
+    "dialogue": "ev_y3c_masks_offer"
+   },
+   "title_key": "event.y3c_masks_offer.title",
+   "window": {
+    "from": 158,
+    "to": 162
+   },
+   "priority": 7,
+   "requires": {
+    "week_min": 151
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "offer_none"
+    }
+   ]
+  },
+  {
+   "id": "y3c_cliff_trial",
+   "kind": "fixed",
+   "area": "cw_cave",
+   "scene": {
+    "dialogue": "ev_y3c_cliff_trial"
+   },
+   "title_key": "event.y3c_cliff_trial.title",
+   "window": {
+    "from": 160,
+    "to": 165
+   },
+   "priority": 8,
+   "requires": {
+    "week_min": 151
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "cliff_trial_done"
+    }
+   ]
+  },
+  {
+   "id": "y3c_vigil",
+   "kind": "fixed",
+   "area": "pg_pavilions",
+   "scene": {
+    "dialogue": "ev_y3c_vigil"
+   },
+   "title_key": "event.y3c_vigil.title",
+   "window": {
+    "from": 162,
+    "to": 165
+   },
+   "priority": 8,
+   "requires": {
+    "week_min": 151
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "vigil_alone"
+    }
+   ]
+  },
+  {
+   "id": "ry11_steps_vendors",
+   "kind": "random",
+   "area": "pg_steps",
+   "scene": {
+    "dialogue": "ev_ry11_steps_vendors"
+   },
+   "title_key": "event.ry11_steps_vendors.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 151
+   }
+  },
+  {
+   "id": "ry11_pavilion_lanterns",
+   "kind": "random",
+   "area": "pg_pavilions",
+   "scene": {
+    "dialogue": "ev_ry11_pavilion_lanterns"
+   },
+   "title_key": "event.ry11_pavilion_lanterns.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 151
+   }
+  },
+  {
+   "id": "ry11_courts_ranks",
+   "kind": "random",
+   "area": "cw_courts",
+   "scene": {
+    "dialogue": "ev_ry11_courts_ranks"
+   },
+   "title_key": "event.ry11_courts_ranks.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 151
+   }
+  },
+  {
+   "id": "ry11_teahouse_odds",
+   "kind": "random",
+   "area": "lj_teahouse",
+   "scene": {
+    "dialogue": "ev_ry11_teahouse_odds"
+   },
+   "title_key": "event.ry11_teahouse_odds.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 151
+   }
+  },
+  {
+   "id": "ry11_valley_letters",
+   "kind": "random",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_ry11_valley_letters"
+   },
+   "title_key": "event.ry11_valley_letters.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 151
+   }
+  },
+  {
+   "id": "ry11_docks_pilgrims",
+   "kind": "random",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_ry11_docks_pilgrims"
+   },
+   "title_key": "event.ry11_docks_pilgrims.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 151
+   }
   }
  ]
 }

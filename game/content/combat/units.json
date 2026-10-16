@@ -308,6 +308,19 @@
    "techniques": [
     "club_smash"
    ]
+  },
+  {
+   "id": "cliff_master",
+   "stats": {
+    "hp": 460,
+    "body": 20,
+    "power": 25,
+    "agility": 13,
+    "spirit": 20
+   },
+   "techniques": [
+    "club_smash"
+   ]
   }
  ]
 }

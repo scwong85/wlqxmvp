@@ -17,7 +17,8 @@ const PLAN := {"masked_escort": [1, ["shen_qinghe"]], "dock_scam": [2, ["shen_qi
 	"y2_hermit_trial": [4, ["xiao_hanchuan"]], "y2_sea_ambush": [4, ["xiao_hanchuan", "xia_zhi"]], "y2_harbour_brawl": [4, ["su_dai"]],
 	"y2_public_proof": [4, ["xie_wujiu"]], "y2_break_ranks": [4, ["xiao_hanchuan", "li_shan"]], "y2_rescue": [5, ["xia_zhi", "lu_chenzhou"]],
 	"y3_guild_hall": [5, ["xia_zhi", "lu_chenzhou"]], "y3_chi_duel": [5, ["xie_wujiu", "shen_qinghe"]], "y3_border_defence": [5, ["xiao_hanchuan", "li_shan"]],
-	"y3_vault_guardian": [5, ["li_shan", "bai_yan"]], "y3_vault_collapse": [5, ["xie_wujiu", "su_dai"]]}
+	"y3_vault_guardian": [5, ["li_shan", "bai_yan"]], "y3_vault_collapse": [5, ["xie_wujiu", "su_dai"]],
+	"y3_gate_agents": [5, ["xia_zhi", "lu_chenzhou"]], "y3_cliff_trial": [5, ["xie_wujiu", "xiao_hanchuan"]]}
 const CAPS := {1: 16, 2: 24, 3: 34, 4: 46, 5: 60}
 
 
