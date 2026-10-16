@@ -13,6 +13,9 @@ const EndingRules = preload("res://scripts/domain/ending_rules.gd")
 const WorldRules = preload("res://scripts/domain/world_rules.gd")
 const LookRules = preload("res://scripts/domain/look_rules.gd")
 const RealmRules = preload("res://scripts/domain/realm_rules.gd")
+const SkillTree = preload("res://scripts/domain/skill_tree.gd")
+const ManualRules = preload("res://scripts/domain/manual_rules.gd")
+const EquipmentRules = preload("res://scripts/domain/equipment_rules.gd")
 const DayRules = preload("res://scripts/domain/day_rules.gd")
 const BattleResult = preload("res://scripts/domain/combat/battle_result.gd")
 
@@ -55,6 +58,35 @@ func attempt_breakthrough() -> Dictionary:
 		RelationshipRules.refresh(state, Content)
 		r["saved"] = autosave().ok
 	return r
+
+
+## Arts and gear (M20b). Each autosaves when it changes the game.
+func learn_node(id: String) -> Dictionary:
+	var r: Dictionary = SkillTree.learn(ensure_state(), id, Content)
+	if r.ok:
+		r["saved"] = autosave().ok
+	return r
+
+
+func study_manual(id: String) -> Dictionary:
+	var r: Dictionary = ManualRules.study(ensure_state(), id, Content)
+	if r.ok:
+		r["saved"] = autosave().ok
+	return r
+
+
+func forge_piece(id: String) -> Dictionary:
+	var r: Dictionary = EquipmentRules.forge(ensure_state(), id, Content)
+	if r.ok:
+		r["saved"] = autosave().ok
+	return r
+
+
+func equip_piece(slot: String, id: String) -> bool:
+	var ok := EquipmentRules.equip(ensure_state(), slot, id, Content)
+	if ok:
+		autosave()
+	return ok
 
 
 func hero_name() -> String:
@@ -165,6 +197,13 @@ func set_active_companion(npc_id: String) -> bool:
 	return ok
 
 
+func leave_party(npc_id: String) -> bool:
+	var ok := PartySystem.leave(ensure_state(), npc_id)
+	if ok:
+		autosave()
+	return ok
+
+
 func dismiss_companion(npc_id: String) -> bool:
 	var ok := PartySystem.dismiss(ensure_state(), npc_id)
 	if ok:
@@ -206,9 +245,7 @@ func start_battle(id: String, from: String) -> bool:
 	if sc.is_empty():
 		return false
 	var party: Array = []
-	var active := PartySystem.active(st)
-	if active != "":
-		party.append(active)
+	party.append_array(PartySystem.party(st))
 	var seed_value: int = ("%d|%s|%d|%d" % [st.run_seed, str(sc.id), st.calendar.week, st.calendar.slot]).hash()
 	battle = BattleSetup.build(Content, str(sc.id), seed_value, st, party)
 	battle_ctx = {"scenario": str(sc.id), "from": from, "battle_id": id, "applied": false}

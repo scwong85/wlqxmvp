@@ -4,6 +4,7 @@ extends Control
 ## forwards choices to Game. Selecting is a tap, doing it is a separate confirm, so touch works the
 ## same as mouse and nothing depends on hover.
 
+const PartySystem = preload("res://scripts/domain/party_system.gd")
 const UiKit = preload("res://scripts/ui/ui_kit.gd")
 const Backdrop = preload("res://scenes/shared/backdrop.gd")
 const SafeFrame = preload("res://scenes/shared/safe_frame.gd")
@@ -690,6 +691,11 @@ func _fill_party(box: VBoxContainer) -> void:
 	title.text = Loc.t("party.title")
 	title.autowrap_mode = TextServer.AUTOWRAP_OFF
 	box.add_child(title)
+	var limit := _label(FONT_SMALL)
+	limit.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	limit.modulate = Color(1, 1, 1, 0.75)
+	limit.text = Loc.t("party.limit")
+	box.add_child(limit)
 	var rows := VBoxContainer.new()
 	rows.add_theme_constant_override("separation", 8)
 	rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -732,7 +738,7 @@ func _party_row(st: RefCounted, id: String, portrait: bool) -> Control:
 	info.add_theme_constant_override("separation", 0)
 	h.add_child(info)
 	var status_text: String = Loc.t("status." + status)
-	if st.relationships.active == id:
+	if PartySystem.in_party(st, id):
 		status_text = Loc.t("party.active")
 	var wrap := TextServer.AUTOWRAP_WORD_SMART if portrait else TextServer.AUTOWRAP_OFF
 	var line1 := _label(FONT_BODY)
@@ -754,7 +760,16 @@ func _party_row(st: RefCounted, id: String, portrait: bool) -> Control:
 	var btns := {}
 	if status == "joined":
 		line3.text = Loc.t("ability.%s" % c.battle_abilities[0]) + Loc.t("ui.list_sep") + Loc.t("ability.%s" % c.battle_abilities[1])
-		if st.relationships.active != id:
+		var duo: Dictionary = Content.duo_for(id)
+		if not duo.is_empty():
+			var duo_name := Loc.t("technique." + str(duo.tech))
+			if st.relationships.get_score(id) >= int(duo.bond_min):
+				line3.text += "\n" + Loc.t("party.duo_ready", {"name": duo_name})
+			else:
+				line3.text += "\n" + Loc.t("party.duo_line", {"name": duo_name, "bond": int(duo.bond_min)})
+		if PartySystem.in_party(st, id):
+			btns["leave"] = _row_button("party.leave", func() -> void: _party_action("leave", id))
+		else:
 			btns["activate"] = _row_button("party.set_active", func() -> void: _party_action("activate", id))
 		btns["dismiss"] = _row_button("party.dismiss", func() -> void: _party_action("dismiss", id))
 	elif status == "available" or status == "left":
@@ -799,6 +814,8 @@ func _party_action(action: String, id: String) -> void:
 				_status_key = ""
 		"activate":
 			Game.set_active_companion(id)
+		"leave":
+			Game.leave_party(id)
 		"dismiss":
 			Game.dismiss_companion(id)
 	if party_panel != null:
@@ -995,8 +1012,9 @@ func _refresh_stats(st: RefCounted) -> void:
 		if int(st.relationships.scores[npc]) != 0:
 			bonds.append(Loc.t("cult.delta", {"name": Loc.t("npc." + str(npc)), "amount": str(st.relationships.scores[npc])}))
 	_bonds_label.text = Loc.t("ui.list_sep").join(bonds) if not bonds.is_empty() else Loc.t("cult.bonds_none")
-	if st.relationships.active != "":
-		_bonds_label.text += "\n" + Loc.t("cult.active_companion", {"name": Loc.t("npc." + st.relationships.active)})
+	var members: Array = PartySystem.party(st).map(func(m: String) -> String: return Loc.t("npc." + m))
+	if not members.is_empty():
+		_bonds_label.text += "\n" + Loc.t("cult.active_companion", {"name": Loc.t("ui.list_sep").join(members)})
 
 
 func _refresh_info() -> void:

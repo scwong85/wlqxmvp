@@ -10,6 +10,8 @@ const HERO_ID := "hero"
 const BOND_MIN := 8
 const RealmRules = preload("res://scripts/domain/realm_rules.gd")
 const TechniqueLevels = preload("res://scripts/domain/technique_levels.gd")
+const SkillTree = preload("res://scripts/domain/skill_tree.gd")
+const EquipmentRules = preload("res://scripts/domain/equipment_rules.gd")
 
 
 static func build(content: Object, scenario_id: String, seed_value: int, game_state: RefCounted = null, party_ids: Array = []) -> RefCounted:
@@ -41,6 +43,10 @@ static func build(content: Object, scenario_id: String, seed_value: int, game_st
 		b.units.append(c)
 		used[c.pos] = true
 		slot += 1
+		# A strong bond gives the hero a duo technique with this companion.
+		var duo: Dictionary = content.duo_for(str(cid))
+		if not duo.is_empty() and game_state != null and game_state.relationships.get_score(str(cid)) >= int(duo.bond_min) and not hero.techniques.has(str(duo.tech)):
+			hero.techniques.append(str(duo.tech))
 	if sc.has("npc"):
 		var n := _from_template(content, str(sc.npc.template), str(sc.npc.id), "player")
 		n.npc = true
@@ -92,19 +98,36 @@ static func _hero(content: Object, gs: RefCounted) -> RefCounted:
 		spirit = gs.player.effective_attr("spirit")
 		u.techniques = gs.player.techniques.duplicate()
 		u.tech_levels = TechniqueLevels.levels_of(gs)
-	u.max_hp = 30 + body * 4
+	var bonus := hero_bonus(content, gs)
+	body += int(bonus.get("body", 0))
+	power += int(bonus.get("power", 0))
+	agility += int(bonus.get("agility", 0))
+	spirit += int(bonus.get("spirit", 0))
+	insight += int(bonus.get("tp", 0))
+	u.max_hp = 30 + body * 4 + int(bonus.get("hp", 0))
 	u.body = body
 	u.power = power
 	u.agility = agility
 	u.spirit = spirit
 	u.tp = insight
-	u.max_resolve = 6 + spirit
+	u.max_resolve = 6 + spirit + int(bonus.get("resolve", 0))
 	if gs != null:
 		u.max_hp += RealmRules.hp_bonus(gs, content)
 		u.tp += RealmRules.tp_bonus(gs, content)
 	u.hp = u.max_hp
 	u.resolve = u.max_resolve
 	return u
+
+
+## Skill-tree and gear bonuses of the hero: {stat: amount} (stats: hp, body, power, agility, spirit, tp, resolve).
+static func hero_bonus(content: Object, gs: RefCounted) -> Dictionary:
+	var out := {}
+	if gs == null:
+		return out
+	for src in [SkillTree.stat_bonus(gs, content), EquipmentRules.bonus(gs, content)]:
+		for k in src:
+			out[k] = int(out.get(k, 0)) + int(src[k])
+	return out
 
 
 ## The bond ability is only available once the bond is strong enough (BOND_MIN).

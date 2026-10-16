@@ -236,6 +236,8 @@ func preview_attack(unit_id: String, tech_id: String, target_id: String) -> Dict
 		return _no("out_of_range")
 	if tech.get("once", false) and u.used_once.has(tech_id):
 		return _no("already_used")
+	if not duo_ready(tech):
+		return _no("duo_partner_down")
 	var r := CombatRules.attack_result(self, u, tech, t)
 	r["ok"] = true
 	return r
@@ -309,7 +311,15 @@ func _gate(u: RefCounted, tech_id: String, tech: Dictionary) -> Dictionary:
 
 func can_use(u: RefCounted, tech_id: String) -> bool:
 	var tech := _tech_for(u, tech_id)
-	return not tech.is_empty() and u.alive() and _gate(u, tech_id, tech).ok
+	return not tech.is_empty() and u.alive() and _gate(u, tech_id, tech).ok and duo_ready(tech)
+
+
+## A duo technique needs its partner standing on the player's side; other techniques always pass.
+func duo_ready(tech: Dictionary) -> bool:
+	if not tech.has("duo"):
+		return true
+	var partner := unit(str(tech.duo))
+	return partner != null and partner.alive() and partner.team == "player"
 
 
 func _spend(u: RefCounted, tech_id: String, tech: Dictionary) -> void:

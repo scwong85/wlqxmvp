@@ -515,10 +515,43 @@ func _run() -> void:
 	await _frames(3)
 	_check(Router.current_key == "title" and not title.load_note.text.begins_with("["), "corrupt: failed load stays on the title with a real message")
 	await _story_layouts()
+	await _arts_layouts()
 	await _battle_ui()
 	await _clip_and_minigame()
 	Saves.update_settings({"animations": true, "minigames": true})
 	_reached_end = true
+
+
+## The cultivation sheet and the arts screen (all three tabs) fit in every orientation and both languages.
+func _arts_layouts() -> void:
+	var win := get_window()
+	for size in [Vector2i(390, 844), Vector2i(360, 640), Vector2i(1280, 720), Vector2i(844, 390)]:
+		win.size = size
+		await _frames(3)
+		for lang in ["zh_CN", "en"]:
+			Loc.set_locale(lang)
+			Game.new_game(5)
+			Game.state.calendar.week = 8
+			Game.state.player.path_id = "xuan_fist"
+			Game.state.cultivation.realm = 3
+			Game.state.cultivation.path_progress["xuan_fist"] = 40
+			Game.state.resources.add_item("manual_iron_palm", 1)
+			Game.state.resources.add("ore", 12)
+			Router.goto("sheet")
+			await _frames(4)
+			var problems: Array[String] = UiKit.audit(_scene())
+			_check(problems.is_empty(), "sheet layout %s %s: fits %s" % [str(size), lang, str(problems.slice(0, 2))])
+			Router.goto("arts")
+			await _frames(4)
+			var arts := _scene()
+			for t in ["tree", "manuals", "gear"]:
+				arts.select_tab(t)
+				await _frames(3)
+				problems = UiKit.audit(arts)
+				_check(problems.is_empty(), "arts layout %s %s %s: fits %s" % [str(size), lang, t, str(problems.slice(0, 2))])
+	Loc.set_locale("zh_CN")
+	win.size = Vector2i(1280, 720)
+	await _frames(3)
 
 
 ## Dialogue and ending screens fit in every orientation and in both languages.

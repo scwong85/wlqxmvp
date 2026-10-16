@@ -173,10 +173,11 @@ func _party() -> void:
 	RelationshipRules.recruit(g, "shen_qinghe", content)
 	RelationshipRules.recruit(g, "lu_chenzhou", content)
 	check.call(PartySystem.roster(g, content) == ["shen_qinghe", "lu_chenzhou"], "party: several companions can be in the roster")
-	check.call(PartySystem.active(g) == "shen_qinghe", "party: the first to join is active; the second waits")
-	check.call(PartySystem.set_active(g, "lu_chenzhou") and PartySystem.active(g) == "lu_chenzhou", "party: swapping replaces the active companion (never two)")
-	check.call(not PartySystem.set_active(g, "bai_yan") and PartySystem.active(g) == "lu_chenzhou", "party: cannot activate someone who has not joined")
-	check.call(PartySystem.dismiss(g, "lu_chenzhou") and PartySystem.active(g) == "" and g.relationships.get_status("lu_chenzhou") == "left", "party: dismissing the active companion empties the slot")
+	check.call(PartySystem.active(g) == "shen_qinghe", "party: the first to join is active; the second takes the other place")
+	check.call(PartySystem.party(g) == ["shen_qinghe", "lu_chenzhou"], "party: two companions fight together")
+	check.call(PartySystem.set_active(g, "lu_chenzhou") and PartySystem.party(g).size() == 2, "party: adding someone already in the party changes nothing (never more than two)")
+	check.call(not PartySystem.set_active(g, "bai_yan") and PartySystem.party(g).size() == 2, "party: cannot activate someone who has not joined")
+	check.call(PartySystem.dismiss(g, "lu_chenzhou") and PartySystem.party(g) == ["shen_qinghe"] and g.relationships.get_status("lu_chenzhou") == "left", "party: dismissing a companion frees the place")
 	check.call(not PartySystem.dismiss(g, "lu_chenzhou"), "party: cannot dismiss someone who is not in the party")
 
 

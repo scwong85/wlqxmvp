@@ -13,6 +13,7 @@ const CultivationRules = preload("res://scripts/domain/cultivation_rules.gd")
 # Public so tests can drive the screen like a player.
 var break_button: Button
 var back_button: Button
+var arts_button: Button
 var realm_label: Label
 var notice_label: Label
 
@@ -116,6 +117,11 @@ func _refresh() -> void:
 	notice_label.modulate = Color("e1c06b")
 	_list.add_child(notice_label)
 
+	arts_button = UiKit.make_button(Vector2(0, 64))
+	arts_button.add_theme_font_size_override("font_size", 24)
+	arts_button.text = Loc.t("arts.button")
+	arts_button.pressed.connect(func() -> void: Router.goto("arts"))
+	_list.add_child(arts_button)
 	_list.add_child(_label(Loc.t("sheet.techniques"), 28))
 	if st.player.techniques.is_empty():
 		_list.add_child(_label(Loc.t("sheet.no_techniques"), 22, true))

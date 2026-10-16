@@ -10,6 +10,8 @@ var status: Dictionary = {}
 var flags: Dictionary = {}
 ## The one companion who fights alongside the hero ("" = none). Must have status "joined".
 var active: String = ""
+## A second companion in the party ("" = none). Must have status "joined" and differ from `active`.
+var second: String = ""
 
 
 func get_score(npc_id: String) -> int:
@@ -45,7 +47,7 @@ func has_flag(flag_id: String) -> bool:
 
 
 func to_dict() -> Dictionary:
-	return {"scores": scores.duplicate(), "status": status.duplicate(), "flags": flags.duplicate(), "active": active}
+	return {"scores": scores.duplicate(), "status": status.duplicate(), "flags": flags.duplicate(), "active": active, "second": second}
 
 
 static func from_dict(d: Variant) -> RefCounted:
@@ -67,4 +69,10 @@ static func from_dict(d: Variant) -> RefCounted:
 	s.active = str(d.get("active", ""))
 	if s.active != "" and s.get_status(s.active) != "joined":
 		s.active = ""  # a save must not name an active companion who is not in the party
+	s.second = str(d.get("second", ""))
+	if s.second == s.active or s.get_status(s.second) != "joined":
+		s.second = ""
+	if s.active == "" and s.second != "":
+		s.active = s.second
+		s.second = ""
 	return s

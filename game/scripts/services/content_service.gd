@@ -30,6 +30,10 @@ var areas: Array = []
 var looks: Array = []
 var clips: Array = []
 var realms: Array = []
+var skill_nodes: Array = []
+var duos: Array = []
+var manuals: Array = []
+var equipment: Array = []
 var minigames: Array = []
 var events: Array = []
 
@@ -55,6 +59,10 @@ func load_all() -> void:
 	looks = _load_list("story/looks.json", "looks")
 	clips = _load_list("clips.json", "clips")
 	realms = _load_list("cultivation/realms.json", "realms")
+	skill_nodes = _load_list("cultivation/skill_tree.json", "nodes")
+	duos = _load_list("combat/duo.json", "duos")
+	manuals = _load_list("cultivation/manuals.json", "manuals")
+	equipment = _load_list("cultivation/equipment.json", "equipment")
 	minigames = _load_list("minigames.json", "minigames")
 	areas = _load_list("world/areas.json", "areas")
 	events = _load_list("world/events.json", "events")
@@ -154,6 +162,14 @@ func companion_ids() -> Array:
 	return companions.map(func(c: Dictionary) -> String: return str(c.id))
 
 
+## The duo technique of a companion ({} if none).
+func duo_for(companion_id: String) -> Dictionary:
+	for d in duos:
+		if str(d.companion) == companion_id:
+			return d
+	return {}
+
+
 func technique(id: String) -> Dictionary:
 	return _find(techniques, id)
 
@@ -241,6 +257,7 @@ func validate(has_key: Callable) -> Array[String]:
 	errs.append_array(_validate_world(has_key))
 	errs.append_array(_validate_clips(has_key))
 	errs.append_array(_validate_realms(has_key))
+	errs.append_array(_validate_arts(has_key))
 	return errs
 
 
@@ -824,4 +841,33 @@ func _validate_realms(has_key: Callable) -> Array[String]:
 		if pp < last_pp:
 			errs.append("realm %s: path progress requirement must not fall" % id)
 		last_pp = pp
+	return errs
+
+
+func _validate_arts(has_key: Callable) -> Array[String]:
+	var errs: Array[String] = []
+	var ids := {}
+	for n in skill_nodes:
+		var id := str(n.get("id", ""))
+		ids[id] = true
+		if not has_key.call(str(n.get("name_key", ""))):
+			errs.append("skill node %s: missing name text" % id)
+		if path(str(n.get("path", ""))).is_empty():
+			errs.append("skill node %s: unknown path" % id)
+		var e: Dictionary = n.get("effect", {})
+		if str(e.get("type", "")) == "technique" and combat_tech(str(e.get("id", ""))).is_empty():
+			errs.append("skill node %s: unknown technique" % id)
+	for n in skill_nodes:
+		for r in n.get("requires", []):
+			if not ids.has(str(r)):
+				errs.append("skill node %s: unknown requirement %s" % [str(n.id), str(r)])
+	for d in duos:
+		if companion(str(d.get("companion", ""))).is_empty() or combat_tech(str(d.get("tech", ""))).is_empty() or str(combat_tech(str(d.tech)).get("duo", "")) != str(d.companion):
+			errs.append("duo %s: bad companion or technique" % str(d.get("id", "")))
+	for m in manuals:
+		if not has_key.call(str(m.get("name_key", ""))) or combat_tech(str(m.get("technique", ""))).is_empty():
+			errs.append("manual %s: bad text or technique" % str(m.get("id", "")))
+	for e in equipment:
+		if not has_key.call(str(e.get("name_key", ""))) or not ["weapon", "armor", "charm"].has(str(e.get("slot", ""))):
+			errs.append("equipment %s: bad text or slot" % str(e.get("id", "")))
 	return errs

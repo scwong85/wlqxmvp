@@ -1,0 +1,22 @@
+{
+ "duos": [
+  {
+   "id": "duo_spring_breeze",
+   "companion": "shen_qinghe",
+   "tech": "duo_spring_breeze",
+   "bond_min": 12
+  },
+  {
+   "id": "duo_twin_dash",
+   "companion": "lu_chenzhou",
+   "tech": "duo_twin_dash",
+   "bond_min": 12
+  },
+  {
+   "id": "duo_ink_seal",
+   "companion": "bai_yan",
+   "tech": "duo_ink_seal",
+   "bond_min": 12
+  }
+ ]
+}

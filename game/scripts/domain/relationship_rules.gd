@@ -66,6 +66,8 @@ static func recruit(state: RefCounted, npc_id: String, content: Object) -> Dicti
 	state.relationships.set_status(npc_id, "joined")
 	if state.relationships.active == "":
 		state.relationships.active = npc_id
+	elif state.relationships.second == "":
+		state.relationships.second = npc_id
 	return {"ok": true, "result": "joined", "reasons": []}
 
 
@@ -91,6 +93,9 @@ static func check_departures(state: RefCounted, content: Object) -> Array:
 		if go:
 			state.relationships.set_status(id, "left")
 			if state.relationships.active == id:
-				state.relationships.active = ""
+				state.relationships.active = state.relationships.second
+				state.relationships.second = ""
+			elif state.relationships.second == id:
+				state.relationships.second = ""
 			left.append(id)
 	return left

@@ -66,6 +66,16 @@
        "amount": 1
       }
      ]
+    },
+    {
+     "text_key": "world.area.river_bend.m1",
+     "rewards": [
+      {
+       "type": "item",
+       "id": "manual_thunder_palm",
+       "amount": 1
+      }
+     ]
     }
    ],
    "open_default": true
@@ -93,6 +103,16 @@
       {
        "type": "attr",
        "id": "agility",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.herb_terraces.m1",
+     "rewards": [
+      {
+       "type": "item",
+       "id": "manual_herb_hymn",
        "amount": 1
       }
      ]
@@ -131,6 +151,16 @@
        "amount": 6
       }
      ]
+    },
+    {
+     "text_key": "world.area.old_shrine.m1",
+     "rewards": [
+      {
+       "type": "item",
+       "id": "manual_wind_step",
+       "amount": 1
+      }
+     ]
     }
    ]
   },
@@ -158,6 +188,16 @@
        "type": "resource",
        "id": "coins",
        "amount": 12
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.ferry_dock.m1",
+     "rewards": [
+      {
+       "type": "item",
+       "id": "manual_iron_palm",
+       "amount": 1
       }
      ]
     }

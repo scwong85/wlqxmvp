@@ -29,6 +29,11 @@ static func attack_result(battle: RefCounted, attacker: RefCounted, tech: Dictio
 	if tech.has("bonus_vs_broken") and target.broken:
 		base += int(tech.bonus_vs_broken)
 		mods.append("bonus_broken")
+	if tech.has("duo"):
+		var partner: RefCounted = battle.unit(str(tech.duo))
+		if partner != null and partner.alive():
+			base += partner.power / 2 + 2   # the partner strikes together with the hero
+			mods.append("duo")
 	var dmg := maxi(1, base - target.defense())
 	if attacker.has_status("weaken"):
 		dmg = maxi(1, dmg - dmg / 4)

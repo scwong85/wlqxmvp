@@ -11,6 +11,7 @@ const SCENES := {
 	"hero_creation": "res://scenes/menus/hero_creation.tscn",
 	"minigame": "res://scenes/minigame/minigame_host.tscn",
 	"sheet": "res://scenes/menus/hero_sheet.tscn",
+	"arts": "res://scenes/menus/arts_screen.tscn",
 	"map": "res://scenes/map/map.tscn",
 	"battle": "res://scenes/battle/battle.tscn",
 	"dialogue": "res://scenes/dialogue/dialogue.tscn",

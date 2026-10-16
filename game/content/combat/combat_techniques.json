@@ -186,6 +186,191 @@
    "once": true,
    "bond": true,
    "name_key": "ability.margin_notes"
+  },
+  {
+   "id": "fist_quake",
+   "name_key": "technique.fist_quake",
+   "kind": "attack",
+   "range": 1,
+   "damage": 8,
+   "resolve": 4,
+   "push": 2,
+   "cost": 3
+  },
+  {
+   "id": "fist_tremor",
+   "name_key": "technique.fist_tremor",
+   "kind": "attack",
+   "range": 2,
+   "damage": 7,
+   "resolve": 4,
+   "push": 1,
+   "cost": 3
+  },
+  {
+   "id": "fist_dragon",
+   "name_key": "technique.fist_dragon",
+   "kind": "attack",
+   "range": 1,
+   "damage": 15,
+   "resolve": 6,
+   "push": 1,
+   "cost": 5
+  },
+  {
+   "id": "sword_cloud",
+   "name_key": "technique.sword_cloud",
+   "kind": "attack",
+   "range": 3,
+   "damage": 6,
+   "resolve": 3,
+   "cost": 3,
+   "status": {
+    "id": "bleed",
+    "turns": 2
+   }
+  },
+  {
+   "id": "sword_petals",
+   "name_key": "technique.sword_petals",
+   "kind": "attack",
+   "range": 2,
+   "damage": 8,
+   "resolve": 3,
+   "cost": 3
+  },
+  {
+   "id": "sword_rainbow",
+   "name_key": "technique.sword_rainbow",
+   "kind": "attack",
+   "range": 4,
+   "damage": 13,
+   "resolve": 5,
+   "cost": 5,
+   "status": {
+    "id": "bleed",
+    "turns": 3
+   }
+  },
+  {
+   "id": "rain_renew",
+   "name_key": "technique.rain_renew",
+   "kind": "support",
+   "range": 3,
+   "heal": 20,
+   "cost": 3
+  },
+  {
+   "id": "rain_clarity",
+   "name_key": "technique.rain_clarity",
+   "kind": "support",
+   "range": 3,
+   "resolve_restore": 12,
+   "cleanse": true,
+   "cost": 3
+  },
+  {
+   "id": "rain_hush",
+   "name_key": "technique.rain_hush",
+   "kind": "support",
+   "range": 3,
+   "heal": 26,
+   "resolve_restore": 10,
+   "cleanse": true,
+   "cost": 5
+  },
+  {
+   "id": "iron_palm",
+   "name_key": "technique.iron_palm",
+   "kind": "attack",
+   "range": 1,
+   "damage": 7,
+   "resolve": 4,
+   "cost": 2
+  },
+  {
+   "id": "wind_step",
+   "name_key": "technique.wind_step",
+   "kind": "attack",
+   "range": 3,
+   "damage": 4,
+   "resolve": 2,
+   "cost": 1
+  },
+  {
+   "id": "herb_hymn",
+   "name_key": "technique.herb_hymn",
+   "kind": "support",
+   "range": 2,
+   "heal": 16,
+   "cost": 2
+  },
+  {
+   "id": "thunder_palm",
+   "name_key": "technique.thunder_palm",
+   "kind": "attack",
+   "range": 2,
+   "damage": 9,
+   "resolve": 5,
+   "cost": 3
+  },
+  {
+   "id": "ember_fist",
+   "name_key": "technique.ember_fist",
+   "kind": "attack",
+   "range": 1,
+   "damage": 11,
+   "resolve": 5,
+   "cost": 4,
+   "status": {
+    "id": "bleed",
+    "turns": 2
+   }
+  },
+  {
+   "id": "jade_shield",
+   "name_key": "technique.jade_shield",
+   "kind": "support",
+   "range": 2,
+   "heal": 8,
+   "resolve_restore": 10,
+   "cleanse": true,
+   "cost": 3
+  },
+  {
+   "id": "duo_spring_breeze",
+   "name_key": "technique.duo_spring_breeze",
+   "duo": "shen_qinghe",
+   "kind": "attack",
+   "range": 3,
+   "damage": 6,
+   "resolve": 7,
+   "cost": 3
+  },
+  {
+   "id": "duo_twin_dash",
+   "name_key": "technique.duo_twin_dash",
+   "duo": "lu_chenzhou",
+   "kind": "attack",
+   "range": 1,
+   "damage": 9,
+   "resolve": 4,
+   "push": 2,
+   "cost": 3
+  },
+  {
+   "id": "duo_ink_seal",
+   "name_key": "technique.duo_ink_seal",
+   "duo": "bai_yan",
+   "kind": "attack",
+   "range": 2,
+   "damage": 7,
+   "resolve": 5,
+   "cost": 3,
+   "status": {
+    "id": "weaken",
+    "turns": 2
+   }
   }
  ],
  "statuses": [

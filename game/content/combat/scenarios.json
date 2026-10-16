@@ -177,6 +177,11 @@
       "type": "relationship",
       "id": "$active",
       "amount": 2
+     },
+     {
+      "type": "item",
+      "id": "manual_ember_fist",
+      "amount": 1
      }
     ],
     "flags": [
@@ -297,6 +302,11 @@
       "type": "relationship",
       "id": "$active",
       "amount": 3
+     },
+     {
+      "type": "item",
+      "id": "manual_jade_shield",
+      "amount": 1
      }
     ],
     "flags": [

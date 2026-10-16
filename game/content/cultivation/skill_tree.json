@@ -1,0 +1,352 @@
+{
+ "nodes": [
+  {
+   "id": "iron_skin",
+   "path": "xuan_fist",
+   "name_key": "tree.iron_skin",
+   "requires": [],
+   "cost": 1,
+   "realm_min": 0,
+   "effect": {
+    "type": "stat",
+    "stat": "hp",
+    "amount": 6
+   }
+  },
+  {
+   "id": "heavy_shoulder",
+   "path": "xuan_fist",
+   "name_key": "tree.heavy_shoulder",
+   "requires": [
+    "iron_skin"
+   ],
+   "cost": 1,
+   "realm_min": 0,
+   "effect": {
+    "type": "stat",
+    "stat": "power",
+    "amount": 1
+   }
+  },
+  {
+   "id": "steady_stance",
+   "path": "xuan_fist",
+   "name_key": "tree.steady_stance",
+   "requires": [
+    "iron_skin"
+   ],
+   "cost": 1,
+   "realm_min": 1,
+   "effect": {
+    "type": "stat",
+    "stat": "body",
+    "amount": 1
+   }
+  },
+  {
+   "id": "fist_quake",
+   "path": "xuan_fist",
+   "name_key": "technique.fist_quake",
+   "requires": [
+    "heavy_shoulder"
+   ],
+   "cost": 2,
+   "realm_min": 1,
+   "effect": {
+    "type": "technique",
+    "id": "fist_quake"
+   }
+  },
+  {
+   "id": "deep_earth",
+   "path": "xuan_fist",
+   "name_key": "tree.deep_earth",
+   "requires": [
+    "steady_stance"
+   ],
+   "cost": 1,
+   "realm_min": 2,
+   "effect": {
+    "type": "stat",
+    "stat": "hp",
+    "amount": 8
+   }
+  },
+  {
+   "id": "qi_thread",
+   "path": "xuan_fist",
+   "name_key": "tree.qi_thread",
+   "requires": [
+    "fist_quake"
+   ],
+   "cost": 2,
+   "realm_min": 2,
+   "effect": {
+    "type": "stat",
+    "stat": "tp",
+    "amount": 1
+   }
+  },
+  {
+   "id": "fist_tremor",
+   "path": "xuan_fist",
+   "name_key": "technique.fist_tremor",
+   "requires": [
+    "deep_earth"
+   ],
+   "cost": 2,
+   "realm_min": 3,
+   "effect": {
+    "type": "technique",
+    "id": "fist_tremor"
+   }
+  },
+  {
+   "id": "fist_dragon",
+   "path": "xuan_fist",
+   "name_key": "technique.fist_dragon",
+   "requires": [
+    "qi_thread",
+    "fist_tremor"
+   ],
+   "cost": 3,
+   "realm_min": 4,
+   "effect": {
+    "type": "technique",
+    "id": "fist_dragon"
+   }
+  },
+  {
+   "id": "light_body",
+   "path": "green_sword",
+   "name_key": "tree.light_body",
+   "requires": [],
+   "cost": 1,
+   "realm_min": 0,
+   "effect": {
+    "type": "stat",
+    "stat": "agility",
+    "amount": 1
+   }
+  },
+  {
+   "id": "clear_eye",
+   "path": "green_sword",
+   "name_key": "tree.clear_eye",
+   "requires": [
+    "light_body"
+   ],
+   "cost": 1,
+   "realm_min": 0,
+   "effect": {
+    "type": "stat",
+    "stat": "tp",
+    "amount": 1
+   }
+  },
+  {
+   "id": "quick_step",
+   "path": "green_sword",
+   "name_key": "tree.quick_step",
+   "requires": [
+    "light_body"
+   ],
+   "cost": 1,
+   "realm_min": 1,
+   "effect": {
+    "type": "stat",
+    "stat": "hp",
+    "amount": 6
+   }
+  },
+  {
+   "id": "sword_cloud",
+   "path": "green_sword",
+   "name_key": "technique.sword_cloud",
+   "requires": [
+    "clear_eye"
+   ],
+   "cost": 2,
+   "realm_min": 1,
+   "effect": {
+    "type": "technique",
+    "id": "sword_cloud"
+   }
+  },
+  {
+   "id": "keen_sense",
+   "path": "green_sword",
+   "name_key": "tree.keen_sense",
+   "requires": [
+    "quick_step"
+   ],
+   "cost": 1,
+   "realm_min": 2,
+   "effect": {
+    "type": "stat",
+    "stat": "agility",
+    "amount": 1
+   }
+  },
+  {
+   "id": "sword_heart",
+   "path": "green_sword",
+   "name_key": "tree.sword_heart",
+   "requires": [
+    "sword_cloud"
+   ],
+   "cost": 2,
+   "realm_min": 2,
+   "effect": {
+    "type": "stat",
+    "stat": "spirit",
+    "amount": 1
+   }
+  },
+  {
+   "id": "sword_petals",
+   "path": "green_sword",
+   "name_key": "technique.sword_petals",
+   "requires": [
+    "keen_sense"
+   ],
+   "cost": 2,
+   "realm_min": 3,
+   "effect": {
+    "type": "technique",
+    "id": "sword_petals"
+   }
+  },
+  {
+   "id": "sword_rainbow",
+   "path": "green_sword",
+   "name_key": "technique.sword_rainbow",
+   "requires": [
+    "sword_heart",
+    "sword_petals"
+   ],
+   "cost": 3,
+   "realm_min": 4,
+   "effect": {
+    "type": "technique",
+    "id": "sword_rainbow"
+   }
+  },
+  {
+   "id": "still_mind",
+   "path": "listening_rain",
+   "name_key": "tree.still_mind",
+   "requires": [],
+   "cost": 1,
+   "realm_min": 0,
+   "effect": {
+    "type": "stat",
+    "stat": "spirit",
+    "amount": 1
+   }
+  },
+  {
+   "id": "guard_spirit",
+   "path": "listening_rain",
+   "name_key": "tree.guard_spirit",
+   "requires": [
+    "still_mind"
+   ],
+   "cost": 1,
+   "realm_min": 0,
+   "effect": {
+    "type": "stat",
+    "stat": "resolve",
+    "amount": 3
+   }
+  },
+  {
+   "id": "deep_breath",
+   "path": "listening_rain",
+   "name_key": "tree.deep_breath",
+   "requires": [
+    "still_mind"
+   ],
+   "cost": 1,
+   "realm_min": 1,
+   "effect": {
+    "type": "stat",
+    "stat": "tp",
+    "amount": 1
+   }
+  },
+  {
+   "id": "rain_renew",
+   "path": "listening_rain",
+   "name_key": "technique.rain_renew",
+   "requires": [
+    "guard_spirit"
+   ],
+   "cost": 2,
+   "realm_min": 1,
+   "effect": {
+    "type": "technique",
+    "id": "rain_renew"
+   }
+  },
+  {
+   "id": "soft_earth",
+   "path": "listening_rain",
+   "name_key": "tree.soft_earth",
+   "requires": [
+    "deep_breath"
+   ],
+   "cost": 1,
+   "realm_min": 2,
+   "effect": {
+    "type": "stat",
+    "stat": "hp",
+    "amount": 8
+   }
+  },
+  {
+   "id": "calm_water",
+   "path": "listening_rain",
+   "name_key": "tree.calm_water",
+   "requires": [
+    "rain_renew"
+   ],
+   "cost": 2,
+   "realm_min": 2,
+   "effect": {
+    "type": "stat",
+    "stat": "spirit",
+    "amount": 1
+   }
+  },
+  {
+   "id": "rain_clarity",
+   "path": "listening_rain",
+   "name_key": "technique.rain_clarity",
+   "requires": [
+    "soft_earth"
+   ],
+   "cost": 2,
+   "realm_min": 3,
+   "effect": {
+    "type": "technique",
+    "id": "rain_clarity"
+   }
+  },
+  {
+   "id": "rain_hush",
+   "path": "listening_rain",
+   "name_key": "technique.rain_hush",
+   "requires": [
+    "calm_water",
+    "rain_clarity"
+   ],
+   "cost": 3,
+   "realm_min": 4,
+   "effect": {
+    "type": "technique",
+    "id": "rain_hush"
+   }
+  }
+ ]
+}

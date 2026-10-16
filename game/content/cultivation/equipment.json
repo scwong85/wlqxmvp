@@ -1,0 +1,136 @@
+{
+ "equipment": [
+  {
+   "id": "iron_sword",
+   "item": "eq_iron_sword",
+   "name_key": "equip.iron_sword",
+   "slot": "weapon",
+   "realm_min": 0,
+   "cost": {
+    "ore": 3,
+    "coins": 10
+   },
+   "bonus": {
+    "power": 1
+   }
+  },
+  {
+   "id": "steel_blade",
+   "item": "eq_steel_blade",
+   "name_key": "equip.steel_blade",
+   "slot": "weapon",
+   "realm_min": 2,
+   "cost": {
+    "ore": 6,
+    "coins": 25
+   },
+   "bonus": {
+    "power": 2
+   }
+  },
+  {
+   "id": "jade_saber",
+   "item": "eq_jade_saber",
+   "name_key": "equip.jade_saber",
+   "slot": "weapon",
+   "realm_min": 4,
+   "cost": {
+    "ore": 10,
+    "coins": 50
+   },
+   "bonus": {
+    "power": 3,
+    "tp": 1
+   }
+  },
+  {
+   "id": "cloth_vest",
+   "item": "eq_cloth_vest",
+   "name_key": "equip.cloth_vest",
+   "slot": "armor",
+   "realm_min": 0,
+   "cost": {
+    "ore": 2,
+    "coins": 8
+   },
+   "bonus": {
+    "hp": 6
+   }
+  },
+  {
+   "id": "leather_coat",
+   "item": "eq_leather_coat",
+   "name_key": "equip.leather_coat",
+   "slot": "armor",
+   "realm_min": 2,
+   "cost": {
+    "ore": 5,
+    "coins": 20
+   },
+   "bonus": {
+    "hp": 10,
+    "body": 1
+   }
+  },
+  {
+   "id": "scale_armor",
+   "item": "eq_scale_armor",
+   "name_key": "equip.scale_armor",
+   "slot": "armor",
+   "realm_min": 4,
+   "cost": {
+    "ore": 9,
+    "coins": 45
+   },
+   "bonus": {
+    "hp": 16,
+    "body": 2
+   }
+  },
+  {
+   "id": "jade_pendant",
+   "item": "eq_jade_pendant",
+   "name_key": "equip.jade_pendant",
+   "slot": "charm",
+   "realm_min": 0,
+   "cost": {
+    "ore": 2,
+    "coins": 12
+   },
+   "bonus": {
+    "spirit": 1
+   }
+  },
+  {
+   "id": "wind_charm",
+   "item": "eq_wind_charm",
+   "name_key": "equip.wind_charm",
+   "slot": "charm",
+   "realm_min": 2,
+   "cost": {
+    "ore": 5,
+    "coins": 25
+   },
+   "bonus": {
+    "agility": 1,
+    "tp": 1
+   }
+  },
+  {
+   "id": "dragon_charm",
+   "item": "eq_dragon_charm",
+   "name_key": "equip.dragon_charm",
+   "slot": "charm",
+   "realm_min": 4,
+   "cost": {
+    "ore": 9,
+    "coins": 50
+   },
+   "bonus": {
+    "resolve": 4,
+    "tp": 1,
+    "spirit": 1
+   }
+  }
+ ]
+}

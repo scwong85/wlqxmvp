@@ -1,0 +1,52 @@
+{
+ "manuals": [
+  {
+   "id": "iron_palm",
+   "item": "manual_iron_palm",
+   "name_key": "manual.iron_palm",
+   "technique": "iron_palm",
+   "group": "palm",
+   "realm_min": 0
+  },
+  {
+   "id": "wind_step",
+   "item": "manual_wind_step",
+   "name_key": "manual.wind_step",
+   "technique": "wind_step",
+   "group": "palm",
+   "realm_min": 0
+  },
+  {
+   "id": "herb_hymn",
+   "item": "manual_herb_hymn",
+   "name_key": "manual.herb_hymn",
+   "technique": "herb_hymn",
+   "group": "heal",
+   "realm_min": 0
+  },
+  {
+   "id": "thunder_palm",
+   "item": "manual_thunder_palm",
+   "name_key": "manual.thunder_palm",
+   "technique": "thunder_palm",
+   "group": "heal",
+   "realm_min": 1
+  },
+  {
+   "id": "ember_fist",
+   "item": "manual_ember_fist",
+   "name_key": "manual.ember_fist",
+   "technique": "ember_fist",
+   "group": "rare",
+   "realm_min": 3
+  },
+  {
+   "id": "jade_shield",
+   "item": "manual_jade_shield",
+   "name_key": "manual.jade_shield",
+   "technique": "jade_shield",
+   "group": "rare",
+   "realm_min": 3
+  }
+ ]
+}
