@@ -295,6 +295,19 @@
    "techniques": [
     "club_smash"
    ]
+  },
+  {
+   "id": "vault_guardian",
+   "stats": {
+    "hp": 320,
+    "body": 17,
+    "power": 19,
+    "agility": 8,
+    "spirit": 12
+   },
+   "techniques": [
+    "club_smash"
+   ]
   }
  ]
 }

@@ -24,6 +24,8 @@ const THEMES := {
 	"yanmen_snow": {"top": "9fb4c6", "mid": "d4dfe8", "low": "f4f7fa", "ground": "9aa6b2", "kind": "hills"},
 	"penglai_sea": {"top": "5cc0d0", "mid": "a8e0e0", "low": "f4f0e4", "ground": "3a8a9a", "kind": "river", "sun": true},
 	"penglai_cave": {"top": "10343c", "mid": "2a6a74", "low": "6ab0b0", "ground": "1c4046", "kind": "shrine", "moon": true},
+	"vault_stair": {"top": "0a1018", "mid": "1c2a34", "low": "3c5260", "ground": "161e22", "kind": "shrine", "moon": true},
+	"vault_hall": {"top": "10141c", "mid": "2c2a44", "low": "5a5878", "ground": "1c1c26", "kind": "shrine", "moon": true},
 	"night_camp": {"top": "060a12", "mid": "10202c", "low": "203540", "ground": "1c2a22", "kind": "camp", "moon": true},
 }
 

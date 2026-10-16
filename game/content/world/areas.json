@@ -998,6 +998,120 @@
     ],
     "week_min": 91
    }
+  },
+  {
+   "id": "sv_stair",
+   "region": "marsh",
+   "name_key": "world.area.sv_stair.name",
+   "desc_key": "world.area.sv_stair.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.sv_stair.w1",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 12
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.sv_stair.w2",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "vault_second_gate"
+    ],
+    "week_min": 136
+   }
+  },
+  {
+   "id": "sv_hall",
+   "region": "marsh",
+   "name_key": "world.area.sv_hall.name",
+   "desc_key": "world.area.sv_hall.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.sv_hall.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.sv_hall.w2",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "ore",
+       "amount": 1
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "vault_second_gate"
+    ],
+    "week_min": 136,
+    "flags_all": [
+     "second_gate_open"
+    ]
+   }
+  },
+  {
+   "id": "sv_door",
+   "region": "marsh",
+   "name_key": "world.area.sv_door.name",
+   "desc_key": "world.area.sv_door.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.sv_door.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.sv_door.w2",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 15
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "vault_second_gate"
+    ],
+    "week_min": 136,
+    "flags_all": [
+     "second_gate_open"
+    ]
+   }
   }
  ]
 }

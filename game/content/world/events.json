@@ -3176,6 +3176,393 @@
    "requires": {
     "week_min": 121
    }
+  },
+  {
+   "id": "y3b_fragments",
+   "kind": "fixed",
+   "area": "lj_teahouse",
+   "scene": {
+    "dialogue": "ev_y3b_fragments"
+   },
+   "title_key": "event.y3b_fragments.title",
+   "window": {
+    "from": 136,
+    "to": 140
+   },
+   "priority": 7,
+   "requires": {
+    "week_min": 136
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "fragments_counted"
+    }
+   ]
+  },
+  {
+   "id": "y3b_star_song",
+   "kind": "fixed",
+   "area": "lj_market",
+   "scene": {
+    "dialogue": "ev_y3b_star_song"
+   },
+   "title_key": "event.y3b_star_song.title",
+   "window": {
+    "from": 138,
+    "to": 148
+   },
+   "priority": 6,
+   "requires": {
+    "week_min": 136,
+    "bond_min": {
+     "su_dai": 8
+    },
+    "flags_none": [
+     "song_sold"
+    ]
+   }
+  },
+  {
+   "id": "y3b_star_forge",
+   "kind": "fixed",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_y3b_star_forge"
+   },
+   "title_key": "event.y3b_star_forge.title",
+   "window": {
+    "from": 138,
+    "to": 148
+   },
+   "priority": 6,
+   "requires": {
+    "week_min": 136,
+    "bond_min": {
+     "li_shan": 8
+    },
+    "flags_none": [
+     "forge_gold"
+    ]
+   }
+  },
+  {
+   "id": "y3b_star_pattern",
+   "kind": "fixed",
+   "area": "cw_library",
+   "scene": {
+    "dialogue": "ev_y3b_star_pattern"
+   },
+   "title_key": "event.y3b_star_pattern.title",
+   "window": {
+    "from": 138,
+    "to": 148
+   },
+   "priority": 6,
+   "requires": {
+    "week_min": 136,
+    "bond_min": {
+     "bai_yan": 8
+    }
+   }
+  },
+  {
+   "id": "y3b_second_gate",
+   "kind": "fixed",
+   "area": "sv_stair",
+   "scene": {
+    "dialogue": "ev_y3b_second_gate"
+   },
+   "title_key": "event.y3b_second_gate.title",
+   "window": {
+    "from": 138,
+    "to": 144
+   },
+   "priority": 7,
+   "requires": {
+    "week_min": 136
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "second_gate_open"
+    }
+   ]
+  },
+  {
+   "id": "y3b_xuan_mask",
+   "kind": "fixed",
+   "area": "sv_hall",
+   "scene": {
+    "dialogue": "ev_y3b_xuan_mask"
+   },
+   "title_key": "event.y3b_xuan_mask.title",
+   "window": {
+    "from": 142,
+    "to": 148
+   },
+   "priority": 7,
+   "requires": {
+    "week_min": 136
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "xuan_refused"
+    }
+   ]
+  },
+  {
+   "id": "y3b_ninth_star",
+   "kind": "fixed",
+   "area": "sv_door",
+   "scene": {
+    "dialogue": "ev_y3b_ninth_star"
+   },
+   "title_key": "event.y3b_ninth_star.title",
+   "window": {
+    "from": 144,
+    "to": 150
+   },
+   "priority": 8,
+   "requires": {
+    "week_min": 136
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "ninth_star_read"
+    },
+    {
+     "type": "lead",
+     "id": "manual_truth"
+    }
+   ]
+  },
+  {
+   "id": "y3b_vault_collapse",
+   "kind": "fixed",
+   "area": "sv_door",
+   "scene": {
+    "dialogue": "ev_y3b_vault_collapse"
+   },
+   "title_key": "event.y3b_vault_collapse.title",
+   "window": {
+    "from": 146,
+    "to": 150
+   },
+   "priority": 8,
+   "requires": {
+    "week_min": 136
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "star_lost"
+    }
+   ]
+  },
+  {
+   "id": "arc_su_dai_4",
+   "kind": "fixed",
+   "area": "lj_market",
+   "scene": {
+    "dialogue": "ev_arc_su_dai_4"
+   },
+   "title_key": "event.arc_su_dai_4.title",
+   "window": {
+    "from": 138,
+    "to": 150
+   },
+   "priority": 6,
+   "requires": {
+    "week_min": 121,
+    "bond_min": {
+     "su_dai": 4
+    },
+    "arc_min": {
+     "su_dai": 3
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_stage",
+     "id": "su_dai",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_li_shan_4",
+   "kind": "fixed",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_arc_li_shan_4"
+   },
+   "title_key": "event.arc_li_shan_4.title",
+   "window": {
+    "from": 134,
+    "to": 146
+   },
+   "priority": 6,
+   "requires": {
+    "week_min": 121,
+    "bond_min": {
+     "li_shan": 4
+    },
+    "arc_min": {
+     "li_shan": 3
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_stage",
+     "id": "li_shan",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_xiao_hanchuan_4",
+   "kind": "fixed",
+   "area": "ym_fort",
+   "scene": {
+    "dialogue": "ev_arc_xiao_hanchuan_4"
+   },
+   "title_key": "event.arc_xiao_hanchuan_4.title",
+   "window": {
+    "from": 140,
+    "to": 152
+   },
+   "priority": 6,
+   "requires": {
+    "week_min": 121,
+    "bond_min": {
+     "xiao_hanchuan": 4
+    },
+    "arc_min": {
+     "xiao_hanchuan": 3
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_stage",
+     "id": "xiao_hanchuan",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "ry10_stair_echo",
+   "kind": "random",
+   "area": "sv_stair",
+   "scene": {
+    "dialogue": "ev_ry10_stair_echo"
+   },
+   "title_key": "event.ry10_stair_echo.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 136
+   }
+  },
+  {
+   "id": "ry10_hall_glow",
+   "kind": "random",
+   "area": "sv_hall",
+   "scene": {
+    "dialogue": "ev_ry10_hall_glow"
+   },
+   "title_key": "event.ry10_hall_glow.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 136
+   }
+  },
+  {
+   "id": "ry10_door_cold",
+   "kind": "random",
+   "area": "sv_door",
+   "scene": {
+    "dialogue": "ev_ry10_door_cold"
+   },
+   "title_key": "event.ry10_door_cold.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 136
+   }
+  },
+  {
+   "id": "ry10_valley_gift",
+   "kind": "random",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_ry10_valley_gift"
+   },
+   "title_key": "event.ry10_valley_gift.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 136
+   }
+  },
+  {
+   "id": "ry10_market_stars",
+   "kind": "random",
+   "area": "lj_market",
+   "scene": {
+    "dialogue": "ev_ry10_market_stars"
+   },
+   "title_key": "event.ry10_market_stars.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 136
+   }
+  },
+  {
+   "id": "ry10_courts_clash",
+   "kind": "random",
+   "area": "cw_courts",
+   "scene": {
+    "dialogue": "ev_ry10_courts_clash"
+   },
+   "title_key": "event.ry10_courts_clash.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 136
+   }
+  },
+  {
+   "id": "ry10_docks_quiet",
+   "kind": "random",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_ry10_docks_quiet"
+   },
+   "title_key": "event.ry10_docks_quiet.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 136
+   }
+  },
+  {
+   "id": "ry10_fort_news",
+   "kind": "random",
+   "area": "ym_fort",
+   "scene": {
+    "dialogue": "ev_ry10_fort_news"
+   },
+   "title_key": "event.ry10_fort_news.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 136
+   }
   }
  ]
 }

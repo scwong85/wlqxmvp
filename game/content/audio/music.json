@@ -183,6 +183,8 @@
    "yanmen_snow": "yanmen_theme",
    "penglai_sea": "penglai_theme",
    "penglai_cave": "penglai_theme",
+   "vault_stair": "mystery_theme",
+   "vault_hall": "mystery_theme",
    "default": "valley_theme"
   },
   "events": {

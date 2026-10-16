@@ -180,6 +180,15 @@
    "outfit_hex": "8a2030",
    "skin_hex": "e0c0a0",
    "weapon": "sword"
+  },
+  {
+   "id": "mask_xuan",
+   "gender": "m",
+   "hair": 2,
+   "hair_hex": "5a5a60",
+   "outfit_hex": "2a3a5a",
+   "skin_hex": "d8b898",
+   "weapon": ""
   }
  ]
 }
