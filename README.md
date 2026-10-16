@@ -24,3 +24,4 @@ Source on branch `godot-spike`; playable web build on `gh-pages`.
 - docs/M25C_REPORT.md
 - docs/M25D_REPORT.md
 - docs/M26_REPORT.md
+- docs/RELEASE_NOTES.md

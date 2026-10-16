@@ -67,8 +67,8 @@
   {
    "id": "villager",
    "stats": {
-    "hp": 45,
-    "body": 4,
+    "hp": 120,
+    "body": 8,
     "power": 2,
     "agility": 4,
     "spirit": 4
