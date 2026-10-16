@@ -1479,6 +1479,325 @@
    "title_key": "event.ry4_temple_rest.title",
    "weight": 3,
    "cooldown": 4
+  },
+  {
+   "id": "y2_new_year",
+   "kind": "fixed",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_y2_new_year"
+   },
+   "title_key": "event.y2_new_year.title",
+   "window": {
+    "from": 61,
+    "to": 63
+   },
+   "priority": 6,
+   "requires": {
+    "week_min": 61
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "y2_new_year_done"
+    }
+   ]
+  },
+  {
+   "id": "y2_black_banner",
+   "kind": "fixed",
+   "area": "lj_market",
+   "scene": {
+    "dialogue": "ev_y2_black_banner"
+   },
+   "title_key": "event.y2_black_banner.title",
+   "window": {
+    "from": 62,
+    "to": 68
+   },
+   "priority": 5,
+   "requires": {
+    "week_min": 61
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "y2_banner_ignored"
+    }
+   ]
+  },
+  {
+   "id": "y2_xia_zhi",
+   "kind": "fixed",
+   "area": "lj_alleys",
+   "scene": {
+    "dialogue": "ev_y2_xia_zhi"
+   },
+   "title_key": "event.y2_xia_zhi.title",
+   "window": {
+    "from": 64,
+    "to": 72
+   },
+   "priority": 5,
+   "requires": {
+    "week_min": 64
+   },
+   "on_miss": [
+    {
+     "type": "lead",
+     "id": "xia_orders"
+    }
+   ]
+  },
+  {
+   "id": "y2_house_replaced",
+   "kind": "fixed",
+   "area": "lj_teahouse",
+   "scene": {
+    "dialogue": "ev_y2_house_replaced"
+   },
+   "title_key": "event.y2_house_replaced.title",
+   "window": {
+    "from": 66,
+    "to": 72
+   },
+   "priority": 5,
+   "requires": {
+    "week_min": 61
+   },
+   "on_miss": [
+    {
+     "type": "lead",
+     "id": "guild_replaced"
+    },
+    {
+     "type": "schedule",
+     "id": "y2_barge_riot",
+     "min": 2,
+     "max": 6
+    }
+   ]
+  },
+  {
+   "id": "y2_barge_riot",
+   "kind": "fixed",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_y2_barge_riot"
+   },
+   "title_key": "event.y2_barge_riot.title",
+   "scheduled_only": true,
+   "priority": 6,
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "riot_missed"
+    }
+   ]
+  },
+  {
+   "id": "y2_hui_letter",
+   "kind": "fixed",
+   "area": "cw_cave",
+   "scene": {
+    "dialogue": "ev_y2_hui_letter"
+   },
+   "title_key": "event.y2_hui_letter.title",
+   "window": {
+    "from": 70,
+    "to": 75
+   },
+   "priority": 5,
+   "requires": {
+    "week_min": 70
+   },
+   "on_miss": [
+    {
+     "type": "lead",
+     "id": "yanmen_road"
+    },
+    {
+     "type": "flag",
+     "id": "hui_letter"
+    }
+   ]
+  },
+  {
+   "id": "arc_xie_wujiu_2",
+   "kind": "fixed",
+   "area": "cw_courts",
+   "scene": {
+    "dialogue": "ev_arc_xie_wujiu_2"
+   },
+   "title_key": "event.arc_xie_wujiu_2.title",
+   "window": {
+    "from": 64,
+    "to": 100
+   },
+   "priority": 6,
+   "requires": {
+    "bond_min": {
+     "xie_wujiu": 8
+    },
+    "arc_min": {
+     "xie_wujiu": 1
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "xie_wujiu",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "xie_wujiu",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "ry5_market_patrol",
+   "kind": "random",
+   "area": "lj_market",
+   "scene": {
+    "dialogue": "ev_ry5_market_patrol"
+   },
+   "title_key": "event.ry5_market_patrol.title",
+   "weight": 3,
+   "cooldown": 5,
+   "requires": {
+    "week_min": 61
+   }
+  },
+  {
+   "id": "ry5_market_rumor",
+   "kind": "random",
+   "area": "lj_market",
+   "scene": {
+    "dialogue": "ev_ry5_market_rumor"
+   },
+   "title_key": "event.ry5_market_rumor.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 61
+   }
+  },
+  {
+   "id": "ry5_docks_pass",
+   "kind": "random",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_ry5_docks_pass"
+   },
+   "title_key": "event.ry5_docks_pass.title",
+   "weight": 3,
+   "cooldown": 5,
+   "requires": {
+    "week_min": 61
+   }
+  },
+  {
+   "id": "ry5_docks_barge",
+   "kind": "random",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_ry5_docks_barge"
+   },
+   "title_key": "event.ry5_docks_barge.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 61
+   }
+  },
+  {
+   "id": "ry5_alley_patrol",
+   "kind": "random",
+   "area": "lj_alleys",
+   "scene": {
+    "dialogue": "ev_ry5_alley_patrol"
+   },
+   "title_key": "event.ry5_alley_patrol.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 61
+   }
+  },
+  {
+   "id": "ry5_alley_cat",
+   "kind": "random",
+   "area": "lj_alleys",
+   "scene": {
+    "dialogue": "ev_ry5_alley_cat"
+   },
+   "title_key": "event.ry5_alley_cat.title",
+   "weight": 3,
+   "cooldown": 5,
+   "requires": {
+    "week_min": 61
+   }
+  },
+  {
+   "id": "ry5_teahouse_talk",
+   "kind": "random",
+   "area": "lj_teahouse",
+   "scene": {
+    "dialogue": "ev_ry5_teahouse_talk"
+   },
+   "title_key": "event.ry5_teahouse_talk.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 61
+   }
+  },
+  {
+   "id": "ry5_pawn_visit",
+   "kind": "random",
+   "area": "lj_pawn",
+   "scene": {
+    "dialogue": "ev_ry5_pawn_visit"
+   },
+   "title_key": "event.ry5_pawn_visit.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 61
+   }
+  },
+  {
+   "id": "arc_xia_zhi_1",
+   "kind": "fixed",
+   "area": "lj_alleys",
+   "scene": {
+    "dialogue": "ev_arc_xia_zhi_1"
+   },
+   "title_key": "event.arc_xia_zhi_1.title",
+   "window": {
+    "from": 66,
+    "to": 110
+   },
+   "priority": 6,
+   "requires": {
+    "bond_min": {
+     "xia_zhi": 4
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_outcome",
+     "id": "xia_zhi",
+     "value": "lost"
+    },
+    {
+     "type": "arc_stage",
+     "id": "xia_zhi",
+     "amount": 4
+    }
+   ]
   }
  ]
 }

@@ -178,6 +178,45 @@
    "techniques": [
     "club_smash"
    ]
+  },
+  {
+   "id": "barge_blade",
+   "stats": {
+    "hp": 46,
+    "body": 8,
+    "power": 10,
+    "agility": 7,
+    "spirit": 6
+   },
+   "techniques": [
+    "club_smash"
+   ]
+  },
+  {
+   "id": "gate_patrol",
+   "stats": {
+    "hp": 42,
+    "body": 7,
+    "power": 9,
+    "agility": 8,
+    "spirit": 7
+   },
+   "techniques": [
+    "swift_dash"
+   ]
+  },
+  {
+   "id": "xia_foe",
+   "stats": {
+    "hp": 60,
+    "body": 7,
+    "power": 11,
+    "agility": 14,
+    "spirit": 7
+   },
+   "techniques": [
+    "ambush_strike"
+   ]
   }
  ]
 }

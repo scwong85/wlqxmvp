@@ -5335,6 +5335,999 @@
      ]
     }
    ]
+  },
+  {
+   "id": "ev_y2_new_year",
+   "entry": [
+    {
+     "if": {
+      "flag": "valley_kept"
+     },
+     "node": "live1"
+    },
+    {
+     "if": {
+      "flag": "elder_retired"
+     },
+     "node": "adv1"
+    },
+    {
+     "node": "seal1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "live1",
+     "text_key": "event.y2_new_year.live.1",
+     "speaker_key": "story.speaker.elder",
+     "next": "live2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "elder",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "live2",
+     "text_key": "event.y2_new_year.live.2",
+     "speaker_key": "story.speaker.elder",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "y2_new_year_done"
+      },
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 2
+      },
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 20
+      }
+     ]
+    },
+    {
+     "id": "adv1",
+     "text_key": "event.y2_new_year.adv.1",
+     "speaker_key": "story.speaker.elder",
+     "next": "adv2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "elder",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "adv2",
+     "text_key": "event.y2_new_year.adv.2",
+     "speaker_key": "story.speaker.elder",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "y2_new_year_done"
+      },
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 2
+      }
+     ]
+    },
+    {
+     "id": "seal1",
+     "text_key": "event.y2_new_year.seal.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "seal2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "seal2",
+     "text_key": "event.y2_new_year.seal.2",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "y2_new_year_done"
+      },
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 2
+      },
+      {
+       "type": "lead",
+       "id": "seal_inscription"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y2_black_banner",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y2_black_banner.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_market"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "wanderer",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y2_black_banner.2",
+     "speaker_key": "npc.magistrate",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.y2_black_banner.3",
+     "speaker_key": "world.speaker.hero",
+     "choices": [
+      {
+       "id": "probe",
+       "label_key": "event.y2_black_banner.c.probe",
+       "next": "",
+       "effects": [
+        {
+         "type": "lead",
+         "id": "gate_banner"
+        },
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 2
+        },
+        {
+         "type": "flag",
+         "id": "y2_banner_probed"
+        }
+       ]
+      },
+      {
+       "id": "walk",
+       "label_key": "event.y2_black_banner.c.walk",
+       "next": "",
+       "effects": [
+        {
+         "type": "attr",
+         "id": "agility",
+         "amount": 1
+        },
+        {
+         "type": "flag",
+         "id": "y2_banner_ignored"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y2_xia_zhi",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y2_xia_zhi.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xia_zhi",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y2_xia_zhi.2",
+     "speaker_key": "npc.xia_zhi",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.y2_xia_zhi.3",
+     "speaker_key": "world.speaker.hero",
+     "choices": [
+      {
+       "id": "grab",
+       "label_key": "event.y2_xia_zhi.c.grab",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "xia_zhi",
+         "amount": 2
+        },
+        {
+         "type": "attr",
+         "id": "agility",
+         "amount": 1
+        },
+        {
+         "type": "battle",
+         "id": "y2_xia_catch"
+        },
+        {
+         "type": "flag",
+         "id": "xia_caught"
+        }
+       ]
+      },
+      {
+       "id": "bargain",
+       "label_key": "event.y2_xia_zhi.c.bargain",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "xia_zhi",
+         "amount": 3
+        },
+        {
+         "type": "flag",
+         "id": "xia_bargain"
+        },
+        {
+         "type": "lead",
+         "id": "xia_orders"
+        }
+       ]
+      },
+      {
+       "id": "follow",
+       "label_key": "event.y2_xia_zhi.c.follow",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "xia_zhi",
+         "amount": 2
+        },
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 1
+        },
+        {
+         "type": "lead",
+         "id": "xia_orders"
+        },
+        {
+         "type": "flag",
+         "id": "xia_followed"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y2_house_replaced",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y2_house_replaced.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_market"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "wanderer",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y2_house_replaced.2",
+     "speaker_key": "npc.guild_puppet",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.y2_house_replaced.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "lead",
+       "id": "guild_replaced"
+      },
+      {
+       "type": "schedule",
+       "id": "y2_barge_riot",
+       "min": 2,
+       "max": 6
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y2_barge_riot",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y2_barge_riot.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_docks"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "guild_master",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y2_barge_riot.2",
+     "speaker_key": "npc.guild_master",
+     "choices": [
+      {
+       "id": "fight",
+       "label_key": "event.y2_barge_riot.c.fight",
+       "next": "",
+       "effects": [
+        {
+         "type": "battle",
+         "id": "y2_barge_riot"
+        },
+        {
+         "type": "lead",
+         "id": "riot_witness"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y2_hui_letter",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y2_hui_letter.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "mask_hui",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y2_hui_letter.2",
+     "speaker_key": "npc.mask_hui",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.y2_hui_letter.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "lead",
+       "id": "yanmen_road"
+      },
+      {
+       "type": "flag",
+       "id": "hui_letter"
+      },
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_xie_wujiu_2",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_xie_wujiu_2.1",
+     "speaker_key": "npc.xie_wujiu",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xie_wujiu",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_xie_wujiu_2.2",
+     "speaker_key": "npc.xie_wujiu",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.arc_xie_wujiu_2.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "arc_stage",
+       "id": "xie_wujiu",
+       "amount": 2
+      },
+      {
+       "type": "lead",
+       "id": "grey_wax"
+      },
+      {
+       "type": "bond",
+       "id": "xie_wujiu",
+       "amount": 2
+      },
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry5_market_patrol",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry5_market_patrol.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_market"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry5_market_rumor",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry5_market_rumor.1",
+     "speaker_key": "world.speaker.wanderer",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_market"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "wanderer",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry5_docks_pass",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry5_docks_pass.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 6
+      },
+      {
+       "type": "attr",
+       "id": "body",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_docks"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry5_docks_barge",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry5_docks_barge.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_docks"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry5_alley_patrol",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry5_alley_patrol.1",
+     "speaker_key": "world.speaker.narrator",
+     "choices": [
+      {
+       "id": "fight",
+       "label_key": "event.ry5_alley_patrol.c.fight",
+       "next": "",
+       "effects": [
+        {
+         "type": "battle",
+         "id": "y2_patrol"
+        },
+        {
+         "type": "attr",
+         "id": "power",
+         "amount": 1
+        }
+       ]
+      },
+      {
+       "id": "slip",
+       "label_key": "event.ry5_alley_patrol.c.slip",
+       "next": "",
+       "effects": [
+        {
+         "type": "attr",
+         "id": "agility",
+         "amount": 1
+        }
+       ]
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry5_alley_cat",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry5_alley_cat.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "agility",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry5_teahouse_talk",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry5_teahouse_talk.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_market"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry5_pawn_visit",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry5_pawn_visit.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_market"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_xia_zhi_1",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.arc_xia_zhi_1.1",
+     "speaker_key": "npc.xia_zhi",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xia_zhi",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.arc_xia_zhi_1.2",
+     "speaker_key": "npc.xia_zhi",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.arc_xia_zhi_1.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "arc_stage",
+       "id": "xia_zhi",
+       "amount": 1
+      },
+      {
+       "type": "lead",
+       "id": "gate_orders"
+      },
+      {
+       "type": "bond",
+       "id": "xia_zhi",
+       "amount": 2
+      }
+     ]
+    }
+   ]
   }
  ]
 }

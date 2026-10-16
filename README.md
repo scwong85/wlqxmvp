@@ -15,3 +15,4 @@ Source on branch `godot-spike`; playable web build on `gh-pages`.
 - docs/M22D_REPORT.md
 - docs/M23_REPORT.md
 - docs/ART_AND_MUSIC_PROMPTS.md
+- docs/M24A_REPORT.md

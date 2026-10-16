@@ -1489,6 +1489,288 @@
      "ambush_lost"
     ]
    }
+  },
+  {
+   "id": "y2_barge_riot",
+   "battle_id": "y2_barge_riot",
+   "max_rounds": 10,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "barge_blade",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "barge_blade",
+     "cells": [
+      [
+       2,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "barge_blade",
+     "cells": [
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "barge_blade",
+     "cells": [
+      [
+       4,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 20
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "riot_won"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "riot_lost"
+    ]
+   }
+  },
+  {
+   "id": "y2_patrol",
+   "battle_id": "y2_patrol",
+   "max_rounds": 10,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "gate_patrol",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_patrol",
+     "cells": [
+      [
+       2,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_patrol",
+     "cells": [
+      [
+       3,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 12
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "patrol_won"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "patrol_lost"
+    ]
+   }
+  },
+  {
+   "id": "y2_xia_catch",
+   "battle_id": "y2_xia_catch",
+   "max_rounds": 8,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "xia_foe",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 5
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "xia_subdued"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "xia_escaped"
+    ]
+   }
   }
  ]
 }

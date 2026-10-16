@@ -234,6 +234,45 @@
    ],
    "relationship_ability": "spear_oath",
    "meet_week": 35
+  },
+  {
+   "id": "xia_zhi",
+   "name_key": "npc.xia_zhi",
+   "bio_key": "companion.xia_zhi.bio",
+   "portrait": "portrait_xia_zhi",
+   "role": "striker",
+   "stats": {
+    "body": 5,
+    "power": 7,
+    "agility": 10,
+    "insight": 6,
+    "spirit": 4
+   },
+   "preferred_activities": [
+    "social_visit",
+    "hunting",
+    "training"
+   ],
+   "recruit": {
+    "score_min": 6,
+    "attr_min": {
+     "agility": 7
+    },
+    "flags_block": [],
+    "week_min": 66
+   },
+   "depart": {
+    "score_below": 0,
+    "flags": [
+     "xia_zhi_betrayed"
+    ]
+   },
+   "battle_abilities": [
+    "shadow_step",
+    "backstab"
+   ],
+   "relationship_ability": "vanish",
+   "meet_week": 64
   }
  ]
 }

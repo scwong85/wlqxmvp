@@ -144,6 +144,15 @@
    "outfit_hex": "5a5a62",
    "skin_hex": "d8b898",
    "weapon": ""
+  },
+  {
+   "id": "xia_zhi",
+   "gender": "f",
+   "hair": 1,
+   "hair_hex": "2a2433",
+   "outfit_hex": "6a5a7a",
+   "skin_hex": "ecd0b4",
+   "weapon": "blade"
   }
  ]
 }

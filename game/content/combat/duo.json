@@ -35,6 +35,12 @@
    "companion": "xie_wujiu",
    "tech": "duo_spear_wind",
    "bond_min": 12
+  },
+  {
+   "id": "duo_shadow_cut",
+   "companion": "xia_zhi",
+   "tech": "duo_shadow_cut",
+   "bond_min": 12
   }
  ]
 }

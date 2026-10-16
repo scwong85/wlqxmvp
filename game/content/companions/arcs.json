@@ -145,6 +145,31 @@
     {
      "id": "1",
      "event": "arc_xie_wujiu_1"
+    },
+    {
+     "id": "2",
+     "event": "arc_xie_wujiu_2"
+    }
+   ],
+   "outcomes": [
+    "redeemed",
+    "alternate",
+    "lost"
+   ],
+   "bonds": [
+    "friend",
+    "sworn",
+    "romance",
+    "rival"
+   ]
+  },
+  {
+   "companion": "xia_zhi",
+   "planned": 4,
+   "stages": [
+    {
+     "id": "1",
+     "event": "arc_xia_zhi_1"
     }
    ],
    "outcomes": [
