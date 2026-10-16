@@ -638,6 +638,114 @@
     ],
     "week_min": 31
    }
+  },
+  {
+   "id": "ms_flats",
+   "region": "marsh",
+   "name_key": "world.area.ms_flats.name",
+   "desc_key": "world.area.ms_flats.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.ms_flats.w1",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 8
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.ms_flats.w2",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "marsh_open"
+    ],
+    "week_min": 46
+   }
+  },
+  {
+   "id": "ms_reeds",
+   "region": "marsh",
+   "name_key": "world.area.ms_reeds.name",
+   "desc_key": "world.area.ms_reeds.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.ms_reeds.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "agility",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.ms_reeds.w2",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "ore",
+       "amount": 2
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "marsh_open"
+    ],
+    "week_min": 46
+   }
+  },
+  {
+   "id": "ms_temple",
+   "region": "marsh",
+   "name_key": "world.area.ms_temple.name",
+   "desc_key": "world.area.ms_temple.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.ms_temple.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.ms_temple.w2",
+     "rewards": [
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 8
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "temple_path"
+    ],
+    "week_min": 46
+   }
   }
  ]
 }

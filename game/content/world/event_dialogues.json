@@ -4437,6 +4437,904 @@
      ]
     }
    ]
+  },
+  {
+   "id": "ev_q4_marsh_rumor",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.q4_marsh_rumor.1",
+     "speaker_key": "world.speaker.wanderer",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_docks"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "wanderer",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.q4_marsh_rumor.2",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "lead",
+       "id": "marsh_open"
+      },
+      {
+       "type": "schedule",
+       "id": "q4_ferryman",
+       "min": 1,
+       "max": 4
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_q4_ferryman",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.q4_ferryman.1",
+     "speaker_key": "npc.ferryman",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "marsh_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "wanderer",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.q4_ferryman.2",
+     "speaker_key": "npc.ferryman",
+     "choices": [
+      {
+       "id": "water",
+       "label_key": "event.q4_ferryman.c.water",
+       "next": "",
+       "effects": [
+        {
+         "type": "lead",
+         "id": "temple_path"
+        },
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 2
+        },
+        {
+         "type": "schedule",
+         "id": "q4_reeds",
+         "min": 1,
+         "max": 4
+        }
+       ]
+      },
+      {
+       "id": "sky",
+       "label_key": "event.q4_ferryman.c.sky",
+       "next": "",
+       "effects": [
+        {
+         "type": "lead",
+         "id": "temple_path"
+        },
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 2
+        },
+        {
+         "type": "schedule",
+         "id": "q4_reeds",
+         "min": 1,
+         "max": 4
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_q4_reeds",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.q4_reeds.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "marsh_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.q4_reeds.2",
+     "speaker_key": "world.speaker.hero",
+     "choices": [
+      {
+       "id": "follow",
+       "label_key": "event.q4_reeds.c.follow",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "reeds_followed"
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": -6
+        },
+        {
+         "type": "schedule",
+         "id": "q4_temple",
+         "min": 1,
+         "max": 5
+        },
+        {
+         "type": "bond",
+         "id": "lu_chenzhou",
+         "amount": 1
+        }
+       ]
+      },
+      {
+       "id": "wind",
+       "label_key": "event.q4_reeds.c.wind",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "reeds_wind"
+        },
+        {
+         "type": "attr",
+         "id": "agility",
+         "amount": 2
+        },
+        {
+         "type": "schedule",
+         "id": "q4_temple",
+         "min": 1,
+         "max": 5
+        },
+        {
+         "type": "bond",
+         "id": "shen_qinghe",
+         "amount": 1
+        }
+       ]
+      },
+      {
+       "id": "mark",
+       "label_key": "event.q4_reeds.c.mark",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "reeds_marked"
+        },
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 2
+        },
+        {
+         "type": "schedule",
+         "id": "q4_temple",
+         "min": 1,
+         "max": 5
+        },
+        {
+         "type": "bond",
+         "id": "bai_yan",
+         "amount": 1
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_q4_solstice",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.q4_solstice.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "elder",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.q4_solstice.2",
+     "speaker_key": "story.speaker.elder",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.q4_solstice.3",
+     "speaker_key": "world.speaker.narrator",
+     "choices": [
+      {
+       "id": "shen",
+       "label_key": "event.q4_solstice.c.shen",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "shen_qinghe",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 8
+        }
+       ]
+      },
+      {
+       "id": "lu",
+       "label_key": "event.q4_solstice.c.lu",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "lu_chenzhou",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 8
+        }
+       ]
+      },
+      {
+       "id": "bai",
+       "label_key": "event.q4_solstice.c.bai",
+       "next": "",
+       "effects": [
+        {
+         "type": "bond",
+         "id": "bai_yan",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 8
+        }
+       ]
+      },
+      {
+       "id": "elder",
+       "label_key": "event.q4_solstice.c.elder",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "solstice_elder"
+        },
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 2
+        },
+        {
+         "type": "stamina",
+         "id": "stamina",
+         "amount": 8
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_q4_temple",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.q4_temple.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "marsh_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.q4_temple.2",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.q4_temple.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "lead",
+       "id": "vault_gate"
+      },
+      {
+       "type": "flag",
+       "id": "temple_seen"
+      },
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 2
+      },
+      {
+       "type": "schedule",
+       "id": "q4_ambush",
+       "min": 1,
+       "max": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_q4_ambush",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.q4_ambush.1",
+     "speaker_key": "npc.gate_captain",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "marsh_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "bandit",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.q4_ambush.2",
+     "speaker_key": "world.speaker.hero",
+     "choices": [
+      {
+       "id": "fight",
+       "label_key": "event.q4_ambush.c.fight",
+       "next": "",
+       "effects": [
+        {
+         "type": "battle",
+         "id": "q4_ambush"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_q4_elder_fork",
+   "entry": [
+    {
+     "if": {
+      "flag": "ambush_lost"
+     },
+     "node": "fall1"
+    },
+    {
+     "if": {
+      "flag": "villager_saved"
+     },
+     "node": "live1"
+    },
+    {
+     "node": "retire1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "live1",
+     "text_key": "event.q4_elder_fork.live.1",
+     "speaker_key": "story.speaker.elder",
+     "next": "live2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "elder",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "live2",
+     "text_key": "event.q4_elder_fork.live.2",
+     "speaker_key": "story.speaker.elder",
+     "next": "live3"
+    },
+    {
+     "id": "live3",
+     "text_key": "event.q4_elder_fork.live.3",
+     "speaker_key": "story.speaker.elder",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "valley_kept"
+      },
+      {
+       "type": "flag",
+       "id": "fork_done"
+      },
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 2
+      }
+     ]
+    },
+    {
+     "id": "retire1",
+     "text_key": "event.q4_elder_fork.retire.1",
+     "speaker_key": "story.speaker.elder",
+     "next": "retire2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "elder",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "retire2",
+     "text_key": "event.q4_elder_fork.retire.2",
+     "speaker_key": "story.speaker.elder",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "elder_retired"
+      },
+      {
+       "type": "flag",
+       "id": "fork_done"
+      },
+      {
+       "type": "lead",
+       "id": "elder_advisor"
+      }
+     ]
+    },
+    {
+     "id": "fall1",
+     "text_key": "event.q4_elder_fork.fall.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "fall2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "elder",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "fall2",
+     "text_key": "event.q4_elder_fork.fall.2",
+     "speaker_key": "story.speaker.elder",
+     "next": "fall3"
+    },
+    {
+     "id": "fall3",
+     "text_key": "event.q4_elder_fork.fall.3",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "elder_fallen"
+      },
+      {
+       "type": "flag",
+       "id": "fork_done"
+      },
+      {
+       "type": "flag",
+       "id": "elder_seal"
+      },
+      {
+       "type": "lead",
+       "id": "elder_seal_lead"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry4_flats_fish",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry4_flats_fish.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 6
+      },
+      {
+       "type": "attr",
+       "id": "body",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "marsh_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry4_flats_mist",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry4_flats_mist.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "marsh_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry4_reeds_birds",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry4_reeds_birds.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "agility",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "marsh_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry4_reeds_ore",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry4_reeds_ore.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "resource",
+       "id": "ore",
+       "amount": 2
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "marsh_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry4_temple_chart",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry4_temple_chart.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      },
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "marsh_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry4_temple_rest",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry4_temple_rest.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 10
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "marsh_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
   }
  ]
 }

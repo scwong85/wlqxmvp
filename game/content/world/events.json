@@ -1255,6 +1255,227 @@
    "title_key": "event.ry3_spring_gossip.title",
    "weight": 3,
    "cooldown": 8
+  },
+  {
+   "id": "q4_marsh_rumor",
+   "kind": "fixed",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_q4_marsh_rumor"
+   },
+   "title_key": "event.q4_marsh_rumor.title",
+   "window": {
+    "from": 46,
+    "to": 52
+   },
+   "priority": 5,
+   "requires": {
+    "week_min": 46
+   },
+   "on_miss": [
+    {
+     "type": "lead",
+     "id": "marsh_open"
+    },
+    {
+     "type": "schedule",
+     "id": "q4_ferryman",
+     "min": 1,
+     "max": 4
+    }
+   ]
+  },
+  {
+   "id": "q4_ferryman",
+   "kind": "fixed",
+   "area": "ms_flats",
+   "scene": {
+    "dialogue": "ev_q4_ferryman"
+   },
+   "title_key": "event.q4_ferryman.title",
+   "scheduled_only": true,
+   "priority": 5,
+   "on_miss": [
+    {
+     "type": "lead",
+     "id": "temple_path"
+    },
+    {
+     "type": "schedule",
+     "id": "q4_reeds",
+     "min": 1,
+     "max": 4
+    }
+   ]
+  },
+  {
+   "id": "q4_reeds",
+   "kind": "fixed",
+   "area": "ms_reeds",
+   "scene": {
+    "dialogue": "ev_q4_reeds"
+   },
+   "title_key": "event.q4_reeds.title",
+   "scheduled_only": true,
+   "priority": 5,
+   "on_miss": [
+    {
+     "type": "schedule",
+     "id": "q4_temple",
+     "min": 1,
+     "max": 5
+    }
+   ]
+  },
+  {
+   "id": "q4_solstice",
+   "kind": "fixed",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_q4_solstice"
+   },
+   "title_key": "event.q4_solstice.title",
+   "window": {
+    "from": 53,
+    "to": 54
+   },
+   "priority": 6,
+   "requires": {
+    "week_min": 53
+   }
+  },
+  {
+   "id": "q4_temple",
+   "kind": "fixed",
+   "area": "ms_temple",
+   "scene": {
+    "dialogue": "ev_q4_temple"
+   },
+   "title_key": "event.q4_temple.title",
+   "scheduled_only": true,
+   "priority": 5,
+   "on_miss": [
+    {
+     "type": "schedule",
+     "id": "q4_ambush",
+     "min": 1,
+     "max": 3
+    }
+   ]
+  },
+  {
+   "id": "q4_ambush",
+   "kind": "fixed",
+   "area": "ms_flats",
+   "scene": {
+    "dialogue": "ev_q4_ambush"
+   },
+   "title_key": "event.q4_ambush.title",
+   "scheduled_only": true,
+   "priority": 6,
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "ambush_lost"
+    }
+   ]
+  },
+  {
+   "id": "q4_elder_fork",
+   "kind": "fixed",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_q4_elder_fork"
+   },
+   "title_key": "event.q4_elder_fork.title",
+   "window": {
+    "from": 59,
+    "to": 60
+   },
+   "priority": 9,
+   "requires": {
+    "week_min": 59
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "fork_done"
+    },
+    {
+     "type": "flag",
+     "id": "elder_retired"
+    },
+    {
+     "type": "lead",
+     "id": "elder_advisor"
+    }
+   ]
+  },
+  {
+   "id": "ry4_flats_fish",
+   "kind": "random",
+   "area": "ms_flats",
+   "scene": {
+    "dialogue": "ev_ry4_flats_fish"
+   },
+   "title_key": "event.ry4_flats_fish.title",
+   "weight": 3,
+   "cooldown": 5
+  },
+  {
+   "id": "ry4_flats_mist",
+   "kind": "random",
+   "area": "ms_flats",
+   "scene": {
+    "dialogue": "ev_ry4_flats_mist"
+   },
+   "title_key": "event.ry4_flats_mist.title",
+   "weight": 3,
+   "cooldown": 6
+  },
+  {
+   "id": "ry4_reeds_birds",
+   "kind": "random",
+   "area": "ms_reeds",
+   "scene": {
+    "dialogue": "ev_ry4_reeds_birds"
+   },
+   "title_key": "event.ry4_reeds_birds.title",
+   "weight": 3,
+   "cooldown": 5
+  },
+  {
+   "id": "ry4_reeds_ore",
+   "kind": "random",
+   "area": "ms_reeds",
+   "scene": {
+    "dialogue": "ev_ry4_reeds_ore"
+   },
+   "title_key": "event.ry4_reeds_ore.title",
+   "weight": 2,
+   "cooldown": 8
+  },
+  {
+   "id": "ry4_temple_chart",
+   "kind": "random",
+   "area": "ms_temple",
+   "scene": {
+    "dialogue": "ev_ry4_temple_chart"
+   },
+   "title_key": "event.ry4_temple_chart.title",
+   "weight": 3,
+   "cooldown": 6
+  },
+  {
+   "id": "ry4_temple_rest",
+   "kind": "random",
+   "area": "ms_temple",
+   "scene": {
+    "dialogue": "ev_ry4_temple_rest"
+   },
+   "title_key": "event.ry4_temple_rest.title",
+   "weight": 3,
+   "cooldown": 4
   }
  ]
 }

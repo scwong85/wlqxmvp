@@ -139,6 +139,45 @@
    "techniques": [
     "club_smash"
    ]
+  },
+  {
+   "id": "gate_scout",
+   "stats": {
+    "hp": 30,
+    "body": 5,
+    "power": 6,
+    "agility": 6,
+    "spirit": 4
+   },
+   "techniques": [
+    "swift_dash"
+   ]
+  },
+  {
+   "id": "gate_blade",
+   "stats": {
+    "hp": 44,
+    "body": 7,
+    "power": 9,
+    "agility": 6,
+    "spirit": 5
+   },
+   "techniques": [
+    "club_smash"
+   ]
+  },
+  {
+   "id": "gate_captain",
+   "stats": {
+    "hp": 72,
+    "body": 9,
+    "power": 11,
+    "agility": 7,
+    "spirit": 7
+   },
+   "techniques": [
+    "club_smash"
+   ]
   }
  ]
 }
