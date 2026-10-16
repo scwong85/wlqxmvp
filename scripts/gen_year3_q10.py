@@ -266,7 +266,7 @@ def scenario(id, zn, en_, oz, oe, enemies, win, fw, fl, rounds=10, terrain=None)
 scenario("y3_vault_guardian", "石门守卫", "The Door Guardian", "击败石门后苏醒的守卫。", "Defeat the guardian that woke behind the stone door.", ["vault_guardian", "gate_elite"],
          [RES("coins", 50), RES("ore", 2)], ["second_gate_open", "guardian_won"], ["second_gate_open", "guardian_lost"], 14)
 scenario("y3_vault_collapse", "崩塌的地宫", "The Collapsing Vault", "守住玉门，击退涌入的灰衣人。", "Hold the jade door against the grey men flooding in.",
-         ["gate_captain", "gate_elite", "gate_elite", "gate_blade", "yanmen_raider"], [RES("coins", 60)], ["star_kept"], ["star_lost"], 14,
+         ["gate_captain", "gate_elite", "gate_blade", "gate_blade", "yanmen_raider"], [RES("coins", 60)], ["star_kept"], ["star_lost"], 14,
          [[1, 3, "cover"], [4, 3, "cover"], [0, 2, "hazard"], [5, 2, "hazard"], [3, 4, "hazard"]])
 
 LEADS = {"manual_truth": ("残卷的真相", "The Truth of the Manual", "九片残卷读完，它教的不是武功，而是怎样重写玉契。", "Read whole, the nine fragments teach not a martial art but how to rewrite the Accord.")}

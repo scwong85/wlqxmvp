@@ -321,6 +321,19 @@
    "techniques": [
     "club_smash"
    ]
+  },
+  {
+   "id": "xuan_mask",
+   "stats": {
+    "hp": 300,
+    "body": 16,
+    "power": 20,
+    "agility": 13,
+    "spirit": 20
+   },
+   "techniques": [
+    "club_smash"
+   ]
   }
  ]
 }

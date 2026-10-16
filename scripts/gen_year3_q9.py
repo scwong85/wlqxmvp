@@ -252,7 +252,7 @@ def scenario(id, zn, en_, oz, oe, enemies, win, fw, fl, rounds=10, terrain=None)
         "on_defeat": {"rewards": [{"type": "stamina", "id": "stamina", "amount": -3}], "flags": fl}})
     L("combat.scenario." + id, zn, en_); L("combat.scenario." + id + ".objective", oz, oe); L("battle." + id, zn, en_)
 scenario("y3_guild_hall", "夺回旧会馆", "Retaking the Guild Hall", "击退守在会馆里的无相门精锐。", "Beat back the Gate elite who hold the hall.",
-         ["gate_captain", "gate_elite", "gate_elite", "gate_elite"], [RES("coins", 45)], ["guild_hall_won"], ["guild_hall_lost"], 12)
+         ["gate_captain", "gate_elite", "gate_blade", "gate_blade"], [RES("coins", 45)], ["guild_hall_won"], ["guild_hall_lost"], 12)
 scenario("y3_chi_duel", "赤面之战", "The Chi-Mask's Duel", "在赤面手下撑过三十招。", "Last out the Chi-Mask's thirty moves.", ["chi_mask", "gate_elite"],
          [RES("coins", 60), RES("ore", 2)], ["chi_duel_won"], ["chi_duel_lost"], 14)
 scenario("y3_border_defence", "雁门守城", "Holding Yanmen", "守住城墙，击退来犯的敌人。", "Hold the wall and drive off the attackers.",

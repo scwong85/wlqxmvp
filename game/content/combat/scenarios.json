@@ -2772,7 +2772,7 @@
      ]
     },
     {
-     "template": "gate_elite",
+     "template": "gate_blade",
      "cells": [
       [
        3,
@@ -2781,7 +2781,7 @@
      ]
     },
     {
-     "template": "gate_elite",
+     "template": "gate_blade",
      "cells": [
       [
        4,
@@ -3187,7 +3187,7 @@
      ]
     },
     {
-     "template": "gate_elite",
+     "template": "gate_blade",
      "cells": [
       [
        3,
@@ -3434,6 +3434,450 @@
     ],
     "flags": [
      "cliff_trial_lost"
+    ]
+   }
+  },
+  {
+   "id": "y3_bracket",
+   "battle_id": "y3_bracket",
+   "max_rounds": 12,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "cangwu_senior",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "cangwu_disciple",
+     "cells": [
+      [
+       2,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "cangwu_disciple",
+     "cells": [
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_blade",
+     "cells": [
+      [
+       4,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 60
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "bracket_won"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "bracket_lost"
+    ]
+   }
+  },
+  {
+   "id": "y3_returned",
+   "battle_id": "y3_returned",
+   "max_rounds": 12,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "gate_captain",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_elite",
+     "cells": [
+      [
+       2,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_blade",
+     "cells": [
+      [
+       3,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 40
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "returned_won"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "returned_lost"
+    ]
+   }
+  },
+  {
+   "id": "y3_platform_raid",
+   "battle_id": "y3_platform_raid",
+   "max_rounds": 14,
+   "terrain": [
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     3,
+     "cover"
+    ],
+    [
+     0,
+     2,
+     "hazard"
+    ],
+    [
+     5,
+     2,
+     "hazard"
+    ],
+    [
+     3,
+     4,
+     "hazard"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "gate_captain",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_elite",
+     "cells": [
+      [
+       2,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_blade",
+     "cells": [
+      [
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_blade",
+     "cells": [
+      [
+       4,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "yanmen_raider",
+     "cells": [
+      [
+       5,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "sea_raider",
+     "cells": [
+      [
+       2,
+       0
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 70
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "raid_held"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "raid_ignored"
+    ]
+   }
+  },
+  {
+   "id": "y3_masks",
+   "battle_id": "y3_masks",
+   "max_rounds": 16,
+   "terrain": [
+    [
+     2,
+     2,
+     "hazard"
+    ],
+    [
+     4,
+     2,
+     "hazard"
+    ],
+    [
+     1,
+     3,
+     "cover"
+    ],
+    [
+     4,
+     4,
+     "cover"
+    ]
+   ],
+   "player_cells": [
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "enemies": [
+    {
+     "template": "xuan_mask",
+     "cells": [
+      [
+       1,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "chi_mask",
+     "cells": [
+      [
+       2,
+       1
+      ]
+     ]
+    },
+    {
+     "template": "gate_blade",
+     "cells": [
+      [
+       3,
+       1
+      ]
+     ]
+    }
+   ],
+   "objective": {
+    "defeat_all": true
+   },
+   "on_victory": {
+    "rewards": [
+     {
+      "type": "resource",
+      "id": "coins",
+      "amount": 100
+     },
+     {
+      "type": "resource",
+      "id": "ore",
+      "amount": 3
+     },
+     {
+      "type": "relationship",
+      "id": "$active",
+      "amount": 1
+     }
+    ],
+    "flags": [
+     "masks_won"
+    ]
+   },
+   "on_defeat": {
+    "rewards": [
+     {
+      "type": "stamina",
+      "id": "stamina",
+      "amount": -3
+     }
+    ],
+    "flags": [
+     "masks_lost"
     ]
    }
   }

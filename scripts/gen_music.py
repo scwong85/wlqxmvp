@@ -45,8 +45,8 @@ RULES = {
                  "marsh_night": "mystery_theme", "yanmen_fort": "yanmen_theme", "yanmen_snow": "yanmen_theme", "penglai_sea": "penglai_theme", "penglai_cave": "penglai_theme", "vault_stair": "mystery_theme", "vault_hall": "mystery_theme", "default": "valley_theme"},
  "events": {"f_spring_fair": "festival_theme", "q2_dragon_boat": "festival_theme", "q3_mid_autumn": "festival_theme", "q4_solstice": "festival_theme",
             "q3_hui_mask": "mystery_theme", "q4_temple": "mystery_theme", "q4_ferryman": "mystery_theme", "q3_theft": "sorrow_theme", "q4_elder_fork": "sorrow_theme",
-            "f_shrine_first": "mystery_theme", "q3_tournament_1": "duel_theme", "q3_tournament_2": "duel_theme", "q3_tournament_3": "duel_theme", "y3c_midautumn": "festival_theme", "y3c_masks_offer": "mystery_theme", "y3c_lei_head": "sorrow_theme", "y3c_vigil": "sorrow_theme"},
- "battles": {"boss": ["y3_cliff_trial", "final_crisis", "q4_ambush", "cw_bout_3", "guild_night"], "duel": ["y3_chi_duel", "xie_duel", "cw_bout_1", "cw_bout_2", "training_match"], "default": "battle_theme"},
+            "f_shrine_first": "mystery_theme", "q3_tournament_1": "duel_theme", "q3_tournament_2": "duel_theme", "q3_tournament_3": "duel_theme", "y3c_midautumn": "festival_theme", "y3c_masks_offer": "mystery_theme", "y3c_lei_head": "sorrow_theme", "y3c_vigil": "sorrow_theme", "y3d_solstice": "festival_theme", "y3d_the_choice": "mystery_theme", "y3d_ending": "ending_theme", "y3d_platform_open": "festival_theme"},
+ "battles": {"boss": ["y3_masks", "y3_platform_raid", "y3_cliff_trial", "final_crisis", "q4_ambush", "cw_bout_3", "guild_night"], "duel": ["y3_bracket", "y3_returned", "y3_chi_duel", "xie_duel", "cw_bout_1", "cw_bout_2", "training_match"], "default": "battle_theme"},
  "stings": {"victory": "victory_sting", "defeat": "defeat_sting"},
  "fallback": "valley_theme",
 }

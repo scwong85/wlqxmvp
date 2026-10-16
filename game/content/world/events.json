@@ -3808,6 +3808,281 @@
    "requires": {
     "week_min": 151
    }
+  },
+  {
+   "id": "y3d_arrivals",
+   "kind": "fixed",
+   "area": "pg_steps",
+   "scene": {
+    "dialogue": "ev_y3d_arrivals"
+   },
+   "title_key": "event.y3d_arrivals.title",
+   "window": {
+    "from": 166,
+    "to": 170
+   },
+   "priority": 8,
+   "requires": {
+    "week_min": 166
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "arrivals_seen"
+    }
+   ]
+  },
+  {
+   "id": "y3d_platform_open",
+   "kind": "fixed",
+   "area": "pg_platform",
+   "scene": {
+    "dialogue": "ev_y3d_platform_open"
+   },
+   "title_key": "event.y3d_platform_open.title",
+   "window": {
+    "from": 171,
+    "to": 172
+   },
+   "priority": 8,
+   "requires": {
+    "week_min": 171
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "bracket_skipped"
+    }
+   ]
+  },
+  {
+   "id": "y3d_returned",
+   "kind": "fixed",
+   "area": "pg_steps",
+   "scene": {
+    "dialogue": "ev_y3d_returned"
+   },
+   "title_key": "event.y3d_returned.title",
+   "window": {
+    "from": 172,
+    "to": 176
+   },
+   "priority": 7,
+   "requires": {
+    "week_min": 171
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "returned_none"
+    }
+   ]
+  },
+  {
+   "id": "y3d_solstice",
+   "kind": "fixed",
+   "area": "pg_pavilions",
+   "scene": {
+    "dialogue": "ev_y3d_solstice"
+   },
+   "title_key": "event.y3d_solstice.title",
+   "window": {
+    "from": 173,
+    "to": 174
+   },
+   "priority": 7,
+   "requires": {
+    "week_min": 173
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "solstice3_missed"
+    }
+   ]
+  },
+  {
+   "id": "y3d_gate_raid",
+   "kind": "fixed",
+   "area": "pg_steps",
+   "scene": {
+    "dialogue": "ev_y3d_gate_raid"
+   },
+   "title_key": "event.y3d_gate_raid.title",
+   "window": {
+    "from": 174,
+    "to": 176
+   },
+   "priority": 8,
+   "requires": {
+    "week_min": 171
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "raid_ignored"
+    }
+   ]
+  },
+  {
+   "id": "y3d_masks",
+   "kind": "fixed",
+   "area": "pg_platform",
+   "scene": {
+    "dialogue": "ev_y3d_masks"
+   },
+   "title_key": "event.y3d_masks.title",
+   "window": {
+    "from": 175,
+    "to": 177
+   },
+   "priority": 8,
+   "requires": {
+    "week_min": 171
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "masks_fought"
+    }
+   ]
+  },
+  {
+   "id": "y3d_the_choice",
+   "kind": "fixed",
+   "area": "pg_platform",
+   "scene": {
+    "dialogue": "ev_y3d_the_choice"
+   },
+   "title_key": "event.y3d_the_choice.title",
+   "window": {
+    "from": 177,
+    "to": 178
+   },
+   "priority": 9,
+   "requires": {
+    "week_min": 171
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "finale_walk"
+    },
+    {
+     "type": "flag",
+     "id": "finale_decided"
+    }
+   ]
+  },
+  {
+   "id": "y3d_ending",
+   "kind": "fixed",
+   "area": "pg_platform",
+   "scene": {
+    "dialogue": "ev_y3d_ending"
+   },
+   "title_key": "event.y3d_ending.title",
+   "window": {
+    "from": 178,
+    "to": 179
+   },
+   "priority": 9,
+   "requires": {
+    "week_min": 171,
+    "flags_all": [
+     "finale_decided"
+    ]
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "finale_done"
+    }
+   ]
+  },
+  {
+   "id": "ry12_platform_stones",
+   "kind": "random",
+   "area": "pg_platform",
+   "scene": {
+    "dialogue": "ev_ry12_platform_stones"
+   },
+   "title_key": "event.ry12_platform_stones.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 166
+   }
+  },
+  {
+   "id": "ry12_steps_crowd",
+   "kind": "random",
+   "area": "pg_steps",
+   "scene": {
+    "dialogue": "ev_ry12_steps_crowd"
+   },
+   "title_key": "event.ry12_steps_crowd.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 166
+   }
+  },
+  {
+   "id": "ry12_pavilion_envoys",
+   "kind": "random",
+   "area": "pg_pavilions",
+   "scene": {
+    "dialogue": "ev_ry12_pavilion_envoys"
+   },
+   "title_key": "event.ry12_pavilion_envoys.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 166
+   }
+  },
+  {
+   "id": "ry12_courts_final",
+   "kind": "random",
+   "area": "cw_courts",
+   "scene": {
+    "dialogue": "ev_ry12_courts_final"
+   },
+   "title_key": "event.ry12_courts_final.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 166
+   }
+  },
+  {
+   "id": "ry12_valley_wait",
+   "kind": "random",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_ry12_valley_wait"
+   },
+   "title_key": "event.ry12_valley_wait.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 166
+   }
+  },
+  {
+   "id": "ry12_teahouse_bets",
+   "kind": "random",
+   "area": "lj_teahouse",
+   "scene": {
+    "dialogue": "ev_ry12_teahouse_bets"
+   },
+   "title_key": "event.ry12_teahouse_bets.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 166
+   }
   }
  ]
 }

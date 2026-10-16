@@ -1184,6 +1184,42 @@
     ],
     "week_min": 151
    }
+  },
+  {
+   "id": "pg_platform",
+   "region": "cangwu",
+   "name_key": "world.area.pg_platform.name",
+   "desc_key": "world.area.pg_platform.desc",
+   "cost": 2,
+   "wander": [
+    {
+     "text_key": "world.area.pg_platform.w1",
+     "rewards": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ]
+    },
+    {
+     "text_key": "world.area.pg_platform.w2",
+     "rewards": [
+      {
+       "type": "resource",
+       "id": "coins",
+       "amount": 18
+      }
+     ]
+    }
+   ],
+   "open_default": true,
+   "requires": {
+    "lead": [
+     "platform_year3"
+    ],
+    "week_min": 166
+   }
   }
  ]
 }

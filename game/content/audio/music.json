@@ -204,10 +204,16 @@
    "y3c_midautumn": "festival_theme",
    "y3c_masks_offer": "mystery_theme",
    "y3c_lei_head": "sorrow_theme",
-   "y3c_vigil": "sorrow_theme"
+   "y3c_vigil": "sorrow_theme",
+   "y3d_solstice": "festival_theme",
+   "y3d_the_choice": "mystery_theme",
+   "y3d_ending": "ending_theme",
+   "y3d_platform_open": "festival_theme"
   },
   "battles": {
    "boss": [
+    "y3_masks",
+    "y3_platform_raid",
     "y3_cliff_trial",
     "final_crisis",
     "q4_ambush",
@@ -215,6 +221,8 @@
     "guild_night"
    ],
    "duel": [
+    "y3_bracket",
+    "y3_returned",
     "y3_chi_duel",
     "xie_duel",
     "cw_bout_1",
