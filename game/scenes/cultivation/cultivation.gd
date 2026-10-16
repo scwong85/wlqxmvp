@@ -728,7 +728,7 @@ func _party_row(st: RefCounted, id: String, portrait: bool) -> Control:
 	h.add_theme_constant_override("separation", 12)
 	outer.add_child(h)
 	var medallion := CompanionPortrait.new()
-	medallion.setup(Loc.t(c.name_key), ROLE_COLORS.get(c.role, Color.WHITE))
+	medallion.setup(Loc.t(c.name_key), ROLE_COLORS.get(c.role, Color.WHITE), id)
 	medallion.custom_minimum_size = Vector2(64, 64) if portrait else Vector2(72, 72)
 	medallion.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	h.add_child(medallion)

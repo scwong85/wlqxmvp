@@ -4,6 +4,7 @@ extends Control
 
 const UiKit = preload("res://scripts/ui/ui_kit.gd")
 const Backdrop = preload("res://scenes/shared/backdrop.gd")
+const PortraitArt = preload("res://scenes/shared/portrait_art.gd")
 const SafeFrame = preload("res://scenes/shared/safe_frame.gd")
 const DialogueSystem = preload("res://scripts/domain/dialogue_system.gd")
 const RecruitDialog = preload("res://scenes/shared/recruit_dialog.gd")
@@ -16,6 +17,7 @@ const FONT := 28
 var continue_button: Button = null
 var choice_buttons: Dictionary = {}   # choice id -> Button
 var speaker_label: Label
+var bust: TextureRect
 var text_label: Label
 var stage_view: Control
 var log_button: Button
@@ -59,6 +61,13 @@ func _ready() -> void:
 	speaker_label.modulate = Color("9be3c3")
 	speaker_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	speaker_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bust = TextureRect.new()
+	bust.custom_minimum_size = Vector2(0, 110)
+	bust.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	bust.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	bust.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	bust.visible = false
+	head.add_child(bust)
 	head.add_child(speaker_label)
 	log_button = UiKit.make_button(Vector2(110, 48))
 	log_button.add_theme_font_size_override("font_size", 22)
@@ -83,6 +92,22 @@ func _ready() -> void:
 	print("DIALOGUE_READY id=%s node=%s" % [Game.state.story.dialogue.id, Game.state.story.dialogue.node])
 
 
+## The speaker's painted bust (when art exists), in the face the stage currently gives that character.
+func _show_bust(skey: String, stg: Dictionary) -> void:
+	var cid := PortraitArt.speaker_id(skey, str(Game.state.player.look.get("gender", "m")))
+	var who := "hero" if cid.begins_with("hero_") else cid
+	var face := "neutral"
+	for slot in (stg.get("actors", {}) as Dictionary):
+		if str(stg.actors[slot].get("who", "")) == who:
+			face = str(stg.actors[slot].get("face", "neutral"))
+	var tex: Texture2D = PortraitArt.texture_for(cid, face) if cid != "" else null
+	bust.texture = tex
+	bust.visible = tex != null
+	if tex != null:
+		var sz := tex.get_size()
+		bust.custom_minimum_size = Vector2(110.0 * sz.x / sz.y, 110)
+
+
 func _show() -> void:
 	var dlg := Game.current_dialogue()
 	var node := DialogueSystem.current_node(Game.state, dlg)
@@ -96,6 +121,7 @@ func _show() -> void:
 	var skey := str(node.get("speaker_key", ""))
 	speaker_label.text = Loc.t(skey) if skey != "" else ""
 	speaker_label.visible = skey != ""
+	_show_bust(skey, stg)
 	text_label.text = Loc.t(str(node.text_key))
 	_note.text = ""
 	for c in _choices.get_children():

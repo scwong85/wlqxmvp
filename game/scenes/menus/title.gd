@@ -21,9 +21,27 @@ var _build_label: Label
 var _box: VBoxContainer
 
 
+## Painted title art (art/title_key.jpg) behind the menu, with a soft dark scrim so the buttons and title stay readable.
+func _add_key_art() -> void:
+	var tex := TextureRect.new()
+	tex.texture = load("res://art/title_key.jpg") as Texture2D
+	tex.set_anchors_preset(Control.PRESET_FULL_RECT)
+	tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(tex)
+	var scrim := ColorRect.new()
+	scrim.color = Color(0.04, 0.09, 0.09, 0.42)
+	scrim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(scrim)
+
+
 func _ready() -> void:
 	UiKit.apply(self)
 	add_child(Backdrop.new())
+	if ResourceLoader.exists("res://art/title_key.jpg"):
+		_add_key_art()
 	var frame := SafeFrame.new()
 	add_child(frame)
 

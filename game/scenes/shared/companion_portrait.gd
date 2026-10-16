@@ -4,6 +4,10 @@ extends Control
 
 var glyph: String = ""
 var tint: Color = Color("5fd1a5")
+var art: Texture2D = null   # painted face (PortraitArt) replaces the glyph medallion when present
+
+
+const PortraitArt = preload("res://scenes/shared/portrait_art.gd")
 
 
 func _init() -> void:
@@ -11,15 +15,29 @@ func _init() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
-func setup(display_name: String, color: Color) -> void:
+func setup(display_name: String, color: Color, character_id: String = "") -> void:
 	glyph = display_name.substr(0, 1)
 	tint = color
+	art = PortraitArt.texture_for(character_id) if character_id != "" else null
 	queue_redraw()
 
 
 func _draw() -> void:
 	var c := size * 0.5
 	var r := minf(size.x, size.y) * 0.48
+	if art != null:
+		# a round crop of the head and shoulders (the top square of the portrait) inside a tinted ring
+		var tsz := art.get_size()
+		var side := minf(tsz.x, tsz.y)
+		var pts := PackedVector2Array()
+		var uvs := PackedVector2Array()
+		for i in 40:
+			var a := TAU * float(i) / 40.0
+			pts.append(c + Vector2(cos(a), sin(a)) * r)
+			uvs.append((Vector2(tsz.x * 0.5, side * 0.5) + Vector2(cos(a), sin(a)) * side * 0.5) / tsz)
+		draw_colored_polygon(pts, Color.WHITE, uvs, art)
+		draw_arc(c, r, 0.0, TAU, 40, tint, 3.0, true)
+		return
 	draw_circle(c, r, tint.darkened(0.55))
 	draw_arc(c, r, 0.0, TAU, 40, tint, 3.0, true)
 	var font := get_theme_default_font()

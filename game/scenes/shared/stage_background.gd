@@ -2,6 +2,7 @@ extends Control
 ## Code-drawn story backgrounds, chosen by id (original placeholder art). Each is a sky, a ground band and a few shapes.
 
 var bg_id: String = "default"
+var _art: Texture2D = null   # painted art (res://art/backgrounds/<id>.jpg) replaces the code-drawn placeholder when present
 
 const THEMES := {
 	"default": {"top": "0b1f24", "mid": "1d4b4a", "low": "6aa89a", "ground": "1d3a33", "kind": "hills"},
@@ -38,13 +39,27 @@ func _init() -> void:
 
 func set_bg(id: String) -> void:
 	bg_id = id if THEMES.has(id) else "default"
+	_art = null
+	var path := "res://art/backgrounds/%s.jpg" % bg_id
+	if ResourceLoader.exists(path):
+		_art = load(path) as Texture2D
 	queue_redraw()
+
+
+func has_art() -> bool:
+	return _art != null
 
 
 func _draw() -> void:
 	var w := size.x
 	var h := size.y
 	if w <= 0.0 or h <= 0.0:
+		return
+	if _art != null:
+		var tsz := _art.get_size()
+		var k := maxf(w / tsz.x, h / tsz.y)   # cover the frame, crop the overflow evenly
+		var src_size := Vector2(w / k, h / k)
+		draw_texture_rect_region(_art, Rect2(Vector2.ZERO, Vector2(w, h)), Rect2((tsz - src_size) * 0.5, src_size))
 		return
 	var th: Dictionary = THEMES[bg_id]
 	var top := Color(str(th.top))
