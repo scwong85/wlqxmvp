@@ -11,6 +11,8 @@ func run(check_fn: Callable, loc_service: Node) -> void:
 	check = check_fn
 	loc = loc_service
 	run_rescue(check_fn)
+	run_names(check_fn, loc_service)
+	run_realm_text(check_fn, loc_service)
 	var re := RegEx.new()
 	re.compile("\\{[a-z_0-9]+\\}")
 	var cjk := RegEx.new()
@@ -67,3 +69,36 @@ func run_rescue(check_fn: Callable) -> void:
 				wins += 1
 		check_fn.call(wins >= 10, "m27: the rescue fight is winnable with party %s (%d/12)" % [str(party), wins])
 	content.free()
+
+
+## Every reward id shown to the player (items, battles, clues, buffs, resources) has a name in both languages.
+func run_names(check_fn: Callable, loc_node: Node) -> void:
+	var prefix := {"item": "item.", "battle": "battle.", "clue": "clue.", "buff": "buff.", "resource": "resource."}
+	var missing: Array = []
+	var stack: Array = []
+	for f in ["combat/scenarios.json", "world/areas.json", "world/events.json", "world/event_dialogues.json", "story/dialogues.json", "activities/activities.json"]:
+		var path: String = "res://content/" + str(f)
+		if not FileAccess.file_exists(path):
+			continue
+		var j := JSON.new()
+		if j.parse(FileAccess.get_file_as_string(path)) == OK:
+			stack.append(j.data)
+	while not stack.is_empty():
+		var o: Variant = stack.pop_back()
+		if o is Dictionary:
+			var t: String = str(o.get("type", ""))
+			if prefix.has(t) and o.has("id") and (o.has("amount") or t == "battle") and not str(o.id).begins_with("$"):
+				for lang in ["en", "zh_CN"]:
+					if not loc_node.has_key(prefix[t] + str(o.id), lang):
+						missing.append("%s:%s" % [lang, prefix[t] + str(o.id)])
+			stack.append_array(o.values())
+		elif o is Array:
+			stack.append_array(o)
+	check_fn.call(missing.is_empty(), "m27: every reward and battle name exists in both languages (%s)" % str(missing.slice(0, 4)))
+
+
+## The realm requirement texts are filled with {realm} by the code; any other placeholder would show raw.
+func run_realm_text(check_fn: Callable, loc_node: Node) -> void:
+	for lang in ["en", "zh_CN"]:
+		for k in ["tree.realm", "manual.realm", "equip.realm"]:
+			check_fn.call(loc_node._tables[lang][k].contains("{realm}") and not loc_node._tables[lang][k].contains("{name}"), "m27: %s uses the {realm} placeholder in %s" % [k, lang])

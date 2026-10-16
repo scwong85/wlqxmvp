@@ -9,6 +9,8 @@ static func name_for(type: String, id: String) -> String:
 		"resource":
 			return Loc.t("resource." + id)
 		"item":
+			if not Loc.has_key("item." + id) and Loc.has_key("manual." + id.trim_prefix("manual_")):
+				return Loc.t("manual." + id.trim_prefix("manual_"))
 			return Loc.t("item." + id)
 		"buff":
 			return Loc.t("buff." + id)
