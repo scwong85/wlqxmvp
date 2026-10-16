@@ -269,6 +269,32 @@
    "techniques": [
     "club_smash"
    ]
+  },
+  {
+   "id": "chi_mask",
+   "stats": {
+    "hp": 260,
+    "body": 15,
+    "power": 20,
+    "agility": 14,
+    "spirit": 14
+   },
+   "techniques": [
+    "swift_dash"
+   ]
+  },
+  {
+   "id": "gate_elite",
+   "stats": {
+    "hp": 110,
+    "body": 12,
+    "power": 15,
+    "agility": 11,
+    "spirit": 10
+   },
+   "techniques": [
+    "club_smash"
+   ]
   }
  ]
 }

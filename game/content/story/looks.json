@@ -171,6 +171,15 @@
    "outfit_hex": "9ad0cc",
    "skin_hex": "f0d8c4",
    "weapon": ""
+  },
+  {
+   "id": "mask_chi",
+   "gender": "m",
+   "hair": 1,
+   "hair_hex": "2a1a1a",
+   "outfit_hex": "8a2030",
+   "skin_hex": "e0c0a0",
+   "weapon": "sword"
   }
  ]
 }

@@ -94,10 +94,10 @@ def stage3(cid, ev_id, area, win, bond_min, zh_title, en_title, lines, choices):
     """A stage-3 test: one scene whose choices decide the outcome. choices: (id, zh, en, outcome, bond, extra_effects)."""
     ch = []
     for chid, cz, ce, outcome, bd, extra in choices:
-        eff = [ARC_STAGE(cid, 3), ARC_OUT(cid, outcome), BOND(cid, bd)] + extra
+        eff = [ARC_STAGE(cid, 3), ARC_OUT(cid, outcome), BOND(cid, bd), FLAG(f"arcout_{cid}_{outcome}")] + extra
         ch.append((chid, cz, ce, eff))
     event(ev_id, "fixed", area, lines, title=(zh_title, en_title), window=win, priority=6, requires={"bond_min": {cid: bond_min}, "arc_min": {cid: 2}}, choices=ch,
-          on_miss=[ARC_OUT(cid, "lost"), ARC_STAGE(cid, 4)])
+          on_miss=[ARC_OUT(cid, "lost"), ARC_STAGE(cid, 4), FLAG(f"arcout_{cid}_lost")])
     for a in arcs["arcs"]:
         if a["companion"] == cid:
             a["stages"].append({"id": "3", "event": ev_id})
@@ -156,7 +156,7 @@ for key, lines in branches.items():
             cid = who_of[key]
             n["choices"] = []
             for chid, cz, ce, eff in [("chase", "追上去", "Chase", [SCHED("y2_rescue", 1, 3), FLAG("betrayal_chased")] + ([BOND(cid, 2)] if cid else [ATTR("insight", 1)])),
-                                      ("release", "让他自己选", "Let them choose", [FLAG("betrayal_released")] + ([FLAG(cid + "_betrayed"), ARC_OUT(cid, "lost"), ARC_STAGE(cid, 4)] if cid else [FLAG("council_leaked")]))]:
+                                      ("release", "让他自己选", "Let them choose", [FLAG("betrayal_released")] + ([FLAG(cid + "_betrayed"), FLAG(f"arcout_{cid}_lost"), ARC_OUT(cid, "lost"), ARC_STAGE(cid, 4)] if cid else [FLAG("council_leaked")]))]:
                 ck = f"event.y2_betrayal.{key}.c.{chid}"; L(ck, cz, ce)
                 n["choices"].append({"id": chid, "label_key": ck, "next": "", "effects": eff})
         else:

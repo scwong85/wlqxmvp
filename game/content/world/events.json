@@ -2500,6 +2500,10 @@
      "type": "arc_stage",
      "id": "xie_wujiu",
      "amount": 4
+    },
+    {
+     "type": "flag",
+     "id": "arcout_xie_wujiu_lost"
     }
    ]
   },
@@ -2534,6 +2538,10 @@
      "type": "arc_stage",
      "id": "su_dai",
      "amount": 4
+    },
+    {
+     "type": "flag",
+     "id": "arcout_su_dai_lost"
     }
    ]
   },
@@ -2568,6 +2576,10 @@
      "type": "arc_stage",
      "id": "li_shan",
      "amount": 4
+    },
+    {
+     "type": "flag",
+     "id": "arcout_li_shan_lost"
     }
    ]
   },
@@ -2602,6 +2614,10 @@
      "type": "arc_stage",
      "id": "xia_zhi",
      "amount": 4
+    },
+    {
+     "type": "flag",
+     "id": "arcout_xia_zhi_lost"
     }
    ]
   },
@@ -2636,6 +2652,10 @@
      "type": "arc_stage",
      "id": "xiao_hanchuan",
      "amount": 4
+    },
+    {
+     "type": "flag",
+     "id": "arcout_xiao_hanchuan_lost"
     }
    ]
   },
@@ -2809,6 +2829,352 @@
    "cooldown": 8,
    "requires": {
     "week_min": 106
+   }
+  },
+  {
+   "id": "y3_new_year",
+   "kind": "fixed",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_y3_new_year"
+   },
+   "title_key": "event.y3_new_year.title",
+   "window": {
+    "from": 121,
+    "to": 123
+   },
+   "priority": 8,
+   "requires": {
+    "week_min": 121
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "year3_start"
+    }
+   ]
+  },
+  {
+   "id": "y3_gate_opens",
+   "kind": "fixed",
+   "area": "lj_teahouse",
+   "scene": {
+    "dialogue": "ev_y3_gate_opens"
+   },
+   "title_key": "event.y3_gate_opens.title",
+   "window": {
+    "from": 122,
+    "to": 128
+   },
+   "priority": 7,
+   "requires": {
+    "week_min": 121
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "guild_hall_lost"
+    },
+    {
+     "type": "lead",
+     "id": "gate_unmasked"
+    }
+   ]
+  },
+  {
+   "id": "y3_house_summons",
+   "kind": "fixed",
+   "area": "lj_teahouse",
+   "scene": {
+    "dialogue": "ev_y3_house_summons"
+   },
+   "title_key": "event.y3_house_summons.title",
+   "window": {
+    "from": 124,
+    "to": 130
+   },
+   "priority": 6,
+   "requires": {
+    "week_min": 121
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "seat_free"
+    },
+    {
+     "type": "lead",
+     "id": "platform_summons"
+    }
+   ]
+  },
+  {
+   "id": "y3_valley_returns",
+   "kind": "fixed",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_y3_valley_returns"
+   },
+   "title_key": "event.y3_valley_returns.title",
+   "window": {
+    "from": 126,
+    "to": 132
+   },
+   "priority": 6,
+   "requires": {
+    "week_min": 121
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "ninth_house_named"
+    },
+    {
+     "type": "lead",
+     "id": "ninth_house"
+    }
+   ]
+  },
+  {
+   "id": "y3_chi_mask",
+   "kind": "fixed",
+   "area": "lj_alleys",
+   "scene": {
+    "dialogue": "ev_y3_chi_mask"
+   },
+   "title_key": "event.y3_chi_mask.title",
+   "window": {
+    "from": 128,
+    "to": 134
+   },
+   "priority": 7,
+   "requires": {
+    "week_min": 121
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "chi_declined"
+    }
+   ]
+  },
+  {
+   "id": "y3_border_burns",
+   "kind": "fixed",
+   "area": "ym_fort",
+   "scene": {
+    "dialogue": "ev_y3_border_burns"
+   },
+   "title_key": "event.y3_border_burns.title",
+   "window": {
+    "from": 130,
+    "to": 135
+   },
+   "priority": 7,
+   "requires": {
+    "week_min": 121
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "border_lost"
+    },
+    {
+     "type": "lead",
+     "id": "border_burns"
+    }
+   ]
+  },
+  {
+   "id": "y3_border_choice",
+   "kind": "fixed",
+   "area": "ym_fort",
+   "scene": {
+    "dialogue": "ev_y3_border_choice"
+   },
+   "title_key": "event.y3_border_choice.title",
+   "scheduled_only": true,
+   "priority": 7,
+   "requires": {
+    "week_min": 121
+   },
+   "on_miss": [
+    {
+     "type": "flag",
+     "id": "border_lost"
+    }
+   ]
+  },
+  {
+   "id": "arc_xie_wujiu_4",
+   "kind": "fixed",
+   "area": "cw_courts",
+   "scene": {
+    "dialogue": "ev_arc_xie_wujiu_4"
+   },
+   "title_key": "event.arc_xie_wujiu_4.title",
+   "window": {
+    "from": 124,
+    "to": 136
+   },
+   "priority": 6,
+   "requires": {
+    "week_min": 121,
+    "bond_min": {
+     "xie_wujiu": 4
+    },
+    "arc_min": {
+     "xie_wujiu": 3
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_stage",
+     "id": "xie_wujiu",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "arc_xia_zhi_4",
+   "kind": "fixed",
+   "area": "lj_alleys",
+   "scene": {
+    "dialogue": "ev_arc_xia_zhi_4"
+   },
+   "title_key": "event.arc_xia_zhi_4.title",
+   "window": {
+    "from": 128,
+    "to": 140
+   },
+   "priority": 6,
+   "requires": {
+    "week_min": 121,
+    "bond_min": {
+     "xia_zhi": 4
+    },
+    "arc_min": {
+     "xia_zhi": 3
+    }
+   },
+   "on_miss": [
+    {
+     "type": "arc_stage",
+     "id": "xia_zhi",
+     "amount": 4
+    }
+   ]
+  },
+  {
+   "id": "ry9_valley_planting",
+   "kind": "random",
+   "area": "valley_village",
+   "scene": {
+    "dialogue": "ev_ry9_valley_planting"
+   },
+   "title_key": "event.ry9_valley_planting.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 121
+   }
+  },
+  {
+   "id": "ry9_market_grey",
+   "kind": "random",
+   "area": "lj_market",
+   "scene": {
+    "dialogue": "ev_ry9_market_grey"
+   },
+   "title_key": "event.ry9_market_grey.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 121
+   }
+  },
+  {
+   "id": "ry9_docks_search",
+   "kind": "random",
+   "area": "lj_docks",
+   "scene": {
+    "dialogue": "ev_ry9_docks_search"
+   },
+   "title_key": "event.ry9_docks_search.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 121
+   }
+  },
+  {
+   "id": "ry9_courts_drill",
+   "kind": "random",
+   "area": "cw_courts",
+   "scene": {
+    "dialogue": "ev_ry9_courts_drill"
+   },
+   "title_key": "event.ry9_courts_drill.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 121
+   }
+  },
+  {
+   "id": "ry9_fort_supplies",
+   "kind": "random",
+   "area": "ym_fort",
+   "scene": {
+    "dialogue": "ev_ry9_fort_supplies"
+   },
+   "title_key": "event.ry9_fort_supplies.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 121
+   }
+  },
+  {
+   "id": "ry9_teahouse_song",
+   "kind": "random",
+   "area": "lj_teahouse",
+   "scene": {
+    "dialogue": "ev_ry9_teahouse_song"
+   },
+   "title_key": "event.ry9_teahouse_song.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 121
+   }
+  },
+  {
+   "id": "ry9_alley_cat",
+   "kind": "random",
+   "area": "lj_alleys",
+   "scene": {
+    "dialogue": "ev_ry9_alley_cat"
+   },
+   "title_key": "event.ry9_alley_cat.title",
+   "weight": 3,
+   "cooldown": 6,
+   "requires": {
+    "week_min": 121
+   }
+  },
+  {
+   "id": "ry9_harbour_news",
+   "kind": "random",
+   "area": "pd_harbour",
+   "scene": {
+    "dialogue": "ev_ry9_harbour_news"
+   },
+   "title_key": "event.ry9_harbour_news.title",
+   "weight": 3,
+   "cooldown": 8,
+   "requires": {
+    "week_min": 121
    }
   }
  ]

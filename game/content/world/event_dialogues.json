@@ -8429,6 +8429,10 @@
          "amount": 10
         },
         {
+         "type": "flag",
+         "id": "arcout_xie_wujiu_redeemed"
+        },
+        {
          "type": "battle",
          "id": "y2_public_proof"
         }
@@ -8453,6 +8457,10 @@
          "type": "bond",
          "id": "xie_wujiu",
          "amount": 6
+        },
+        {
+         "type": "flag",
+         "id": "arcout_xie_wujiu_alternate"
         }
        ]
       },
@@ -8475,6 +8483,10 @@
          "type": "bond",
          "id": "xie_wujiu",
          "amount": -6
+        },
+        {
+         "type": "flag",
+         "id": "arcout_xie_wujiu_lost"
         }
        ]
       }
@@ -8543,6 +8555,10 @@
         },
         {
          "type": "flag",
+         "id": "arcout_su_dai_redeemed"
+        },
+        {
+         "type": "flag",
          "id": "song_shared"
         }
        ]
@@ -8566,6 +8582,10 @@
          "type": "bond",
          "id": "su_dai",
          "amount": 6
+        },
+        {
+         "type": "flag",
+         "id": "arcout_su_dai_alternate"
         }
        ]
       },
@@ -8588,6 +8608,10 @@
          "type": "bond",
          "id": "su_dai",
          "amount": -6
+        },
+        {
+         "type": "flag",
+         "id": "arcout_su_dai_lost"
         },
         {
          "type": "flag",
@@ -8659,6 +8683,10 @@
          "amount": 10
         },
         {
+         "type": "flag",
+         "id": "arcout_li_shan_redeemed"
+        },
+        {
          "type": "resource",
          "id": "ore",
          "amount": -2
@@ -8688,6 +8716,10 @@
          "type": "bond",
          "id": "li_shan",
          "amount": 4
+        },
+        {
+         "type": "flag",
+         "id": "arcout_li_shan_alternate"
         }
        ]
       },
@@ -8710,6 +8742,10 @@
          "type": "bond",
          "id": "li_shan",
          "amount": -6
+        },
+        {
+         "type": "flag",
+         "id": "arcout_li_shan_lost"
         },
         {
          "type": "flag",
@@ -8782,6 +8818,10 @@
         },
         {
          "type": "flag",
+         "id": "arcout_xia_zhi_redeemed"
+        },
+        {
+         "type": "flag",
          "id": "xia_defected"
         }
        ]
@@ -8805,6 +8845,10 @@
          "type": "bond",
          "id": "xia_zhi",
          "amount": 4
+        },
+        {
+         "type": "flag",
+         "id": "arcout_xia_zhi_alternate"
         }
        ]
       },
@@ -8827,6 +8871,10 @@
          "type": "bond",
          "id": "xia_zhi",
          "amount": -6
+        },
+        {
+         "type": "flag",
+         "id": "arcout_xia_zhi_lost"
         },
         {
          "type": "flag",
@@ -8898,6 +8946,10 @@
          "amount": 10
         },
         {
+         "type": "flag",
+         "id": "arcout_xiao_hanchuan_redeemed"
+        },
+        {
          "type": "battle",
          "id": "y2_break_ranks"
         }
@@ -8922,6 +8974,10 @@
          "type": "bond",
          "id": "xiao_hanchuan",
          "amount": 6
+        },
+        {
+         "type": "flag",
+         "id": "arcout_xiao_hanchuan_alternate"
         }
        ]
       },
@@ -8944,6 +9000,10 @@
          "type": "bond",
          "id": "xiao_hanchuan",
          "amount": -6
+        },
+        {
+         "type": "flag",
+         "id": "arcout_xiao_hanchuan_lost"
         }
        ]
       }
@@ -9031,6 +9091,10 @@
          "id": "xia_zhi_betrayed"
         },
         {
+         "type": "flag",
+         "id": "arcout_xia_zhi_lost"
+        },
+        {
          "type": "arc_outcome",
          "id": "xia_zhi",
          "value": "lost"
@@ -9102,6 +9166,10 @@
         {
          "type": "flag",
          "id": "xie_wujiu_betrayed"
+        },
+        {
+         "type": "flag",
+         "id": "arcout_xie_wujiu_lost"
         },
         {
          "type": "arc_outcome",
@@ -9634,6 +9702,1749 @@
        "c": "show",
        "who": "wanderer",
        "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y3_new_year",
+   "entry": [
+    {
+     "if": {
+      "flag": "council_orthodox"
+     },
+     "node": "orth1"
+    },
+    {
+     "if": {
+      "flag": "council_trade"
+     },
+     "node": "trade1"
+    },
+    {
+     "node": "free1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "orth1",
+     "text_key": "event.y3_new_year.orth.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "orth2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "orth2",
+     "text_key": "event.y3_new_year.orth.2",
+     "speaker_key": "story.speaker.elder",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "year3_start"
+      },
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 2
+      }
+     ]
+    },
+    {
+     "id": "trade1",
+     "text_key": "event.y3_new_year.trade.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "trade2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "trade2",
+     "text_key": "event.y3_new_year.trade.2",
+     "speaker_key": "story.speaker.elder",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "year3_start"
+      },
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 2
+      }
+     ]
+    },
+    {
+     "id": "free1",
+     "text_key": "event.y3_new_year.free.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "free2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "free2",
+     "text_key": "event.y3_new_year.free.2",
+     "speaker_key": "story.speaker.elder",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "year3_start"
+      },
+      {
+       "type": "attr",
+       "id": "agility",
+       "amount": 2
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y3_gate_opens",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y3_gate_opens.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_market"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "qian_man",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y3_gate_opens.2",
+     "speaker_key": "npc.qian_man",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.y3_gate_opens.3",
+     "speaker_key": "world.speaker.hero",
+     "choices": [
+      {
+       "id": "storm",
+       "label_key": "event.y3_gate_opens.c.storm",
+       "next": "",
+       "effects": [
+        {
+         "type": "battle",
+         "id": "y3_guild_hall"
+        },
+        {
+         "type": "lead",
+         "id": "gate_unmasked"
+        }
+       ]
+      },
+      {
+       "id": "warn",
+       "label_key": "event.y3_gate_opens.c.warn",
+       "next": "",
+       "effects": [
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 2
+        },
+        {
+         "type": "flag",
+         "id": "guild_hall_lost"
+        },
+        {
+         "type": "lead",
+         "id": "gate_unmasked"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y3_house_summons",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y3_house_summons.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_market"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "qian_man",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y3_house_summons.2",
+     "speaker_key": "npc.qian_man",
+     "choices": [
+      {
+       "id": "orthodox",
+       "label_key": "event.y3_house_summons.c.orthodox",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "seat_orthodox"
+        },
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 1
+        },
+        {
+         "type": "lead",
+         "id": "platform_summons"
+        }
+       ]
+      },
+      {
+       "id": "trade",
+       "label_key": "event.y3_house_summons.c.trade",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "seat_trade"
+        },
+        {
+         "type": "attr",
+         "id": "insight",
+         "amount": 1
+        },
+        {
+         "type": "lead",
+         "id": "platform_summons"
+        }
+       ]
+      },
+      {
+       "id": "free",
+       "label_key": "event.y3_house_summons.c.free",
+       "next": "",
+       "effects": [
+        {
+         "type": "flag",
+         "id": "seat_free"
+        },
+        {
+         "type": "attr",
+         "id": "agility",
+         "amount": 1
+        },
+        {
+         "type": "lead",
+         "id": "platform_summons"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y3_valley_returns",
+   "entry": [
+    {
+     "if": {
+      "flag": "elder_fallen"
+     },
+     "node": "fall1"
+    },
+    {
+     "if": {
+      "flag": "valley_kept"
+     },
+     "node": "kept1"
+    },
+    {
+     "node": "away1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "fall1",
+     "text_key": "event.y3_valley_returns.fall.1",
+     "speaker_key": "npc.villager_afu",
+     "next": "fall2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "villager",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "fall2",
+     "text_key": "event.y3_valley_returns.fall.2",
+     "speaker_key": "world.speaker.narrator",
+     "next": "fall3"
+    },
+    {
+     "id": "fall3",
+     "text_key": "event.y3_valley_returns.fall.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "ninth_house_named"
+      },
+      {
+       "type": "lead",
+       "id": "ninth_house"
+      },
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 2
+      }
+     ]
+    },
+    {
+     "id": "kept1",
+     "text_key": "event.y3_valley_returns.kept.1",
+     "speaker_key": "npc.villager_afu",
+     "next": "kept2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "villager",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "kept2",
+     "text_key": "event.y3_valley_returns.kept.2",
+     "speaker_key": "story.speaker.elder",
+     "next": "kept3"
+    },
+    {
+     "id": "kept3",
+     "text_key": "event.y3_valley_returns.kept.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "ninth_house_named"
+      },
+      {
+       "type": "lead",
+       "id": "ninth_house"
+      },
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 2
+      },
+      {
+       "type": "stamina",
+       "id": "stamina",
+       "amount": 10
+      }
+     ]
+    },
+    {
+     "id": "away1",
+     "text_key": "event.y3_valley_returns.away.1",
+     "speaker_key": "npc.villager_afu",
+     "next": "away2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "villager",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "away2",
+     "text_key": "event.y3_valley_returns.away.2",
+     "speaker_key": "story.speaker.elder",
+     "next": "away3"
+    },
+    {
+     "id": "away3",
+     "text_key": "event.y3_valley_returns.away.3",
+     "speaker_key": "world.speaker.hero",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "flag",
+       "id": "ninth_house_named"
+      },
+      {
+       "type": "lead",
+       "id": "ninth_house"
+      },
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 2
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y3_chi_mask",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y3_chi_mask.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "n2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "mask_chi",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "n2",
+     "text_key": "event.y3_chi_mask.2",
+     "speaker_key": "npc.mask_chi",
+     "next": "n3"
+    },
+    {
+     "id": "n3",
+     "text_key": "event.y3_chi_mask.3",
+     "speaker_key": "npc.mask_chi",
+     "choices": [
+      {
+       "id": "duel",
+       "label_key": "event.y3_chi_mask.c.duel",
+       "next": "",
+       "effects": [
+        {
+         "type": "battle",
+         "id": "y3_chi_duel"
+        }
+       ]
+      },
+      {
+       "id": "slip",
+       "label_key": "event.y3_chi_mask.c.slip",
+       "next": "",
+       "effects": [
+        {
+         "type": "attr",
+         "id": "agility",
+         "amount": 2
+        },
+        {
+         "type": "flag",
+         "id": "chi_declined"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y3_border_burns",
+   "entry": [
+    {
+     "if": {
+      "flag": "ranks_broken"
+     },
+     "node": "held1"
+    },
+    {
+     "node": "plain1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "held1",
+     "text_key": "event.y3_border_burns.held.1",
+     "speaker_key": "npc.xiao_hanchuan",
+     "next": "held2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_fort"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xiao_hanchuan",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "held2",
+     "text_key": "event.y3_border_burns.held.2",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "lead",
+       "id": "border_burns"
+      },
+      {
+       "type": "schedule",
+       "id": "y3_border_choice",
+       "min": 1,
+       "max": 3
+      }
+     ]
+    },
+    {
+     "id": "plain1",
+     "text_key": "event.y3_border_burns.plain.1",
+     "speaker_key": "npc.xiao_hanchuan",
+     "next": "plain2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_fort"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xiao_hanchuan",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "plain2",
+     "text_key": "event.y3_border_burns.plain.2",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "lead",
+       "id": "border_burns"
+      },
+      {
+       "type": "schedule",
+       "id": "y3_border_choice",
+       "min": 1,
+       "max": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_y3_border_choice",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.y3_border_choice.1",
+     "speaker_key": "npc.xiao_hanchuan",
+     "choices": [
+      {
+       "id": "defend",
+       "label_key": "event.y3_border_choice.c.defend",
+       "next": "",
+       "effects": [
+        {
+         "type": "battle",
+         "id": "y3_border_defence"
+        },
+        {
+         "type": "bond",
+         "id": "xiao_hanchuan",
+         "amount": 2
+        }
+       ]
+      },
+      {
+       "id": "evacuate",
+       "label_key": "event.y3_border_choice.c.evacuate",
+       "next": "",
+       "effects": [
+        {
+         "type": "attr",
+         "id": "spirit",
+         "amount": 2
+        },
+        {
+         "type": "flag",
+         "id": "border_evacuated"
+        },
+        {
+         "type": "bond",
+         "id": "xiao_hanchuan",
+         "amount": 3
+        }
+       ]
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_fort"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xiao_hanchuan",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_xie_wujiu_4",
+   "entry": [
+    {
+     "if": {
+      "flag": "arcout_xie_wujiu_redeemed"
+     },
+     "node": "r1"
+    },
+    {
+     "if": {
+      "flag": "arcout_xie_wujiu_alternate"
+     },
+     "node": "a1"
+    },
+    {
+     "node": "l1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "r1",
+     "text_key": "event.arc_xie_wujiu_4.r.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "r2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xie_wujiu",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "r2",
+     "text_key": "event.arc_xie_wujiu_4.r.2",
+     "speaker_key": "npc.xie_wujiu",
+     "next": "r3"
+    },
+    {
+     "id": "r3",
+     "text_key": "event.arc_xie_wujiu_4.r.3",
+     "speaker_key": "npc.xie_wujiu",
+     "choices": [
+      {
+       "id": "friend",
+       "label_key": "event.arc_xie_wujiu_4.r.c.friend",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "xie_wujiu",
+         "value": "friend"
+        },
+        {
+         "type": "arc_stage",
+         "id": "xie_wujiu",
+         "amount": 4
+        },
+        {
+         "type": "bond",
+         "id": "xie_wujiu",
+         "amount": 2
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "xie_wujiu": 10
+        }
+       }
+      },
+      {
+       "id": "sworn",
+       "label_key": "event.arc_xie_wujiu_4.r.c.sworn",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "xie_wujiu",
+         "value": "sworn"
+        },
+        {
+         "type": "arc_stage",
+         "id": "xie_wujiu",
+         "amount": 4
+        },
+        {
+         "type": "bond",
+         "id": "xie_wujiu",
+         "amount": 2
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "xie_wujiu": 14
+        }
+       }
+      },
+      {
+       "id": "romance",
+       "label_key": "event.arc_xie_wujiu_4.r.c.romance",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "xie_wujiu",
+         "value": "romance"
+        },
+        {
+         "type": "arc_stage",
+         "id": "xie_wujiu",
+         "amount": 4
+        },
+        {
+         "type": "bond",
+         "id": "xie_wujiu",
+         "amount": 2
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "xie_wujiu": 16
+        }
+       }
+      },
+      {
+       "id": "rival",
+       "label_key": "event.arc_xie_wujiu_4.r.c.rival",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "xie_wujiu",
+         "value": "rival"
+        },
+        {
+         "type": "arc_stage",
+         "id": "xie_wujiu",
+         "amount": 4
+        },
+        {
+         "type": "bond",
+         "id": "xie_wujiu",
+         "amount": 2
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "a1",
+     "text_key": "event.arc_xie_wujiu_4.a.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "a2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xie_wujiu",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "a2",
+     "text_key": "event.arc_xie_wujiu_4.a.2",
+     "speaker_key": "npc.xie_wujiu",
+     "next": "a3"
+    },
+    {
+     "id": "a3",
+     "text_key": "event.arc_xie_wujiu_4.a.3",
+     "speaker_key": "npc.xie_wujiu",
+     "choices": [
+      {
+       "id": "friend",
+       "label_key": "event.arc_xie_wujiu_4.a.c.friend",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "xie_wujiu",
+         "value": "friend"
+        },
+        {
+         "type": "arc_stage",
+         "id": "xie_wujiu",
+         "amount": 4
+        },
+        {
+         "type": "bond",
+         "id": "xie_wujiu",
+         "amount": 2
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "xie_wujiu": 10
+        }
+       }
+      },
+      {
+       "id": "sworn",
+       "label_key": "event.arc_xie_wujiu_4.a.c.sworn",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "xie_wujiu",
+         "value": "sworn"
+        },
+        {
+         "type": "arc_stage",
+         "id": "xie_wujiu",
+         "amount": 4
+        },
+        {
+         "type": "bond",
+         "id": "xie_wujiu",
+         "amount": 2
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "xie_wujiu": 14
+        }
+       }
+      },
+      {
+       "id": "romance",
+       "label_key": "event.arc_xie_wujiu_4.a.c.romance",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "xie_wujiu",
+         "value": "romance"
+        },
+        {
+         "type": "arc_stage",
+         "id": "xie_wujiu",
+         "amount": 4
+        },
+        {
+         "type": "bond",
+         "id": "xie_wujiu",
+         "amount": 2
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "xie_wujiu": 16
+        }
+       }
+      },
+      {
+       "id": "rival",
+       "label_key": "event.arc_xie_wujiu_4.a.c.rival",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "xie_wujiu",
+         "value": "rival"
+        },
+        {
+         "type": "arc_stage",
+         "id": "xie_wujiu",
+         "amount": 4
+        },
+        {
+         "type": "bond",
+         "id": "xie_wujiu",
+         "amount": 2
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "l1",
+     "text_key": "event.arc_xie_wujiu_4.l.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "l2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "sad"
+      },
+      {
+       "c": "show",
+       "who": "xie_wujiu",
+       "slot": "right",
+       "pose": "idle",
+       "face": "sad"
+      }
+     ]
+    },
+    {
+     "id": "l2",
+     "text_key": "event.arc_xie_wujiu_4.l.2",
+     "speaker_key": "npc.xie_wujiu",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "arc_stage",
+       "id": "xie_wujiu",
+       "amount": 4
+      },
+      {
+       "type": "flag",
+       "id": "xie_returns"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_arc_xia_zhi_4",
+   "entry": [
+    {
+     "if": {
+      "flag": "arcout_xia_zhi_redeemed"
+     },
+     "node": "r1"
+    },
+    {
+     "if": {
+      "flag": "arcout_xia_zhi_alternate"
+     },
+     "node": "a1"
+    },
+    {
+     "node": "l1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "r1",
+     "text_key": "event.arc_xia_zhi_4.r.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "r2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xia_zhi",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "r2",
+     "text_key": "event.arc_xia_zhi_4.r.2",
+     "speaker_key": "npc.xia_zhi",
+     "next": "r3"
+    },
+    {
+     "id": "r3",
+     "text_key": "event.arc_xia_zhi_4.r.3",
+     "speaker_key": "npc.xia_zhi",
+     "choices": [
+      {
+       "id": "friend",
+       "label_key": "event.arc_xia_zhi_4.r.c.friend",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "xia_zhi",
+         "value": "friend"
+        },
+        {
+         "type": "arc_stage",
+         "id": "xia_zhi",
+         "amount": 4
+        },
+        {
+         "type": "bond",
+         "id": "xia_zhi",
+         "amount": 2
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "xia_zhi": 10
+        }
+       }
+      },
+      {
+       "id": "sworn",
+       "label_key": "event.arc_xia_zhi_4.r.c.sworn",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "xia_zhi",
+         "value": "sworn"
+        },
+        {
+         "type": "arc_stage",
+         "id": "xia_zhi",
+         "amount": 4
+        },
+        {
+         "type": "bond",
+         "id": "xia_zhi",
+         "amount": 2
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "xia_zhi": 14
+        }
+       }
+      },
+      {
+       "id": "romance",
+       "label_key": "event.arc_xia_zhi_4.r.c.romance",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "xia_zhi",
+         "value": "romance"
+        },
+        {
+         "type": "arc_stage",
+         "id": "xia_zhi",
+         "amount": 4
+        },
+        {
+         "type": "bond",
+         "id": "xia_zhi",
+         "amount": 2
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "xia_zhi": 16
+        }
+       }
+      },
+      {
+       "id": "rival",
+       "label_key": "event.arc_xia_zhi_4.r.c.rival",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "xia_zhi",
+         "value": "rival"
+        },
+        {
+         "type": "arc_stage",
+         "id": "xia_zhi",
+         "amount": 4
+        },
+        {
+         "type": "bond",
+         "id": "xia_zhi",
+         "amount": 2
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "a1",
+     "text_key": "event.arc_xia_zhi_4.a.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "a2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      },
+      {
+       "c": "show",
+       "who": "xia_zhi",
+       "slot": "right",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    },
+    {
+     "id": "a2",
+     "text_key": "event.arc_xia_zhi_4.a.2",
+     "speaker_key": "npc.xia_zhi",
+     "next": "a3"
+    },
+    {
+     "id": "a3",
+     "text_key": "event.arc_xia_zhi_4.a.3",
+     "speaker_key": "npc.xia_zhi",
+     "choices": [
+      {
+       "id": "friend",
+       "label_key": "event.arc_xia_zhi_4.a.c.friend",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "xia_zhi",
+         "value": "friend"
+        },
+        {
+         "type": "arc_stage",
+         "id": "xia_zhi",
+         "amount": 4
+        },
+        {
+         "type": "bond",
+         "id": "xia_zhi",
+         "amount": 2
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "xia_zhi": 10
+        }
+       }
+      },
+      {
+       "id": "sworn",
+       "label_key": "event.arc_xia_zhi_4.a.c.sworn",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "xia_zhi",
+         "value": "sworn"
+        },
+        {
+         "type": "arc_stage",
+         "id": "xia_zhi",
+         "amount": 4
+        },
+        {
+         "type": "bond",
+         "id": "xia_zhi",
+         "amount": 2
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "xia_zhi": 14
+        }
+       }
+      },
+      {
+       "id": "romance",
+       "label_key": "event.arc_xia_zhi_4.a.c.romance",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "xia_zhi",
+         "value": "romance"
+        },
+        {
+         "type": "arc_stage",
+         "id": "xia_zhi",
+         "amount": 4
+        },
+        {
+         "type": "bond",
+         "id": "xia_zhi",
+         "amount": 2
+        }
+       ],
+       "gate": {
+        "bond_min": {
+         "xia_zhi": 16
+        }
+       }
+      },
+      {
+       "id": "rival",
+       "label_key": "event.arc_xia_zhi_4.a.c.rival",
+       "next": "",
+       "effects": [
+        {
+         "type": "arc_bond",
+         "id": "xia_zhi",
+         "value": "rival"
+        },
+        {
+         "type": "arc_stage",
+         "id": "xia_zhi",
+         "amount": 4
+        },
+        {
+         "type": "bond",
+         "id": "xia_zhi",
+         "amount": 2
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "l1",
+     "text_key": "event.arc_xia_zhi_4.l.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "l2",
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "sad"
+      },
+      {
+       "c": "show",
+       "who": "xia_zhi",
+       "slot": "right",
+       "pose": "idle",
+       "face": "sad"
+      }
+     ]
+    },
+    {
+     "id": "l2",
+     "text_key": "event.arc_xia_zhi_4.l.2",
+     "speaker_key": "npc.xia_zhi",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "arc_stage",
+       "id": "xia_zhi",
+       "amount": 4
+      },
+      {
+       "type": "flag",
+       "id": "xia_returns"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry9_valley_planting",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry9_valley_planting.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "body",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "village_dusk"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry9_market_grey",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry9_market_grey.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_market"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry9_docks_search",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry9_docks_search.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "agility",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_docks"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry9_courts_drill",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry9_courts_drill.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "power",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "cangwu_day"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry9_fort_supplies",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry9_fort_supplies.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "body",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "yanmen_fort"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry9_teahouse_song",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry9_teahouse_song.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "spirit",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_market"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry9_alley_cat",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry9_alley_cat.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "agility",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "city_night"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
+       "pose": "idle",
+       "face": "neutral"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ev_ry9_harbour_news",
+   "entry": [
+    {
+     "node": "n1"
+    }
+   ],
+   "nodes": [
+    {
+     "id": "n1",
+     "text_key": "event.ry9_harbour_news.1",
+     "speaker_key": "world.speaker.narrator",
+     "next": "",
+     "on_enter": [
+      {
+       "type": "attr",
+       "id": "insight",
+       "amount": 1
+      }
+     ],
+     "stage": [
+      {
+       "c": "bg",
+       "id": "penglai_sea"
+      },
+      {
+       "c": "show",
+       "who": "hero",
+       "slot": "left",
        "pose": "idle",
        "face": "neutral"
       }

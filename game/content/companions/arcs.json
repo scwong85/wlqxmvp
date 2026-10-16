@@ -169,6 +169,10 @@
     {
      "id": "3",
      "event": "arc_xie_wujiu_3"
+    },
+    {
+     "id": "4",
+     "event": "arc_xie_wujiu_4"
     }
    ],
    "outcomes": [
@@ -198,6 +202,10 @@
     {
      "id": "3",
      "event": "arc_xia_zhi_3"
+    },
+    {
+     "id": "4",
+     "event": "arc_xia_zhi_4"
     }
    ],
    "outcomes": [
