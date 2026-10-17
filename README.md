@@ -26,3 +26,4 @@ Source on branch `godot-spike`; playable web build on `gh-pages`.
 - docs/M26_REPORT.md
 - docs/RELEASE_NOTES.md
 - docs/TIER1_ART_PROMPTS.md
+- docs/TIER2_ART_PLAN.md
