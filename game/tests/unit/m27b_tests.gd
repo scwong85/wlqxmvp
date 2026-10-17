@@ -29,3 +29,8 @@ func run(check_fn: Callable, _loc: Node) -> void:
 		bg.set_bg(id)
 		check.call(bg.has_art(), "art: %s uses the painted background" % id)
 		bg.free()
+	var shen: Texture2D = PortraitArt.texture_for("shen_qinghe")
+	var r: Rect2 = PortraitArt.thumb_rect("shen_qinghe", shen)
+	check.call(r.size.x > shen.get_size().x and r.position.y == 0.0, "art: Shen's thumbnail crop is wider than her portrait so the whole face shows")
+	var li: Texture2D = PortraitArt.texture_for("li_shan")
+	check.call(PortraitArt.thumb_rect("li_shan", li).size.x <= li.get_size().x, "art: other thumbnails keep the default crop")

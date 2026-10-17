@@ -24,3 +24,19 @@ static func speaker_id(speaker_key: String, hero_gender: String) -> String:
 	if speaker_key.begins_with("npc."):
 		return speaker_key.trim_prefix("npc.")
 	return ""
+
+
+## Square crop of a portrait for round thumbnails, in pixels: Rect2(x, y, side, side). The default is the top square (the
+## widest square that fits). Very narrow, tall portraits need a larger square so the whole face shows; the part that
+## falls outside the picture repeats the edge colour.
+const THUMB := {"shen_qinghe": {"side_w": 1.265, "y0_h": 0.0}, "xiao_hanchuan": {"side_w": 1.657, "y0_h": 0.093}}
+
+
+static func thumb_rect(id: String, tex: Texture2D) -> Rect2:
+	var sz := tex.get_size()
+	var side := minf(sz.x, sz.y)
+	var y0 := 0.0
+	if THUMB.has(id):
+		side = sz.x * float(THUMB[id].side_w)
+		y0 = sz.y * float(THUMB[id].y0_h)
+	return Rect2((sz.x - side) * 0.5, y0, side, side)

@@ -4,6 +4,7 @@ extends Control
 
 var glyph: String = ""
 var tint: Color = Color("5fd1a5")
+var art_id: String = ""
 var art: Texture2D = null   # painted face (PortraitArt) replaces the glyph medallion when present
 
 
@@ -11,6 +12,7 @@ const PortraitArt = preload("res://scenes/shared/portrait_art.gd")
 
 
 func _init() -> void:
+	texture_repeat = CanvasItem.TEXTURE_REPEAT_DISABLED   # outside the picture the edge colour continues
 	custom_minimum_size = Vector2(72, 72)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 
@@ -18,6 +20,7 @@ func _init() -> void:
 func setup(display_name: String, color: Color, character_id: String = "") -> void:
 	glyph = display_name.substr(0, 1)
 	tint = color
+	art_id = character_id
 	art = PortraitArt.texture_for(character_id) if character_id != "" else null
 	queue_redraw()
 
@@ -28,13 +31,13 @@ func _draw() -> void:
 	if art != null:
 		# a round crop of the head and shoulders (the top square of the portrait) inside a tinted ring
 		var tsz := art.get_size()
-		var side := minf(tsz.x, tsz.y)
+		var crop: Rect2 = PortraitArt.thumb_rect(art_id, art)
 		var pts := PackedVector2Array()
 		var uvs := PackedVector2Array()
 		for i in 40:
 			var a := TAU * float(i) / 40.0
 			pts.append(c + Vector2(cos(a), sin(a)) * r)
-			uvs.append((Vector2(tsz.x * 0.5, side * 0.5) + Vector2(cos(a), sin(a)) * side * 0.5) / tsz)
+			uvs.append((crop.position + crop.size * 0.5 + Vector2(cos(a), sin(a)) * crop.size * 0.5) / tsz)
 		draw_colored_polygon(pts, Color.WHITE, uvs, art)
 		draw_arc(c, r, 0.0, TAU, 40, tint, 3.0, true)
 		return
