@@ -58,7 +58,6 @@ func _ready() -> void:
 	_tagline_label = UiKit.make_label(34)
 	_tagline_label.add_theme_constant_override("outline_size", 9)   # legible over the light key art
 	_name_label.modulate = UiKit.GOLD
-	_name_label.autowrap_mode = TextServer.AUTOWRAP_OFF   # inside the shrink-wrapped plate a wrapping label would collapse
 	var plate := UiKit.brush_plate_box()
 	if plate != null:
 		_name_wrap = PanelContainer.new()
@@ -128,7 +127,7 @@ func _apply_layout() -> void:
 	for b in [start_button, load_button, practice_button, settings_button, fullscreen_button]:
 		if b != null:
 			b.custom_minimum_size.y = 64.0 if portrait else 76.0
-	_name_label.add_theme_font_size_override("font_size", 72 if portrait else 88)
+	_name_label.add_theme_font_size_override("font_size", (72 if _name_label.text.length() <= 8 else 60) if portrait else 88)
 	_tagline_label.add_theme_font_size_override("font_size", 28 if portrait else 34)
 	var align := HORIZONTAL_ALIGNMENT_CENTER if portrait else HORIZONTAL_ALIGNMENT_LEFT
 	if _name_wrap != null:
@@ -136,7 +135,10 @@ func _apply_layout() -> void:
 		if sb != null:   # a slimmer plate in landscape, where the menu has to fit 720 px
 			sb.content_margin_top = 26.0 if portrait else 2.0
 			sb.content_margin_bottom = 30.0 if portrait else 4.0
-		_name_wrap.size_flags_horizontal = Control.SIZE_SHRINK_CENTER if portrait else Control.SIZE_SHRINK_BEGIN
+		# Portrait: the plate spans the width and a long (English) title wraps inside it. Landscape: shrink to the text.
+		_name_wrap.size_flags_horizontal = Control.SIZE_FILL if portrait else Control.SIZE_SHRINK_BEGIN
+		_name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if portrait else TextServer.AUTOWRAP_OFF
+		_name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	for l in [_name_label, _tagline_label, load_note, _build_label]:
 		l.horizontal_alignment = align
 	var buttons: Array = [start_button, load_button]

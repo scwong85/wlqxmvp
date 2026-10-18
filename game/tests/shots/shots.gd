@@ -26,7 +26,7 @@ func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(Saves.dir)
 	get_tree().current_scene = null
 	await _frames(5)
-	Loc.set_locale("zh_CN")
+	Loc.set_locale(OS.get_environment("SHOT_LOCALE") if OS.get_environment("SHOT_LOCALE") != "" else "zh_CN")
 	# 1. Stage compositions (backgrounds + figures).
 	var combos := [
 		["city_night", ["hero", "qian_man", "mask_chi"]],
