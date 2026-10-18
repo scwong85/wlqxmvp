@@ -19,6 +19,7 @@ var load_note: Label
 var _load_error: String = ""
 var _build_label: Label
 var _box: VBoxContainer
+var _name_wrap: PanelContainer
 
 
 ## Painted title art (art/title_key.jpg) behind the menu, with a soft dark scrim so the buttons and title stay readable.
@@ -31,7 +32,7 @@ func _add_key_art() -> void:
 	tex.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(tex)
 	var scrim := ColorRect.new()
-	scrim.color = Color(0.04, 0.09, 0.09, 0.42)
+	scrim.color = Color(0.06, 0.04, 0.03, 0.42)
 	scrim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(scrim)
@@ -55,11 +56,22 @@ func _ready() -> void:
 	_name_label = UiKit.make_label(96)
 	_name_label.add_theme_constant_override("outline_size", 8)
 	_tagline_label = UiKit.make_label(34)
-	box.add_child(_name_label)
+	_tagline_label.add_theme_constant_override("outline_size", 9)   # legible over the light key art
+	_name_label.modulate = UiKit.GOLD
+	_name_label.autowrap_mode = TextServer.AUTOWRAP_OFF   # inside the shrink-wrapped plate a wrapping label would collapse
+	var plate := UiKit.brush_plate_box()
+	if plate != null:
+		_name_wrap = PanelContainer.new()
+		_name_wrap.add_theme_stylebox_override("panel", plate)
+		_name_wrap.add_child(_name_label)
+		box.add_child(_name_wrap)
+	else:
+		box.add_child(_name_label)
 	box.add_child(_tagline_label)
 	box.add_child(_spacer(28))
 
 	start_button = UiKit.make_button()
+	start_button.theme_type_variation = "SealButton"
 	load_button = UiKit.make_button()
 	settings_button = UiKit.make_button()
 	practice_button = UiKit.make_button()
@@ -85,10 +97,12 @@ func _ready() -> void:
 
 	# Touch users cannot hover for a tooltip, so the reason is also shown as visible text.
 	load_note = UiKit.make_label(24)
-	load_note.modulate = Color(1, 1, 1, 0.8)
+	load_note.modulate = Color(1, 1, 1, 0.9)
+	load_note.add_theme_constant_override("outline_size", 8)
 	box.add_child(load_note)
 	_build_label = UiKit.make_label(22)
-	_build_label.modulate = Color(1, 1, 1, 0.6)
+	_build_label.modulate = Color(1, 1, 1, 0.8)
+	_build_label.add_theme_constant_override("outline_size", 8)
 	box.add_child(_build_label)
 
 	start_button.pressed.connect(_on_start)
@@ -109,9 +123,20 @@ func _ready() -> void:
 ## Landscape: big title and compact buttons on the left. Portrait: centred column, full-width buttons.
 func _apply_layout() -> void:
 	var portrait: bool = Layout.is_portrait()
-	_name_label.add_theme_font_size_override("font_size", 72 if portrait else 96)
+	# Portrait: the menu sits in the top half so the painted heroes at the bottom of the key art stay visible.
+	_box.alignment = BoxContainer.ALIGNMENT_BEGIN if portrait else BoxContainer.ALIGNMENT_CENTER
+	for b in [start_button, load_button, practice_button, settings_button, fullscreen_button]:
+		if b != null:
+			b.custom_minimum_size.y = 64.0 if portrait else 76.0
+	_name_label.add_theme_font_size_override("font_size", 72 if portrait else 88)
 	_tagline_label.add_theme_font_size_override("font_size", 28 if portrait else 34)
 	var align := HORIZONTAL_ALIGNMENT_CENTER if portrait else HORIZONTAL_ALIGNMENT_LEFT
+	if _name_wrap != null:
+		var sb: StyleBoxTexture = _name_wrap.get_theme_stylebox("panel") as StyleBoxTexture
+		if sb != null:   # a slimmer plate in landscape, where the menu has to fit 720 px
+			sb.content_margin_top = 26.0 if portrait else 2.0
+			sb.content_margin_bottom = 30.0 if portrait else 4.0
+		_name_wrap.size_flags_horizontal = Control.SIZE_SHRINK_CENTER if portrait else Control.SIZE_SHRINK_BEGIN
 	for l in [_name_label, _tagline_label, load_note, _build_label]:
 		l.horizontal_alignment = align
 	var buttons: Array = [start_button, load_button]

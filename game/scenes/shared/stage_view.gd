@@ -70,7 +70,9 @@ func show_stage(stage: Dictionary, transient: Array = []) -> void:
 			_layer.add_child(rig)
 			actors[slot] = rig
 		rig.animate = animate
-		rig.setup(look_for(str(a.who)), str(a.pose), str(a.face))
+		var lk := look_for(str(a.who))
+		rig.setup(lk, str(a.pose), str(a.face))
+		rig.use_figure(str(a.who), str(lk.get("gender", "m")))
 		rig.flip = slot == "right" or slot == "far"
 		rig.dim = str(_stage.focus) != "" and str(_stage.focus) != str(a.who)
 	_layout()

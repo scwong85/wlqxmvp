@@ -6,6 +6,11 @@ const Backdrop = preload("res://scenes/shared/backdrop.gd")
 const SafeFrame = preload("res://scenes/shared/safe_frame.gd")
 const ChibiRig = preload("res://scenes/shared/chibi_rig.gd")
 const LookRules = preload("res://scripts/domain/look_rules.gd")
+const StageBackground = preload("res://scenes/shared/stage_background.gd")
+
+## Painted heroes are fixed pictures (hero_m / hero_f), so hair, colours and outfit are not offered. The look data stays in
+## the save and the code skin still honours it; turn this on again when layered art exists.
+const SHOW_LOOK_OPTIONS := false
 
 # Public so tests can drive the screen like a player.
 var name_edit: LineEdit
@@ -22,6 +27,7 @@ var look: Dictionary = LookRules.default_look()
 
 var _body: BoxContainer
 var _preview_panel: PanelContainer
+var _form_panel: PanelContainer
 var _title: Label
 var _labels: Dictionary = {}
 var _hair_label: Label
@@ -48,10 +54,15 @@ func _ready() -> void:
 	_preview_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_preview_panel.size_flags_stretch_ratio = 38.0
 	_body.add_child(_preview_panel)
+	_preview_panel.clip_contents = true
+	var pbg := StageBackground.new()
+	pbg.set_bg("valley_dawn")
+	_preview_panel.add_child(pbg)
 	preview = ChibiRig.new()
 	_preview_panel.add_child(preview)
 
 	var form_panel := PanelContainer.new()
+	_form_panel = form_panel
 	form_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	form_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	form_panel.size_flags_stretch_ratio = 62.0
@@ -118,6 +129,9 @@ func _ready() -> void:
 	form.add_child(_swatches(LookRules.OUTFIT_COLORS, "outfit", outfit_buttons))
 	form.add_child(_section("skin"))
 	form.add_child(_swatches(LookRules.SKINS, "skin", skin_buttons))
+	if not SHOW_LOOK_OPTIONS:
+		for i in range(4, form.get_child_count()):
+			form.get_child(i).visible = false
 
 	var actions := HBoxContainer.new()
 	actions.add_theme_constant_override("separation", 10)
@@ -126,6 +140,7 @@ func _ready() -> void:
 	back_button.add_theme_font_size_override("font_size", 24)
 	back_button.pressed.connect(func() -> void: Router.goto("title"))
 	confirm_button = UiKit.make_button(Vector2(0, 64))
+	confirm_button.theme_type_variation = "SealButton"
 	confirm_button.add_theme_font_size_override("font_size", 28)
 	confirm_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	confirm_button.pressed.connect(_on_confirm)
@@ -143,7 +158,7 @@ func _ready() -> void:
 
 func _section(id: String) -> Label:
 	var l := UiKit.make_label(22)
-	l.modulate = Color(0.8, 0.95, 0.85, 0.85)
+	l.modulate = Color(0.95, 0.88, 0.7, 0.85)
 	_labels[id] = l
 	return l
 
@@ -177,7 +192,8 @@ func _swatches(colors: Array, key: String, store: Array) -> Control:
 
 func _apply_layout() -> void:
 	_body.vertical = Layout.is_portrait()
-	_preview_panel.size_flags_stretch_ratio = 34.0 if Layout.is_portrait() else 38.0
+	_preview_panel.size_flags_stretch_ratio = 62.0 if Layout.is_portrait() else 38.0   # the painted hero gets the room
+	_form_panel.size_flags_stretch_ratio = 38.0 if Layout.is_portrait() else 62.0
 
 
 func _refresh() -> void:
@@ -194,6 +210,7 @@ func _refresh() -> void:
 	back_button.text = Loc.t("map.back")
 	confirm_button.text = Loc.t("hero.create.confirm")
 	preview.setup(_preview_look(), "idle", "happy")
+	preview.use_figure("hero", str(look.get("gender", "m")))
 
 
 func _preview_look() -> Dictionary:

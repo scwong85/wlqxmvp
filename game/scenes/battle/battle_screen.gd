@@ -53,9 +53,9 @@ func _ready() -> void:
 	if battle == null:
 		Router.goto.call_deferred("title")
 		return
-	add_child(Backdrop.new())
+	add_child(Backdrop.new("shrine_night"))
 	var dim := ColorRect.new()
-	dim.color = Color(0.02, 0.07, 0.07, 0.55)
+	dim.color = Color(0.06, 0.04, 0.03, 0.3)
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(dim)
@@ -119,7 +119,7 @@ func _ready() -> void:
 	side_box.add_child(_log_scroll)
 	_log_label = UiKit.make_label(22)
 	_log_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_log_label.modulate = Color(0.85, 0.95, 0.9, 0.95)
+	_log_label.modulate = Color(0.96, 0.91, 0.8, 0.95)
 	_log_scroll.add_child(_log_label)
 
 	Loc.locale_changed.connect(func(_c: String) -> void: _refresh())
@@ -614,7 +614,7 @@ func _finish() -> void:
 	var won: bool = battle.outcome == "victory"
 	var head := UiKit.make_label(44, HORIZONTAL_ALIGNMENT_CENTER)
 	head.text = Loc.t("combat.ui.result." + battle.outcome)
-	head.modulate = Color("9be3c3") if won else Color("e8a090")
+	head.modulate = Color("e3c27a") if won else Color("e8a090")
 	var why := UiKit.make_label(FONT, HORIZONTAL_ALIGNMENT_CENTER)
 	why.text = Loc.t("combat.outcome." + battle.outcome_reason)
 	var rounds := UiKit.make_label(FONT, HORIZONTAL_ALIGNMENT_CENTER)

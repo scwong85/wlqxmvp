@@ -37,7 +37,7 @@ func _ready() -> void:
 	if dest != "dialogue":  # nothing to say (e.g. opened by mistake): go where the story says
 		Router.goto.call_deferred(dest if dest != "" else "cultivation")
 		return
-	add_child(Backdrop.new())
+	add_child(Backdrop.new("valley_dawn"))
 	var frame := SafeFrame.new()
 	add_child(frame)
 	_box = VBoxContainer.new()
@@ -46,11 +46,11 @@ func _ready() -> void:
 	stage_view = StageView.new()
 	stage_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	stage_view.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	stage_view.size_flags_stretch_ratio = 1.15
+	stage_view.size_flags_stretch_ratio = 1.45
 	_box.add_child(stage_view)
 	_panel = PanelContainer.new()
 	_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_panel.size_flags_stretch_ratio = 1.6
+	_panel.size_flags_stretch_ratio = 1.3
 	_box.add_child(_panel)
 	var inner := VBoxContainer.new()
 	inner.add_theme_constant_override("separation", 12)
@@ -58,7 +58,7 @@ func _ready() -> void:
 	var head := HBoxContainer.new()
 	inner.add_child(head)
 	speaker_label = UiKit.make_label(30)
-	speaker_label.modulate = Color("9be3c3")
+	speaker_label.modulate = Color("e3c27a")
 	speaker_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	speaker_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bust = TextureRect.new()
@@ -153,6 +153,7 @@ func _show() -> void:
 			_note.text = RecruitDialog.reason_text(reasons)
 	else:
 		continue_button = UiKit.make_button(Vector2(0, 76))
+		continue_button.theme_type_variation = "SealButton"
 		continue_button.add_theme_font_size_override("font_size", 24)
 		continue_button.text = Loc.t("dialogue.continue")
 		continue_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL

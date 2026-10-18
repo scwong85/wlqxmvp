@@ -14,6 +14,7 @@ if [[ -f /usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc ]]; then
     "$ROOT/game/fonts/NotoSansSC-subset.otf" "$ROOT/game/content/localization"
 fi
 
+python3 -I "$ROOT/scripts/make_font_subset.py" /usr/share/fonts/opentype/noto/NotoSerifCJK-Bold.ttc "$ROOT/game/fonts/NotoSerifSC-subset.otf" "$ROOT/game/content/localization" >/dev/null 2>&1 || true
 "$GODOT" --headless --path "$ROOT/game" --import >/dev/null 2>&1 || true
 
 if [[ "${SKIP_TESTS:-0}" != "1" ]]; then

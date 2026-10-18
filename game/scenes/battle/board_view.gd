@@ -3,6 +3,7 @@ extends Control
 ## Portrait: 6 columns x 8 rows as the rules see it. Landscape: the same board turned a quarter turn
 ## (screen column = board row, screen row = board column), so the cells keep their meaning.
 
+const PortraitArt = preload("res://scenes/shared/portrait_art.gd")
 signal cell_tapped(cell: Vector2i)
 
 const CombatGrid = preload("res://scripts/domain/combat/combat_grid.gd")
@@ -85,7 +86,7 @@ func _draw() -> void:
 	var font := get_theme_default_font()
 	for c in CombatGrid.all_cells():
 		var r := cell_rect(c)
-		var shade := Color(0.10, 0.20, 0.19, 0.95) if (c.x + c.y) % 2 == 0 else Color(0.12, 0.24, 0.22, 0.95)
+		var shade := Color(0.16, 0.12, 0.09, 0.92) if (c.x + c.y) % 2 == 0 else Color(0.20, 0.15, 0.11, 0.92)
 		draw_rect(r, shade)
 		var terrain: String = battle.grid.terrain_at(c)
 		if terrain == "cover":
@@ -105,7 +106,7 @@ func _draw() -> void:
 		if target_cells.has(c):
 			draw_rect(r.grow(-1), Color(0.3, 0.9, 0.5, 0.35) if support_mode else Color(0.95, 0.25, 0.2, 0.38))
 			draw_rect(r.grow(-2), Color(1, 1, 1, 0.8), false, 2.0)
-		draw_rect(r, Color(0.45, 0.7, 0.62, 0.35), false, 1.0)
+		draw_rect(r, Color(0.79, 0.64, 0.36, 0.3), false, 1.0)
 	var active: RefCounted = battle.active()
 	for u in battle.units:
 		if not u.alive():
@@ -119,6 +120,41 @@ func _draw() -> void:
 		draw_string(font, pos, p.text, HORIZONTAL_ALIGNMENT_LEFT, -1, int(_cell * 0.42), col)
 
 
+## Which painted figure stands for an enemy template (round head tokens). Templates not listed keep the diamond.
+const TEMPLATE_FIGURE := {"bandit_scout": "bandit", "bandit_brute": "bandit", "bandit_archer": "bandit", "bandit_leader": "leader",
+		"villager": "villager", "masked_guard": "mask_hui", "chi_mask": "mask_chi", "xuan_mask": "mask_xuan", "cangwu_senior": "master_gu",
+		"guild_enforcer": "guild_master", "dock_thug": "bandit", "hermit_master": "elder"}
+
+
+func _token_texture(u: RefCounted) -> Texture2D:
+	var fid := ""
+	if u.id == "hero":
+		fid = "hero"
+	elif u.team == "player":
+		fid = str(u.id)
+	else:
+		fid = str(TEMPLATE_FIGURE.get(str(u.template), ""))
+	if fid == "":
+		return null
+	var game: Node = Engine.get_main_loop().root.get_node("Game")
+	var gender := str(game.state.player.look.get("gender", "m")) if game.state != null else "m"
+	return PortraitArt.figure_for(fid, gender)
+
+
+## A round head-and-shoulders crop of a painted figure.
+func _draw_token(center: Vector2, rad: float, tex: Texture2D, tint: Color) -> void:
+	var sz := tex.get_size()
+	var side := minf(sz.x, sz.y * 0.9)
+	var pts := PackedVector2Array()
+	var uvs := PackedVector2Array()
+	for i in range(28):
+		var a := TAU * float(i) / 28.0
+		var d := Vector2(cos(a), sin(a))
+		pts.append(center + d * rad)
+		uvs.append(Vector2(((sz.x - side) * 0.5 + (0.5 + d.x * 0.5) * side) / sz.x, ((0.5 + d.y * 0.5) * side) / sz.y))
+	draw_colored_polygon(pts, tint, uvs, tex)
+
+
 func _draw_unit(u: RefCounted, font: Font, is_active: bool) -> void:
 	var r := cell_rect(u.pos)
 	var center := r.get_center() + Vector2(0, -_cell * 0.06)
@@ -128,7 +164,11 @@ func _draw_unit(u: RefCounted, font: Font, is_active: bool) -> void:
 		body_col = Color(0.85, 0.78, 0.45)
 	if u.broken:
 		body_col = body_col.darkened(0.45)
-	if u.team == "player":
+	var token: Texture2D = _token_texture(u)
+	if token != null:
+		draw_circle(center, rad * 1.14, body_col)   # team-coloured rim
+		_draw_token(center, rad, token, Color(0.55, 0.55, 0.55) if u.broken else Color.WHITE)
+	elif u.team == "player":
 		draw_circle(center, rad, body_col)
 	else:
 		var pts := PackedVector2Array([center + Vector2(0, -rad * 1.1), center + Vector2(rad * 1.1, 0), center + Vector2(0, rad * 1.1), center + Vector2(-rad * 1.1, 0)])
@@ -141,10 +181,11 @@ func _draw_unit(u: RefCounted, font: Font, is_active: bool) -> void:
 		draw_rect(r.grow(-2), Color(1.0, 0.85, 0.3), false, 4.0)
 	if u.guarding:
 		draw_arc(center, rad * 1.1, -2.2, -0.9, 10, Color(0.8, 0.95, 1.0), 4.0)
-	var glyph: String = Loc.t(u.name_key).substr(0, 1)
-	var fs := int(_cell * 0.38)
-	var gs := font.get_string_size(glyph, HORIZONTAL_ALIGNMENT_LEFT, -1, fs)
-	draw_string(font, center + Vector2(-gs.x / 2.0, fs * 0.36), glyph, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color(0.04, 0.12, 0.11))
+	if token == null:
+		var glyph: String = Loc.t(u.name_key).substr(0, 1)
+		var fs := int(_cell * 0.38)
+		var gs := font.get_string_size(glyph, HORIZONTAL_ALIGNMENT_LEFT, -1, fs)
+		draw_string(font, center + Vector2(-gs.x / 2.0, fs * 0.36), glyph, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color(0.04, 0.12, 0.11))
 	# bars: hp (green) and resolve (amber)
 	var bw := _cell * 0.78
 	var bx := r.position.x + (_cell - bw) / 2.0

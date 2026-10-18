@@ -13,8 +13,14 @@ Choose at the platform (weeks 177–178). Each also needs earlier play:
 4. Undertow: take the Gate's hand (needs the Xuan-Mask offer); Xuan-Mask pact or Xia Zhi lost.
 5. Long Road: the walk, or any choice whose conditions do not hold (a line explains why).
 
+## Art (Tier 1 + Tier 2)
+- Painted: 15 backgrounds (+3 borrowed by alias), title key art, 10 companion/hero bust sets, 22 full-body figures (hero m/f, 8 companions, 12 NPCs), 5 ending illustrations, paper texture and brush plate.
+- Figures are static paintings animated in code (breathing, bounce, lean, squash). Anything without a file keeps the code-drawn fallback (e.g. Isle Yun, the masked rider).
+- Character creation: name and male/female only; the painted hero is fixed. The hair/outfit/skin data is still saved and the rows can be re-enabled with `SHOW_LOOK_OPTIONS` in `hero_creation.gd`.
+- Interface: ink-brown scroll panels with paper grain, gold lines, vermilion seal buttons, serif headings, painted backdrops under a warm veil.
+
 ## Known limits
-- Art and music are placeholders drawn or synthesised in code (see ART_AND_MUSIC_PROMPTS.md).
+- Music is synthesised placeholder (see ART_AND_MUSIC_PROMPTS.md).
 - Audio fix verified in headless Chromium only; check on a real phone and desktop browser.
 - Real-device layout and touch checks pending.
 

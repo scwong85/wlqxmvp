@@ -21,11 +21,36 @@ func _ready() -> void:
 		Router.goto.call_deferred("title")
 		return
 	add_child(Backdrop.new())
-	var dim := ColorRect.new()
-	dim.color = Color(0.02, 0.07, 0.07, 0.66)
-	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
-	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(dim)
+	var art_path := "res://art/endings/%s.jpg" % ending_id
+	var has_art := ResourceLoader.exists(art_path)
+	if has_art:
+		# The painted ending fills the screen; a gradient darkens the lower part where the text sits.
+		var art := TextureRect.new()
+		art.texture = load(art_path) as Texture2D
+		art.set_anchors_preset(Control.PRESET_FULL_RECT)
+		art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(art)
+		var grad := Gradient.new()
+		grad.offsets = PackedFloat32Array([0.0, 0.24, 0.36, 1.0])
+		grad.colors = PackedColorArray([Color(0.06, 0.04, 0.03, 0.0), Color(0.06, 0.04, 0.03, 0.0), Color(0.06, 0.04, 0.03, 0.8), Color(0.06, 0.04, 0.03, 0.93)])
+		var gt := GradientTexture2D.new()
+		gt.gradient = grad
+		gt.fill_from = Vector2(0, 0)
+		gt.fill_to = Vector2(0, 1)
+		var shade := TextureRect.new()
+		shade.texture = gt
+		shade.set_anchors_preset(Control.PRESET_FULL_RECT)
+		shade.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(shade)
+	else:
+		var dim := ColorRect.new()
+		dim.color = Color(0.05, 0.03, 0.02, 0.66)
+		dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+		dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(dim)
 	var frame := SafeFrame.new()
 	add_child(frame)
 	var box := VBoxContainer.new()
@@ -35,7 +60,7 @@ func _ready() -> void:
 	heading.modulate = Color(1, 1, 1, 0.7)
 	heading.text = Loc.t("ending.heading")
 	title_label = UiKit.make_label(48)
-	title_label.modulate = Color("9be3c3")
+	title_label.modulate = UiKit.GOLD
 	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	var panel := PanelContainer.new()
 	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -49,10 +74,15 @@ func _ready() -> void:
 	row.vertical = Layout.is_portrait()
 	row.add_theme_constant_override("separation", 12)
 	new_run_button = UiKit.make_button(Vector2(0, 72))
+	new_run_button.theme_type_variation = "SealButton"
 	title_button = UiKit.make_button(Vector2(0, 72))
 	for b in [new_run_button, title_button]:
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(b)
+	if has_art and Layout.is_portrait():
+		var gap := Control.new()   # leave the top of the picture clear
+		gap.custom_minimum_size = Vector2(0, get_viewport_rect().size.y * 0.3)
+		box.add_child(gap)
 	for n in [heading, title_label, panel, row]:
 		box.add_child(n)
 	new_run_button.pressed.connect(func() -> void:

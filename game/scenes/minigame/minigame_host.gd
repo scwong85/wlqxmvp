@@ -48,7 +48,7 @@ func _ready() -> void:
 	var seed_value := MinigameRules.seed_for(int(Game.state.run_seed), Game.state.calendar.week, Game.state.calendar.slot, _activity_id)
 	game_logic.start({"difficulty": MinigameRules.difficulty_for(def)}, seed_value)
 
-	add_child(Backdrop.new())
+	add_child(Backdrop.new("riverside_day"))
 	var frame := SafeFrame.new()
 	add_child(frame)
 	_box = VBoxContainer.new()

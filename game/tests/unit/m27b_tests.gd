@@ -14,7 +14,7 @@ func run(check_fn: Callable, _loc: Node) -> void:
 		check.call(bg.has_art(), "art: %s uses the painted background" % id)
 		bg.free()
 	var plain := StageBackground.new()
-	plain.set_bg("bamboo_mist")
+	plain.set_bg("default")
 	check.call(not plain.has_art(), "art: a background without a file keeps the placeholder")
 	plain.free()
 	check.call(ResourceLoader.exists("res://art/title_key.jpg"), "art: the title key art is present")

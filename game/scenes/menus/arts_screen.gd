@@ -25,7 +25,7 @@ var _list: VBoxContainer
 func _ready() -> void:
 	UiKit.apply(self)
 	Game.ensure_state()
-	add_child(Backdrop.new())
+	add_child(Backdrop.new("village_dusk"))
 	var frame := SafeFrame.new()
 	add_child(frame)
 	var main := VBoxContainer.new()

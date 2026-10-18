@@ -31,6 +31,11 @@ const THEMES := {
 }
 
 
+## Locations that have no painting of their own borrow a close one.
+const ALIASES := {"bamboo_mist": "valley_dawn", "yanmen_snow": "yanmen_fort", "marsh_night": "shrine_night", "terraces_green": "valley_day",
+		"night_camp": "shrine_night", "penglai_cave": "cangwu_night", "vault_stair": "shrine_night", "vault_hall": "shrine_night"}
+
+
 func _init() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -40,7 +45,7 @@ func _init() -> void:
 func set_bg(id: String) -> void:
 	bg_id = id if THEMES.has(id) else "default"
 	_art = null
-	var path := "res://art/backgrounds/%s.jpg" % bg_id
+	var path := "res://art/backgrounds/%s.jpg" % str(ALIASES.get(bg_id, bg_id))
 	if ResourceLoader.exists(path):
 		_art = load(path) as Texture2D
 	queue_redraw()

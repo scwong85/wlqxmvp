@@ -30,28 +30,28 @@
   },
   {
    "id": "linjiang_theme",
-   "file": "res://audio/music/linjiang_theme.ogg",
+   "file": "res://audio/music/road_theme.ogg",
    "loop": true,
    "bpm": 108,
    "bars": 8
   },
   {
    "id": "cangwu_theme",
-   "file": "res://audio/music/cangwu_theme.ogg",
+   "file": "res://audio/music/valley_theme.ogg",
    "loop": true,
    "bpm": 66,
    "bars": 8
   },
   {
    "id": "marsh_theme",
-   "file": "res://audio/music/marsh_theme.ogg",
+   "file": "res://audio/music/practice_theme.ogg",
    "loop": true,
    "bpm": 54,
    "bars": 6
   },
   {
    "id": "night_theme",
-   "file": "res://audio/music/night_theme.ogg",
+   "file": "res://audio/music/practice_theme.ogg",
    "loop": true,
    "bpm": 58,
    "bars": 6
@@ -65,42 +65,42 @@
   },
   {
    "id": "duel_theme",
-   "file": "res://audio/music/duel_theme.ogg",
+   "file": "res://audio/music/battle_theme.ogg",
    "loop": true,
    "bpm": 120,
    "bars": 8
   },
   {
    "id": "boss_theme",
-   "file": "res://audio/music/boss_theme.ogg",
+   "file": "res://audio/music/battle_theme.ogg",
    "loop": true,
    "bpm": 144,
    "bars": 8
   },
   {
    "id": "minigame_theme",
-   "file": "res://audio/music/minigame_theme.ogg",
+   "file": "res://audio/music/practice_theme.ogg",
    "loop": true,
    "bpm": 100,
    "bars": 8
   },
   {
    "id": "festival_theme",
-   "file": "res://audio/music/festival_theme.ogg",
+   "file": "res://audio/music/valley_theme.ogg",
    "loop": true,
    "bpm": 116,
    "bars": 8
   },
   {
    "id": "mystery_theme",
-   "file": "res://audio/music/mystery_theme.ogg",
+   "file": "res://audio/music/practice_theme.ogg",
    "loop": true,
    "bpm": 50,
    "bars": 6
   },
   {
    "id": "sorrow_theme",
-   "file": "res://audio/music/sorrow_theme.ogg",
+   "file": "res://audio/music/ending_theme.ogg",
    "loop": true,
    "bpm": 52,
    "bars": 6
@@ -114,14 +114,14 @@
   },
   {
    "id": "yanmen_theme",
-   "file": "res://audio/music/yanmen_theme.ogg",
+   "file": "res://audio/music/road_theme.ogg",
    "loop": true,
    "bpm": 76,
    "bars": 8
   },
   {
    "id": "penglai_theme",
-   "file": "res://audio/music/penglai_theme.ogg",
+   "file": "res://audio/music/valley_theme.ogg",
    "loop": true,
    "bpm": 70,
    "bars": 8

@@ -4,6 +4,7 @@ extends Control
 ## forwards choices to Game. Selecting is a tap, doing it is a separate confirm, so touch works the
 ## same as mouse and nothing depends on hover.
 
+const StageView = preload("res://scenes/shared/stage_view.gd")
 const PartySystem = preload("res://scripts/domain/party_system.gd")
 const ArcRules = preload("res://scripts/domain/arc_rules.gd")
 const UiKit = preload("res://scripts/ui/ui_kit.gd")
@@ -45,6 +46,8 @@ var explore_button: Button
 var map_button: Button
 var sheet_button: Button
 var _hero_rig: Control
+var _home_stage: Control        # portrait: the hero and the party standing in the valley, above the activities
+var _home_wrap: Control
 var clip_overlay: Control = null
 var party_panel: Control = null
 var pause_panel: Control = null
@@ -100,9 +103,9 @@ func _ready() -> void:
 	if Game.state.exploration.active:  # a saved or running exploration resumes on its own screen
 		Router.goto.call_deferred("exploration")
 		return
-	add_child(Backdrop.new())
+	add_child(Backdrop.new("valley_day"))
 	var dim := ColorRect.new()
-	dim.color = Color(0.02, 0.07, 0.07, 0.5)
+	dim.color = Color(0.06, 0.04, 0.03, 0.25)
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(dim)
@@ -115,6 +118,7 @@ func _ready() -> void:
 	main.add_child(_build_top_bar())
 	main.add_child(_build_strip())
 	main.add_child(_build_tab_bar())
+	main.add_child(_build_home_stage())
 
 	_body = BoxContainer.new()
 	_body.add_theme_constant_override("separation", 16)
@@ -183,7 +187,9 @@ func _label(size: int = FONT_BODY) -> Label:
 
 func _header(key: String) -> Label:
 	var l := _label(FONT_HEAD)
-	l.modulate = Color("9be3c3")
+	l.modulate = Color("e3c27a")
+	if UiKit.serif() != null:
+		l.add_theme_font_override("font", UiKit.serif())
 	_headers.append([l, key])
 	return l
 
@@ -263,6 +269,35 @@ func _build_tab_bar() -> Control:
 	return _tab_bar
 
 
+## The party on the valley road: the painted hero in the middle, the first two companions beside. Portrait only.
+func _build_home_stage() -> Control:
+	var wrap := PanelContainer.new()
+	var frame := StyleBoxFlat.new()
+	frame.bg_color = Color(0, 0, 0, 0)
+	frame.border_color = UiKit.GOLD_LINE
+	frame.set_border_width_all(2)
+	frame.set_content_margin_all(3)
+	wrap.add_theme_stylebox_override("panel", frame)
+	wrap.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	wrap.size_flags_stretch_ratio = 0.8
+	_home_stage = StageView.new()
+	_home_stage.custom_minimum_size = Vector2(0, 150)
+	wrap.add_child(_home_stage)
+	_home_wrap = wrap
+	return wrap
+
+
+func _refresh_home_stage() -> void:
+	if _home_stage == null:
+		return
+	var actors := {"center": {"who": "hero", "pose": "idle", "face": "neutral"}}
+	var party: Array = PartySystem.party(Game.state)
+	for i in range(mini(party.size(), 2)):
+		actors["left" if i == 0 else "right"] = {"who": str(party[i]), "pose": "idle", "face": "neutral"}
+	_home_stage.animate = Game.animations_enabled()
+	_home_stage.show_stage({"bg": "valley_day", "actors": actors, "focus": ""}, [])
+
+
 func _set_tab(id: String) -> void:
 	current_tab = id
 	_apply_layout()
@@ -293,6 +328,7 @@ func _apply_layout() -> void:
 	_day_label.add_theme_font_size_override("font_size", 32 if portrait else 36)
 	_strip.visible = portrait
 	_tab_bar.visible = portrait
+	_home_wrap.visible = portrait and current_tab == "activities" and get_viewport_rect().size.y >= 1100.0   # needs a tall phone; shorter screens keep the plain list
 	_body.vertical = portrait
 	for id in _panels:
 		_panels[id].visible = (not portrait) or id == current_tab
@@ -380,6 +416,7 @@ func _build_activity_panel() -> Control:
 	_action_row = action_row
 	action_row.add_theme_constant_override("separation", 8)
 	confirm_button = UiKit.make_button(Vector2(0, 60))
+	confirm_button.theme_type_variation = "SealButton"
 	confirm_button.add_theme_font_size_override("font_size", FONT_HEAD)
 	confirm_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	confirm_button.size_flags_stretch_ratio = 1.0
@@ -642,6 +679,7 @@ func _show_event(hook: Dictionary) -> void:
 	var body := _label(FONT_BODY)
 	body.text = Loc.t(hook.body_key)
 	event_continue_button = UiKit.make_button(Vector2(0, 64))
+	event_continue_button.theme_type_variation = "SealButton"
 	event_continue_button.text = Loc.t("event.continue")
 	box.add_child(title)
 	box.add_child(body)
@@ -938,6 +976,7 @@ func _refresh_all() -> void:
 
 	_refresh_explore()
 	_refresh_hero(st)
+	_refresh_home_stage()
 	_refresh_cards(st)
 	_refresh_stats(st)
 	_refresh_info()
@@ -950,6 +989,7 @@ func _refresh_hero(st: RefCounted) -> void:
 	var hl: Dictionary = preload("res://scripts/domain/look_rules.gd").sanitize(st.player.look)
 	hl["weapon"] = "sword"
 	_hero_rig.setup(hl, "idle", "neutral")
+	_hero_rig.use_figure("hero", str(hl.get("gender", "m")))
 	_stamina_label.text = Loc.t("cult.stamina_value", {"cur": st.player.stamina, "max": max_st})
 	_stamina_bar.max_value = max_st
 	_stamina_bar.value = st.player.stamina

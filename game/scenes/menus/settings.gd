@@ -21,7 +21,7 @@ var _language_label: Label
 
 func _ready() -> void:
 	UiKit.apply(self)
-	add_child(Backdrop.new())
+	add_child(Backdrop.new("riverside_day"))
 	var frame := SafeFrame.new()
 	add_child(frame)
 

@@ -39,9 +39,9 @@ func _ready() -> void:
 	if story_scene != "":
 		Router.goto.call_deferred(story_scene)
 		return
-	add_child(Backdrop.new())
+	add_child(Backdrop.new("riverside_day"))
 	var dim := ColorRect.new()
-	dim.color = Color(0.02, 0.07, 0.07, 0.5)
+	dim.color = Color(0.06, 0.04, 0.03, 0.25)
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(dim)
@@ -206,7 +206,7 @@ func _refresh() -> void:
 			last_region = str(a.region)
 			var h := UiKit.make_label(FONT_SMALL)
 			h.text = Loc.t("map.region." + last_region)
-			h.modulate = Color(0.8, 0.95, 0.85, 0.8)
+			h.modulate = Color(0.95, 0.88, 0.7, 0.8)
 			_list_box.add_child(h)
 		var s: Dictionary = WorldRules.area_status(st, Content, id)
 		var b := UiKit.make_button(Vector2(0, 64))

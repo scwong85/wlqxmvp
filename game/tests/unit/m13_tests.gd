@@ -3,6 +3,7 @@ extends RefCounted
 ## contrast, audio volume persistence, pause menu.
 
 const KeyLint = preload("res://tests/key_lint.gd")
+const WuxiaFrame = preload("res://scripts/ui/wuxia_frame.gd")
 const UiKit = preload("res://scripts/ui/ui_kit.gd")
 
 var check: Callable
@@ -74,17 +75,17 @@ func _over(bg: Color, base: Color) -> Color:
 
 func _contrast() -> void:
 	var t: Theme = UiKit.theme()
-	var worst_base := Color("1c4a40")  # lightest tone the placeholder backdrop reaches
+	var worst_base := Color(0.78, 0.8, 0.74).lerp(Color(0.09, 0.06, 0.04), 0.55)  # a light area of a painted backdrop under the ink-brown veil
 	var pairs := {
 		"label on backdrop": [t.get_color("font_color", "Label"), worst_base, 4.5],
 		"button text": [t.get_color("font_color", "Button"), _over((t.get_stylebox("normal", "Button") as StyleBoxFlat).bg_color, worst_base), 4.5],
 		"button hover text": [t.get_color("font_hover_color", "Button"), _over((t.get_stylebox("hover", "Button") as StyleBoxFlat).bg_color, worst_base), 4.5],
 		"button pressed text": [t.get_color("font_pressed_color", "Button"), _over((t.get_stylebox("pressed", "Button") as StyleBoxFlat).bg_color, worst_base), 4.5],
 		"card button text": [t.get_color("font_color", "Button"), _over((t.get_stylebox("normal", "CardButton") as StyleBoxFlat).bg_color, worst_base), 4.5],
-		"panel text": [t.get_color("font_color", "Label"), _over((t.get_stylebox("panel", "PanelContainer") as StyleBoxFlat).bg_color, worst_base), 4.5],
+		"panel text": [t.get_color("font_color", "Label"), _over((t.get_stylebox("panel", "PanelContainer") as WuxiaFrame).bg, worst_base), 4.5],
 		"disabled button text": [t.get_color("font_disabled_color", "Button"), _over((t.get_stylebox("disabled", "Button") as StyleBoxFlat).bg_color, worst_base), 3.0],
-		"speaker/title accent": [Color("9be3c3"), Color("0b1f1e"), 4.5],
-		"focus ring": [t.get_color("font_color", "Button"), Color("0b1f1e"), 3.0],
+		"speaker/title accent": [UiKit.GOLD, UiKit.INK, 4.5],
+		"focus ring": [UiKit.GOLD, UiKit.INK, 3.0],
 	}
 	for name in pairs:
 		var p: Array = pairs[name]
@@ -131,4 +132,4 @@ func _assets() -> void:
 	for ext in [".png", ".jpg", ".jpeg", ".svg", ".webp", ".ogg", ".wav", ".mp3", ".ttf", ".otf"]:
 		for dir in ["res://scenes", "res://scripts", "res://content", "res://fonts"]:
 			found.append_array(KeyLint.files(dir, ext))
-	check.call(found == ["res://fonts/NotoSansSC-subset.otf"], "m13: the only external asset is the subset font %s" % str(found))
+	check.call(found == ["res://fonts/NotoSansSC-subset.otf", "res://fonts/NotoSerifSC-subset.otf"], "m13: the only external assets are the two subset fonts %s" % str(found))

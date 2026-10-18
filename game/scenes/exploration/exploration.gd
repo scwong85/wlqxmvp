@@ -46,9 +46,9 @@ func _ready() -> void:
 	if story_scene != "":
 		Router.goto.call_deferred(story_scene)
 		return
-	add_child(Backdrop.new())
+	add_child(Backdrop.new("cangwu_day"))
 	var dim := ColorRect.new()
-	dim.color = Color(0.02, 0.07, 0.07, 0.5)
+	dim.color = Color(0.06, 0.04, 0.03, 0.25)
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(dim)
@@ -183,13 +183,14 @@ func _rebuild_choices(route: Dictionary) -> void:
 	choice_buttons.clear()
 	continue_button = null
 	var head := UiKit.make_label(FONT_HEAD)
-	head.modulate = Color("9be3c3")
+	head.modulate = Color("e3c27a")
 	head.text = Loc.t("explore.choose")
 	_choices_box.add_child(head)
 	fight_button = null
 	var pending: String = Game.state.exploration.pending_battle
 	if pending != "":
 		fight_button = UiKit.make_button(Vector2(0, 76))
+		fight_button.theme_type_variation = "SealButton"
 		fight_button.add_theme_font_size_override("font_size", FONT_BODY)
 		fight_button.text = Loc.t("explore.fight", {"name": Loc.t("battle." + pending)})
 		fight_button.pressed.connect(_start_fight)

@@ -29,7 +29,7 @@ func _ready() -> void:
 	if dest != "":
 		Router.goto.call_deferred(dest)
 		return
-	add_child(Backdrop.new())
+	add_child(Backdrop.new("village_dusk"))
 	var frame := SafeFrame.new()
 	add_child(frame)
 	var main := VBoxContainer.new()
@@ -98,7 +98,7 @@ func _refresh() -> void:
 		for l in RealmRules.requirement_lines(st, Content):
 			var t := Loc.t("realm.req." + str(l.key), {"have": int(l.have), "need": int(l.need)})
 			var row := _label(("OK  " if l.met else "..  ") + t, 22)
-			row.modulate = Color("9be3c3") if l.met else Color(1, 1, 1, 0.8)
+			row.modulate = Color("e3c27a") if l.met else Color(1, 1, 1, 0.8)
 			_list.add_child(row)
 		var c: Dictionary = RealmRules.can_break(st, Content)
 		break_button = UiKit.make_button(Vector2(0, 64))

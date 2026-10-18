@@ -16,6 +16,7 @@ var _click: AudioStreamWAV
 var enabled_playback: bool = true  # tests switch it off to avoid generating samples
 var catalog: Dictionary = {}
 var current_track: String = ""
+var _current_file: String = ""
 var _music_b: AudioStreamPlayer
 var _active: AudioStreamPlayer
 var _poll: float = 0.0
@@ -141,6 +142,9 @@ func _process(delta: float) -> void:
 func play_track(track_id: String) -> void:
 	current_track = track_id
 	var file := MusicRules.track_file(track_id, catalog)
+	if file != "" and file == _current_file and _active != null and _active.playing:
+		return   # several slots share one recording: keep it playing instead of restarting
+	_current_file = file
 	var stream: AudioStream = null
 	if file != "" and ResourceLoader.exists(file):
 		stream = load(file)
